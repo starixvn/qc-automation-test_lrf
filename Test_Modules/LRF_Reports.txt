@@ -1,0 +1,194 @@
+*** Settings ***
+Suite Setup       config
+Suite Teardown    close all browsers
+Test Setup
+Test Timeout
+Library           Selenium2Library
+Library           Process
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Resource          ../Actions/actions.txt
+Library           AutoItLibrary
+
+*** Test Cases ***
+TM_01_Compare data LWL-MWL
+    [Documentation]    Compare Turnover, Customer WL and Licensee WL belong to a specific currency of Licensee WinLoss with Match WinLoss reports.
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 9 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    @{tm_get_currency}    Create List
+    @{tm_lwl_list}    Create List
+    @{tm_mwl_list}    Create List
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    3s
+    filtering licensee win loss    ${today-5}    ${today-5}    ${tm_currency}    Monthly    Normal    Yes
+    ...    Sportsbook
+    Capture Page Screenshot
+    ${total}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    ${total}=    set variable    ${total-1}
+    : FOR    ${index}    IN RANGE    1    ${total+1}
+    \    ${tm_lwl_currency}    Get Text    xpath=//*[@id='${index}']/td[5]
+    \    ${tm_lwl_turnover}    Get Text    xpath=//*[@id='${index}']/td[8]
+    \    ${tm_lwl_custwl}    Get Text    xpath=//*[@id='${index}']/td[12]
+    \    ${tm_lwl_licenseewl}    Get Text    xpath=//*[@id='${index}']/td[15]
+    \    Append To List    ${tm_get_currency}    ${tm_lwl_currency}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_turnover}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_custwl}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_licenseewl}
+    Comment    #Reports>>Match Win Loss
+    select left menu    REPORTS    Match Win Loss
+    : FOR    ${index}    IN    @{tm_get_currency}
+    \    filtering match win loss    ${today-5}    ${tm_type}    ${index}    ${EMPTY}    Sportsbook
+    \    ${tm_mwl_turnover}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[2]
+    \    ${tm_mwl_custwl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[3]
+    \    ${tm_mwl_licenseewl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[4]
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_turnover}
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_custwl}
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_licenseewl}
+    \    Capture Page Screenshot
+    Lists Should Be Equal    ${tm_lwl_list}    ${tm_mwl_list}
+
+TM_02_Compare data LWL-WLBP
+    [Documentation]    Compare All Data belong to a specific Currency of Licensee WinLoss with WinLoss By Products reports.
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 9 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    USD
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    12Bet
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    3s
+    filtering licensee win loss    ${today-5}    ${today-5}    ${tm_currency}    Monthly    Normal    Yes
+    ...    Sportsbook
+    Capture Page Screenshot
+    ${total}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    ${total}=    set variable    ${total-1}
+    @{currency}    Create List
+    @{list}    Create List
+    : FOR    ${index}    IN RANGE    1    ${total+1}
+    \    ${tm_lwl_currency}    Get Text    xpath=//*[@id='${index}']/td[5]
+    \    ${tm_lwl_turnover}    Get Text    xpath=//*[@id='${index}']/td[8]
+    \    ${tm_lwl_custwl}    Get Text    xpath=//*[@id='${index}']/td[12]
+    \    ${tm_lwl_licenseewl}    Get Text    xpath=//*[@id='${index}']/td[15]
+    \    Append To List    ${currency}    ${tm_lwl_currency}
+    \    Append To List    ${list}    ${tm_lwl_turnover}
+    \    Append To List    ${list}    ${tm_lwl_custwl}
+    \    Append To List    ${list}    ${tm_lwl_licenseewl}
+    Comment    #Reports>>Match Win Loss
+    select left menu    REPORTS    Win Loss By Products
+    @{list1}    Create List
+    : FOR    ${index}    IN    @{currency}
+    \    filtering match win loss    ${today-5}    ${tm_type}    ${index}    ${EMPTY}    Sportsbook
+    \    Sleep    3s
+    \    ${tm_mwl_turnover}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[2]
+    \    ${tm_mwl_custwl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[3]
+    \    ${tm_mwl_licenseewl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[4]
+    \    Append To List    ${list1}    ${tm_mwl_turnover}
+    \    Append To List    ${list1}    ${tm_mwl_custwl}
+    \    Append To List    ${list1}    ${tm_mwl_licenseewl}
+    \    Capture Page Screenshot
+    Lists Should Be Equal    ${list}    ${list1}
+
+test
+    Open Browser    http://10.18.200.209:8003/V2/_Authorization/SignIn.aspx    ff
+    Maximize Browser Window
+    #login
+    login    tester01    1234aa
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Balance
+    Select Window
+    Select Frame    main
+    Click Element    id=ExportToExcel
+    sleep    5s
+    Send    {ENTER} \ \
+    sleep    5s
+    Send    {ENTER} \ \
+    sleep    5s
+    comment    get text content
+    Wait For Active Window    Balance.xls - OpenOffice.org Calc
+    Comment    sleep    2s
+    Comment    Win Activate    Balance.xls - OpenOffice.org Calc
+    #
+    send    {TAB}
+    sleep    1s
+    Send    {CTRLDOWN}
+    Send    a
+    Send    C
+    Send    {CTRLUP}
+    #
+    ${a}=    Clip Get
+    @{list}    Split To Lines    ${a}
+    Remove Values From List    ${list}    ${SPACE}    ${null}    ${None}
+    : FOR    ${index}    IN    @{list}
+    \    log    ${index}
+    Comment    Send    !{F4}
+    Comment    sleep    2s
+    Comment    send    {TAB}
+    Comment    sleep    2s
+    Comment    Send    {ENTER} \ \
+    Comment    Comment    Focus    id=ExportToExcel
+    Comment    :FOR    ${index}    IN    @{list}
+    Comment    \    Page Should Contain    ${index}
+
+test2
+    Comment    Remove File    C:\Users\james.nguyen\Downloads\test\New Text Document.txt
+    Comment    log    ${TEMPDIR}
+    Comment    Log Many    ${TEMPDIR}    ${EXECDIR}    ${TEMPDIR}${:}${TEMPDIR}${/}foo.jar
+    Comment    OperatingSystem.Run    Balance.xls
+    Comment    sleep    2s
+    Comment    Wait For Active Window    Balance.xls - OpenOffice.org Calc
+    Comment    sleep    2s
+    Comment    Win Activate    Balance.xls - OpenOffice.org Calc
+    Comment    send    {TAB}
+    Comment    Send    ^a
+    Comment    sleep    2s
+    Comment    Send    ^C
+    Comment    ${a}=    Clip Get
+    Comment    Win Activate    Balance.xls - OpenOffice.org Calc
+    Comment    ${c}=    Win Get Text    Balance.xls - OpenOffice.org Calc
+    Comment    ${d}=    Win Get Title    Balance.xls - OpenOffice.org Calc
+    Comment    Send    !{F4}
+    Comment    Comment    Send    {ENTER}    Balance.xls - OpenOffice.org Calc
+    AutoItLibrary.Run    notepad
+    Wait For Active Window    \    ""
+    sleep    2s
+    Send    000
+    Send    213
+    Send    1111
+    Send    43543
+    Send    {CTRLDOWN}
+    Send    a
+    Send    c
+    Send    {CTRLUP}
+    ${a}=    Clip Get
