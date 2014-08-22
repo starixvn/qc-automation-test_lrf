@@ -1,0 +1,15 @@
+D:\Source\QA\Selenium\TestProject1\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\TestProject1.dll
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\TestProject1.pdb
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\Microsoft.Office.Interop.Excel.dll
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\nunit.framework.dll
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\office.dll
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\Microsoft.Vbe.Interop.dll
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\Microsoft.Office.Interop.Excel.xml
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\ThoughtWorks.Selenium.UnitTests.pdb
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\nunit.framework.xml
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\office.xml
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\ThoughtWorks.Selenium.IntegrationTests.pdb
+D:\Source\QA\Selenium\TestProject1\bin\x86\Debug\ThoughtWorks.Selenium.Core.pdb
+D:\Source\QA\Selenium\TestProject1\obj\x86\Debug\TestProject1.dll
+D:\Source\QA\Selenium\TestProject1\obj\x86\Debug\TestProject1.pdb

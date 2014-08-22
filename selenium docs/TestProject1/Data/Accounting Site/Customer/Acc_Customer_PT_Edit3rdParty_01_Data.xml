@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSet>
+  <filter thirdParty="Casino" level="super">
+    <valueOfSuperMaxPT>0.89</valueOfSuperMaxPT>
+    <valueOfSuperMinPT>0.01</valueOfSuperMinPT>
+    <valueOfSuperComm>0.0005</valueOfSuperComm>
+    <valueOfMaxTransferCredit>1500</valueOfMaxTransferCredit>
+    <thirdPartyName>Casino</thirdPartyName>
+  </filter>
+  <filter thirdParty="Bingo" level="super">
+    <valueOfSuperMaxPT>0.89</valueOfSuperMaxPT>
+    <valueOfSuperMinPT>0.01</valueOfSuperMinPT>
+    <valueOfSuperComm>0.0005</valueOfSuperComm>
+    <valueOfMaxTransferCredit>1500</valueOfMaxTransferCredit>
+    <thirdPartyName>Bingo</thirdPartyName>
+  </filter>
+  
+</DataSet>

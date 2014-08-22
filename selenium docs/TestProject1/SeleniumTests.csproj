@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{320B0350-008A-4675-B343-8494DAB24C3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestProject1</RootNamespace>
+    <AssemblyName>TestProject1</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisUseTypeNameInSuppression>true</CodeAnalysisUseTypeNameInSuppression>
+    <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CarlosAg.ExcelXmlWriter, Version=1.0.0.6, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\CarlosAg.ExcelXmlWriter.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelUtil, Version=29.3.0.1000, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Phuc\Softwares\CarlosAg.ExcelXmlWriter (DLL create Excel File By C Sharp)\ExcelUtil.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Phuc\Softwares\CarlosAg.ExcelXmlWriter (DLL create Excel File By C Sharp)\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="nmock, Version=1.0.1721.15437, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\nmock.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.0.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="ThoughtWorks.Selenium.Core, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\ThoughtWorks.Selenium.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.Selenium.IntegrationTests, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\ThoughtWorks.Selenium.IntegrationTests.dll</HintPath>
+    </Reference>
+    <Reference Include="ThoughtWorks.Selenium.UnitTests, Version=0.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Backup Selenium\14-06-2011\Selenium\TestProject1\bin\Debug\ThoughtWorks.Selenium.UnitTests.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\Accounting Site\Acc_Initialize.cs" />
+    <Compile Include="Actions\Accounting Site\Acc_Common.cs" />
+    <Compile Include="Actions\Accounting Site\Customer\Acc_Customer.cs" />
+    <Compile Include="Actions\Accounting Site\Customer\Acc_PositionTaking.cs" />
+    <Compile Include="Actions\Agent Site\Agent.cs" />
+    <Compile Include="Actions\Agent Site\Age_Initialize.cs" />
+    <Compile Include="Actions\Agent Site\Age_Common.cs" />
+    <Compile Include="Actions\Built-In\Common.cs" />
+    <Compile Include="Actions\Built-In\Control.cs" />
+    <Compile Include="Actions\Built-In\Utility.cs" />
+    <Compile Include="Actions\LRF\Lrf_Common.cs" />
+    <Compile Include="Actions\LRF\Lrf_Initialize.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Interfaces\Accounting Site\Acc_UILogin.cs" />
+    <Compile Include="Interfaces\Accounting Site\Acc_UITopMenu.cs" />
+    <Compile Include="Interfaces\Accounting Site\Acc_UILeftMenu.cs" />
+    <Compile Include="Interfaces\Accounting Site\Acc_UICommon.cs" />
+    <Compile Include="Interfaces\Accounting Site\Customer\Acc_UIAddNewSuper.cs" />
+    <Compile Include="Interfaces\Accounting Site\Customer\Acc_UIViewPT.cs" />
+    <Compile Include="Interfaces\Agent Site\Age_UILeftMenu.cs" />
+    <Compile Include="Interfaces\Agent Site\Age_UITopMenu.cs" />
+    <Compile Include="Interfaces\Agent Site\Age_UILogin.cs" />
+    <Compile Include="Interfaces\Agent Site\Forecast\Handicap-OverUnder-Live\Age_UIForecast_Handicap_OverUnder_Live.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Correct Score\Age_UITotalBets_CorrectScore.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\FG-LG\Age_UITotalBets_FGLG.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Handicap-OverUnder-Live\Age_UITotalBets_Handicap_OverUnder_Live.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Horse Racing\Age_UITotalBets_HorseRacing.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\HT-FT\Age_UITotalBets_HTFT.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Mix Parlay\Age_UITotalBets_MixParlay.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Money Line\Age_UITotalBets_MoneyLine.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\OddEven-1x2\Age_UITotalBets_OddEven_1x2.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Outright\Age_UITotalBets_Outright.cs" />
+    <Compile Include="Interfaces\Agent Site\Total Bets\Total Goal\Age_UITotalBets_TotalGoal.cs" />
+    <Compile Include="Interfaces\LRF\Account Management\Add New Account\Lrf_UIAccountManagement_AddNewAccount.cs" />
+    <Compile Include="Interfaces\LRF\Account Management\Manage Account\Lrf_UIAccountManagement_ManageAccount.cs" />
+    <Compile Include="Interfaces\LRF\Data Warehouse\Top Customer\Lrf_UIDataWarehouse_TopCustomer.cs" />
+    <Compile Include="Interfaces\LRF\Data Warehouse\Win Loss\Lrf_UIDataWarehouse_WinLoss.cs" />
+    <Compile Include="Interfaces\LRF\Forecast\1x2\Lrf_UIForecast_1x2.cs" />
+    <Compile Include="Interfaces\LRF\Forecast\Handicap-OverUnder-Live\Lrf_UIForecast_Handicap_OverUnder_Live.cs" />
+    <Compile Include="Interfaces\LRF\Lrf_UIMain.cs" />
+    <Compile Include="Interfaces\LRF\Lrf_UILeftMenu.cs" />
+    <Compile Include="Interfaces\LRF\Lrf_UILogin.cs" />
+    <Compile Include="Interfaces\LRF\Lrf_UITopMenu.cs" />
+    <Compile Include="Interfaces\LRF\Member Information\Customer List\Lrf_UIMemberInformation_CustomerList.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Cancelled Bets\Lrf_UIReports_CancelledBets.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Balance\Lrf_UIReports_Balance.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Licensee Win Loss\Lrf_UIReports_LicenseeWinLoss.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Results\Lrf_UIReports_Results.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Statement\Lrf_UIReports_Statement.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Daily Bet List\Lrf_UIReports_DailyBetList.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Racing Commission\Lrf_UIReports_RacingCommission.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Win Loss By Bet Type\Lrf_UIReports_WinLossByBetType.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Match Win Loss Detail\Lrf_UIReports_MatchWinLossDetail.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Match Win Loss\Lrf_UIReports_MatchWinLoss.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Member Outstanding\Lrf_UIReports_MemberOutstanding.cs" />
+    <Compile Include="Interfaces\LRF\Reports\Member Win Loss\Lrf_UIReports_MemberWinLoss.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\3-Way Handicap\Lrf_UITotalBets_3WayHandicap.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Both One Neither team to score\Lrf_UITotalBets_BothOneNeitherTeamToScore.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Clean Sheet\Lrf_UITotalBets_CleanSheet.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Correct Score\Lrf_UITotalBets_CorrectScore.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Double Chance\Lrf_UITotalBets_DoubleChance.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Draw No Bet\Lrf_UITotalBets_DrawNoBet.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\FG-LG\Lrf_UITotalBets_FGLG.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Handicap-OverUnder-Live\Lrf_UITotalBets_Handicap_OverUnder_Live.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Horse Racing\Lrf_UITotalBets_HorseRacing.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\HT-FT\Lrf_UITotalBets_HTFT.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Mix Parlay\Lrf_UITotalBets_MixParlay.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Money Line\Lrf_UITotalBets_MoneyLine.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Number Game\Lrf_UITotalBets_NumberGame.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\OddEven-1x2\Lrf_UITotalBets_OddEven_1x2.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Outright\Lrf_UITotalBets_Outright.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Racing\Lrf_UITotalBets_Racing.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\To win to nil\Lrf_UITotalBets_ToWinToNil.cs" />
+    <Compile Include="Interfaces\LRF\Total Bets\Total Goal\Lrf_UITotalBets_TotalGoal.cs" />
+    <Compile Include="Interfaces\UIAgentLogIn.cs" />
+    <Compile Include="Actions\Built-In\ITestClass.cs" />
+    <Compile Include="TestCases\Accounting Site\Customer\Acc_Customer_PT_EditCasino_01_VerifyTheEditPTOf3rdPartyFucntionWorksCorrectly.cs" />
+    <Compile Include="TestCases\Agent Site\Forecast\Handicap-OverUnder-Live\Age_Forecast_HDP_OU_Live_01_VerifyTheHandicapOverUnderLivePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Correct Score\Age_TotalBets_CorrectScore_01_VerifyTheCorrectScorePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\FG-LG\Age_TotalBets_FGLG_01_VerifyTheFGLGPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Handicap-OverUnder-Live\Age_TotalBets_HDP_OU_Live_01_VerifyTheHandicapOverUnderLivePageIsDisplayedAsProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Horse Racing\Age_TotalBets_HorseRacing_01_VerifyTheHorseRacingPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\HT-FT\Age_TotalBets_HTFT_01_VerifyTheHTFTPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Mix Parlay\Age_TotalBets_MixParlay_01_VerifyTheMixParlayPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Money Line\Age_TotalBets_MoneyLine_01_VerifyTheMoneyLinePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\OddEven-1x2\Age_TotalBets_OddEven_1x2_01_VerifyTheOddEven1x2PageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Outright\Age_TotalBets_Outright_01_VerifyTheOutrightPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\Agent Site\Total Bets\Total Goal\Age_TotalBets_TotalGoal_01_VerifyTheTotalGoalPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Account Management\Add New Account\Lrf_AccountManagement_AddNewAccount_01_VerifyTheAddNewAccountPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Account Management\Manage Account\Lrf_AccountManagement_ManageAccount_01_VerifyTheManageAccountPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Data Warehouse\Top Customer\Lrf_DataWarehouse_TopCustomer_01_VerifyTheTopCustomerPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Data Warehouse\Win Loss\Lrf_DataWarehouse_WinLoss_01_VerifyTheWinLossPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Forecast\1x2\Lrf_Forecast_1x2_01_VerifyThe1x2PageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Forecast\Handicap-OverUnder-Live\Lrf_Forecast_HDP_OU_Live_01_VerifyTheHandicapOverUnderLivePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Member Information\Customer List\Lrf_MemberInformation_CustomerList_01_VerifyTheCustomerListPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Cancelled Bets\Lrf_Reports_CancelledBets_01_VerifyTheCancelledBetsPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Balance\Lrf_Reports_Balance_01_VerifyTheBalancePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Licensee Win Loss\Lrf_Reports_LicenseeWinLoss_02_VerifyControlsWorkCorrectly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Licensee Win Loss\Lrf_Reports_LicenseeWinLoss_01_VerifyTheLicenseeWinLossPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Results\Lrf_Reports_Results_01_VerifyTheResultsPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Daily Bet List\Lrf_Reports_DailyBetList_01_VerifyTheDailyBetListPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Racing Commission\Lrf_Reports_RacingCommission_01_VerifyTheRacingCommissionPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Win Loss By Bet Type\Lrf_Reports_WinLossByBetType_01_VerifyTheWinLossByBetTypePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Match Win Loss\Lrf_Reports_MatchWinLoss_01_VerifyTheMatchWinLossPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Member Outstanding\Lrf_Reports_MemberOutstanding_01_VerifyTheMemberOutstandingPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Reports\Member Win Loss\Lrf_Reports_MemberWinLoss_01_VerifyTheMemberWinLossPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\3-Way Handicap\Lrf_TotalBets_3WayHandicap_01_VerifyThe3WayHandicapPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Both One Neither team to score\Lrf_TotalBets_BothOneNeitherTeamToScore_01_VerifyTheBothOneNeitherTeamToScorePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Clean Sheet\Lrf_TotalBets_CleanSheet_01_VerifyTheCleanSheetPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Correct Score\Lrf_TotalBets_CorrectScore_01_VerifyTheCorrectScorePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Double Chance\Lrf_TotalBets_DoubleChance_01_VerifyTheDoubleChancePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Draw No Bet\Lrf_TotalBets_DrawNoBet_01_VerifyTheDrawNoBetPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\FG-LG\Lrf_TotalBets_FGLG_01_VerifyTheFGLGPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\HT-FT\Lrf_TotalBets_HTFT_01_VerifyTheHTFTPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Mix Parlay\Lrf_TotalBets_MixParlay_01_VerifyTheMixParlayPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Number Game\Lrf_TotalBets_NumberGame_01_VerifyTheNumberGamePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\OddEven-1x2\Lrf_TotalBets_OddEven_1x2_01_VerifyTheOddEven1x2PageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Handicap-OverUnder-Live\Lrf_TotalBets_HDP_OU_Live_01_VerifyTheHandicapOverUnderLivePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Money Line\Lrf_TotalBets_MoneyLine_01_VerifyTheMoneyLinePageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Outright\Lrf_TotalBets_Outright_01_VerifyTheOutrightPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Racing\Lrf_TotalBets_Racing_01_VerifyTheRacingPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\To win to nil\Lrf_TotalBets_ToWinToNil_01_VerifyTheToWinToNilPageDisplaysProperly.cs" />
+    <Compile Include="TestCases\LRF\Total Bets\Total Goal\Lrf_TotalBets_TotalGoal_01_VerifyTheTotalGoalPageDisplaysProperly.cs" />
+    <Compile Include="TestUI.cs" />
+    <Compile Include="Interfaces\UIWindow.cs" />
+    <Compile Include="Interfaces\UIEditCustomerInfo.cs" />
+    <Compile Include="Interfaces\UICustomerDetail.cs" />
+    <Compile Include="UnitTest1.cs" />
+    <Compile Include="_LRF_Multiple_TestCases.cs" />
+    <Compile Include="_RunMultipleTestCases.cs" />
+    <Compile Include="Verify the Edit Customer Info function works correctly.cs" />
+    <Compile Include="Interfaces\UIPersonalSetting.cs" />
+    <Compile Include="Interfaces\UIUser.cs" />
+    <Compile Include="Interfaces\UIMain.cs" />
+    <Compile Include="Interfaces\UILogin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCase1.cs" />
+    <Compile Include="TestCase2.cs" />
+    <Compile Include="TestCases\Agent Site\Verify that Login function works correctly.cs" />
+    <Compile Include="Verify the update User Info function works correctly.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AuthoringTests.txt" />
+    <Content Include="ListTestCaseRunMultiple2.txt" />
+    <Content Include="Data\Accounting Site\Customer\Acc_Customer_PT_Edit3rdParty_01.xml" />
+    <Content Include="Data\Accounting Site\Customer\Acc_Customer_PT_Edit3rdParty_01_List3rdParty.xml" />
+    <Content Include="Data\Accounting Site\Customer\Acc_Customer_PT_Edit3rdParty_01_Data.xml" />
+    <Content Include="Data\Accounting Site\Customer\Acc_Customer_PT_Edit3rdParty_01_Controls.xml" />
+    <Content Include="Data\Accounting Site\Customer\Acc_Customer_PT_Edit3rdParty_01_ControlsOnViewPTPage.xml" />
+    <Content Include="Data\Agent Site\Forecast\Handicap-OverUnder-Live\Age_Forecast_HDP_OU_Live_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Correct Score\Age_TotalBets_CorrectScore_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\FG-LG\Age_TotalBets_FGLG_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Handicap-OverUnder-Live\Age_TotalBets_HDP_OU_Live_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Handicap-OverUnder-Live\XMLFile1.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Horse Racing\Age_TotalBets_HorseRacing_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\HT-FT\Age_TotalBets_HTFT_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Mix Parlay\Age_TotalBets_MixParlay_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Money Line\Age_TotalBets_MoneyLine_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\OddEven-1x2\Age_TotalBets_OddEven_1x2_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Outright\Age_TotalBets_Outright_01.xml" />
+    <Content Include="Data\Agent Site\Total Bets\Total Goal\Age_TotalBets_TotalGoal_01.xml" />
+    <Content Include="Data\editCustomerInfo.txt" />
+    <Content Include="Data\editPersonalSetting.txt" />
+    <Content Include="Data\login.txt" />
+    <Content Include="Data\LRF\Total Bets\Correct Score\Age_TotalBets_CorrectScore_01.xml" />
+    <Content Include="Data\LRF\Total Bets\FG-LG\Age_TotalBets_FGLG_01.xml" />
+    <Content Include="Data\LRF\Total Bets\Horse Racing\Age_TotalBets_HorseRacing_01.xml" />
+    <Content Include="Data\LRF\Total Bets\HT-FT\Age_TotalBets_HTFT_01.xml" />
+    <Content Include="Data\LRF\Total Bets\Mix Parlay\Age_TotalBets_MixParlay_01.xml" />
+    <Content Include="Data\LRF\Total Bets\Money Line\Age_TotalBets_MoneyLine_01.xml" />
+    <Content Include="Data\LRF\Total Bets\OddEven-1x2\Age_TotalBets_OddEven_1x2_01.xml" />
+    <Content Include="Data\LRF\Total Bets\Outright\Age_TotalBets_Outright_01.xml" />
+    <Content Include="Data\LRF\Total Bets\Total Goal\Age_TotalBets_TotalGoal_01.xml" />
+    <Content Include="ListTestCaseRunMultiple.txt" />
+    <Content Include="TextFile1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Actions\Agent Site\Forecast\" />
+    <Folder Include="Actions\Agent Site\Member Information\" />
+    <Folder Include="Actions\Agent Site\Reports\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Correct Score\" />
+    <Folder Include="Actions\Agent Site\Total Bets\FG-LG\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Handicap-OverUnder-Live\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Horse Racing\" />
+    <Folder Include="Actions\Agent Site\Total Bets\HT-FT\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Mix Parlay\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Money Line\" />
+    <Folder Include="Actions\Agent Site\Total Bets\OddEven-1x2\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Outright\" />
+    <Folder Include="Actions\Agent Site\Total Bets\Total Goal\" />
+    <Folder Include="Data\Agent Site\Member Information\" />
+    <Folder Include="Data\Agent Site\Reports\" />
+    <Folder Include="Data\LRF\Total Bets\Handicap-OverUnder-Live\" />
+    <Folder Include="Interfaces\Agent Site\Member Information\" />
+    <Folder Include="Interfaces\Agent Site\Reports\" />
+    <Folder Include="TestCases\Agent Site\Member Information\" />
+    <Folder Include="TestCases\Agent Site\Reports\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

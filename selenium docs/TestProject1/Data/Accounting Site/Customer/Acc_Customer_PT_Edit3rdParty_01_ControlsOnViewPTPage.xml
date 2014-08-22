@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSet>
+  <filter thirdParty="Casino" level="super">
+    <tblViewPT>//div[@id='sContent']/div/div/table[2]</tblViewPT>
+    <thirdPartyName>Casino</thirdPartyName>
+  </filter>
+  <filter thirdParty="Bingo" level="super">
+    <tblViewPT>//div[@id='sContent']/div/div/table</tblViewPT>
+    <thirdPartyName>Bingo</thirdPartyName>
+  </filter>
+  
+</DataSet>

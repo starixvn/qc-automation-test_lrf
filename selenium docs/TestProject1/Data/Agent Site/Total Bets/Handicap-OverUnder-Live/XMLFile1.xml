@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSet>
+  <filter value="aaa" username="Harry Potter" >
+    <username>Harry Potter</username>
+    <password>123456</password>
+    <address>123456</address>
+  </filter>
+  <filter value="aaa">
+    <username>Phuc Nguyen</username>
+    <password>123456</password>
+    <address></address>
+  </filter>
+  <filter value="">
+    <username>William</username>
+    <password>654321</password>
+    <address></address>
+  </filter>
+  <filter value="valid">
+    <username>William</username>
+    <password>654321</password>
+    <address>abc</address>
+  </filter>
+</DataSet>

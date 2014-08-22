@@ -1,0 +1,6 @@
+﻿Filter	Username	Password	MessageDisplay	Checked	TitleOfWindow
+noFilter	phuc		Please enter password	true
+noFilter		1234	Please enter username	true
+noFilter	phuca	1234	Wrong username or password	true
+noFilter	phuc	121a	Wrong username or password	true
+noFilter	phuc	1234			Accounting Admin System

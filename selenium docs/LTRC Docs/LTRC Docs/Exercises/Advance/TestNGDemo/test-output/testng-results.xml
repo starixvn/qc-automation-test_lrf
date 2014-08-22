@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="9" passed="9">
+  <reporter-output>
+    <line>
+      <![CDATA[Verifylogigearis searched suceesfully]]>
+    </line>
+    <line>
+      <![CDATA[Step 1: Open Yahoo Mail]]>
+    </line>
+    <line>
+      <![CDATA[Step 2: Enter Username and Password]]>
+    </line>
+    <line>
+      <![CDATA[Login Succeed]]>
+    </line>
+    <line>
+      <![CDATA[Click compose button]]>
+    </line>
+    <line>
+      <![CDATA[Click send button]]>
+    </line>
+    <line>
+      <![CDATA[Message is sent successfully]]>
+    </line>
+  </reporter-output>
+  <suite name="Test Suite" duration-ms="302437" started-at="2011-08-18T21:29:57Z" finished-at="2011-08-18T21:35:00Z">
+    <groups>
+    </groups>
+    <test name="TestNGDemo" duration-ms="302437" started-at="2011-08-18T21:29:57Z" finished-at="2011-08-18T21:35:00Z">
+      <class name="testcases.google.Ex5_DataDriven">
+        <test-method status="PASS" signature="setupBeforeSuite(org.testng.ITestContext)[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="setupBeforeSuite" is-config="true" duration-ms="9656" started-at="2011-08-18T21:31:07Z" finished-at="2011-08-18T21:31:17Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@159054d]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="testsite(java.lang.String, java.lang.String)[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="testsite" duration-ms="3500" started-at="2011-08-18T21:31:18Z" finished-at="2011-08-18T21:31:21Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[http://www.google.com/]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[.*Google.*]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="testsite(java.lang.String, java.lang.String)[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="testsite" duration-ms="16953" started-at="2011-08-18T21:31:21Z" finished-at="2011-08-18T21:31:38Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[http://vn.yahoo.com/?p=us]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[.*Yahoo.*]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="testsite(java.lang.String, java.lang.String)[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="testsite" duration-ms="17781" started-at="2011-08-18T21:31:38Z" finished-at="2011-08-18T21:31:56Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[http://www.msn.com/]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[.*MSN.*]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="testsite(java.lang.String, java.lang.String)[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="testsite" duration-ms="16281" started-at="2011-08-18T21:31:56Z" finished-at="2011-08-18T21:32:12Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[http://www.apple.com/]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[.*Apple.*]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="setupAfterSuite()[pri:0, instance:testcases.google.Ex5_DataDriven@290fbc]" name="setupAfterSuite" is-config="true" duration-ms="1141" started-at="2011-08-18T21:32:12Z" finished-at="2011-08-18T21:32:13Z">
+        </test-method>
+      </class>
+      <class name="testcases.google.Ex4_LoginGoogle">
+        <test-method status="PASS" signature="setupBeforeSuite(org.testng.ITestContext)[pri:0, instance:testcases.google.Ex4_LoginGoogle@4aa0ce]" name="setupBeforeSuite" is-config="true" duration-ms="11797" started-at="2011-08-18T21:30:38Z" finished-at="2011-08-18T21:30:50Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@159054d]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="LoginGoogle()[pri:0, instance:testcases.google.Ex4_LoginGoogle@4aa0ce]" name="LoginGoogle" duration-ms="16359" started-at="2011-08-18T21:30:50Z" finished-at="2011-08-18T21:31:07Z">
+        </test-method>
+        <test-method status="PASS" signature="setupAfterSuite()[pri:0, instance:testcases.google.Ex4_LoginGoogle@4aa0ce]" name="setupAfterSuite" is-config="true" duration-ms="922" started-at="2011-08-18T21:31:07Z" finished-at="2011-08-18T21:31:07Z">
+        </test-method>
+      </class>
+      <class name="testcases.google.Ex3_SearchGoogle">
+        <test-method status="PASS" signature="setupBeforeSuite(org.testng.ITestContext)[pri:0, instance:testcases.google.Ex3_SearchGoogle@1b8d6f7]" name="setupBeforeSuite" is-config="true" duration-ms="22781" started-at="2011-08-18T21:29:57Z" finished-at="2011-08-18T21:30:20Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@159054d]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="GoogleSearch()[pri:0, instance:testcases.google.Ex3_SearchGoogle@1b8d6f7]" name="GoogleSearch" duration-ms="17297" started-at="2011-08-18T21:30:20Z" finished-at="2011-08-18T21:30:37Z">
+        </test-method>
+        <test-method status="PASS" signature="setupAfterSuite()[pri:0, instance:testcases.google.Ex3_SearchGoogle@1b8d6f7]" name="setupAfterSuite" is-config="true" duration-ms="1125" started-at="2011-08-18T21:30:37Z" finished-at="2011-08-18T21:30:38Z">
+        </test-method>
+      </class>
+      <class name="testcases.yahoo.Ex6_YahooMail">
+        <test-method status="PASS" signature="setupBeforeSuite(org.testng.ITestContext)[pri:0, instance:testcases.yahoo.Ex6_YahooMail@1c80b01]" name="setupBeforeSuite" is-config="true" duration-ms="11859" started-at="2011-08-18T21:32:13Z" finished-at="2011-08-18T21:32:25Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@159054d]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="LoginYahoo(java.lang.String, java.lang.String)[pri:0, instance:testcases.yahoo.Ex6_YahooMail@1c80b01]" name="LoginYahoo" duration-ms="22672" started-at="2011-08-18T21:32:25Z" finished-at="2011-08-18T21:32:48Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[logigearmail@yahoo.com]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[logigear1]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="ComposeMail(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:testcases.yahoo.Ex6_YahooMail@1c80b01]" name="ComposeMail" duration-ms="121828" started-at="2011-08-18T21:32:48Z" finished-at="2011-08-18T21:34:50Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[hello]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[logigearmail@yahoo.com]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[welcome to testng]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="SignOut()[pri:0, instance:testcases.yahoo.Ex6_YahooMail@1c80b01]" name="SignOut" duration-ms="8532" started-at="2011-08-18T21:34:50Z" description="Sign out Yahoo Mail" finished-at="2011-08-18T21:34:59Z">
+        </test-method>
+        <test-method status="PASS" signature="setupAfterSuite()[pri:0, instance:testcases.yahoo.Ex6_YahooMail@1c80b01]" name="setupAfterSuite" is-config="true" duration-ms="1015" started-at="2011-08-18T21:34:59Z" finished-at="2011-08-18T21:35:00Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

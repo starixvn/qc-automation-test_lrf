@@ -1,0 +1,2 @@
+﻿Filter	Username	Password	Customer	FirstName	LastName	Phone	Email	Mobile	Address	Fax	Postal	Betting Code	City	Ref Code2	State	Remark	Country	Important
+noFilter	phuc	1234	wisuper	Phuc	Nguyen	123456	phucnguyen@sms-vn.com	123456	sms	123456	84	123	HCMC	123	HCMC	123	Vietnam	true

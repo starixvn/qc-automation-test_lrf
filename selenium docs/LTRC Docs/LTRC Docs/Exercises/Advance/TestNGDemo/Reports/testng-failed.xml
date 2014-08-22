@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="0" name="Failed suite [Test Suite]">
+  <parameter name="selenium.url" value="http://www.google.com"/>
+  <parameter name="selenium.browser" value="*firefox"/>
+  <parameter name="selenium.port" value="4444"/>
+  <parameter name="selenium.host" value="localhost"/>
+  <test name="TestNGDemo(failed)" preserve-order="false">
+    <parameter name="selenium.url" value="http://www.google.com"/>
+    <parameter name="selenium.browser" value="*firefox"/>
+    <parameter name="selenium.port" value="4444"/>
+    <parameter name="selenium.host" value="localhost"/>
+    <classes>
+      <class name="testcases.yahoo.Ex6_YahooMail">
+        <methods>
+          <include name="setupBeforeSuite"/>
+          <include name="setupAfterSuite"/>
+          <include name="DeleteMail" invocation-numbers="0"/>
+          <include name="SignOut"/>
+          <include name="ComposeMail" invocation-numbers="0"/>
+        </methods>
+      </class>
+    </classes>
+  </test>
+</suite>

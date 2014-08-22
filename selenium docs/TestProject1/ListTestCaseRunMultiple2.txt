@@ -1,0 +1,40 @@
+﻿*************List Testcases to run serial (Do not delete)***************************************
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Forecast\NEWLrf_Forecast_1x2.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Forecast\NEWLrf_Forecast_HDP_OU_Live.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_Balance_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_CancelledBets_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_DailyBetList_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_DailyRacingWinLoss_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_SettledMatchCount_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_LastBetsMonitoring_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_LicenseeWinLoss_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_LiveReport_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_MatchWinLoss_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_MobileWinLoss_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_RacingCommission_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_Results_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_WinLossByBetType_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Reports\NEWLrf_Reports_WinLossByProducts_12bet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_3WayHandicap.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_BothOneNeitherTeamToScore.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_CleanSheet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_CorrectScore.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_DoubleChance.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_HomeDrawAwayNoBet.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_FGLG.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_HDP_OU_Live.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_HTFT.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_MixParlay.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_MoneyLine.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_NumberGame.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_OddEven_1x2.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_Outright.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_Racing.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_TotalGoal.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Total Bets\NEWLrf_TotalBets_ToWinToNil.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Customer Information\NEWLrf_CustomerInformation_CustomerList.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Customer Reports\NEWLrf_CustomerReports_CustomerBalance.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Customer Reports\NEWLrf_CustomerReports_CustomerPendingFunds.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Customer Reports\NEWLrf_CustomerReports_CustomerTurnover.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Customer Reports\NEWLrf_CustomerReports_CustomerWinLoss.cs
+D:\Nexcel_Auto\QC\Selenium\TestProject1\TestCases\NEWLRF\Account Management\NEWLrf_AccountManagement_ManageAccount.cs

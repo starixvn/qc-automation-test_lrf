@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSet>
+  
+  <filter Licensee="Asiabet88">
+    <Licensee>asiabet88</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="12Bet">
+    <Licensee>12Bet</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>true</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="Mansion88">
+    <Licensee>mansion88</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="Alog">
+    <Licensee>alog</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>true</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="Spondemo">
+    <Licensee>spondemo</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="TLC">
+    <Licensee>TLC</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="DELA">
+    <Licensee>DELA</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="SunGame">
+    <Licensee>SunGame</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="MayFair">
+    <Licensee>MayFair</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="Zzun88">
+    <Licensee>Zzun88</Licensee>
+    <Racing>true</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>true</BA>
+  </filter>
+  <filter Licensee="Bezbet">
+    <Licensee>Bezbet</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="HAIFA">
+    <Licensee>HAIFA</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="Bodog">
+    <Licensee>Bodog</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="Vwin">
+    <Licensee>Vwin</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="SG8">
+    <Licensee>SG8</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+  <filter Licensee="Tycoon">
+    <Licensee>Tycoon</Licensee>
+    <Racing>false</Racing>
+    <NumberGame>false</NumberGame>
+    <BA>false</BA>
+  </filter>
+</DataSet>

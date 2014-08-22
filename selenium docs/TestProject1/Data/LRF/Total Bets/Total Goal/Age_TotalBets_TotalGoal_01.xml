@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DataSet>
+  <filter level="super">
+    <username>SA-UUS</username>
+    <password>1234</password>
+    <captcha>9999</captcha>
+  </filter>
+  <filter level="master">
+    <username>itmaster</username>
+    <password>1234</password>
+    <captcha>9999</captcha>
+  </filter>
+  <filter level="agent">
+    <username>itibc</username>
+    <password>1234</password>
+    <captcha>9999</captcha>
+  </filter>
+</DataSet>

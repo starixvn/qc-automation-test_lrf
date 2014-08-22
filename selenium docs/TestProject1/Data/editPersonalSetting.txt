@@ -1,0 +1,2 @@
+﻿Filter	Username	Password	ErrMessage	ErrMessageWrongPass	FirstName	LastName	MessageUpdateSuccessful	WrongPassword
+noFilter	phuc	1234	Password must have at least 4 characters!	Wrong username or password	Phuc	Nguyen	Your information is updated successful!	wrongpass
