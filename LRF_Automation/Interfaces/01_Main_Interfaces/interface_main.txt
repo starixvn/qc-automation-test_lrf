@@ -7,7 +7,7 @@ ${currency_listbox}    xpath=//*[@id='CurrencyId']    # Currency listbox in LRF 
 ${based_listbox}    xpath=//*[@id='BaseCurrency']    # Based listbox in LRF pages
 ${submit_button}    xpath=//*[@id='SubmitButton']    # Submit button in LRF pages
 ${back_button}    xpath=//div[@onclick='history.back()']    # Back button in LRF pages
-${export_to_excel_button}    xpath=//*[@id='ExportToExcel']    # Export To Excel button in LRF pages
+${export_to_excel_button}    xpath=//*[contains(@id,'ExportToExcel')]    # Export To Excel button in LRF pages
 ${betlist_table}    xpath=//table[@id='BetListGrid']    # Bet List table in LRF pages
 ${page_number_textbox}    xpath=//input[@class='ui-pg-input']    # Page textbox in LRF pages
 ${page_size_listbox}    xpath=//select[@class='ui-pg-selbox']    # Page Size listbox in LRF pages

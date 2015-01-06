@@ -20,7 +20,8 @@ Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
 Resource          ../Actions/03_Forecast/action_general_forecast.txt
 
 *** Test Cases ***
-TM_01_ST_TotalBets_Handicap
+TM_00_ST_Start web
+    [Tags]    Test
     # 1. Open testing site
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
@@ -28,20 +29,26 @@ TM_01_ST_TotalBets_Handicap
     login    ${cf_username}    ${cf_password}
     # 3. Select licensee
     select licensee after login    ${cf_licensee}
+
+TM_01_01_ST_TotalBets_Handicap
+    # 1. Open testing site
+    # 2. Login with valid account
+    # 3. Select licensee
+    # [Run first 3 steps by select TM_00_ST_Start web]
     # 4. Navigate to TOTAL BETS > Handicap/Over Under/Live
     navigate left menu    TOTAL BETS    Handicap/Over Under/Live
     # 5. Select filters then click Submit button
     # countdown = 75 sec
     # licensee type = normal
-    # currency = CNY
-    # based = EUR
-    submit filters for totalbets    75 sec    normal    CNY    EUR
+    # currency = ALL
+    # based = USD
+    submit filters for totalbets    75 sec    normal    ALL    USD
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # 7. Click number link to drill down betlist
-    click number link in table    \    main    None    ${report_table_totalbets}    2    4
-    ...    10
+    # 7. Click a number link in FullTime - Handicap bettype (4th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    4
     # VP. Check Bet List displays
     check element on report    \    main    None    ${betlist_table}
     # 8. Click Export button
@@ -49,41 +56,194 @@ TM_01_ST_TotalBets_Handicap
     check export excel function    \    main    None    5s    RunningBetList.xls
     # 9. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
-    # 10. Click plus button to open Forecast popup
-    click plus button in table    \    main    None    ${report_table_totalbets}    2    5
-    ...    11
+    # 10. Click plus button in FullTime - Handicap bettype (5th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    5
     # VP. Check Forecast table displays
     check element on report    \    main    Forecast    ${forecast_table}
-    # 11. Click Bet List link to drill down betlist
+    # 11. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 12. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # 13. Click Bet List link to drill down betlist
     click element on report    \    main    Forecast    ${bet_list_link}
     # VP. Check betlist display on popup
     check element on report    \    main    Forecast    ${betlist_table}
     # VP. Check Export To Excel function
     check export excel function    \    main    Forecast    5s    RunningBetList.xls
-    # 12. Click Back button on betlist popup
+    # 14. Click Back button on betlist popup
     click element on report    \    main    Forecast    ${back_button}
     # VP. Check forecast popup displays
     check element on report    \    main    Forecast    ${forecast_table}
-    # 13. Close Forecast popup
+    # 15. Close Forecast popup
     click element on report    \    main    None    ${close_button_on_popup}
-    # 14. Switch To Bodog licensee
-    select licensee    ${cf_special_licensee_forecast}
-    # 15. Navigate to TOTAL BETS > Handicap/Over Under/Live
+    # 16. Click a number link in FullTime - Over/Under bettype (6th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    6
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 17. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 18. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 19. Click plus button in FullTime - Over/Under bettype (7th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    7
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 20. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 21. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 22. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    # 23. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 24. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 25. Click a number link in 1st Half - Handicap bettype (8th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    8
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 26. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 27. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 28. Click plus button in 1st Half - Handicap bettype (9th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    9
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 29. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 30. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # 31. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    # 32. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 33. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 34. Click a number link in 1st Half - Over/Under bettype (10th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    10
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 35. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 36. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 37. Click plus button in 1st Half - Over/Under bettype (11th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    11
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 38. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 39. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 40. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    # 41. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 42. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_01_02_ST_TotalBets_Handicap_Bodog
+    [Tags]
+    # 1. Open testing site
+    # 2. Login with valid account
+    # 3. Select licensee
+    # [Run first 3 steps by select TM_00_ST_Start web]
+    # 4. Switch To Bodog licensee
+    select licensee    Bodog
+    # 5. Navigate to TOTAL BETS > Handicap/Over Under/Live
     navigate left menu    TOTAL BETS    Handicap/Over Under/Live
-    # 16. Click match link
+    # 6. Click match link
     click match link of bodog    ${report_table_totalbets}    2    3
-    # 17. Click number link to drill down bet list
+    # 7. Click number link to drill down bet list
     click match link of bodog    ${match_table_bodog}    3    6
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    5s    RunningBetList.xls
-    # Pre-Condition
-    # Close Bet List window
+    # 8. Close Bet List window and back to Handicap/Over Under/Live page
     Select Window    title=LRF - Bet List
     Close Window
+    navigate left menu    None    Handicap/Over Under/Live
+    # 9. Click number link in FullTime - Handicap bettype (4th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    4
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 10. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 11. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 12. Click number link in FullTime - Over/Under bettype (5th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    5
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 13. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 14. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 15. Click number link in 1st Half - Handicap bettype (6th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    6
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 16. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 17. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 18. Click number link in 1st Half - Over/Under bettype (7th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    7
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 19. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 20. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
 
 TM_02_ST_TotalBets_Money Line
+    [Tags]    Test
 
 TM_03_ST_TotalBets_OddEven
 
