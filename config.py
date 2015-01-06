@@ -1,6 +1,0 @@
-Url= 'http://internal.006660.net/Index.aspx'
-cf_username= 'tester02'
-cf_pass= '1234aa'
-cf_licensee= '12Bet'
-cf_language= 'En'
-cf_browser = 'ff'
