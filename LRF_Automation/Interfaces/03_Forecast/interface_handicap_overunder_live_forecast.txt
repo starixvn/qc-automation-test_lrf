@@ -1,0 +1,3 @@
+*** Variables ***
+${league_listbox_forecast_bodog}    xpath=//*[@id='DdlLeagueId']    # League listbox in Handicap page of Forecast report
+${match_listbox_forecast_bodog}    xpath=//*[@id='DdlMatchId']    # Match listbox in Handicap page of Forecast report

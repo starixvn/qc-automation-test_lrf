@@ -1,0 +1,4 @@
+*** Variables ***
+${bet_list_link}    xpath=//a[@class='view-betlist']    # Bet List link in Forecast popup
+${forecast_table}    xpath=//table[@id='forecast-table']    # Forecast table in Forecast popup
+${league_listbox_forecast}    xpath=//*[@id='LeagueId']    # League listbox in Forecast page

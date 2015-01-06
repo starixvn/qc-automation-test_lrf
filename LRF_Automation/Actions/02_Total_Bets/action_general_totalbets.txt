@@ -1,0 +1,24 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+
+*** Keywords ***
+submit filters for totalbets
+    [Arguments]    ${countdown time}    ${licensee type}    ${currency}    ${based}
+    [Documentation]    This action is used to select filters in Total Bets pages then click on Submit button.
+    ...
+    ...    If you don't want to select any of them, just input 'None'
+    ...
+    ...    Example:
+    ...
+    ...    submit filter for total bets | 75 sec | normal | CNY | EUR
+    ...
+    ...    submit filter for total bets | None | normal | CNY | EUR
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${countdown time}'!='None'    select count down refresh time    ${countdown time}
+    Run Keyword If    '${licensee type}'!='None'    Select From List By Label    ${type_listbox}    ${licensee type}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    Click Element    ${submit_button}
+    Unselect Frame

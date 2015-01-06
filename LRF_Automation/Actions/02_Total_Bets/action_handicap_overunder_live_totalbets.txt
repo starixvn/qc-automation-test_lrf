@@ -1,0 +1,16 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Keywords ***
+click match link of bodog
+    [Arguments]    ${table}    ${row}    ${column}
+    [Documentation]    This action is used to click the match link in 'Handicap/Over Under/Live' page of Bodog licensee.
+    ...
+    ...    Example: Click link at 2nd row, 3rd column
+    ...
+    ...    click match link of bodog | ${table} | 2 | 3
+    Select Window
+    Select Frame    main
+    # Find plus button in the range of columns. If existed, click on it
+    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span
+    Unselect Frame

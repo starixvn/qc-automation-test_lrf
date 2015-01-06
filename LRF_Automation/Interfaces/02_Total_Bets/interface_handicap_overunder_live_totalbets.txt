@@ -1,0 +1,2 @@
+*** Variables ***
+${match_table_bodog}    xpath=//div[@id='content-area-3']/table[@class='report-table']    # Match table after drilling down in Bodog licensee

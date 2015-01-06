@@ -1,0 +1,4 @@
+*** Variables ***
+${username_textbox}    xpath=//input[@id='userName']    # Username textbox in Login page
+${password_textbox}    xpath=//input[@id='passWord']    # Password textbox in Login page
+${login_button}    xpath=//input[@value='Login']    # Login button in Login page

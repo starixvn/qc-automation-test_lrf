@@ -1,0 +1,116 @@
+*** Settings ***
+Suite Setup       config
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+
+*** Test Cases ***
+TM_01_ST_TotalBets_Handicap
+    # 1. Open testing site
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    # 2. Login with valid account
+    login    ${cf_username}    ${cf_password}
+    # 3. Select licensee
+    select licensee after login    ${cf_licensee}
+    # 4. Navigate to TOTAL BETS > Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    # 5. Select filters then click Submit button
+    # countdown = 75 sec
+    # licensee type = normal
+    # currency = CNY
+    # based = EUR
+    submit filters for totalbets    75 sec    normal    CNY    EUR
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 7. Click number link to drill down betlist
+    click number link in table    \    main    None    ${report_table_totalbets}    2    4
+    ...    10
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 8. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    5s    RunningBetList.xls
+    # 9. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 10. Click plus button to open Forecast popup
+    click plus button in table    \    main    None    ${report_table_totalbets}    2    5
+    ...    11
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 11. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    # 12. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 13. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 14. Switch To Bodog licensee
+    select licensee    ${cf_special_licensee_forecast}
+    # 15. Navigate to TOTAL BETS > Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    # 16. Click match link
+    click match link of bodog    ${report_table_totalbets}    2    3
+    # 17. Click number link to drill down bet list
+    click match link of bodog    ${match_table_bodog}    3    6
+    # VP. Check Bet List page displays
+    check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    title=LRF - Bet List    None    None    5s    RunningBetList.xls
+    # Pre-Condition
+    # Close Bet List window
+    Select Window    title=LRF - Bet List
+    Close Window
+
+TM_02_ST_TotalBets_Money Line
+
+TM_03_ST_TotalBets_OddEven
+
+TM_04_ST_TotalBets_Correct Score
+
+TM_05_ST_TotalBets_Total Goal
+
+TM_06_ST_TotalBets_Mix Parlay
+
+TM_07_ST_TotalBets_Outright
+
+TM_08_ST_TotalBets_HT FT
+
+TM_09_ST_TotalBets_FG LG
+
+TM_10_ST_TotalBets_Clean Sheet
+
+TM_11_ST_TotalBets_Double Chance
+
+TM_12_ST_TotalBets_HomeDrawAway No Bet
+
+TM_13_ST_TotalBets_BON team to score
+
+TM_14_ST_TotalBets_To win to nil
+
+TM_15_ST_TotalBets_3way Handicap
+
+TM_16_ST_TotalBets_Racing
+
+TM_17_ST_TotalBets_Number Game

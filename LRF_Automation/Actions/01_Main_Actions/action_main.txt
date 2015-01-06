@@ -1,0 +1,289 @@
+*** Settings ***
+Library           Selenium2Library
+Library           String
+Library           OperatingSystem
+Library           Collections
+Library           Dialogs
+Library           Screenshot
+Resource          ../../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+
+*** Keywords ***
+config
+    [Documentation]    This action is used to set default configuration for entire scripts.
+    # Set Timing
+    Set Selenium Speed    0.4
+    Set Selenium Timeout    60s
+    # Set Browser & URL testing
+    Set Suite Variable    ${cf_browser}    ff
+    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
+    Set Suite Variable    ${cf_ff_profile_dir}    D:\\3 - Automation\\Test Data\\firefox_profile
+    Set Suite Variable    ${cf_export_dir}    D:/
+    # Set Global Variables
+    Set Suite Variable    ${cf_username}    autQC
+    Set Suite Variable    ${cf_password}    1234aa
+    Set Suite Variable    ${cf_licensee}    12Bet
+    Set Suite Variable    ${cf_special_licensee_forecast}    Bodog
+
+login
+    [Arguments]    ${username}    ${password}
+    [Documentation]    Type 'username' and 'password' into the textboxes then click Login button
+    # input username & password
+    Input Text    ${username_textbox}    ${username}
+    Input Text    ${password_textbox}    ${password}
+    #manual input capcha
+    Pause Execution    Please enter capcha number then click OK
+    Click button    ${login_button}
+
+select licensee after login
+    [Arguments]    ${licensee}
+    [Documentation]    Give the name of licensee that we will select after login successfully
+    Wait Until Page Contains Element    xpath=//a[contains(text(),'${licensee}')]    10s
+    Click Element    xpath=//a[contains(text(),'${licensee}')]
+
+navigate left menu
+    [Arguments]    ${mainmenu}    ${submenu}
+    [Documentation]    Give "Main Menu" name and "Sub Menu" name that you want to navigate.
+    ...
+    ...    If Main Menu is already opened and you didn't want to click again, please input "None".
+    ...
+    ...    Example:
+    ...
+    ...    navigate left menu | Total Bets | Correct Score
+    ...
+    ...    navigate left menu | None | Correct Score
+    Select Window
+    Select Frame    menu
+    # Click Main Menu label if needed
+    Run Keyword If    '${mainmenu}'!='None'    Click Element    xpath=//span[contains(text(),'${mainmenu}')]
+    # Click Sub Menu label
+    # Handle special case: click duplicated labels "Handicap/Over Under/Live"
+    ${ac_status}=    Evaluate    '${mainmenu}'=='FORECAST' and '${submenu}'=='Handicap/Over Under/Live'
+    Run Keyword If    '${ac_status}'=='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}') and contains(@href,'Forecast')]
+    # Handle normal case
+    Run Keyword If    '${ac_status}'!='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}')]
+    Unselect Frame
+
+click number link in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${from column}
+    ...    ${to column}
+    [Documentation]    This action will try to find the first number link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed in 2nd row, from 3rd column to 4th column. Then click it.
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3 | 4
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3 | 4
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the range of columns. If existed, click on it
+    : FOR    ${ac_index}    IN RANGE    ${from column}    ${to column}+1
+    \    ${ac_numberlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
+    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
+    \    Exit For Loop If    '${ac_numberlink_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to column}' and '${ac_numberlink_status}'!='True'    Pass Execution    There is no link found in the table.
+    Unselect Frame
+
+select count down refresh time
+    [Arguments]    ${selected time}
+    [Documentation]    Select count down time period for auto refreshing page.
+    ...
+    ...    Example:
+    ...
+    ...    select count down refresh time | 75 sec
+    Click Element    ${countdown_refresh_button}
+    Wait Until Element Is Visible    xpath=//*[contains(text(),'${selected time}')]    5s    Cannot find your selective option. Please check.
+    Click Element    xpath=//*[contains(text(),'${selected time}')]
+
+click plus button in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${from column}
+    ...    ${to column}
+    [Documentation]    This action will try to find the first plus button inside a table. If the button is existed, we'll click it.
+    ...
+    ...    Example: Find if plus button existed in 2nd row, from 3rd column to 4th column. Then click it.
+    ...
+    ...    click plus button in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3 | 4
+    ...
+    ...    click plus button in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3 | 4
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find plus button in the range of columns. If existed, click on it
+    : FOR    ${ac_index}    IN RANGE    ${from column}    ${to column}+1
+    \    ${ac_plusbutton_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'button-add')]
+    \    Run Keyword If    '${ac_plusbutton_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'button-add')]
+    \    Exit For Loop If    '${ac_plusbutton_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to column}' and '${ac_plusbutton_status}'!='True'    Pass Execution    There is no link found in the table.
+    Unselect Frame
+
+check export excel function
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${waiting time}    ${checked file name}
+    [Documentation]    This action is used to check Export To Excel function.
+    ...
+    ...    Example: Check file 'RunningBetList.xls' existed after exporting sucessfully. And exporting file need 5 seconds to be saved.
+    ...
+    ...    check export excel function | ${window title} | ${main frame} | ${sub frame} | 5s | \ RunningBetList.xls
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Click Element    ${export_to_excel_button}
+    Sleep    ${waiting time}
+    Run Keyword And Continue On Failure    File Should Exist    ${cf_export_dir}${checked file name}
+    Remove File    ${cf_export_dir}${checked file name}
+    Unselect Frame
+
+click element on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${clicked element}
+    [Documentation]    This action is used to click an element on popup report.
+    ...
+    ...    If clicking element from a popup, we need to input the sub frame.
+    ...    If no needto use frame, just input 'None'.
+    ...
+    ...    Example:
+    ...
+    ...    click element on report | ${window title} | main | myframe | ${element}
+    ...
+    ...    click element on report | ${window title} | main | None | ${element}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Click Element    ${clicked element}
+    Unselect Frame
+
+check element on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checked element}
+    [Documentation]    This action is used to check an element on report.
+    ...
+    ...    If checking element from a popup, we need to input the sub frame.
+    ...    If no needto use frame, just input 'None'.
+    ...
+    ...    Example:
+    ...
+    ...    check element on report | ${window title} | main | myframe | ${element}
+    ...
+    ...    check element on report | ${window title} | main | None | ${element}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Run Keyword And Continue On Failure    Element Should Be Visible    ${checked element}
+    Unselect Frame
+
+select licensee
+    [Arguments]    ${licensee name}
+    [Documentation]    This action is used to select another Licensee in top right listbox.
+    Select Window
+    Select Frame    header
+    Select From List By Label    ${licensee_listbox}    ${licensee name}
+    Unselect Frame
+
+click team link in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the team link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click team link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click team link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_teamlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
+    Run Keyword If    '${ac_teamlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
+    Run Keyword If    '${ac_teamlink_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+click mix parlay link in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the mix parlay link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click mix parlay link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click mix parlay link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_mixparlay_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(text(),'Mix Parlay')]
+    Run Keyword If    '${ac_mixparlay_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(text(),'Mix Parlay')]
+    Run Keyword If    '${ac_mixparlay_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+click system parlay link in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the system parlay link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click system parlay link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click system parlay link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_systemparlay_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'System Parlay')]
+    Run Keyword If    '${ac_systemparlay_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'System Parlay')]
+    Run Keyword If    '${ac_systemparlay_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+check status of mix parlay ticket
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    ...    ${status}
+    [Documentation]    This action is used to check status of parlay ticket.
+    ...
+    ...    ${status} = *'expand'* or *'collapse'*
+    ...
+    ...    Example:
+    ...
+    ...    check status of parlay ticket | ${window} | ${main frame} | ${sub frame} | ${table} | 2 | 5 | expand
+    ...
+    ...    check status of parlay ticket | ${window} | ${main frame} | ${sub frame} | ${table} | 2 | 5 | collapse
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Check parlay ticket is expanding or collapsing
+    Run Keyword If    '${status}'=='collapse'    Run Keyword And Continue On Failure    Element Should Not Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/div/div[@class='bettype']
+    Run Keyword If    '${status}'=='expand'    Run Keyword And Continue On Failure    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/div/div[@class='bettype']
+    Unselect Frame
+
+click details link in system parlay ticket
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the Details link in parlay ticket. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click details link in system parlay ticket | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click details link in system parlay ticket | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_details_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'Details')]
+    Run Keyword If    '${ac_details_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'Details')]
+    Run Keyword If    '${ac_details_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+click result link in ticket
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the Results link in ticket. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click result link in ticket | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click result link in ticket | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_results_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
+    Run Keyword If    '${ac_results_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
+    Run Keyword If    '${ac_results_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame

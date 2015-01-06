@@ -1,0 +1,1014 @@
+*** Settings ***
+Suite Setup       config
+Suite Teardown
+Test Setup
+Test Timeout
+Library           Selenium2Library
+Library           Process
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Resource          ../Actions/actions.txt
+
+*** Variables ***
+
+*** Test Cases ***
+TM_01_ST_Total Bets(Handicap--Correct Score)
+    [Documentation]    Verify Totals Bets menu:filter,navigation
+    ...
+    ...    + Handicap/Over Under/Live
+    ...
+    ...    + Money Line
+    ...
+    ...    + Odd/Even + 1x2 + DND
+    ...
+    ...    + Correct Score
+    [Tags]    ttbet
+    # set variables
+    ${tm_normal_table}    Set Variable    xpath=//*/div[2]/table
+    ${tm_grid_table}    Set Variable    xpath=//*[@id='BetListGrid']
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    0
+    ${tm_based}    Set Variable    EUR
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    comment    Select Total Bets>Handicap/Over Under/Line
+    # Total Bets>Handicap/Over Under/Line
+    select left menu    TOTAL BETS    Handicap/Over Under/Live
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    2    ${index}
+    # Total Bets>Money Line
+    select left menu    TOTAL BETS    Money Line
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    check naviagate of link in table cell    ${tm_normal_table}    2    ${index}
+    # Total Bets>Odd/Even + 1x2 + DND
+    select left menu    TOTAL BETS    Odd/Even + 1x2 + DND
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    2    ${index}
+    sleep    2s
+    # Total Bets>Correct Score
+    select left menu    TOTAL BETS    Correct Score
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    2    ${index}
+    [Teardown]
+
+TM_02_ST_Total Bets(Total Goal--FG/LG)
+    [Documentation]    Verify Totals Bets menu:filter,navigation
+    ...
+    ...    + Total Goal
+    ...
+    ...    + Mix Parlay
+    ...
+    ...    + Outright
+    ...
+    ...    + HT/FT
+    ...
+    ...    + FG/LG
+    [Tags]    ttbet
+    [Setup]
+    # set variables
+    ${tm_normal_table}    Set Variable    xpath=//*/div[2]/table
+    ${tm_grid_table}    Set Variable    xpath=//*[@id='BetListGrid']
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    0
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    # Total Bets>Total Goal
+    select left menu    TOTAL BETS    Total Goal
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    2    ${index}
+    # Total Bets>Mix Parlay
+    select left menu    TOTAL BETS    Mix Parlay
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    2    ${index}
+    # system parlay
+    Select Frame    main
+    Click element    xpath=//*[@class='content-title']/span[3]
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    2    ${index}
+    # Total Bets>Outright
+    select left menu    TOTAL BETS    Outright
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+    # Total Bets>HT/FT
+    select left menu    TOTAL BETS    HT/FT
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+    # Total Bets>FG/LG
+    select left menu    TOTAL BETS    FG/LG
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+
+TM_03_ST_Total Bets(Clean Sheet--B/O/N)
+    [Documentation]    Verify Totals Bets menu:filter,navigation
+    ...
+    ...    + Clean Sheet
+    ...
+    ...    + Double Chance
+    ...
+    ...    + Home/Draw/Away No Bet
+    ...
+    ...    + B/O/N team to score
+    [Tags]    ttbet
+    # set variables
+    ${tm_normal_table}    Set Variable    xpath=//*/div[2]/table
+    ${tm_grid_table}    Set Variable    xpath=//*[@id='BetListGrid']
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    0
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    # Total Bets>Clean Sheet    ***special case table = //*/div[2]/div/table
+    select left menu    TOTAL BETS    Clean Sheet
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    xpath=//*/div[2]/div/table
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*/div[2]/div/table    4    ${index}
+    # Total Bets>Double Chance
+    select left menu    TOTAL BETS    Double Chance
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    4    ${index}
+    # Total Bets>Home/Draw/Away No Bet
+    select left menu    TOTAL BETS    Home/Draw/Away No Bet
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+    # Total Bets>Both/One/Neither Team To Score
+    select left menu    TOTAL BETS    B/O/N team to score
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    4    ${index}
+
+TM_04_ST_Total Bets(To win to nill--NG)
+    [Documentation]    Verify Totals Bets menu:filter,navigation
+    ...
+    ...    + To win to nil
+    ...
+    ...    + 3-Way Handicap
+    ...
+    ...    + Racing
+    ...
+    ...    + Number Game
+    [Tags]    ttbet
+    # set variables
+    ${tm_normal_table}    Set Variable    xpath=//*/div[2]/table
+    ${tm_grid_table}    Set Variable    xpath=//*[@id='BetListGrid']
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    0
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    # Total Bets>To Win To Nil
+    select left menu    TOTAL BETS    To win to nil
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    4    ${index}
+    # Total Bets>3-Way Handicap
+    select left menu    TOTAL BETS    3-Way Handicap
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_grid_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_grid_table}    4    ${index}
+    # Total Bets>Racing
+    select left menu    TOTAL BETS    Racing
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+    # Total Bets>Number Game
+    select left menu    TOTAL BETS    Number Game
+    filtering total bets    ${tm_type}    ${tm_currency}    ${tm_based}
+    check control exist    ${tm_normal_table}
+    : FOR    ${index}    IN RANGE    2    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    ${tm_normal_table}    4    ${index}
+
+TM_05_ST_ForeCast
+    [Documentation]    Verify Forecast menu:filter,navigation
+    ...
+    ...    + Handicap/Over Under/Live
+    ...
+    ...    + 1x2
+    [Tags]    ttbet
+    [Setup]
+    # ForeCase>Handicap/Over Under/Line
+    select left menu    FORECAST    Handicap/Over Under/Live
+    filtering forecast    0    ${EMPTY}    ALL    USD
+    : FOR    ${index}    IN RANGE    1    6
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*[@id='content-area-3']/table[1]    3    ${index}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*[@id='content-area-3']/table[2]/tbody/tr/td[1]/table    3    ${index}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*[@id='content-area-3']/table[2]/tbody/tr/td[3]/table    3    ${index}
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*/div[2]/table    2    ${index}
+    # ForeCase>1x2
+    select left menu    FORECAST    1 X 2
+    filtering forecast-1x2    ${EMPTY}    EUR    USD    2
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*/div[2]/table    3    ${index}
+    Close Browser
+
+TM_06_ST_Reports(LBM--MWL)
+    [Documentation]    Verify Totals Reports menu:filter,navigation
+    ...
+    ...    + Last Bets Monitoring
+    ...
+    ...    + Licensee Win Loss
+    ...
+    ...    + Settled Match Count
+    ...
+    ...    + Match Win Loss
+    [Tags]    report
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    # Report >>Last Bets Monitoring
+    select left menu    REPORTS    Last Bets Monitoring
+    sleep    5s
+    Select Window
+    Select Frame    main
+    Wait Until Page Contains Element    id=last-bets-monitoring    200s
+    @{filter_controls}    Create List    id=sports    id=bet-type    id=currency    id=league    id=live-status
+    ...    id=based-currency
+    ${total_controls}    Get Length    ${filter_controls}
+    : FOR    ${index}    IN RANGE    ${total_controls}
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    @{filter_controls}[${index}]
+    : FOR    ${index}    IN RANGE    2    4
+    \    check naviagate of link in table cell    xpath=//*[@id='last-bets-monitoring']    4    ${index}
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    5s
+    filtering licensee win loss    ${today-5}    ${today}    ${tm_currency}    Monthly    No Draws    No
+    ...    Virtual Sports,Sportsbook
+    Select Window
+    Select Frame    main
+    Wait Until Page Contains Element    id=btnTurnOverExpand    100s
+    Click Element    id=btnTurnOverExpand
+    sleep    3s
+    Focus    id=btnLicenseeWLExpand
+    Click Element    id=btnLicenseeWLExpand
+    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Select Frame    main
+    # drilldown first record
+    Run Keyword If    '${no_infortable}'!='True'    Run Keywords    Click Element    xpath=//*[@id='1']/td[5]/a    AND    sleep
+    ...    5s    AND    check control exist    id=ReportGrid    AND    Click Element
+    ...    xpath=//*[@id='1']/td[4]/a    AND    sleep    5s    AND    check control exist
+    ...    id=ReportGrid    AND    sleep    8s    AND    Click Element
+    ...    xpath=//*[@id='1']/td[3]/a    AND    sleep    5s    AND    Page Should Not Contain
+    ...    Error
+    Comment    #Reports>>Settled Match Count
+    select left menu    REPORTS    Settled Match Count
+    Select Frame    main
+    check control exist    xpath=//*[@class='report-content']
+    Comment    #Reports>>Match Win Loss
+    select left menu    REPORTS    Match Win Loss
+    filtering match win loss    ${today}    ${tm_type}    ${tm_currency}    ${tm_based}    SB
+    : FOR    ${index}    IN RANGE    1    2
+    \    check naviagate of link in table cell    xpath=//*[@id='data-content']    3    ${index}
+
+TM_07_ST_Reports(WLP--DRWL)
+    [Documentation]    Verify Totals Reports menu:filter,navigation
+    ...
+    ...    + Win Loss By Products
+    ...
+    ...    + Win Loss By Bet Type
+    ...
+    ...    + Win Loss By Leagues
+    ...
+    ...    + Racing Commission
+    ...
+    ...    + Daily Racing Win Loss
+    [Tags]    report
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Comment    #Reports>>Win Loss By Products
+    select left menu    REPORTS    Win Loss By Products
+    filtering licensee win loss    ${today-5}    ${today}    Based EUR    Monthly    No Draws    Yes
+    ...    All
+    check control exist    id=ReportGrid
+    Comment    #Reports>>Win Loss By Bet Type
+    select left menu    REPORTS    Win Loss By Bet Type
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    check control exist    xpath=//*[@class='report-content']
+    Comment    #Reports>>Racing Commission
+    select left menu    REPORTS    Racing Commission
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    Page Should Not Contain    Server Error
+    Select Window
+    Select Frame    main
+    ${RC_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/span
+    Run Keyword If    '${RC_1}'=='True'    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/span
+    sleep    3s
+    Page Should Not Contain    Server Error
+    Comment    #Reports>>Daily Racing Win Loss
+    select left menu    REPORTS    Daily Racing Win Loss
+    Select Window
+    Select Frame    main
+    select specific date    ${today-5}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    Page Should Not Contain    Server Error
+    Select Window
+    Select Frame    main
+    ${DR_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[2]/div[1]/div/span
+    Run Keyword If    '${DR_1}'=='True'    Click Element    xpath=//*[@id='data-content']/div[2]/div[1]/div/span
+    sleep    3s
+    Page Should Not Contain    Server Error
+
+TM_08_ST_Reports(CB--Turnover)
+    [Documentation]    Verify Totals Reports menu:filter,navigation
+    ...
+    ...    + Cancelled Bets
+    ...
+    ...    + Daily Bet List
+    ...
+    ...    + Live Report
+    ...
+    ...    + Turnover
+    [Tags]    report
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Comment    #Reports>>Cancelled Bets
+    select left menu    REPORTS    Cancelled Bets
+    Select Window
+    Select Frame    main
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    check control exist    id=BetListGrid
+    Page Should Not Contain    Server Error
+    Comment    #Reports>>Daily Bet List
+    select left menu    REPORTS    Daily Bet List
+    filtering daily bet list    ${today-5}    ${tm_currency}    ${tm_based}    All    Lose
+    sleep    3s
+    Page Should Not Contain    Server Error
+    Comment    #Reports>>Live Report
+    select left menu    REPORTS    Live Report
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    Select From List By Label    id=CurrencyId    ALL
+    Select From List By Label    id=BaseCurrency    EUR
+    Click Element    xpath=//*[@value='Submit']
+    ${LR_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/a[1][@class='product-detail-link'][@data-product-code='SB']
+    Run Keyword If    '${LR_1}'=='True'    Click Element    xpath=//*/a[1][@class='product-detail-link'][@data-product-code='SB']
+    Page Should Not Contain    Server Error
+    Comment    #Reports>>Turnover
+    select left menu    REPORTS    Turnover
+    Select Window
+    Select Frame    main
+    Select Checkbox    id=ALLProducts
+    Click Element    id=SubmitButton
+    Wait Until Page Contains Element    id=data-content    200s
+    Page Should Not Contain    Server Error
+
+TM_09_ST_Reports(MbWL--Balance)
+    [Documentation]    Verify Totals Reports menu:filter,navigation
+    ...
+    ...    + Mobile Win Loss
+    ...
+    ...    + Results
+    ...
+    ...    + Balance
+    [Tags]    report
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Comment    #Reports>>Mobile Win Loss
+    select left menu    REPORTS    Mobile Win Loss
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='DateControl']/a[1]
+    Select Checkbox    id=ALLProducts
+    Click Element    id=SubmitButton
+    sleep    5s
+    : FOR    ${index}    IN RANGE    1    4
+    \    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Exit For Loop If    '${no_infortable}'=='True'
+    \    check naviagate of link in table cell    xpath=//*[@id='ReportGrid']    2    ${index}
+    Comment    #Reports>>Results
+    select left menu    REPORTS    Results
+    Select Window
+    Select Frame    main
+    select specific date    ${today}
+    Click Element    id=SubmitButton
+    Page Should Not Contain    Server Error
+    Comment    #Reports>>Balance
+    select left menu    REPORTS    Balance
+    filtering balance    ${tm_type}    ${tm_currency}    ${tm_based}    November    2013
+    sleep    3s
+    Page Should Not Contain    Server Error
+    [Teardown]    Close All Browsers
+
+TM_10_ST_Customer Reports
+    [Documentation]    Verify Totals Customer Reports menu:filter,navigation
+    ...
+    ...    + Customer Win Loss
+    ...
+    ...    + Customer Pending Funds
+    ...
+    ...    + Customer Balance
+    ...
+    ...    + Customer Turnover
+    [Tags]    report
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    EUR
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    # Cust Reports>>Cust WL
+    select left menu    CUSTOMER REPORTS    Customer Win Loss
+    filtering licensee win loss    ${today-5}    ${today}    ${tm_currency}    ${EMPTY}    ${EMPTY}    ${EMPTY}
+    ...    Virtual Sports,Sportsbook
+    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Select Frame    main
+    Run Keyword If    '${no_infortable}'!='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a    AND    Page Should Not Contain
+    ...    Error
+    select left menu    CUSTOMER REPORTS    Customer Pending Funds
+    filtering total bets    ${cf_type}    2    ${tm_based}
+    filtering products    Sportsbook,Virtual Sports
+    Click Element    id=SubmitButton
+    wait page load
+    ${no_infortable}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Select Frame    main
+    Run Keyword If    '${no_infortable}'!='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a    AND    Page Should Not Contain
+    ...    Error
+    select left menu    CUSTOMER REPORTS    Customer Balance
+    select date range    ${today-5}    ${today}
+    filtering total bets    ${cf_type}    1    ${EMPTY}
+    #select top and sort by
+    Run Keywords    Select From List By Index    id=TopCount    1    AND    Select From List By Index    id=OrderItem
+    ...    0
+    filtering products    Sportsbook,Virtual Sports
+    wait page load
+    Page Should Not Contain    Error
+    select left menu    CUSTOMER REPORTS    Customer Turnover
+    select date range    ${today-5}    ${today}
+    #input minimum odds and currency
+    Input Text    id=Odds    15
+    Select From List By Index    id=CurrencyId    1
+    Click Element    id=SubmitButton
+    wait page load
+    Page Should Not Contain    Error
+    [Teardown]    close browser
+
+TM_11_ST_Verify export function_TOTAL BETSP1
+    [Tags]    export
+    # set variables
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    # Total Bets>>Handicap/Over Under/Line
+    select left menu    TOTAL BETS    Handicap/Over Under/Live
+    Select Window
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>Money Line
+    select left menu    TOTAL BETS    Money Line
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>Odd/Even + 1x2 + DND
+    select left menu    TOTAL BETS    Odd/Even + 1x2 + DND
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[4]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>Correct Score
+    select left menu    TOTAL BETS    Correct Score
+    check export function    CorrectScoreBetList.xls
+    # Total Bets>>Total Goal
+    select left menu    TOTAL BETS    Total Goal
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[1]/td[2]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[1]/td[2]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>Mix Parlay
+    select left menu    TOTAL BETS    Mix Parlay
+    check export function    RunningBetList.xls
+    Close Browser
+
+TM_12_ST_Verify export function_TOTAL BETSP2
+    [Tags]    export
+    # set variables
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    # Total Bets>>Outright
+    select left menu    TOTAL BETS    Outright
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[2]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[2]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>HT/FT
+    select left menu    TOTAL BETS    HT/FT
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[3]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[3]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>FG/LG
+    select left menu    TOTAL BETS    FG/LG
+    Unselect Frame
+    Select Frame    main
+    ${lk_number1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[2]/table/tbody/tr[2]/td[3]/a
+    Run Keyword If    '${lk_number1}'=='True'    Run Keywords    Click Element    xpath=//*/div[2]/table/tbody/tr[2]/td[3]/a    AND    sleep
+    ...    5s    AND    check export function    RunningBetList.xls
+    # Total Bets>>Clean Sheet
+    select left menu    TOTAL BETS    Clean Sheet
+    check export function    RunningBetList.xls
+    sleep    5s
+    # Total Bets>>Double Chance
+    select left menu    TOTAL BETS    Double Chance
+    check export function    RunningBetList.xls
+    sleep    5s
+    # Total Bets>>Both/One/Neither Team To Score
+    select left menu    TOTAL BETS    B/O/N team to score
+    check export function    RunningBetList.xls
+    sleep    5s
+    # Total Bets>>To Win To Nil
+    select left menu    TOTAL BETS    To win to nil
+    check export function    RunningBetList.xls
+    sleep    5s
+    # Total Bets>>3-Way Handicap
+    select left menu    TOTAL BETS    3-Way Handicap
+    check export function    RunningBetList.xls
+    Close Browser
+
+TM_13_ST_Verify export function_Reports P1
+    [Tags]    export
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    USD
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    # Reports>>Licensee Win Loss
+    #level 1
+    select left menu    REPORTS    Licensee Win Loss
+    #level 2
+    filtering licensee win loss    ${today-5}    ${today}    USD    Monthly    No Draws    No
+    ...    Sportsbook
+    Wait Until Page Contains Element    id=gview_ReportGrid    200s
+    check export function    LicenseeWinLoss.xls
+    ${lk_lv2}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='1']/td[5]
+    Run Keyword If    '${lk_lv2}'=='True'    Run Keywords    Click Element    xpath=//*[@id='1']/td[5]    AND    sleep
+    ...    5s    AND    check export function    LicenseeWinLoss.xls
+    #level 3
+    ${lk_lv3}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='1']/td[4]/a
+    Run Keyword If    '${lk_lv3}'=='True'    Run Keywords    Click Element    xpath=//*[@id='1']/td[4]/a    AND    sleep
+    ...    5s    AND    check export function    LicenseeWinLoss.xls
+    ######    ######    ######    ######    ######
+    ######    ######    ######    ######    ######
+    Comment    #Reports>>Match Win Loss
+    select left menu    REPORTS    Match Win Loss
+    filtering match win loss    ${today}    ${tm_type}    USD    ${tm_based}    SB
+    check export function    MatchWinLoss.xls
+    ${lk_lv}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/tbody/tr[2]/td[2]/span
+    Run Keyword If    '${lk_lv}'=='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/tbody/tr[2]/td[2]/span    AND    sleep
+    ...    2s    AND    Click Element    xpath=//*[@id='data-content']/tbody/tr[3]/td[1]/span    AND    sleep
+    ...    10s    AND    check export function    LicenseeWinLossBetList.xls
+    ######    ######    ######    ######    ######
+    ######    ######    ######    ######    ######
+    # Reports>>Win Loss By Products
+    #level 1
+    select left menu    REPORTS    Win Loss By Products
+    filtering licensee win loss    ${today-5}    ${today}    USD    Monthly    No Draws    Yes
+    ...    All
+    check export function    WinLossByProduct.xls
+    ${lk_lv}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='1']/td[5]/a
+    Run Keyword If    '${lk_lv}'=='True'    Run Keywords    Click Element    xpath=//*[@id='1']/td[5]/a    AND    sleep
+    ...    5s    AND    check export function    WinLossByProduct.xls
+    #level2
+    ${lk_lv2}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='1']/td[4]/a
+    Run Keyword If    '${lk_lv2}'=='True'    Run Keywords    Click Element    xpath=//*[@id='1']/td[4]/a    AND    sleep
+    ...    5s    AND    check export function    WinLossByProduct.xls
+    Comment    #Reports>>Win Loss By Bet Type
+    select left menu    REPORTS    Win Loss By Bet Type
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    check export function    WinLossByBetType.xls
+    Comment    #Reports>>Racing Commission
+    select left menu    REPORTS    Racing Commission
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    check export function    RacingCommission.xls
+    ${lk_lv2}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/span
+    Run Keyword If    '${lk_lv2}'=='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/span    AND    sleep
+    ...    5s    AND    check export function    LicenseeWinLossBetList.xls
+    Comment    #Reports>>Daily Racing Win Loss
+    select left menu    REPORTS    Daily Racing Win Loss
+    Select Window
+    Select Frame    main
+    select specific date    ${today-5}
+    filtering forecast-1x2    ${tm_type}    ${tm_currency}    ${tm_based}    ${EMPTY}
+    check export function    DailyRacingWinLossReport.xls
+    ${lk_lv2}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[2]/div[1]/div
+    Run Keyword If    '${lk_lv2}'=='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[2]/div[1]/div    AND    sleep
+    ...    5s    AND    check export function    DailyRacingWinLossBetList.xls
+    Comment    #Reports>>Cancelled Bets
+    select left menu    REPORTS    Cancelled Bets
+    check export function    CancelledBetList.xls
+
+TM_14_ST_Verify export function_Reports P2
+    [Tags]    export
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 5 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    USD
+    ${tm_based}    Set Variable    EUR
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    ###########    MAIN STEPS    ###########    ###########
+    ###########    ###########    ###########    ###########
+    Comment    #Reports>>Daily Bet List
+    select left menu    REPORTS    Daily Bet List
+    filtering daily bet list    ${today-5}    ${tm_currency}    ${tm_based}    All    Lose
+    check export function    DailyBetList.xls
+    Comment    #Reports>>Live Report
+    select left menu    REPORTS    Live Report
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    Select From List By Label    id=CurrencyId    USD
+    Select From List By Label    id=BaseCurrency    EUR
+    Click Element    xpath=//*[@value='Submit']
+    check export function    LiveReport.xls
+    ${LR_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/a[1][@class='product-detail-link'][@data-product-code='SB']
+    Run Keyword If    '${LR_1}'=='True'    Run Keywords    Click Element    xpath=//*/a[1][@class='product-detail-link'][@data-product-code='SB']    AND    sleep
+    ...    5s    AND    Click Element    xpath=//*[@id='detail-content']/div[3]/div[1]/div[1]/div/a    AND    sleep
+    ...    3s    AND    Click Element    xpath=//*[@id='BodyContent']/div[2]/div[3]/div/div[2]/div[2]/div[1]/div[1]/div/a    AND    sleep
+    ...    3s    AND    check export function    LiveReportBetList.xls
+    Comment    #Reports>>Turnover
+    select left menu    REPORTS    Turnover
+    Select Window
+    Select Frame    main
+    Select Checkbox    id=ALLProducts
+    Click Element    id=SubmitButton
+    Wait Until Page Contains Element    id=data-content    200s
+    check export function    Turnover.xls
+    #Reports>>Mobile Win Loss
+    select left menu    REPORTS    Mobile Win Loss
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='DateControl']/a[1]
+    Select Checkbox    id=ProductOptions0
+    Select From List By Label    id=CurrencyId    USD
+    Click Element    id=SubmitButton
+    sleep    5s
+    check export function    MobileWinLoss.xls
+    sleep    3s
+    Comment    Click Element    xpath=//*[@id='1']/td[3]/a
+    Comment    sleep    3s
+    Comment    Select Window    LRF - Bet List
+    Comment    check export function    MobileWinLossBetList.xls
+    Comment    #Reports>>Results
+    select left menu    REPORTS    Results
+    Select Window
+    Select Frame    main
+    select specific date    ${today}
+    Click Element    id=SubmitButton
+    sleep    5s
+    check export function    LRF-Result.xls
+    Comment    #Reports>>Balance
+    select left menu    REPORTS    Balance
+    filtering balance    ${tm_type}    ${tm_currency}    ${tm_based}    February    2014
+    sleep    5s
+    check export function    Balance.xls
+    # Cust Reports>>Cust WL
+    select left menu    CUSTOMER REPORTS    Customer Win Loss
+    filtering licensee win loss    ${today-5}    ${today}    ${tm_currency}    ${EMPTY}    ${EMPTY}    ${EMPTY}
+    ...    Sportsbook
+    check export function    CustomerWinLoss.xls
+    ${LR_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a/span
+    Run Keyword If    '${LR_1}'=='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a/span    AND    sleep
+    ...    3s    AND    check export function    LicenseeWinLossBetList.xls
+    # Cust Reports>>Customer Pending Funds
+    select left menu    CUSTOMER REPORTS    Customer Pending Funds
+    filtering total bets    ${cf_type}    4    ${tm_based}
+    filtering products    Sportsbook
+    check export function    CustomerPendingFunds.xls
+    ${LR_1}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a/span
+    Run Keyword If    '${LR_1}'=='True'    Run Keywords    Click Element    xpath=//*[@id='data-content']/div[1]/div[2]/div/a/span    AND    sleep
+    ...    3s    AND    check export function    LicenseeWinLossBetList.xls
+    # Cust Reports>>Customer Balance
+    select left menu    CUSTOMER REPORTS    Customer Balance
+    select date range    ${today-5}    ${today}
+    filtering total bets    ${cf_type}    4    ${EMPTY}
+    #select top and sort by
+    Run Keywords    Select From List By Index    id=TopCount    1    AND    Select From List By Index    id=OrderItem
+    ...    0
+    filtering products    Sportsbook
+    check export function    CustomerBalance.xls
+    # Cust Reports>>Customer Balance
+    select left menu    CUSTOMER REPORTS    Customer Turnover
+    select date range    ${today-5}    ${today}
+    #input minimum odds and currency
+    Input Text    id=Odds    15
+    Select From List By Label    id=CurrencyId    ${tm_currency}
+    Click Element    id=SubmitButton
+    sleep    5s
+    check export function    CustomerTurnover.xls
+
+TM_15_ST_Verify sort function
+    [Tags]    sort
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 8 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    USD
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    5s
+    filtering licensee win loss    ${today-5}    ${today}    ${tm_currency}    Daily    No Draws    No
+    ...    Virtual Sports,Sportsbook
+    Select Window
+    Select Frame    main
+    sleep    5s
+    Click Element    id=btnTurnOverExpand
+    Focus    id=btnLicenseeWLExpand
+    Click Element    id=btnLicenseeWLExpand
+    sleep    5s
+    ${totalrows}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    # sort by date
+    check sort    ReportGrid_Date    id=ReportGrid_Date    ${totalrows-1}
+    Comment    # sort by currency
+    check sort    ReportGrid_CurrencyName    id=ReportGrid_CurrencyName    ${totalrows-1}
+    Comment    # sort by TO SB
+    check sort number    ReportGrid_TurnOverSB    id=ReportGrid_TurnOverSB    ${totalrows-1}
+    Comment    # sort by TO VS
+    check sort number    ReportGrid_TurnOverVS    id=ReportGrid_TurnOverVS    ${totalrows-1}
+    Comment    # sort by TO TOTAL
+    check sort number    ReportGrid_TotalTurnOver    id=ReportGrid_TotalTurnOver    ${totalrows-1}
+    Comment    # sort by TOTAL Trans
+    check sort number    ReportGrid_TotalTransaction    id=ReportGrid_TotalTransaction    ${totalrows-1}
+    Comment    # sort by Cust WL
+    check sort number    ReportGrid_CustomerTotal    id=ReportGrid_CustomerTotal    ${totalrows-1}
+    Focus    id=btnTurnOverCollapse
+    Click Element    id=btnTurnOverCollapse
+    sleep    3s
+    # sort by LWL SB
+    check sort number    ReportGrid_LicenseeWLSB    id=ReportGrid_LicenseeWLSB    ${totalrows-1}
+    Comment    # sort by LWL VS
+    check sort number    ReportGrid_LicenseeWLVS    id=ReportGrid_LicenseeWLVS    ${totalrows-1}
+    #Feature limited: unable scrollright the scrollbar
+    Comment    Comment    # sort by LWL Total
+    Comment    check sort    ReportGrid_TotalLicenseeWL    id=ReportGrid_TotalLicenseeWL
+    select left menu    REPORTS    Win Loss By Bet Type
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    UUS    UUS    ${EMPTY}
+    # unable using check sort keyword cause this reportgrid is not in table format (HTML)--> Work arround
+    sleep    5s
+    : FOR    ${index}    IN RANGE    2    10
+    \    sleep    2s
+    \    Run Keyword If    '${index}'!='2'    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    ${EMPTY}
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-asc']
+    ${EMPTY}
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-desc']
+    select left menu    REPORTS    Racing Commission
+    Select Window
+    Select Frame    main
+    select date range    ${today-5}    ${today}
+    filtering forecast-1x2    ${tm_type}    UUS    UUS    ${EMPTY}
+    # unable using check sort keyword cause this reportgrid is not in table format (HTML)--> Work arround
+    sleep    5s
+    : FOR    ${index}    IN RANGE    2    4
+    \    sleep    2s
+    \    Run Keyword If    '${index}'!='2'    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-asc']
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-desc']
+    : FOR    ${index}    IN RANGE    1    5
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[4]/div[2]/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[4]/div[2]/div[${index}]/span[@class='sort-asc']
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[4]/div[2]/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[4]/div[2]/div[${index}]/span[@class='sort-desc']
+    select left menu    REPORTS    Mobile Win Loss
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='DateControl']/a[1]
+    filtering products    Sportsbook,Virtual Sports
+    Click Element    id=SubmitButton
+    sleep    5s
+    ${totalrows}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    check sort    ReportGrid_ExternalId    id=ReportGrid_ExternalId    ${totalrows-1}
+    Comment    ReportGrid_SystemId
+    check sort    ReportGrid_SystemId    id=ReportGrid_SystemId    ${totalrows-1}
+    Comment    ReportGrid_CurrencyName
+    check sort    ReportGrid_CurrencyName    id=ReportGrid_CurrencyName    ${totalrows-1}
+    Comment    ReportGrid_Turnover
+    check sort number    ReportGrid_Turnover    id=ReportGrid_Turnover    ${totalrows-1}
+    Comment    ReportGrid_TotalTransactions
+    check sort number    ReportGrid_TotalTransactions    id=ReportGrid_TotalTransactions    ${totalrows-1}
+    Comment    ReportGrid_CustomerTotal
+    check sort number    ReportGrid_CustomerTotal    id=ReportGrid_CustomerTotal    ${totalrows-1}
+    Comment    # sort by Cust WL
+    Comment    check sort number    ReportGrid_LicenseeWl    id=ReportGrid_LicenseeWl    ${totalrows-1}
+    # Cust Reports>>Cust WL
+    select left menu    CUSTOMER REPORTS    Customer Win Loss
+    filtering licensee win loss    ${today-5}    ${today}    UUS    ${EMPTY}    ${EMPTY}    ${EMPTY}
+    ...    Virtual Sports,Sportsbook
+    sleep    15s
+    : FOR    ${index}    IN RANGE    2    12
+    \    sleep    2s
+    \    Run Keyword If    '${index}'!='2'    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-asc']
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-desc']
+    select left menu    CUSTOMER REPORTS    Customer Pending Funds
+    filtering total bets    ${cf_type}    2    ${tm_based}
+    filtering products    Sportsbook,Virtual Sports
+    Click Element    id=SubmitButton
+    sleep    15s
+    : FOR    ${index}    IN RANGE    2    6
+    \    sleep    2s
+    \    Run Keyword If    '${index}'!='2'    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-asc']
+    \    sleep    2s
+    \    Click Element    xpath=//*[@id='header-content']/div[${index}]
+    \    Run Keyword And Continue On Failure    Page Should Contain Element    xpath=//*[@id='header-content']/div[${index}]/span[@class='sort-desc']
+    Close Browser

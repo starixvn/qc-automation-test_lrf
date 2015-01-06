@@ -1,0 +1,26 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/03_Forecast/interface_handicap_overunder_live_forecast.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+
+*** Keywords ***
+submit filters for forecast handicap bodog
+    [Arguments]    ${league index}    ${match loading time}    ${match index}    ${currency}    ${based}
+    [Documentation]    This action is used to select filters in Forecast - Handicap/Over Under/Live page for only Bodog licensee.
+    ...
+    ...    If you don't want to select any of them, just input 'None'
+    ...
+    ...    Example:
+    ...
+    ...    submit filter for total bets | 1 | 5s | 1 | CNY | EUR
+    ...
+    ...    submit filter for total bets | None | 1s | 1 | CNY | EUR
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_forecast_bodog}    ${league index}
+    Run Keyword If    '${match loading time}'!='None'    Sleep    ${match loading time}
+    Run Keyword If    '${match index}'!='None'    Select From List By Index    ${match_listbox_forecast_bodog}    ${match index}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    Click Element    ${submit_button}
+    Unselect Frame

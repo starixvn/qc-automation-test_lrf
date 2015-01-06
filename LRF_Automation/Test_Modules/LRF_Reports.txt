@@ -1,0 +1,190 @@
+*** Settings ***
+Suite Setup       config
+Suite Teardown    close all browsers
+Test Setup
+Test Timeout
+Library           Selenium2Library
+Library           Process
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Resource          ../Actions/actions.txt
+
+*** Test Cases ***
+TM_01_Compare data LWL-MWL
+    [Documentation]    Compare Turnover, Customer WL and Licensee WL belong to a specific currency of Licensee WinLoss with Match WinLoss reports.
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 9 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    @{tm_get_currency}    Create List
+    @{tm_lwl_list}    Create List
+    @{tm_mwl_list}    Create List
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    3s
+    filtering licensee win loss    ${today-5}    ${today-5}    ${tm_currency}    Monthly    Normal    Yes
+    ...    Sportsbook
+    Capture Page Screenshot
+    ${total}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    ${total}=    set variable    ${total-1}
+    : FOR    ${index}    IN RANGE    1    ${total+1}
+    \    ${tm_lwl_currency}    Get Text    xpath=//*[@id='${index}']/td[5]
+    \    ${tm_lwl_turnover}    Get Text    xpath=//*[@id='${index}']/td[8]
+    \    ${tm_lwl_custwl}    Get Text    xpath=//*[@id='${index}']/td[12]
+    \    ${tm_lwl_licenseewl}    Get Text    xpath=//*[@id='${index}']/td[15]
+    \    Append To List    ${tm_get_currency}    ${tm_lwl_currency}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_turnover}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_custwl}
+    \    Append To List    ${tm_lwl_list}    ${tm_lwl_licenseewl}
+    Comment    #Reports>>Match Win Loss
+    select left menu    REPORTS    Match Win Loss
+    : FOR    ${index}    IN    @{tm_get_currency}
+    \    filtering match win loss    ${today-5}    ${tm_type}    ${index}    ${EMPTY}    Sportsbook
+    \    ${tm_mwl_turnover}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[2]
+    \    ${tm_mwl_custwl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[3]
+    \    ${tm_mwl_licenseewl}    Get Text    xpath=//*/tr[@class='total-first-row total-in-eur']/td[4]
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_turnover}
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_custwl}
+    \    Append To List    ${tm_mwl_list}    ${tm_mwl_licenseewl}
+    \    Capture Page Screenshot
+    Lists Should Be Equal    ${tm_lwl_list}    ${tm_mwl_list}
+
+TM_02_Compare data LWL-WLBP
+    [Documentation]    Compare All Data belong to a specific Currency of Licensee WinLoss with WinLoss By Products reports.
+    # set variables
+    ${today}    get time    \    Now - 1 day
+    ${today-5}    get time    \    Now - 9 day
+    conver date format    ${today}
+    ${today}    Set Variable    ${output}
+    conver date format    ${today-5}
+    ${today-5}    Set Variable    ${output}
+    ${tm_type}    Set Variable    ${cf_type}
+    ${tm_currency}    Set Variable    ALL
+    ${tm_based}    Set Variable    USD
+    #main steps
+    Open Browser    ${Url}    ${cf_browser}
+    Maximize Browser Window
+    #login
+    login    ${cf_username}    ${cf_pass}
+    #select licensee
+    select licensee icon    ${cf_licensee}
+    #Reports>>Licensee Win Loss
+    select left menu    REPORTS    Licensee Win Loss
+    Sleep    3s
+    filtering licensee win loss    ${today-5}    ${today-5}    ${tm_currency}    Monthly    Normal    Yes
+    ...    Sportsbook
+    Capture Page Screenshot
+    ${total}=    Execute Javascript    return document.getElementById('ReportGrid').rows.length
+    ${total}=    set variable    ${total-1}
+    @{currency}    Create List
+    @{list}    Create List
+    : FOR    ${index}    IN RANGE    1    ${total+1}
+    \    ${tm_lwl_currency}    Get Text    xpath=//*[@id='${index}']/td[5]
+    \    ${tm_lwl_turnover}    Get Text    xpath=//*[@id='${index}']/td[8]
+    \    ${tm_lwl_custwl}    Get Text    xpath=//*[@id='${index}']/td[12]
+    \    ${tm_lwl_licenseewl}    Get Text    xpath=//*[@id='${index}']/td[15]
+    \    Append To List    ${currency}    ${tm_lwl_currency}
+    \    Append To List    ${list}    ${tm_lwl_turnover}
+    \    Append To List    ${list}    ${tm_lwl_custwl}
+    \    Append To List    ${list}    ${tm_lwl_licenseewl}
+    Comment    #Reports>>Win Loss By Products
+    select left menu    REPORTS    Win Loss By Products
+    @{list1}    Create List
+    : FOR    ${index}    IN    @{currency}
+    \    filtering licensee win loss    ${today-5}    ${today-5}    ${index}    Monthly    Normal
+    \    ...    Yes    Sportsbook
+    \    Sleep    3s
+    \    ${tm_mwl_turnover}    Get Text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[1]/td[7]
+    \    ${tm_mwl_custwl}    Get Text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[1]/td[11]
+    \    ${tm_mwl_licenseewl}    Get Text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[1]/td[12]
+    \    Append To List    ${list1}    ${tm_mwl_turnover}
+    \    Append To List    ${list1}    ${tm_mwl_custwl}
+    \    Append To List    ${list1}    ${tm_mwl_licenseewl}
+    \    Capture Page Screenshot
+    Lists Should Be Equal    ${list}    ${list1}
+    Close All Browsers
+
+test
+    Select Window
+    Select Frame    main
+    #text link under line
+    ${ac_textlink_underline}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@style,'underline')]
+    ${ac_textlink}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='team'][contains(@href,'javascript')]
+    ${ac_textnumber}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'forcast-number')]/span
+    ${ac_plusbutton}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='button-add']
+    ${ac_popup_view}=    Run Keyword And Return Status    Page Should Contain Element    xpath=//*/div[3]/div[1]/button/span[2]
+    ${ac_mixparlay}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@id='hidden0']
+    ${ac_forecast}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@class,'bet-list')]
+    : FOR    ${index}    IN    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@style,'underline')]    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='team'][contains(@href,'javascript')]    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'forcast-number')]/span    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='button-add']
+    ...    xpath=//*/div[3]/div[1]/button/span[2]    ${table}/tbody/tr[${row}]/td[${column}]/a[@id='hidden0']    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@class,'bet-list')]
+    \    ${ac_textlink_underline}=    Run Keyword And Return Status    Page Should Contain Element    ${index}
+    ${EMPTY}
+    ${EMPTY}
+    Run Keyword If    '${ac_textlink_underline}'!='${no_infortable}' and '${ac_textlink_underline}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@style,'underline')]    AND    Sleep
+    ...    2s    AND    Page Should Contain Element    xpath=//*[@class='report-table']    AND    Page Should Not Contain
+    ...    Error    AND    Go Back    AND    Sleep    2s
+    #exit if link exist
+    Exit For Loop If    '${ac_textlink_underline}'=='True'
+    #text link
+    Run Keyword If    '${ac_textlink}'!='${no_infortable}' and '${ac_textlink}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='team'][contains(@href,'javascript')]    AND    Sleep
+    ...    2s    AND    Page Should Contain Element    id=BetListGrid    AND    Page Should Not Contain
+    ...    Error    AND    Go Back    AND    Sleep    2s
+    Exit For Loop If    '${ac_textlink}'=='True'
+    #number link
+    # handle Empty cell
+    ${celldata}=    Run Keyword If    '${ac_textnumber}'!='${no_infortable}'    Get Text    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'forcast-number')]/span
+    ${has_data}=    Set Variable
+    Run Keyword If    '${celldata}'!='${EMPTY}'    Set Test Variable    ${has_data}    True
+    Run Keyword If    '${ac_textnumber}'!='${no_infortable}' and '${has_data}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'forcast-number')]    AND    Sleep
+    ...    2s    AND    Page Should Contain Element    id=BetListGrid    AND    Page Should Not Contain
+    ...    Error    AND    Go Back    AND    Sleep    2s
+    Exit For Loop If    '${ac_textnumber}'=='True'
+    #Plus button
+    Run Keyword If    '${ac_plusbutton}'!='${no_infortable}' and '${ac_plusbutton}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@class='button-add']    AND    Sleep
+    ...    2s
+    Exit For Loop If    '${ac_plusbutton}'=='True'
+    #Plus button--> popup view
+    Run Keyword If    '${ac_plusbutton}'!='${no_infortable}' and '${ac_plusbutton}'=='${ac_popup_view}'    Run Keywords    Page Should Contain Element    xpath=//*[@class='report-table']/tbody    AND    Sleep
+    ...    2s    AND    Click Element    xpath=//*/div[3]/div[1]/button/span[2]
+    Exit For Loop If    '${ac_popup_view}'=='True'
+    #Plus button--> betlist view
+    Run Keyword If    '${ac_plusbutton}'!='${no_infortable}' and '${ac_plusbutton}'!='${ac_popup_view}'    Run Keywords    Page Should Contain Element    id=gview_BetListGrid    AND    Page Should Not Contain
+    ...    Error    AND    Go Back    AND    Sleep    2s
+    #special case for mixparlay
+    Run Keyword If    '${ac_mixparlay}'!='${no_infortable}' and '${ac_mixparlay}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[@id='hidden0']    AND    Sleep
+    ...    2s    AND    Page Should Not Contain    Error
+    Exit For Loop If    '${ac_mixparlay}'=='True'
+    #ForeCast link
+    Run Keyword If    '${ac_forecast}'!='${no_infortable}' and '${ac_forecast}'=='True'    Run Keywords    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span[contains(@class,'bet-list')]    AND    Sleep
+    ...    2s    AND    Select Window    title=LRF - Bet List    AND    focus
+    ...    xpath=//*[@class='content-title']    AND    Page Should Contain Element    xpath=//*[@class='content-main']    AND    Close Window
+    ...    AND    Sleep    2s
+    Exit For Loop If    '${ac_forecast}'=='True'
+    Unselect Frame
+
+test2
+    Comment    ${a}    Set Variable    569
+    Comment    ${b}    Set Variable    1484
+    Comment    ${b}=    Fetch From Left    ${b}    .
+    Comment    ${b}=    Replace String    ${b}    ,    ${EMPTY}
+    Comment    Should Be True    ${a}<=${b}
+    Set Selenium Speed    0.1
+    Open Browser    https://www.google.com.vn    ff
+    log    aac
+    log    ddad
+    Close Browser
