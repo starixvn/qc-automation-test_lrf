@@ -18,10 +18,16 @@ Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
 Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
 Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
 Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
-    [Tags]    Test
+    [Tags]
     # 1. Open testing site
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
@@ -53,7 +59,7 @@ TM_01_01_ST_TotalBets_Handicap
     check element on report    \    main    None    ${betlist_table}
     # 8. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 9. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 10. Click plus button in FullTime - Handicap bettype (5th column)
@@ -72,7 +78,7 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check betlist display on popup
     check element on report    \    main    Forecast    ${betlist_table}
     # VP. Check Export To Excel function
-    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    check export excel function    \    main    Forecast    RunningBetList.xls
     # 14. Click Back button on betlist popup
     click element on report    \    main    Forecast    ${back_button}
     # VP. Check forecast popup displays
@@ -86,7 +92,7 @@ TM_01_01_ST_TotalBets_Handicap
     check element on report    \    main    None    ${betlist_table}
     # 17. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 18. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 19. Click plus button in FullTime - Over/Under bettype (7th column)
@@ -105,7 +111,7 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check betlist display on popup
     check element on report    \    main    Forecast    ${betlist_table}
     # VP. Check Export To Excel function
-    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    check export excel function    \    main    Forecast    RunningBetList.xls
     # 23. Click Back button on betlist popup
     click element on report    \    main    Forecast    ${back_button}
     # VP. Check forecast popup displays
@@ -119,7 +125,7 @@ TM_01_01_ST_TotalBets_Handicap
     check element on report    \    main    None    ${betlist_table}
     # 26. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 27. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 28. Click plus button in 1st Half - Handicap bettype (9th column)
@@ -138,7 +144,7 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check betlist display on popup
     check element on report    \    main    Forecast    ${betlist_table}
     # VP. Check Export To Excel function
-    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    check export excel function    \    main    Forecast    RunningBetList.xls
     # 32. Click Back button on betlist popup
     click element on report    \    main    Forecast    ${back_button}
     # VP. Check forecast popup displays
@@ -152,7 +158,7 @@ TM_01_01_ST_TotalBets_Handicap
     check element on report    \    main    None    ${betlist_table}
     # 35. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 36. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 37. Click plus button in 1st Half - Over/Under bettype (11th column)
@@ -171,7 +177,7 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check betlist display on popup
     check element on report    \    main    Forecast    ${betlist_table}
     # VP. Check Export To Excel function
-    check export excel function    \    main    Forecast    5s    RunningBetList.xls
+    check export excel function    \    main    Forecast    RunningBetList.xls
     # 41. Click Back button on betlist popup
     click element on report    \    main    Forecast    ${back_button}
     # VP. Check forecast popup displays
@@ -196,7 +202,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
     # VP. Check Export To Excel function
-    check export excel function    title=LRF - Bet List    None    None    5s    RunningBetList.xls
+    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 8. Close Bet List window and back to Handicap/Over Under/Live page
     Select Window    title=LRF - Bet List
     Close Window
@@ -208,7 +214,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     check element on report    \    main    None    ${betlist_table}
     # 10. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 11. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 12. Click number link in FullTime - Over/Under bettype (5th column)
@@ -218,7 +224,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     check element on report    \    main    None    ${betlist_table}
     # 13. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 14. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 15. Click number link in 1st Half - Handicap bettype (6th column)
@@ -228,7 +234,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     check element on report    \    main    None    ${betlist_table}
     # 16. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 17. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # 18. Click number link in 1st Half - Over/Under bettype (7th column)
@@ -238,22 +244,96 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     check element on report    \    main    None    ${betlist_table}
     # 19. Click Export button
     # VP. Check exporting file successfully
-    check export excel function    \    main    None    5s    RunningBetList.xls
+    check export excel function    \    main    None    RunningBetList.xls
     # 20. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
+    # Clean up
+    select licensee    ${cf_licensee}
 
 TM_02_ST_TotalBets_Money Line
-    [Tags]    Test
+    [Tags]
 
 TM_03_ST_TotalBets_OddEven
 
 TM_04_ST_TotalBets_Correct Score
+    # 1. Navigate to TOTAL BETS > Correct Score
+    navigate left menu    TOTAL BETS    Correct Score
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    CorrectScoreBetlist.xls
 
 TM_05_ST_TotalBets_Total Goal
+    # 1. Navigate to TOTAL BETS > Total Goal
+    navigate left menu    TOTAL BETS    Total Goal
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click team name to drill down to betlist
+    click team link in table    \    main    None    ${report_table_totalbets}    2    2
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
 
-TM_06_ST_TotalBets_Mix Parlay
+TM_06_ST_TotalBets_MixParlay
+    # 1. Navigate to TOTAL BETS > Mix Parlay
+    navigate left menu    TOTAL BETS    Mix Parlay
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    None    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click Mix Parlay ticket to expand
+    click mix parlay link in table    \    main    None    ${betlist_table}    2    5
+    # VP. Check mix parlay ticket is expanded successfully
+    check status of parlay ticket    \    main    None    ${betlist_table}    2    5
+    ...    expand
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 5. Click System Parlay header link on top
+    click element on report    \    main    None    ${system_parlay_header_link}
+    # 6. Click System Parlay ticket to expand
+    click system parlay link in table    \    main    None    ${betlist_table}    2    5
+    # VP. Check system parlay ticket is expanded successfully
+    check status of parlay ticket    \    main    None    ${betlist_table}    2    5
+    ...    expand
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 7. Click Details link in system parlay ticket
+    click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
+    # VP. Check Detail popup displays
+    check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
+    # 8. Close popup
+    click element on report    \    main    None    ${close_button_on_popup}
 
 TM_07_ST_TotalBets_Outright
+    # 1. Navigate to TOTAL BETS > Outright
+    navigate left menu    TOTAL BETS    Outright
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click team name to drill down to betlist
+    click team link in table    \    main    None    ${report_table_totalbets}    2    2
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
 
 TM_08_ST_TotalBets_HT FT
 

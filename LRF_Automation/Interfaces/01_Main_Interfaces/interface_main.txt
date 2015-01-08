@@ -14,3 +14,15 @@ ${page_size_listbox}    xpath=//select[@class='ui-pg-selbox']    # Page Size lis
 ${close_button_on_popup}    xpath=//span[text()='close']    # Close button on popup.
 ${system_parlay_details_table}    xpath=//table[@class='system-parlay-detail']    # System Parlay table which displays after clicking on Details link.
 ${result_table}    xpath=//table[contains(@class,'fn-rs')]    # Result table in LRF pages
+${user_guide_buton}    xpath=//*[@id='UserGuide']    # User Guide button
+${user_guide_popup}    xpath=//*[@id='UserGuidePopup']    # User Guide popup
+${close_button_user_guide}    xpath=//a[@class='popup-close']    # Close button of User Guide popup
+${single_calendar_picker}    xpath=//*[contains(@id,'Date')]    # Single calendar displays on filter section of LRF pages
+${year_listbox_of_single_calendar}    xpath=//*/div/div/select[2][@data-handler='selectYear']    # Year listbox of single calendar
+${month_listbox_of_single_calendar}    xpath=//*/div/div/select[1][@data-handler='selectMonth']    # Month listbox of single calendar
+${from_calendar_picker}    xpath=//input[@id='FromDate']    # From Calendar picker of from-to calendar control
+${year_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[2][@data-handler='selectYear']    # Year listbox of From calendar
+${month_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of from calendar
+${year_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[2][@data-handler='selectYear']    # Year listbox of To Calendar
+${month_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of To calendar
+${ok_button_of_from_to_calendar}    xpath=//div/button[text()='OK']    # OK button of From-To calendar

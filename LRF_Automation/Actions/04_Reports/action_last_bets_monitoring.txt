@@ -1,0 +1,68 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+select showhide listbox in last bets
+    [Arguments]    ${platform}    ${system id}    ${external id}    ${trans time}    ${choice}    ${odds}
+    ...    ${stake}    ${status}
+    [Documentation]    This action is used to select checkbox inside Show/hide listbox of Last Bets Monitoring page.
+    ...
+    ...    Input *"check"* or *"uncheck"* to work with your selected checkboxes.
+    ...
+    ...    Example:
+    ...
+    ...    select showhide listbox in last bets | check | check | check | check | uncheck | check | uncheck | check
+    Select Window
+    Select Frame    main
+    # Click listbox to open it
+    Click Element    ${show_hide_listbox_last_bets}
+    # Select state for Platform checkbox
+    Run Keyword If    '${platform}'=='uncheck'    select checkbox state    Platform    ${platform}
+    Run Keyword If    '${platform}'!='uncheck'    select checkbox state    Platform    ${platform}
+    # Select state for System ID checkbox
+    Run Keyword If    '${system id}'=='uncheck'    select checkbox state    System ID    ${system id}
+    Run Keyword If    '${system id}'!='uncheck'    select checkbox state    System ID    ${system id}
+    # Select state for External ID checkbox
+    Run Keyword If    '${external id}'=='uncheck'    select checkbox state    External ID    ${external id}
+    Run Keyword If    '${external id}'!='uncheck'    select checkbox state    External ID    ${external id}
+    # Select state for Trans. Time checkbox
+    Run Keyword If    '${trans time}'=='uncheck'    select checkbox state    Trans.Time    ${trans time}
+    Run Keyword If    '${trans time}'!='uncheck'    select checkbox state    Trans.Time    ${trans time}
+    # Select state for Choice checkbox
+    Run Keyword If    '${choice}'=='uncheck'    select checkbox state    Choice    ${choice}
+    Run Keyword If    '${choice}'!='uncheck'    select checkbox state    Choice    ${choice}
+    # Select state for Odds checkbox
+    Run Keyword If    '${odds}'=='uncheck'    select checkbox state    Odds    ${odds}
+    Run Keyword If    '${odds}'!='uncheck'    select checkbox state    Odds    ${odds}
+    # Select state for Stake checkbox
+    Run Keyword If    '${stake}'=='uncheck'    select checkbox state    Stake    ${stake}
+    Run Keyword If    '${stake}'!='uncheck'    select checkbox state    Stake    ${stake}
+    # Select state for Status checkbox
+    Run Keyword If    '${status}'=='uncheck'    select checkbox state    Status    ${status}
+    Run Keyword If    '${status}'!='uncheck'    select checkbox state    Status    ${status}
+    # Click listbox again to close it
+    Click Element    ${show_hide_listbox_last_bets}
+    Unselect Frame
+
+submit filters for last bets monitoring
+    [Arguments]    ${from stake}    ${to stake}    ${last}
+    [Documentation]    This action is used to submit the filters in Last Bets Monitoring page.
+    ...
+    ...    ${last} = *10* or *20* or *30*
+    ...
+    ...    Example: Select filter stake from 1 to 100, last 30 tickets. Then click Submit button
+    ...
+    ...    submit filters for last bet monitoring | 1 | 100 | 30
+    Select Window
+    Select Frame    main
+    # Enter data into Stake From and To
+    Input Text    ${stake_from_textbox}    ${from stake}
+    Input Text    ${stake_to_textbox}    ${to stake}
+    # Click Last's number
+    Click Element    xpath=//input[@class='limit-row' and @value='${last}']
+    # Click Submit button
+    Click Element    ${submit_button_last_bets}
+    Unselect Frame

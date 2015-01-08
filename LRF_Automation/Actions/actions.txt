@@ -127,65 +127,6 @@ filtering match win loss
     Click Element    id=SubmitButton
     sleep    3s
 
-select date range
-    [Arguments]    ${from}    ${to}    # format = mmm/dd/yyyy \ (ex:Oct/05/2013)
-    Sleep    2s
-    Select Window
-    Select Frame    main
-    # split specific date
-    ${dd1}=    Get Slice From List    ${from}    4    6
-    ${dd11}=    Get Slice From List    ${dd1}    0    1
-    ${dd12}=    Get Slice From List    ${dd1}    1    2
-    Run Keyword If    '${dd11}'=='0'    Set Test Variable    ${dd1}    ${dd12}
-    ${mm1}=    Get Slice From List    ${from}    0    3
-    ${yyyy1}=    Get Slice From List    ${from}    7    11
-    ${dd2}=    Get Slice From List    ${to}    4    6
-    ${dd21}=    Get Slice From List    ${dd2}    0    1
-    ${dd22}=    Get Slice From List    ${dd2}    1    2
-    Run Keyword If    '${dd21}'=='0'    Set Test Variable    ${dd2}    ${dd22}
-    ${mm2}=    Get Slice From List    ${to}    0    3
-    ${yyyy2}=    Get Slice From List    ${to}    7    11
-    Click Element    id=FromDate
-    sleep    3s
-    Wait Until Page Contains Element    xpath=//*/div[1]/div[1]/div/div/select[1][@data-handler='selectMonth']
-    ${dd11}=    Get Slice From List    ${dd1}    0    1
-    #From date
-    Select From List By Label    xpath=//*/div[1]/div[1]/div/div/select[1][@data-handler='selectMonth']    ${mm1}
-    Select From List By Value    xpath=//*/div[1]/div[1]/div/div/select[2][@data-handler='selectYear']    ${yyyy1}
-    Click Element    xpath=//*/div[1]/div[1]/table[1]/tbody/tr/td/a[text()='${dd1}'][contains(@class,'ui-state-default')]
-    # to date
-    Select From List By Label    xpath=//*/div[2]/div[1]/div/div/select[1][@data-handler='selectMonth']    ${mm2}
-    Select From List By Value    xpath=//*/div[2]/div[1]/div/div/select[2][@data-handler='selectYear']    ${yyyy2}
-    Click Element    xpath=//*/div[2]/div[1]/table[1]/tbody/tr/td/a[text()='${dd2}'][contains(@class,'ui-state-default')]
-    Click Element    xpath=//*/button[text()='OK']
-
-select specific date
-    [Arguments]    ${date}
-    # split specific date
-    ${dd1}=    Get Slice From List    ${date}    4    6
-    ${dd11}=    Get Slice From List    ${dd1}    0    1
-    ${dd12}=    Get Slice From List    ${dd1}    1    2
-    Run Keyword If    '${dd11}'=='0'    Set Test Variable    ${dd1}    ${dd12}
-    Click Element    xpath=//*[contains(@id,'Date')]
-    sleep    3s
-    ${mm1}=    Get Slice From List    ${date}    0    3
-    ${yyyy1}=    Get Slice From List    ${date}    7    11
-    Select From List By Label    xpath=//*/div/div/select[1][@data-handler='selectMonth']    ${mm1}
-    Select From List By Value    xpath=//*/div/div/select[2][@data-handler='selectYear']    ${yyyy1}
-    Click Element    xpath=//*/a[contains(@class,'ui-state-default')][text()='${dd1}']
-
-conver date format
-    [Arguments]    ${input}    # format input = yyyy-mm-dd
-    ${yyyy}=    Get Slice From List    ${input}    0    4
-    ${mm}=    Get Slice From List    ${input}    5    7
-    ${dd}=    Get Slice From List    ${input}    8    10
-    ${mm}=    Set Variable If    '${mm}'=='01'    Jan    '${mm}'=='02'    Feb    '${mm}'=='03'
-    ...    Mar    '${mm}'=='04'    Apr    '${mm}'=='05'    May    '${mm}'=='06'
-    ...    Jun    '${mm}'=='07'    Jul    '${mm}'=='08'    Aug    '${mm}'=='09'
-    ...    Sep    '${mm}'=='10'    Oct    '${mm}'=='11'    Nov    '${mm}'=='12'
-    ...    Dec
-    Set Test Variable    ${output}    ${mm}/${dd}/${yyyy}
-
 filtering daily bet list
     [Arguments]    ${date}    ${currency}    ${based}    ${product}    ${status}
     Sleep    2s
@@ -388,10 +329,3 @@ check sort number
     Comment    ${c}=    Fetch From Left    ${c}    .
     Comment    ${b}=    Replace String    ${b}    ,    ${EMPTY}
     Comment    ${c}=    Replace String    ${c}    ,    ${EMPTY}
-
-wait page load
-    Select Window
-    Select Frame    main
-    ${loading_status}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@class='loading'][@style='display: block;']
-    Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    100s
-    Unselect Frame

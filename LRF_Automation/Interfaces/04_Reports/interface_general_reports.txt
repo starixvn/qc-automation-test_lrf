@@ -1,0 +1,8 @@
+*** Variables ***
+${daily_radio_button}    xpath=//*[@id='reportbydaily']    # Daily radio button of the filter 'Report By'
+${monthly_radio_button}    xpath=//*[@id='reportbymonthly']    # Monthly radio button of the filter 'Report By'
+${normal_radio_button}    xpath=//*[@id='DrawFilter']    # Normal radio button of the filter 'Draw filter'
+${no_draws_radio_button}    xpath=//*[@id='DrawFilterNoDraw']    # No Draws radio button of the filter 'Draw filter'
+${no_draws_for_turnover_radio_button}    xpath=//*[@id='DrawFilterNoDrawsForTurnoverOnly']    # No Draws For Turnover Only radio button of the filter 'Draw filter'
+${yes_radio_button_exclude_data}    xpath=//*[@id='IsExcludedTestData0']    # Yes radio button of the filter 'Exclude Test Data'
+${no_radio_button_exclude_data}    xpath=//*[@id='IsExcludedTestData1']    # No radio button of the filter 'Exclude Test Data'

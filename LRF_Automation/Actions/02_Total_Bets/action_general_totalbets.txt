@@ -17,8 +17,96 @@ submit filters for totalbets
     Select Window
     Select Frame    main
     Run Keyword If    '${countdown time}'!='None'    select count down refresh time    ${countdown time}
-    Run Keyword If    '${licensee type}'!='None'    Select From List By Label    ${type_listbox}    ${licensee type}
+    ${ac_type_status}=    Run Keyword And Return Status    Page Should Contain Element    ${type_listbox}
+    Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
     Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     Click Element    ${submit_button}
+    Unselect Frame
+
+click number link in table by row
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${from column}
+    ...    ${to column}
+    [Documentation]    This action will try to find the first number link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed from 4th row, 2rd column to 10th column. Then click it.
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 4 | 2 | 10
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | None | ${report_table} | 4 | 2 | 10
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the range of columns. If existed, click on it
+    : FOR    ${ac_index}    IN RANGE    ${from column}    ${to column}+1
+    \    ${ac_numberlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
+    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
+    \    Exit For Loop If    '${ac_numberlink_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to column}' and '${ac_numberlink_status}'!='True'    Pass Execution    There is no link at this moment.
+    Unselect Frame
+
+click number link in table by column
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${from row}    ${to row}
+    ...    ${column}
+    [Documentation]    This action will try to find the first number link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed from 2rd row to 10th row, 4th column. Then click it.
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 10 | 4
+    ...
+    ...    click number link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 10 | 4
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.2
+    # Find link in the range of columns. If existed, click on it
+    : FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
+    \    ${ac_numberlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'-number')]/span
+    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Click Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'-number')]/span
+    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Set Selenium Speed    ${cf_speed}
+    \    Exit For Loop If    '${ac_numberlink_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_numberlink_status}'!='True'    Set Selenium Speed    ${cf_speed}
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_numberlink_status}'!='True'    Pass Execution    There is no link at this moment.
+    Unselect Frame
+
+click plus button in table by column
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${from row}    ${to row}
+    ...    ${column}
+    [Documentation]    This action will try to find the first plus button inside a table. If the button is existed, we'll click it.
+    ...
+    ...    Example: Find if plus button existed from 2nd row to 10th row, at 4th column. Then click it.
+    ...
+    ...    click plus button in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 10 | 4
+    ...
+    ...    click plus button in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 10 | 4
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.2
+    # Find plus button in the range of columns. If existed, click on it
+    : FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
+    \    ${ac_plusbutton_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'button-add')]
+    \    Run Keyword If    '${ac_plusbutton_status}'=='True'    Click Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'button-add')]
+    \    Run Keyword If    '${ac_plusbutton_status}'=='True'    Set Selenium Speed    ${cf_speed}
+    \    Exit For Loop If    '${ac_plusbutton_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_plusbutton_status}'!='True'    Set Selenium Speed    ${cf_speed}
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_plusbutton_status}'!='True'    Pass Execution    There is no link found in the table.
+    Unselect Frame
+
+click team link in table
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the team link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
+    ...
+    ...    click team link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
+    ...
+    ...    click team link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_teamlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
+    Run Keyword If    '${ac_teamlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
+    Run Keyword If    '${ac_teamlink_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame

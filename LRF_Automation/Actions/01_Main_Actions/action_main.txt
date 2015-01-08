@@ -13,7 +13,8 @@ Resource          ../../Interfaces/02_Total_Bets/interface_general_totalbets.txt
 config
     [Documentation]    This action is used to set default configuration for entire scripts.
     # Set Timing
-    Set Selenium Speed    0.4
+    Set Suite Variable    ${cf_speed}    0.4
+    Set Selenium Speed    ${cf_speed}
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    ff
@@ -34,6 +35,27 @@ login
     #manual input capcha
     Pause Execution    Please enter capcha number then click OK
     Click button    ${login_button}
+
+convert date format
+    [Arguments]    ${input date}
+    [Documentation]    This action is used to convert date from 'YYYY-MM-DD' format into 'MMM-DD-YYYY' format.
+    ...
+    ...    Example: Convert '2014-01-31' into 'Jan-31-2014'
+    ...
+    ...    ${variable}= | convert date format | 2014-01-31
+    # Cut year, month, date from input date
+    ${yyyy}=    Get Slice From List    ${input date}    0    4
+    ${mm}=    Get Slice From List    ${input date}    5    7
+    ${dd}=    Get Slice From List    ${input date}    8    10
+    # Convert month from number into text
+    ${mm}=    Set Variable If    '${mm}'=='01'    Jan    '${mm}'=='02'    Feb    '${mm}'=='03'
+    ...    Mar    '${mm}'=='04'    Apr    '${mm}'=='05'    May    '${mm}'=='06'
+    ...    Jun    '${mm}'=='07'    Jul    '${mm}'=='08'    Aug    '${mm}'=='09'
+    ...    Sep    '${mm}'=='10'    Oct    '${mm}'=='11'    Nov    '${mm}'=='12'
+    ...    Dec
+    # Return converted date
+    ${output date}=    Set Variable    ${mm}/${dd}/${yyyy}
+    [Return]    ${output date}
 
 select count down refresh time
     [Arguments]    ${selected time}
@@ -60,11 +82,158 @@ select licensee
     Select From List By Label    ${licensee_listbox}    ${licensee name}
     Unselect Frame
 
+select checkbox state
+    [Arguments]    ${checkbox name}    ${state}
+    [Documentation]    This action is used to select state of a checkbox.
+    ...
+    ...    state = *"check"* or *"uncheck"*
+    ...
+    ...    Example:
+    ...
+    ...    select checkbox state | Platform | check
+    Wait Until Element Is Visible    xpath=//label[contains(text(),'${checkbox name}')]/input[@type='checkbox']    10s
+    Run Keyword If    '${state}'=='check'    Select Checkbox    xpath=//label[contains(text(),'${checkbox name}')]/input[@type='checkbox']
+    Run Keyword If    '${state}'=='uncheck'    Unselect Checkbox    xpath=//label[contains(text(),'${checkbox name}')]/input[@type='checkbox']
+
+select date range
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${from}    ${to}
+    [Documentation]    This action is used to select date of from-to calendar.
+    ...
+    ...    Example:
+    ...
+    ...    select date range | ${window title} | ${main frame} | ${sub frame} | Dec-31-2014 | Jan-02-2015
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # split day-month-year of from date
+    ${from}=    convert date format    ${from}
+    ${dd1}=    Get Slice From List    ${from}    4    6
+    ${dd11}=    Get Slice From List    ${dd1}    0    1
+    ${dd12}=    Get Slice From List    ${dd1}    1    2
+    Run Keyword If    '${dd11}'=='0'    Set Test Variable    ${dd1}    ${dd12}
+    ${mm1}=    Get Slice From List    ${from}    0    3
+    ${yyyy1}=    Get Slice From List    ${from}    7    11
+    # split day-month-year of to date
+    ${to}=    convert date format    ${to}
+    ${dd2}=    Get Slice From List    ${to}    4    6
+    ${dd21}=    Get Slice From List    ${dd2}    0    1
+    ${dd22}=    Get Slice From List    ${dd2}    1    2
+    Run Keyword If    '${dd21}'=='0'    Set Test Variable    ${dd2}    ${dd22}
+    ${mm2}=    Get Slice From List    ${to}    0    3
+    ${yyyy2}=    Get Slice From List    ${to}    7    11
+    # click calendar picker to open calendar
+    Click Element    ${from_calendar_picker}
+    # select year-month in From calendar
+    Wait Until Page Contains Element    ${year_listbox_of_from_calendar}
+    Select From List By Value    ${year_listbox_of_from_calendar}    ${yyyy1}
+    Select From List By Label    ${month_listbox_of_from_calendar}    ${mm1}
+    # click day in From calendar
+    Click Element    xpath=//*/div[1]/div[1]/table[1]/tbody/tr/td/a[text()='${dd1}'][contains(@class,'ui-state-default')]
+    # select year-month in To calendar
+    Select From List By Value    ${year_listbox_of_to_calendar}    ${yyyy2}
+    Select From List By Label    ${month_listbox_of_to_calendar}    ${mm2}
+    # click day in To calendar
+    Click Element    xpath=//*/div[2]/div[1]/table[1]/tbody/tr/td/a[text()='${dd2}'][contains(@class,'ui-state-default')]
+    # click OK button
+    Click Element    ${ok_button_of_from_to_calendar}
+
+select specific date
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${date}
+    [Documentation]    This action is used to select date of single calendar.
+    ...
+    ...    Example:
+    ...
+    ...    select specific date | ${window title} | ${main frame} | ${sub frame} | Dec-31-2014
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # split specific date
+    ${date}=    convert date format    ${date}
+    ${dd1}=    Get Slice From List    ${date}    4    6
+    ${dd11}=    Get Slice From List    ${dd1}    0    1
+    ${dd12}=    Get Slice From List    ${dd1}    1    2
+    # if getting number in format '0X', we convert it into format 'X'
+    Run Keyword If    '${dd11}'=='0'    Set Test Variable    ${dd1}    ${dd12}
+    # click single calendar picker
+    Click Element    ${single_calendar_picker}
+    # select year in listbox
+    Wait Until Element Is Visible    ${year_listbox_of_single_calendar}    10s
+    ${yyyy1}=    Get Slice From List    ${date}    7    11
+    Select From List By Value    ${year_listbox_of_single_calendar}    ${yyyy1}
+    # select month in listbox
+    Wait Until Element Is Visible    ${month_listbox_of_single_calendar}    10s
+    ${mm1}=    Get Slice From List    ${date}    0    3
+    Select From List By Label    ${month_listbox_of_single_calendar}    ${mm1}
+    # click date link
+    Click Element    xpath=//*/a[contains(@class,'ui-state-default')][text()='${dd1}']
+
+select products filter
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    This action is used to select product's checkboxes.
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    select products filter | All
+    ...
+    ...    select products filter | Sportsbook, Racing
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${product}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${product}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${product}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
+    Run Keyword If    '${product}'=='All'    Select Checkbox    id=ALLProducts
+    Run Keyword If    '${SB}'=='True'    Select Checkbox    xpath=//*[@data-product-code='SB'][@type='checkbox']
+    Run Keyword If    '${RB}'=='True'    Select Checkbox    xpath=//*[@data-product-code='RB'][@type='checkbox']
+    Run Keyword If    '${NG}'=='True'    Select Checkbox    xpath=//*[@data-product-code='NG'][@type='checkbox']
+    Run Keyword If    '${BA}'=='True'    Select Checkbox    xpath=//*[@data-product-code='BA'][@type='checkbox']
+    Run Keyword If    '${LC}'=='True'    Select Checkbox    xpath=//*[@data-product-code='LC'][@type='checkbox']
+    Run Keyword If    '${VS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='VS'][@type='checkbox']
+    Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
+    Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
+
+unselect products filter
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    This action is used to unselect product's checkboxes.
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    unselect products filter | All
+    ...
+    ...    unselect products filter | Sportsbook, Racing
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${product}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${product}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${product}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
+    Run Keyword If    '${product}'=='All'    Unselect Checkbox    id=ALLProducts
+    Run Keyword If    '${SB}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='SB'][@type='checkbox']
+    Run Keyword If    '${RB}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='RB'][@type='checkbox']
+    Run Keyword If    '${NG}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='NG'][@type='checkbox']
+    Run Keyword If    '${BA}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='BA'][@type='checkbox']
+    Run Keyword If    '${LC}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='LC'][@type='checkbox']
+    Run Keyword If    '${VS}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='VS'][@type='checkbox']
+    Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
+    Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
+
 navigate left menu
     [Arguments]    ${mainmenu}    ${submenu}
     [Documentation]    Give "Main Menu" name and "Sub Menu" name that you want to navigate.
-    ...
-    ...    If Main Menu is already opened and you didn't want to click again, please input "None".
     ...
     ...    Example:
     ...
@@ -73,95 +242,15 @@ navigate left menu
     ...    navigate left menu | None | Correct Score
     Select Window
     Select Frame    menu
-    # Click Main Menu label if needed
-    Run Keyword If    '${mainmenu}'!='None'    Click Element    xpath=//span[contains(text(),'${mainmenu}')]
+    # Click Main Menu label
+    ${ac_submenu_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(@id,'child-menu')][contains(text(),'${submenu}')]
+    Run Keyword If    '${ac_submenu_status}'!='True'    Click Element    xpath=//span[contains(text(),'${mainmenu}')]
     # Click Sub Menu label
     # Handle special case: click duplicated labels "Handicap/Over Under/Live"
     ${ac_status}=    Evaluate    '${mainmenu}'=='FORECAST' and '${submenu}'=='Handicap/Over Under/Live'
     Run Keyword If    '${ac_status}'=='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}') and contains(@href,'Forecast')]
     # Handle normal case
     Run Keyword If    '${ac_status}'!='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}')]
-    Unselect Frame
-
-click number link in table by row
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${from column}
-    ...    ${to column}
-    [Documentation]    This action will try to find the first number link inside a table. If the link is existed, we'll click it.
-    ...
-    ...    Example: Find if link existed from 4th row, 2rd column to 10th column. Then click it.
-    ...
-    ...    click number link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 4 | 2 | 10
-    ...
-    ...    click number link in table | ${window title} | ${main frame} | None | ${report_table} | 4 | 2 | 10
-    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
-    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
-    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    # Find link in the range of columns. If existed, click on it
-    :FOR    ${ac_index}    IN RANGE    ${from column}    ${to column}+1
-    \    ${ac_numberlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
-    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${ac_index}]/a[contains(@class,'-number')]/span
-    \    Exit For Loop If    '${ac_numberlink_status}'=='True'
-    \    Run Keyword If    '${ac_index}'=='${to column}' and '${ac_numberlink_status}'!='True'    Pass Execution    There is no link at this moment.
-    Unselect Frame
-
-click number link in table by column
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${from row}    ${to row}
-    ...    ${column}
-    [Documentation]    This action will try to find the first number link inside a table. If the link is existed, we'll click it.
-    ...
-    ...    Example: Find if link existed from 2rd row to 10th row, 4th column. Then click it.
-    ...
-    ...    click number link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 10 | 4
-    ...
-    ...    click number link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 10 | 4
-    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
-    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
-    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    # Find link in the range of columns. If existed, click on it
-    : FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
-    \    ${ac_numberlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'-number')]/span
-    \    Run Keyword If    '${ac_numberlink_status}'=='True'    Click Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'-number')]/span
-    \    Exit For Loop If    '${ac_numberlink_status}'=='True'
-    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_numberlink_status}'!='True'    Pass Execution    There is no link at this moment.
-    Unselect Frame
-
-click plus button in table by column
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${from row}    ${to row}
-    ...    ${column}
-    [Documentation]    This action will try to find the first plus button inside a table. If the button is existed, we'll click it.
-    ...
-    ...    Example: Find if plus button existed from 2nd row to 10th row, at 4th column. Then click it.
-    ...
-    ...    click plus button in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 10 | 4
-    ...
-    ...    click plus button in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 10 | 4
-    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
-    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
-    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    # Find plus button in the range of columns. If existed, click on it
-    : FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
-    \    ${ac_plusbutton_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'button-add')]
-    \    Run Keyword If    '${ac_plusbutton_status}'=='True'    Click Element    ${table}/tbody/tr[${ac_index}]/td[${column}]/a[contains(@class,'button-add')]
-    \    Exit For Loop If    '${ac_plusbutton_status}'=='True'
-    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_plusbutton_status}'!='True'    Pass Execution    There is no link found in the table.
-    Unselect Frame
-
-click team link in table
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
-    [Documentation]    This action will try to find the team link inside a table. If the link is existed, we'll click it.
-    ...
-    ...    Example: Find if link existed at 2nd row, 3rd column. Then click it.
-    ...
-    ...    click team link in table | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 2 | 3
-    ...
-    ...    click team link in table | ${window title} | ${main frame} | None | ${report_table} | 2 | 3
-    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
-    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
-    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    # Find link in the columns. If existed, click on it
-    ${ac_teamlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
-    Run Keyword If    '${ac_teamlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(@class,'team')]
-    Run Keyword If    '${ac_teamlink_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
 
 click element on report
@@ -254,13 +343,13 @@ click result link in ticket
     Run Keyword If    '${ac_results_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
 
-click link
+click link on report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${link text}
     [Documentation]    This action is used to click on a link.
     ...
     ...    Example: Clicking on Bet List link
     ...
-    ...    click link | ${window title} | ${main frame} | ${sub frame} | Bet List
+    ...    click link on report | ${window title} | ${main frame} | ${sub frame} | Bet List
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
@@ -268,7 +357,7 @@ click link
     Unselect Frame
 
 check export excel function
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${waiting time}    ${checked file name}
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checked file name}
     [Documentation]    This action is used to check Export To Excel function.
     ...
     ...    Example: Check file 'RunningBetList.xls' existed after exporting sucessfully. And exporting file need 5 seconds to be saved.
@@ -278,7 +367,7 @@ check export excel function
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     Click Element    ${export_to_excel_button}
-    Sleep    ${waiting time}
+    wait for export file    ${cf_export_dir}${checked file name}
     Run Keyword And Continue On Failure    File Should Exist    ${cf_export_dir}${checked file name}
     Remove File    ${cf_export_dir}${checked file name}
     Unselect Frame
@@ -319,4 +408,36 @@ check status of parlay ticket
     # Check parlay ticket is expanding or collapsing
     Run Keyword If    '${status}'=='collapse'    Run Keyword And Continue On Failure    Element Should Not Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/div/div[@class='bettype']
     Run Keyword If    '${status}'=='expand'    Run Keyword And Continue On Failure    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/div/div[@class='bettype']
+    Unselect Frame
+
+check table header existence
+    [Arguments]    ${table}    ${row}    ${header title}    ${state}
+    [Documentation]    This action is used to check a header title is existed or not inside a table.
+    ...
+    ...    ${state} = *exist* or *not exist*
+    ...
+    ...    Example: Check "Choice" header column at 1st row is not existed.
+    ...
+    ...    check table header existence | ${table} | 1 | Choice | not exist
+    Select Window
+    Select Frame    main
+    # Check header's existence
+    Run Keyword If    '${state}'=='exist'    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[contains(text(),'${header title}')]
+    Run Keyword If    '${state}'=='not exist'    Element Should Not Be Visible    ${table}/tbody/tr[${row}]/td[contains(text(),'${header title}')]
+    Unselect Frame
+
+wait for export file
+    [Arguments]    ${filepath}
+    [Documentation]    This action is used to wait for a export file.
+    : FOR    ${ac_index}    IN RANGE    0    50
+    \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
+    \    Run Keyword If    '${ac_exist}'!='True'    sleep    2s
+    \    Exit For Loop If    '${ac_index}'==50 or '${ac_exist}'=='True'
+
+wait page load
+    [Documentation]    Used to wait when the frame is loading.
+    Select Window
+    Select Frame    main
+    ${loading_status}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@class='loading'][@style='display: block;']
+    Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    90s
     Unselect Frame
