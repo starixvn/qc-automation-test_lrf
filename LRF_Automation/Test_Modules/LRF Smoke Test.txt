@@ -24,6 +24,9 @@ Resource          ../Actions/04_Reports/action_general_reports.txt
 Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
 Resource          ../Actions/04_Reports/action_match_win_loss.txt
 Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
 
 *** Test Cases ***
 TM_00_ST_Start web

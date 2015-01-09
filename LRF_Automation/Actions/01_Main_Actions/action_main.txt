@@ -426,13 +426,26 @@ check table header existence
     Run Keyword If    '${state}'=='not exist'    Element Should Not Be Visible    ${table}/tbody/tr[${row}]/td[contains(text(),'${header title}')]
     Unselect Frame
 
+check result popup exist
+    [Arguments]    ${window title}    ${main frame}    ${1st sub frame}    ${2nd sub frame}
+    [Documentation]    This action is used to check Results popup exist or not through a few sub frame.
+    ...
+    ...    Example:
+    ...
+    ...    check result popup exist | title=LRF-Licensee Win Loss | main | BetList | ResultPopup
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${1st sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${1st sub frame}')]
+    Run Keyword If    '${2nd sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${2nd sub frame}')]
+    Run Keyword And Continue On Failure    Element Should Be Visible    ${result_table}
+
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
-    : FOR    ${ac_index}    IN RANGE    0    50
+    : FOR    ${ac_index}    IN RANGE    0    30
     \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
     \    Run Keyword If    '${ac_exist}'!='True'    sleep    2s
-    \    Exit For Loop If    '${ac_index}'==50 or '${ac_exist}'=='True'
+    \    Exit For Loop If    '${ac_index}'==30 or '${ac_exist}'=='True'
 
 wait page load
     [Documentation]    Used to wait when the frame is loading.

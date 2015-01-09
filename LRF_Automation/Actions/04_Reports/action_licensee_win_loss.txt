@@ -1,0 +1,44 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/04_Reports/interface_general_reports.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+submit filters for licensee win loss
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${report by}    ${draw filter}    ${exclude test data}
+    ...    ${product}
+    [Documentation]    This action is used to submit filters for Licensee Win Loss report and Win Loss By Products report.
+    ...
+    ...    ${report by}= *'Daily'* or *'Monthly'*
+    ...
+    ...    ${draw filter}= *'Normal'* or *'No Draws'* or *'No Draws For Tunrover Only'*
+    ...
+    ...    ${exclude test data}= *'Yes'* or *'No'*
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for licensee win loss | Dec-01-2014 | Dec-07-2014 | Daily | Normal | Yes | Sportsbook, Keno
+    # select date
+    select date range    \    main    None    ${from date}    ${to date}
+    # select currency
+    Select Window
+    Select Frame    main
+    Select From List By Label    ${currency_listbox}    ${currency}
+    # select Report By
+    Run Keyword If    '${report by}'=='Daily'    Click Element    ${daily_radio_button}
+    Run Keyword If    '${report by}'=='Monthly'    Click Element    ${monthly_radio_button}
+    # select Draw filter
+    Run Keyword If    '${draw filter}'=='Normal'    Click Element    ${normal_radio_button}
+    Run Keyword If    '${draw filter}'=='No Draws'    Click Element    ${no_draws_radio_button}
+    Run Keyword If    '${draw filter}'=='No Draws For Turnover Only'    Click Element    ${no_draws_for_turnover_radio_button}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Click Element    ${yes_radio_button_exclude_data}
+    Run Keyword If    '${exclude test data}'=='No'    Click Element    ${no_radio_button_exclude_data}
+    Unselect Frame
+    # select products
+    select products filter    \    main    None    ${product}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
