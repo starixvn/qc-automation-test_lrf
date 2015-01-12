@@ -19,8 +19,8 @@ config
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    ff
     Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
-    Set Suite Variable    ${cf_ff_profile_dir}    D:\\3 - Automation\\Test Data\\firefox_profile
-    Set Suite Variable    ${cf_export_dir}    D:/
+    Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
+    Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     # Set Global Variables
     Set Suite Variable    ${cf_username}    autQC
     Set Suite Variable    ${cf_password}    1234aa
@@ -56,6 +56,17 @@ convert date format
     # Return converted date
     ${output date}=    Set Variable    ${mm}/${dd}/${yyyy}
     [Return]    ${output date}
+
+create test directory
+    [Arguments]    ${export path}
+    [Documentation]    This action is used to create folder which will contain our exporting files. If the folder is existed, it'll be empty.
+    ...
+    ...    Example:
+    ...
+    ...    create test directory | C:\\Test Data
+    ${result}=    Run Keyword And Return Status    Directory Should Exist    ${export path}
+    Run Keyword If    '${result}'!='true'    Create Directory    ${export path}
+    Run Keyword If    '${result}'=='true'    Empty Directory    ${export path}
 
 select count down refresh time
     [Arguments]    ${selected time}
@@ -366,10 +377,14 @@ check export excel function
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Check to see Folder existed or not. If not, we'll create
+    create test directory    ${cf_export_dir}
+    # Click Export
     Click Element    ${export_to_excel_button}
+    # Check file existed
     wait for export file    ${cf_export_dir}${checked file name}
     Run Keyword And Continue On Failure    File Should Exist    ${cf_export_dir}${checked file name}
-    Remove File    ${cf_export_dir}${checked file name}
+    Empty Directory    ${cf_export_dir}
     Unselect Frame
 
 check element on report

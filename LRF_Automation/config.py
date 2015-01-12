@@ -1,6 +1,0 @@
-Url= 'http://internal.006660.net/'
-cf_username= 'pgmbravo'
-cf_pass= '1234xx'
-cf_licensee= 'Bodog'
-cf_language= 'En'
-cf_browser = 'ie'
