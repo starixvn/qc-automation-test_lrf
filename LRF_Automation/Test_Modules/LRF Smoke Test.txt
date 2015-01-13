@@ -263,13 +263,13 @@ TM_04_ST_TotalBets_Correct Score
     navigate left menu    TOTAL BETS    Correct Score
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    CorrectScoreBetlist.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    CorrectScoreBetlist.xls
 
 TM_05_ST_TotalBets_Total Goal
     # 1. Navigate to TOTAL BETS > Total Goal
@@ -280,7 +280,7 @@ TM_05_ST_TotalBets_Total Goal
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # 4. Click team name to drill down to betlist
-    click team link in table    \    main    None    ${report_table_totalbets}    2    2
+    click team link in table    \    main    None    ${report_table_totalbets}    1    2
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
@@ -343,8 +343,30 @@ TM_08_ST_TotalBets_HT FT
 TM_09_ST_TotalBets_FG LG
 
 TM_10_ST_TotalBets_Clean Sheet
+    # 1. Navigate to TOTAL BETS > Clean Sheet
+    navigate left menu    TOTAL BETS    Clean Sheet
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    None    None    None
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
 
 TM_11_ST_TotalBets_Double Chance
+    # 1. Navigate to TOTAL BETS > Double Chance
+    navigate left menu    TOTAL BETS    Double Chance
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    None    None    None
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
 
 TM_12_ST_TotalBets_HomeDrawAway No Bet
 

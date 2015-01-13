@@ -279,6 +279,7 @@ click element on report
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Wait Until Element Is Visible    ${clicked element}
     Click Element    ${clicked element}
     Unselect Frame
 
@@ -381,9 +382,10 @@ check export excel function
     create test directory    ${cf_export_dir}
     # Click Export
     Click Element    ${export_to_excel_button}
+    Sleep    1s
     # Check file existed
     wait for export file    ${cf_export_dir}${checked file name}
-    Run Keyword And Continue On Failure    File Should Exist    ${cf_export_dir}${checked file name}
+    File Should Exist    ${cf_export_dir}${checked file name}
     Empty Directory    ${cf_export_dir}
     Unselect Frame
 
@@ -459,8 +461,9 @@ wait for export file
     [Documentation]    This action is used to wait for a export file.
     : FOR    ${ac_index}    IN RANGE    0    30
     \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
-    \    Run Keyword If    '${ac_exist}'!='True'    sleep    2s
-    \    Exit For Loop If    '${ac_index}'==30 or '${ac_exist}'=='True'
+    \    ${ac_saving}    Run Keyword And Return Status    File Should Exist    ${filepath}.part
+    \    Run Keyword If    '${ac_exist}'!='True' or '${ac_saving}'=='True'    sleep    2s
+    \    Exit For Loop If    '${ac_index}'==30 or ('${ac_exist}'=='True' and '${ac_saving}'!='True')
 
 wait page load
     [Documentation]    Used to wait when the frame is loading.
