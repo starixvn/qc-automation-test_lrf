@@ -20,3 +20,4 @@ submit filters for win loss by bettype
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     Click Element    ${submit_button}
     Unselect Frame
+    wait page load

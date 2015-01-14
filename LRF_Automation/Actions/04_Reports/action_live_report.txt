@@ -1,0 +1,47 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_live_report.txt
+
+*** Keywords ***
+submit filters for live report
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${based}    ${live status}
+    [Documentation]    This action is used to submit filters for Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for live report | Dec-01-2014 | Dec-03-2014 | \ ALL | EUR | Live
+    # select date
+    select date range    \    main    None    ${from date}    ${to date}
+    # select currency, based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select live status
+    Select From List By Label    ${live_status_listbox}    ${live status}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button_live_report}
+    wait page load
+
+submit filters for history live report
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${based}
+    ...    ${live status}
+    [Documentation]    This action is used to submit filters for Live Report history report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for history live report | None | None | None | None | CNY | USD | Live
+    # select currency, based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select live status
+    Select From List By Label    ${live_status_listbox}    ${live status}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button_live_report}
+    wait page load

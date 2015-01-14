@@ -14,7 +14,7 @@ ${page_size_listbox}    xpath=//select[@class='ui-pg-selbox']    # Page Size lis
 ${close_button_on_popup}    xpath=//span[text()='close']    # Close button on popup.
 ${system_parlay_details_table}    xpath=//table[@class='system-parlay-detail']    # System Parlay table which displays after clicking on Details link.
 ${result_table}    xpath=//table[contains(@class,'fn-rs')]    # Result table in LRF pages
-${user_guide_buton}    xpath=//*[@id='UserGuide']    # User Guide button
+${user_guide_button}    xpath=//*[@id='UserGuide']    # User Guide button
 ${user_guide_popup}    xpath=//*[@id='UserGuidePopup']    # User Guide popup
 ${close_button_user_guide}    xpath=//a[@class='popup-close']    # Close button of User Guide popup
 ${single_calendar_picker}    xpath=//*[contains(@id,'Date')]    # Single calendar displays on filter section of LRF pages

@@ -27,6 +27,7 @@ submit filters for match win loss
     select products filter    \    main    None    ${product}
     # click Submit button
     click element on report    \    main    None    ${submit_button}
+    wait page load
 
 click match link of match win loss
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}

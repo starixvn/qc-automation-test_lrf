@@ -24,6 +24,7 @@ submit filters for totalbets
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     Click Element    ${submit_button}
     Unselect Frame
+    wait page load
 
 click number link in table by row
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${from column}

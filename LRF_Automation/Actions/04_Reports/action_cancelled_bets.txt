@@ -1,0 +1,28 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_cancelled_bets.txt
+
+*** Keywords ***
+submit filters for cancelled bets
+    [Arguments]    ${licensee type}    ${currency}    ${based}    ${external id index}
+    [Documentation]    This action is used to submit filters for Cancelled Bets report.
+    ...
+    ...    Example: select Normal type, ALL currency, EUR based, 2nd option in External ID listbox then submit
+    ...
+    ...    submit filters for cancelled bets | normal | ALL | EUR | 2
+    Select Window
+    Select Frame    main
+    # select Type, Currency, Based
+    ${ac_type_status}=    Run Keyword And Return Status    Page Should Contain Element    ${type_listbox}
+    Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select external ID based on its index
+    Select From List By Index    ${external_id_listbox_cancelled_bets}    ${external id index}
+    wait page load
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

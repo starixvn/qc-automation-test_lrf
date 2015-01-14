@@ -2,25 +2,29 @@
 Library           Selenium2Library
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../01_Main_Actions/action_main.txt
 
 *** Keywords ***
 submit filters for forecast
-    [Arguments]    ${type}    ${league index}    ${league loading time}    ${currency}    ${based}
+    [Arguments]    ${type}    ${league index}    ${currency}    ${based}
     [Documentation]    This action is used to select filters in Forecast page then click on Submit button.
     ...
     ...    If you don't want to select any of them, just input 'None'
     ...
     ...    Example:
     ...
-    ...    submit filter for total bets | normal | 1 | 5s | CNY | EUR
+    ...    submit filter for total bets | normal | 1 | CNY | EUR
     ...
-    ...    submit filter for total bets | normal | None | 1s | CNY | EUR
+    ...    submit filter for total bets | normal | None | CNY | EUR
     Select Window
     Select Frame    main
     Run Keyword If    '${type}'!='None'    Select From List By Label    ${type_listbox}    ${type}
     Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_forecast}    ${league index}
-    Run Keyword If    '${league loading time}'!='None'    Sleep    ${league loading time}
+    wait page load
+    Select Window
+    Select Frame    main
     Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     Click Element    ${submit_button}
     Unselect Frame
+    wait page load

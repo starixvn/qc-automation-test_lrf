@@ -66,3 +66,4 @@ submit filters for last bets monitoring
     # Click Submit button
     Click Element    ${submit_button_last_bets}
     Unselect Frame
+    wait page load

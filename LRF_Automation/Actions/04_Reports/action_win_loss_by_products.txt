@@ -43,3 +43,4 @@ submit filters for win loss by products
     select products filter    \    main    None    ${product}
     # click Submit button
     click element on report    \    main    None    ${submit_button}
+    wait page load

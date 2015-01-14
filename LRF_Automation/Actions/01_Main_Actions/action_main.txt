@@ -456,6 +456,12 @@ check result popup exist
     Run Keyword If    '${2nd sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${2nd sub frame}')]
     Run Keyword And Continue On Failure    Element Should Be Visible    ${result_table}
 
+check user guide popup
+    [Documentation]    This action is used to check user guide popup existed.
+    click element on report    \    main    None    ${user_guide_button}
+    check element on report    \    main    None    ${user_guide_popup}
+    click element on report    \    main    None    ${close_button_user_guide}
+
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.

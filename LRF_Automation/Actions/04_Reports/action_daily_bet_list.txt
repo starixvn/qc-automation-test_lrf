@@ -1,0 +1,29 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_daily_bet_list.txt
+
+*** Keywords ***
+submit filters for daily bet list
+    [Arguments]    ${date}    ${currency}    ${based}    ${product}    ${status}
+    [Documentation]    This action is used to submit filters for Daily Bet List report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for daily bet list | Dec-01-2014 | ALL | EUR | Sportsbook | Won
+    # select date
+    select specific date    \    main    None    ${date}
+    # select currency, based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select product
+    Select From List By Label    ${product_listbox_daily_bet_list}    ${product}
+    # select status
+    Select From List By Label    ${status_listbox_daily_bet_list}    ${status}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

@@ -1,0 +1,3 @@
+*** Variables ***
+${product_listbox_daily_bet_list}    xpath=//*[@id='ProductCode']    # Product listbox of Daily Bet List
+${status_listbox_daily_bet_list}    xpath=//*[@id='DailyBetListStatus']    # Status listbox of Daily Bet List page
