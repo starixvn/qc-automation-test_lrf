@@ -463,9 +463,14 @@ check user guide popup
     click element on report    \    main    None    ${close_button_user_guide}
 
 check special case when no info available
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
     [Documentation]    pecial Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     ${ac_no_info_status}=    Run Keyword And Return Status    Element Should Be Visible    ${no_info_label}
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    Unselect Frame
 
 wait for export file
     [Arguments]    ${filepath}
