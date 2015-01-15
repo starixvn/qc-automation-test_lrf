@@ -45,3 +45,42 @@ submit filters for history live report
     # click Submit button
     click element on report    \    main    None    ${submit_button_live_report}
     wait page load
+
+click product link on live report
+    [Arguments]    ${product link}
+    [Documentation]    This action is used to click Summary link (Number Game, Sportsbook, Total, ...) on Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    click product link on live report | Total
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//a[@class='product-detail-link' and contains(text(),'${product link}')]
+    wait page load
+    Unselect Frame
+
+click sport link on live report
+    [Arguments]    ${sport link}
+    [Documentation]    This action is used to click By Sport Type link (Soccer, Basketball, Tennis ...) on Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    click sport link on live report | Soccer
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//a[@class='sport-detailt-link' and contains(text(),'${sport link}')]
+    wait page load
+    Unselect Frame
+
+click match link on live report
+    [Arguments]    ${index}
+    [Documentation]    This action is used to click match link of Live Report report based on index.
+    ...
+    ...    Example: click the link of 2nd match in the list
+    ...
+    ...    click match link on live report | 2
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//div[@class='data-content']/div[${index}]/div[1]/div/a[@class='match-detail-link']
+    wait page load
+    Unselect Frame

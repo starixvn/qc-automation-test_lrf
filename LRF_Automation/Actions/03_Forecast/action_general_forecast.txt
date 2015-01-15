@@ -28,3 +28,15 @@ submit filters for forecast
     Click Element    ${submit_button}
     Unselect Frame
     wait page load
+
+check betlist on forecast report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${export file name}
+    [Documentation]    This action is used to check betlist on Forecast.
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ac_betlist_link}=    Run Keyword And Return Status    Element Should Be Visible    ${bet_list_link}
+    Run Keyword If    '${ac_betlist_link}'=='True'    Click Element    ${bet_list_link}
+    Run Keyword If    '${ac_betlist_link}'=='True'    Element Should Be Visible    ${betlist_table}
+    Run Keyword If    '${ac_betlist_link}'=='True'    check export excel function    ${window title}    ${main frame}    ${sub frame}    ${export file name}
+    Run Keyword If    '${ac_betlist_link}'=='True'    click element on report    ${window title}    ${main frame}    ${sub frame}    ${back_button}

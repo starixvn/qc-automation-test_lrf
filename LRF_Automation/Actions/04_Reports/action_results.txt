@@ -1,0 +1,45 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_results.txt
+
+*** Keywords ***
+submit filters for results
+    [Arguments]    ${date}
+    [Documentation]    This action is used to submit filters for Results page
+    # select date
+    select specific date    \    main    None    ${date}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load
+
+select sport and league by index on results
+    [Arguments]    ${sport index}    ${league index}
+    [Documentation]    This action is used to select Sport and League in Results page based on the index of the values.
+    ...
+    ...    Example: select 1st Sport and 2nd League
+    ...
+    ...    select sport and league by index on results | 1 | 2
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${sport index}'!='None'    Select From List By Index    ${sport_listbox_results}    ${sport index}
+    wait page load
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_results}    ${league index}
+    wait page load
+
+submit filters for keno results
+    [Arguments]    ${category}    ${date}
+    [Documentation]    This action is used to submit filters for Keno Result page.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for keno results | Australia | None
+    Select Window    title=Keno Result
+    # select category
+    Select From List By Label    ${category_listbox_results}    ${category}
+    # click Search button
+    Click Element    ${search_button_results}
+    Wait Until Element Is Visible    ${keno_result_table}

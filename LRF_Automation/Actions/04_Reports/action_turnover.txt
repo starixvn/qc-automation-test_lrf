@@ -1,0 +1,36 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_turnover.txt
+Resource          ../../Interfaces/04_Reports/interface_general_reports.txt
+
+*** Keywords ***
+submit filters for turnover
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${exclude test data}    ${licensee type}
+    ...    ${currency}    ${username}    ${product}
+    [Documentation]    This action is used to submit filters for Turnover report.
+    ...
+    ...    ${exclude test data}= *'Yes'* or *'No'*
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for turnover | None | None | None | None | Yes | normal | Based EUR | qatest01 | Sportsbook, Racing
+    Select Window
+    Select Frame    main
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_turnover}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_test_data_checkbox_turnover}
+    # select Type - Currency
+    ${ac_type_status}=    Run Keyword And Return Status    Element Should Be Visible    ${type_listbox}
+    Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # enter username
+    Input Text    ${username_textbox_turnover}    ${username}
+    # select products
+    select products filter    \    main    None    ${product}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

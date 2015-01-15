@@ -1,0 +1,2 @@
+*** Variables ***
+${exclude_test_data_checkbox_agcasino_winloss}    xpath=//*[@id='IsExcludedTestData']    # Exclude Test Data checkbox of Ag Casino Win Loss report

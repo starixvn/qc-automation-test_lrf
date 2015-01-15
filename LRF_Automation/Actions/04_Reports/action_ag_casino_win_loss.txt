@@ -1,0 +1,26 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_ag_casino_win_loss.txt
+
+*** Keywords ***
+submit filters for ag casino win loss
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${exclude test data}
+    [Documentation]    This action is used to submit filters for AG Casino Win Loss report.
+    ...
+    ...    ${exclude test data}= *'Yes'* or *'No'*
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for ag casino win loss | None | None | None | None | EUR | Yes
+    Select Window
+    Select Frame    main
+    # select Currency
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_agcasino_winloss}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_test_data_checkbox_agcasino_winloss}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

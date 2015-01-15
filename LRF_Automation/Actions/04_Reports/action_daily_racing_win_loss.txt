@@ -16,7 +16,7 @@ submit filters for daily racing win loss
     # select type, currency, based
     Select Window
     Select Frame    main
-    ${ac_type_status}=    Run Keyword And Return Status    Page Should Contain Element    ${type_listbox}
+    ${ac_type_status}=    Run Keyword And Return Status    Element Should Be Visible    ${type_listbox}
     Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
     Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
