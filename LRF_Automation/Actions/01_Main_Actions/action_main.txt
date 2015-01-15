@@ -462,6 +462,11 @@ check user guide popup
     check element on report    \    main    None    ${user_guide_popup}
     click element on report    \    main    None    ${close_button_user_guide}
 
+check special case when no info available
+    [Documentation]    pecial Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Element Should Be Visible    ${no_info_label}
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
