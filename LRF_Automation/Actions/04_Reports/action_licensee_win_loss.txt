@@ -42,3 +42,4 @@ submit filters for licensee win loss
     select products filter    \    main    None    ${product}
     # click Submit button
     click element on report    \    main    None    ${submit_button}
+    wait page load

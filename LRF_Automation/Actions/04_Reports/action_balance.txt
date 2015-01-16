@@ -1,0 +1,29 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_balance.txt
+
+*** Keywords ***
+submit filters for balance
+    [Arguments]    ${licensee type}    ${currency}    ${based}    ${month}    ${year}
+    [Documentation]    This action is used to submit filters for Balance page.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for balance | CNY | EUR | February | 2014
+    Select Window
+    Select Frame    main
+    # select type, currency, based
+    ${ac_type_status}=    Run Keyword And Return Status    Element Should Be Visible    ${type_listbox}
+    Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select month
+    Run Keyword If    '${month}'!='None'    Select From List By Label    ${month_listbox_balance}    ${month}
+    # select year
+    Run Keyword If    '${year}'!='None'    Select From List By Label    ${year_listbox_balance}    ${year}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

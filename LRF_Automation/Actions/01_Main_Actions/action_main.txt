@@ -296,7 +296,7 @@ click mix parlay link in table
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_mixparlay_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(text(),'Mix Parlay')]
+    ${ac_mixparlay_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(text(),'Mix Parlay')]
     Run Keyword If    '${ac_mixparlay_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/a[contains(text(),'Mix Parlay')]
     Run Keyword If    '${ac_mixparlay_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
@@ -314,7 +314,7 @@ click system parlay link in table
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_systemparlay_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'System Parlay')]
+    ${ac_systemparlay_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'System Parlay')]
     Run Keyword If    '${ac_systemparlay_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'System Parlay')]
     Run Keyword If    '${ac_systemparlay_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
@@ -332,7 +332,7 @@ click details link in system parlay ticket
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_details_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'Details')]
+    ${ac_details_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'Details')]
     Run Keyword If    '${ac_details_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div/a[contains(text(),'Details')]
     Run Keyword If    '${ac_details_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
@@ -350,7 +350,7 @@ click result link in ticket
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_results_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
+    ${ac_results_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
     Run Keyword If    '${ac_results_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
     Run Keyword If    '${ac_results_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
