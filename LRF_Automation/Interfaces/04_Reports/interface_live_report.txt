@@ -1,4 +1,4 @@
 *** Variables ***
 ${live_status_listbox}    xpath=//*[@id='LiveIndicator']    # Live Status listbox of Live Report page
-${history_report_link}    xpath=//*[@id='switchreport']    # 'Please click to view history report' link of Live Report page
+${history_report_link_live_report}    xpath=//*[@id='switchreport']    # 'Please click to view history report' link of Live Report page
 ${submit_button_live_report}    xpath=//input[@value='Submit']    # Submit button of Live Report page

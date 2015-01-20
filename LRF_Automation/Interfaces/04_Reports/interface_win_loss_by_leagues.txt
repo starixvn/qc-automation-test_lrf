@@ -1,0 +1,16 @@
+*** Variables ***
+${minimum_odds_textbox}    xpath=//*[@id='Odds']    # Minimum odds textbox of Win Loss By Leagues page
+${sport_listbox_wl_by_leagues}    xpath=//*[@id='Sport']    # Sport listbox of Win Loss By Leagues page
+${league_listbox_wl_by_leagues}    xpath=//*[@id='League']    # League listbox of Win Loss By Leagues page
+${match_listbox_wl_by_leagues}    xpath=//*[@id='Match']    # Match listbox of Win Loss By Leagues page
+${all_ticket_checkbox}    xpath=//*[@id='AllTicket']    # All checkbox of Ticket filter
+${win_ticket_checkbox}    xpath=//*[@id='ShowWin']    # Win checkbox of Ticket filter
+${loss_ticket_checkbox}    xpath=//*[@id='ShowLoss']    # Lass checkbox of Ticket filter
+${draw_ticket_checkbox}    xpath=//*[@id='ShowDraw']    # Draw checkbox of Ticket filter
+${all_product_checkbox_wl_by_leagues}    xpath=//*[@id='ALLProducts']    # All checkbox of Product filter
+${sportsbook_checkbox_wl_by_leagues}    xpath=//*[@id='ProductOptions0']    # Sportsbook checkbox of Product filter
+${ba_checkbox_wl_by_leagues}    xpath=//*[@id='ProductOptions1']    # BA checkbox of Product filter
+${note_icon_wl_by_leagues}    xpath=//*[@id='note-icon']    # Note icon at top right of Win Loss By Leagues page
+${note_popup}     xpath=//*[@id='note-wrapper']/div/ul/li    # Note popup displays when clicking on Note icon
+${close_button_note_popup_wl_by_leagues}    xpath=//*[@id='note-wrapper']/div[1]    # Close button of Note popup
+${league_link_wl_by_leagues}    xpath=//a[@id='leagueHeader']    # League link of Win Loss By Leagues report

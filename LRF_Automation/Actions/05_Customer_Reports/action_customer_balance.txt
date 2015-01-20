@@ -1,0 +1,37 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/05_Customer_Reports/interface_customer_balance.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+submit filters for customer balance
+    [Arguments]    ${from date}    ${to date}    ${licensee type}    ${currency}    ${select top}    ${sort by}
+    ...    ${exclude test data}    ${product}
+    [Documentation]    This action is used to submit filters for Customer Balance report.
+    ...
+    ...    ${exclude test data}= *'Yes'* or *'No'*
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for customer balance | Dec-01-2014 | Dec-07-2014 | normal | CNY | All | Deposit | Yes | Sportsbook, Racing
+    # select date
+    select date range    \    main    None    ${from date}    ${to date}
+    # select type, currency, select top, sort by
+    Select Window
+    Select Frame    main
+    Select From List By Label    ${type_listbox}    ${licensee type}
+    Select From List By Label    ${currency_listbox}    ${currency}
+    Select From List By Label    ${select_top_listbox}    ${select top}
+    Select From List By Label    ${sort_by_listbox}    ${sort by}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_customer_balance}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_test_data_checkbox_customer_balance}
+    Unselect Frame
+    # select products
+    select products filter    \    main    None    ${product}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

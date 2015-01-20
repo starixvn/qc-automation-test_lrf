@@ -382,7 +382,6 @@ check export excel function
     create test directory    ${cf_export_dir}
     # Click Export
     Click Element    ${export_to_excel_button}
-    Sleep    1s
     # Check file existed
     wait for export file    ${cf_export_dir}${checked file name}
     File Should Exist    ${cf_export_dir}${checked file name}
@@ -487,4 +486,17 @@ wait page load
     Select Frame    main
     ${loading_status}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@class='loading'][@style='display: block;']
     Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    90s
+    Unselect Frame
+
+select listbox by label on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${label}
+    [Documentation]    This action is used to select value from listbox by its label.
+    ...
+    ...    Example: select option "2000" in page size listbox
+    ...
+    ...    select listbox by label on report | ${page_size_listbox} | 2000
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Select From List By Label    ${listbox}    ${label}
     Unselect Frame
