@@ -49,6 +49,8 @@ Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_f
 Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
 Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
 Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -847,6 +849,34 @@ TM_19_ST_Forecast_1X2
     check user guide popup
 
 TM_20_ST_Reports_Last Bets Monitoring
+    [Tags]    Completed
+    # 1. Navigate to REPORTS > Last Bets Monitoring
+    navigate left menu    REPORTS    Last Bets Monitoring
+    # 2. Select filters then click Submit button
+    ${tm_max_row}=    Set Variable    20
+    submit filters for last bets monitoring    1    4    ${tm_max_row}
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    wait page load
+    check element on report    \    main    None    ${last_bet_monitoring_table}
+    check element on report    \    main    None    xpath=//table[@id='last-bets-monitoring']/tbody/tr[${tm_max_row}+1]
+    # 4. Click User Guide
+    check user guide popup
+    # 5. Show/hide columns of report
+    select showhide listbox in last bets    uncheck    check    uncheck    uncheck    check    uncheck
+    ...    check    uncheck
+    wait page load
+    # VP. Check columns header on report table    External ID, System ID, Trans.Time always display on report
+    check table header existence    ${last_bet_monitoring_table}    1    Platform    not exist
+    check table header existence    ${last_bet_monitoring_table}    1    System ID    exist
+    check table header existence    ${last_bet_monitoring_table}    1    External ID    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Trans.Time    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Choice    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Odds    not exist
+    check table header existence    ${last_bet_monitoring_table}    1    Stake    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Status    not exist
 
 TM_21_ST_Reports_Licensee Win Loss
 
@@ -885,3 +915,5 @@ TM_37_ST_CustomerReports_Customer Win Loss
 TM_38_ST_CustomerReports_Customer Pending Funds
 
 TM_39_ST_CustomerReports_Customer Balance
+
+TM_40_ST_CustomerReports_Customer Turnover

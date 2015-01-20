@@ -471,6 +471,22 @@ check special case when no info available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     Unselect Frame
 
+check checkbox existence
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checkbox title}    ${state}
+    [Documentation]    This action is used to check checkbox existence based on its title.
+    ...
+    ...    ${state}= "exist" or "not exist"
+    ...
+    ...    Example: check "NG - Over Number" checkbox is not existed
+    ...
+    ...    check checkbox existence | ${window title} | main | None | NG - Over Number | exist
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Run Keyword If    '${state}'=='exist'    Element Should Be Visible    xpath=//label[contains(text(),'${checkbox title}')]/input[@type='checkbox']
+    Run Keyword If    '${state}'=='not exist'    Element Should Not Be Visible    xpath=//label[contains(text(),'${checkbox title}')]/input[@type='checkbox']
+    Unselect Frame
+
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
