@@ -1,0 +1,140 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/06_Customer_Information/interface_customer_list.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+submit filters for customer list
+    [Arguments]    ${licensee type}    ${currency}    ${based}    ${username}    ${status}    ${special level}
+    ...    ${ba}
+    [Documentation]    This action is used to submit filters for Customer List report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for customer list | normal | UUS | EUR | harmony | All | All | All | All
+    # select type, currency, based
+    Select Window
+    Select Frame    main
+    ${ac_type_status}=    Run Keyword And Return Status    Element Should Be Visible    ${type_listbox}
+    Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # input username
+    Input Text    ${username_textbox_customer_list}    ${username}
+    # select status - special level - BA\
+    Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
+    Run Keyword If    '${special level}'!='None'    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
+    Run Keyword If    '${ba}'!='None'    Select From List By Label    ${ba_listbox_customer_list}    ${ba}
+    # select Show/Hide
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button_customer_list}
+    wait page load
+
+select showhide in customer list
+    [Arguments]    ${external id}    ${system id}    ${available funds}    ${pending funds}    ${special level}    ${customer option}
+    ...    ${ba status}    ${status}
+    [Documentation]    This action is used to select checkbox inside Show/hide listbox of Customer List page.
+    ...
+    ...    Input *"check"* or *"uncheck"* to work with your selected checkboxes.
+    ...
+    ...    Example:
+    ...
+    ...    select showhide listbox in customer list | check | check | check | check | uncheck | check | uncheck | check
+    Select Window
+    Select Frame    main
+    # Click listbox to open it
+    Click Element    ${show_hide_listbox_customer_list}
+    # Select - Unselect checkbox
+    select checkbox state    External ID    ${external id}
+    select checkbox state    System ID    ${system id}
+    select checkbox state    Available Funds    ${available funds}
+    select checkbox state    Pending Funds    ${pending funds}
+    select checkbox state    Special Level    ${special level}
+    select checkbox state    Customer Option    ${customer option}
+    select checkbox state    BA Status    ${ba status}
+    Run Keyword If    '${status}'=='check'    Select Checkbox    xpath=//input[@id='Status']
+    Run Keyword If    '${status}'=='uncheck'    Unselect Checkbox    xpath=//input[@id='Status']
+    # Click listbox again to close it
+    Click Element    ${show_hide_listbox_customer_list}
+    Click Element    ${submit_button_customer_list}
+    Unselect Frame
+
+check table header existence on customer list
+    [Arguments]    ${external id}    ${system id}    ${available funds}    ${pending funds}    ${status}    ${ba status}
+    ...    ${special level}    ${customer option}
+    [Documentation]    This action is used to check column header existence of Customer List page.
+    ...
+    ...    Input *"exist"* or *"not exist"* to work with your selected checkboxes.
+    ...
+    ...    Example:
+    ...
+    ...    check table header existence on customer list | exist | not exist| exist | exist | exist | exist | exist | exist
+    Select Window
+    Select Frame    main
+    # Check External ID column
+    Run Keyword If    '${external id}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'ExternalId')]
+    Run Keyword If    '${external id}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'ExternalId')]
+    # Check System ID column
+    Run Keyword If    '${system id}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'SystemId')]
+    Run Keyword If    '${system id}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'SystemId')]
+    # Check Available Funds column
+    Run Keyword If    '${available funds}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'AvailableFunds')]
+    Run Keyword If    '${available funds}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'AvailableFunds')]
+    # Check Pending Funds column
+    Run Keyword If    '${pending funds}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'PendingFunds')]
+    Run Keyword If    '${pending funds}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'PendingFunds')]
+    # Check Status column
+    Run Keyword If    '${status}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'Status')]
+    Run Keyword If    '${status}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'Status')]
+    # Check BA Status column
+    Run Keyword If    '${ba status}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'BAStatus')]
+    Run Keyword If    '${ba status}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'BAStatus')]
+    # Check Special Level column
+    Run Keyword If    '${special level}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'SpecialLevel')]
+    Run Keyword If    '${special level}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'SpecialLevel')]
+    # Check Customer Option column
+    Run Keyword If    '${customer option}'=='exist'    Element Should Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'CustomerOption')]
+    Run Keyword If    '${customer option}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'CustomerOption')]
+    Unselect Frame
+
+change status based on username
+    [Arguments]    ${username}    ${suspended}    ${close}
+    [Documentation]    This action is used to change status of specific user on Customer List report.
+    ...
+    ...    ${suspended}= 'check' or 'uncheck'
+    ...
+    ...    ${close}= 'check' or 'uncheck'
+    ...
+    ...    Example:
+    ...
+    ...    change status based on username | harmony | check | uncheck
+    Select Window
+    Select Frame    main
+    # Click Status link to open popup
+    Click Element    xpath=//td[@aria-describedby='ReportGrid_Status']/span[@externalid='${username}']
+    # Select Suspended
+    Run Keyword If    '${suspended}'=='check'    Select Checkbox    ${suspended_checkbox}
+    Run Keyword If    '${suspended}'=='uncheck'    Unselect Checkbox    ${suspended_checkbox}
+    # Select Close
+    Run Keyword If    '${close}'=='check'    Select Checkbox    ${close_checkbox}
+    Run Keyword If    '${close}'=='uncheck'    Unselect Checkbox    ${close_checkbox}
+    # click update button
+    Click Element    ${update_button}
+    Confirm Action
+    Unselect Frame
+
+check status based on username
+    [Arguments]    ${username}    ${status}
+    [Documentation]    This action is used to check status of user in Customer List report.
+    ...
+    ...    ${status}= 'Closed' or 'Open' or 'Suspended'
+    ...
+    ...    Example:
+    ...
+    ...    check status based on username | harmony | Closed
+    Select Window
+    Select Frame    main
+    Element Should Be Visible    xpath=//span[@externalid='${username}' and contains(text(),'${status}')]
+    Unselect Frame

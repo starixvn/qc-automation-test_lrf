@@ -36,6 +36,14 @@ login
     Pause Execution    Please enter capcha number then click OK
     Click button    ${login_button}
 
+logout
+    [Documentation]    This action is used to logout.
+    Select Window
+    Select Frame    header
+    ${ac_logout}=    Run Keyword And Return Status    Element Should Be Visible    ${logout_button}
+    Run Keyword If    '${ac_logout}'=='True'    Click Element    ${logout_button}
+    Unselect Frame
+
 convert date format
     [Arguments]    ${input date}
     [Documentation]    This action is used to convert date from 'YYYY-MM-DD' format into 'MMM-DD-YYYY' format.

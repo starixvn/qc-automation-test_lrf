@@ -51,6 +51,7 @@ Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
 Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
 Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
 Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -879,16 +880,128 @@ TM_20_ST_Reports_Last Bets Monitoring
     check table header existence    ${last_bet_monitoring_table}    1    Status    not exist
 
 TM_21_ST_Reports_Licensee Win Loss
+    ${from}=    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Licensee Win Loss
+    navigate left menu    REPORTS    Licensee Win Loss
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for licensee win loss    ${from}    ${to}    ALL    Daily    Normal    Yes
+    ...    All
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 3. Click link in Currency Colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 4. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 5. Click link in External ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    #VP. Check betlist
+    check element on report    \    main    BetList    ${betlist_table}
+    #VP. check export
+    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    # 6. Click link results to open results pop-up
+    click result link in ticket    \    main    BetList    ${betlist_table}    2    11
+    #VP. check result pop-up
+    check result popup exist    \    main    BetList    ResultPopup
+    #7. Close result pop-up
+    click element on report    \    main    BetList    ${close_button_on_popup}
+    #8. Close betlist pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
 
 TM_22_ST_Reports_Settled Match Count
+    # 1. Navigate to REPORTS > Settled Match Count
+    navigate left menu    REPORTS    Settled Match Count
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_settle_match_count}
 
 TM_23_ST_Reports_Match Win Loss
 
 TM_24_ST_Reports_Win Loss By Products
+    ${from}=    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Win Loss By Product
+    navigate left menu    REPORTS    Win Loss By Products
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
+    ...    All
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 3. Click link in Currency Colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 4. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 5. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    #VP. Check betlist
+    check element on report    \    main    BetList    ${betlist_table}
+    #VP. check export
+    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    # 6. Click link results to open results pop-up
+    click result link in ticket    \    main    BetList    ${betlist_table}    2    11
+    #VP. check result pop-up
+    check result popup exist    \    main    BetList    ResultPopup
+    #7. Close result pop-up
+    click element on report    \    main    BetList    ${close_button_on_popup}
+    #8. Close betlist pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
 
 TM_25_ST_Reports_Win Loss By Bet Type
 
 TM_26_ST_Reports_Racing Commission
+    ${from}    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Racing Commission
+    navigate left menu    REPORTS    Racing Commission
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for racing commission    ${from}    ${to}    ALL    ALL    USD
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    RacingCommission.xls
+    # 3. Click link in External ID
+    click drilldown link in div table report    \    main    None    ${div_report_table_reports}    1    2
+    # VP. Check betlist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. check export excel
+    check export excel function    \    main    None    CustomerWinLossBetList.xls
+    # 4. Click link results in betlist
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. check results pop-up
+    check element on report    \    main    Result    ${result_table}
+    # 5. Close results pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 6. Click back button
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
 
 TM_27_ST_Reports_Daily Racing Win Loss
 
@@ -917,3 +1030,33 @@ TM_38_ST_CustomerReports_Customer Pending Funds
 TM_39_ST_CustomerReports_Customer Balance
 
 TM_40_ST_CustomerReports_Customer Turnover
+
+TM_41_01_ST_CustomerInformation_Customer List_General
+    Comment    # 1. Open testing site
+    Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Comment    Maximize Browser Window
+    Comment    login    autQC1    1234aa
+    Comment    select licensee after login    spondemo
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
+    ...    All    All
+    Comment    select showhide in customer list    check    check    check    check    uncheck
+    ...    uncheck    uncheck    uncheck
+    Comment    check table header existence on customer list    exist    exist    exist    exist    not exist
+    ...    not exist    not exist    not exist
+    Comment    select showhide in customer list    check    check    check    check    check
+    ...    check    check    check
+    Comment    check table header existence on customer list    exist    exist    exist    exist    exist
+    ...    exist    exist    exist
+    Comment    change status based on username    harmony    check    check
+    Comment    change status based on username    harmony1    check    uncheck
+    Comment    check status based on username    harmony    Closed
+    Comment    check status based on username    harmony1    Suspended
+    Comment    change status based on username    harmony    uncheck    uncheck
+    Comment    change status based on username    harmony1    uncheck    uncheck
+    Comment    check status based on username    harmony    Open
+    Comment    check status based on username    harmony1    Open
+
+TM_41_02_ST_CustomerInformation_Customer List_Customer Option
+
+TM_42_ST_CustomerInformation_Customer Log

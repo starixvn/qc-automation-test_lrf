@@ -1,0 +1,11 @@
+*** Variables ***
+${show_hide_listbox_customer_list}    xpath=//*[@id='grid-columns-multiselect']/span    # Show/hide listbox of Customer List page
+${username_textbox_customer_list}    xpath=//*[@id='txtUsername']    # Username textbox of Customer List page
+${status_listbox_customer_list}    xpath=//*[@id='CustStatusOption']    # Status listbox of Customer List page
+${special_level_listbox_customer_list}    xpath=//*[@id='special-level-list-search']    # Special Level listbox of Customer List page
+${ba_listbox_customer_list}    xpath=//*[@id='BAFilterOption']    # BA listbox of Customer List page
+${suspended_checkbox}    xpath=//*[@id='popup-suspended']    # Suspended checkbox of Customer List page
+${close_checkbox}    xpath=//*[@id='popup-closed']    # Close checkbox of Customer List page
+${update_button}    xpath=//*[@id='popup-update']    # Update button of Customer List page
+${cancel_button_customer_list}    xpath=//*[@id='popup-close']    # Cancel button of Customer List page
+${submit_button_customer_list}    xpath=//*[@id='SubmitButtonComm']    # Submit button of Customer List page
