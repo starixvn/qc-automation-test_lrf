@@ -262,14 +262,14 @@ navigate left menu
     Select Window
     Select Frame    menu
     # Click Main Menu label
-    ${ac_submenu_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(@id,'child-menu')][contains(text(),'${submenu}')]
+    ${ac_submenu_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(@id,'child-menu')][text()='${submenu}']
     Run Keyword If    '${ac_submenu_status}'!='True'    Click Element    xpath=//span[contains(text(),'${mainmenu}')]
     # Click Sub Menu label
     # Handle special case: click duplicated labels "Handicap/Over Under/Live"
     ${ac_status}=    Evaluate    '${mainmenu}'=='FORECAST' and '${submenu}'=='Handicap/Over Under/Live'
     Run Keyword If    '${ac_status}'=='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}') and contains(@href,'Forecast')]
     # Handle normal case
-    Run Keyword If    '${ac_status}'!='True'    Click Element    xpath=//td/a[contains(text(),'${submenu}')]
+    Run Keyword If    '${ac_status}'!='True'    Click Element    xpath=//td/a[text()='${submenu}']
     Unselect Frame
 
 click element on report
@@ -382,7 +382,7 @@ check export excel function
     ...
     ...    Example: Check file 'RunningBetList.xls' existed after exporting sucessfully. And exporting file need 5 seconds to be saved.
     ...
-    ...    check export excel function | ${window title} | ${main frame} | ${sub frame} | 5s | \ RunningBetList.xls
+    ...    check export excel function | ${window title} | ${main frame} | ${sub frame} | 5s | RunningBetList.xls
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
@@ -498,7 +498,7 @@ check checkbox existence
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
-    : FOR    ${ac_index}    IN RANGE    0    30
+    : FOR    ${ac_index}    IN RANGE    0    45
     \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
     \    ${ac_saving}    Run Keyword And Return Status    File Should Exist    ${filepath}.part
     \    Run Keyword If    '${ac_exist}'!='True' or '${ac_saving}'=='True'    sleep    2s

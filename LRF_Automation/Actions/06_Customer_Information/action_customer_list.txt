@@ -138,3 +138,67 @@ check status based on username
     Select Frame    main
     Element Should Be Visible    xpath=//span[@externalid='${username}' and contains(text(),'${status}')]
     Unselect Frame
+
+change ba status based on username
+    [Arguments]    ${username}    ${status}
+    [Documentation]    This action is used to change BA Status of specific user in Customer List page.
+    ...
+    ...    ${status}= 'ON' or 'OFF'
+    ...
+    ...    Example:
+    ...
+    ...    change ba status based on username | harmony | ON
+    Select Window
+    Select Frame    main
+    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Run Keyword If    '${status}'!='${ac_current_status}'    Click Element    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Run Keyword If    '${status}'!='${ac_current_status}'    Confirm Action
+    Run Keyword If    '${status}'!='${ac_current_status}'    Sleep    2s
+    Unselect Frame
+
+check ba status based on username
+    [Arguments]    ${username}    ${status}
+    [Documentation]    This action is used to check BA Status of user in Customer List report.
+    ...
+    ...    ${status}= 'ON' or 'OFF'
+    ...
+    ...    Example:
+    ...
+    ...    check ba status based on username | harmony | ON
+    Select Window
+    Select Frame    main
+    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Should Be True    '${ac_current_status}'=='${status}'
+    Unselect Frame
+
+change special level based on custid
+    [Arguments]    ${custid}    ${special level}
+    [Documentation]    This action is used to change Special Level based on Customer ID in Customer List report.
+    ...
+    ...    ${special level}= 'None' or '1' to '10'
+    ...
+    ...    Example:
+    ...
+    ...    change special level based on custid | 9579874 | 5
+    Select Window
+    Select Frame    main
+    # Click Special Level button to open popup
+    Click Element    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}']
+    # Select Level
+    Click Element    xpath=//div[@id='LevelList']/div[text()='${special level}']
+    Confirm Action
+    Unselect Frame
+
+check special level based on custid
+    [Arguments]    ${custid}    ${special level}
+    [Documentation]    This action is used to check Special Level based on Customer ID in Customer List report.
+    ...
+    ...    ${special level}= 'None' or '1' to '10'
+    ...
+    ...    Example:
+    ...
+    ...    check special level based on custid | 9579874 | 5
+    Select Window
+    Select Frame    main
+    Element Should Be Visible    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}' and text()='${special level}']
+    Unselect Frame

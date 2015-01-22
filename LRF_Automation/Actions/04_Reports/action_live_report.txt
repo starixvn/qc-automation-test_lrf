@@ -84,3 +84,23 @@ click match link on live report
     Click Element    xpath=//div[@class='data-content']/div[${index}]/div[1]/div/a[@class='match-detail-link']
     wait page load
     Unselect Frame
+
+check export excel function for live report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checked file name}
+    [Documentation]    This action is used to check Export To Excel function.
+    ...
+    ...    Example: Check file 'RunningBetList.xls' existed after exporting sucessfully. And exporting file need 5 seconds to be saved.
+    ...
+    ...    check export excel function | ${window title} | ${main frame} | ${sub frame} | 5s | RunningBetList.xls
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Check to see Folder existed or not. If not, we'll create
+    create test directory    ${cf_export_dir}
+    # Click Export
+    Click Element    ${export_to_excel_button_live_report}
+    # Check file existed
+    wait for export file    ${cf_export_dir}${checked file name}
+    File Should Exist    ${cf_export_dir}${checked file name}
+    Empty Directory    ${cf_export_dir}
+    Unselect Frame

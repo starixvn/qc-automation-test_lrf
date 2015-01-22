@@ -2,3 +2,4 @@
 ${mix_parlay_link_match_winloss}    xpath=//span[contains(text(),'Mix Parlay')]    # Mix Parlay link of Match Win Loss page
 ${system_parlay_link_match_winloss}    xpath=//span[contains(text(),'System Parlay')]    # System Parlay link of Match Win Loss page
 ${report_table_match_winloss}    xpath=//table[@id='data-content']    # Report table of Match Win Loss report
+${outright_link_match_winloss}    xpath=//span[contains(text(),'Outright')]    # Outright link of Match Win Loss page
