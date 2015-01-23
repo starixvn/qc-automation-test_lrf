@@ -16,7 +16,7 @@ click drilldown link in table report
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[contains(@aria-describedby,'${column header}')]/a
+    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[contains(@aria-describedby,'${column header}')]/a
     Run Keyword If    '${ac_drilldown_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[contains(@aria-describedby,'${column header}')]/a
     Run Keyword If    '${ac_drilldown_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame
@@ -32,7 +32,7 @@ click drilldown link in div table report
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/div[${row}]/div[${column}]/div/span
+    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/div[${row}]/div[${column}]/div/span
     Run Keyword If    '${ac_drilldown_link_status}'=='True'    Click Element    ${table}/div[${row}]/div[${column}]/div/span
     Run Keyword If    '${ac_drilldown_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
     Unselect Frame

@@ -202,3 +202,20 @@ check special level based on custid
     Select Frame    main
     Element Should Be Visible    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}' and text()='${special level}']
     Unselect Frame
+
+select customer option based on username
+    [Arguments]    ${username}    ${option}
+    [Documentation]    This action is used to select Customer Option in Customer List page.
+    ...
+    ...    ${option} = "Bet Setting", "Bet List", "Statement" or "Log Info"
+    ...
+    ...    Example:
+    ...
+    ...    select customer option based on username | harmony | Bet Setting
+    Select Window
+    Select Frame    main
+    # click View link
+    Click Element    xpath=//td[@aria-describedby='ReportGrid_CustomerOption']/div[@externalid='${username}']
+    # select option
+    Click Element    xpath=//div[@externalid='${username}']/a[contains(text(),'${option}')]
+    Unselect Frame

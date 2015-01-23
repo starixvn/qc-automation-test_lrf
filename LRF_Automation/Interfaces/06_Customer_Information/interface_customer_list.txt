@@ -9,3 +9,17 @@ ${close_checkbox}    xpath=//*[@id='popup-closed']    # Close checkbox of Custom
 ${update_button}    xpath=//*[@id='popup-update']    # Update button of Customer List page
 ${cancel_button_customer_list}    xpath=//*[@id='popup-close']    # Cancel button of Customer List page
 ${submit_button_customer_list}    xpath=//*[@id='SubmitButtonComm']    # Submit button of Customer List page
+${sportsbook_tab_bet_setting}    xpath=//*[@id='sportsbook']    # Sportsbook tab of Bet Setting popup
+${racing_tab_bet_setting}    xpath=//*[@id='racing']    # Racing tab of Bet Setting popup
+${number_game_tab_bet_setting}    xpath=//*[@id='numbergame']    # Number Game tab of Bet Setting popup
+${virtual_sports_tab_bet_setting}    xpath=//*[@id='virtualsports']    # Virtual Sports tab of Bet Setting popup
+${keno_tab_bet_setting}    xpath=//*[@id='keno']    # Keno tab of Bet Setting popup
+${ag_casino_tab_bet_setting}    xpath=//*[@id='agcasino']    # AG Casino tab of Bet Setting popup
+${submit_button_bet_setting}    xpath=//*[@id='btnSubmitBetSetting']    # Submit button of Bet Setting popup
+${reset_button_bet_setting}    xpath=//*[@id='btnReset']    # Reset button of Bet Setting popup
+${div_table_bet_setting}    xpath=//div[@class='data-content']    # Setting table of Bet Setting popup
+${disable_ag_casino_button}    xpath=//*[@id='btnUpdateStatus' and contains(@value,'Disable')]    # Disable AG Casino button of Bet Setting popup
+${enable_ag_casino_button}    xpath=//*[@id='btnUpdateStatus' and contains(@value,'Enable')]    # Enable AG Casino button of Bet Setting popup
+${ok_button_confirmation_popup_bet_setting}    xpath=//button/span[text()='OK']    # OK button of Confirmation popup when clicking on Submit button in Bet Setting page
+${successful_popup}    xpath=//span[text()='Successful']    # Successful popup when user submits
+${bet_setting_groups_listbox}    xpath=//*[@id='betSettingGroup']    # Bet Setting Groups listbox of AG Casino tab in Bet Setting popup

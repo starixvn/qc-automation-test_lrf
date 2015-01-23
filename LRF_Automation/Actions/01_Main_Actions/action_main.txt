@@ -502,7 +502,7 @@ wait for export file
     \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
     \    ${ac_saving}    Run Keyword And Return Status    File Should Exist    ${filepath}.part
     \    Run Keyword If    '${ac_exist}'!='True' or '${ac_saving}'=='True'    sleep    2s
-    \    Exit For Loop If    '${ac_index}'==30 or ('${ac_exist}'=='True' and '${ac_saving}'!='True')
+    \    Exit For Loop If    '${ac_index}'==45 or ('${ac_exist}'=='True' and '${ac_saving}'!='True')
 
 wait page load
     [Documentation]    Used to wait when the frame is loading.

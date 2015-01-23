@@ -1,0 +1,1438 @@
+*** Settings ***
+Suite Setup       config
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
+Resource          ../Actions/04_Reports/action_racing_commission.txt
+Resource          ../Actions/04_Reports/action_daily_racing_win_loss.txt
+Resource          ../Actions/04_Reports/action_cancelled_bets.txt
+Resource          ../Actions/04_Reports/action_daily_bet_list.txt
+Resource          ../Interfaces/04_Reports/interface_live_report.txt
+Resource          ../Actions/04_Reports/action_live_report.txt
+Resource          ../Actions/04_Reports/action_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_turnover.txt
+Resource          ../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_ag_casino_win_loss.txt
+Resource          ../Actions/04_Reports/action_results.txt
+Resource          ../Actions/04_Reports/action_balance.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_leagues.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_win_loss.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_win_loss.txt
+Resource          ../Actions/05_Customer_Reports/action_general_customer_reports.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
+Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
+Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+
+*** Test Cases ***
+TM_00_ST_Start web
+    [Tags]    Complete
+    # 1. Open testing site
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    # 2. Login with valid account
+    login    ${cf_username}    ${cf_password}
+    # 3. Select licensee
+    select licensee after login    ${cf_licensee}
+
+TM_01_01_ST_TotalBets_Handicap
+    [Tags]    Complete
+    # 1. Open testing site
+    # 2. Login with valid account
+    # 3. Select licensee
+    # [Run first 3 steps by select TM_00_ST_Start web]
+    # 4. Navigate to TOTAL BETS > Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    # 5. Select filters then click Submit button
+    # countdown = 75 sec
+    # licensee type = normal
+    # currency = ALL
+    # based = USD
+    submit filters for totalbets    75 sec    normal    ALL    USD
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 7. Click a number link in FullTime - Handicap bettype (4th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    4
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 8. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 9. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 10. Click plus button in FullTime - Handicap bettype (5th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    5
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 11. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 12. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # 13. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 14. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 15. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 16. Click a number link in FullTime - Over/Under bettype (6th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    6
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 17. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 18. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 19. Click plus button in FullTime - Over/Under bettype (7th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    7
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 20. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 21. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 22. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 23. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 24. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 25. Click a number link in 1st Half - Handicap bettype (8th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    8
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 26. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 27. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 28. Click plus button in 1st Half - Handicap bettype (9th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    9
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 29. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 30. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # 31. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 32. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 33. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 34. Click a number link in 1st Half - Over/Under bettype (10th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    10
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 35. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 36. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 37. Click plus button in 1st Half - Over/Under bettype (11th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    11
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 38. Click "View Handicap Forecast" link
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 39. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 40. Click Bet List link to drill down betlist
+    click element on report    \    main    Forecast    ${bet_list_link}
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 41. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 42. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_01_02_ST_TotalBets_Handicap_Bodog
+    [Tags]    Complete
+    # 1. Open testing site
+    # 2. Login with valid account
+    # 3. Select licensee
+    # [Run first 3 steps by select TM_00_ST_Start web]
+    # 4. Switch To Bodog licensee
+    select licensee    Bodog
+    # 5. Navigate to TOTAL BETS > Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 6. Click match link
+    click match link of bodog    ${report_table_totalbets}    2    3
+    wait page load
+    # 7. Click number link to drill down bet list
+    click match link of bodog    ${match_table_bodog}    3    6
+    # VP. Check Bet List page displays
+    check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
+    # 8. Close Bet List window and back to Handicap/Over Under/Live page
+    Select Window    title=LRF - Bet List
+    Close Window
+    navigate left menu    None    Handicap/Over Under/Live
+    # 9. Click number link in FullTime - Handicap bettype (4th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    4
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 10. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 11. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 12. Click number link in FullTime - Over/Under bettype (5th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    5
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 13. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 14. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 15. Click number link in 1st Half - Handicap bettype (6th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    6
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 16. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 17. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # 18. Click number link in 1st Half - Over/Under bettype (7th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
+    ...    7
+    # VP. Check Bet List displays
+    check element on report    \    main    None    ${betlist_table}
+    # 19. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 20. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # Clean up
+    select licensee    ${cf_licensee}
+
+TM_02_ST_TotalBets_Money Line
+    [Tags]    Complete
+    select licensee    ${cf_licensee}
+    # 1. Navigate to TOTAL BETS > Money Line
+    navigate left menu    TOTAL BETS    Money Line
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 3. Click a number link in FullTime - Total Home bettype (4th column)
+    click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
+    ...    11
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 4. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    # 5. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+    # VP. Check User Guide popup exists
+    check user guide popup
+
+TM_03_ST_TotalBets_OddEven
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Odd/Even + 1x2 + DND
+    navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    ###FullTime
+    ##FullTime/ OddEven
+    # 3. Click a number link in FullTime - Odd/Even \ bettype (4th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    4
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 4. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    ## FullTime/ 1X2Check-NumberLink
+    # 5. Click a number link in FullTime - 1X2\ bettype (5th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    5
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    ## FullTime/ 1X2Check-PlusButton
+    # 7. Click a plus button in FullTime - 1X2 \ bettype (6th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    6
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${report_table_totalbets}
+    # 8. Click a plus button in Team - 1X2 \ bettype (2th column) to drill down betlist
+    click plus button in table by column    \    main    Forecast    ${report_table_totalbets}    3    3
+    ...    2
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 9. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${report_table_totalbets}
+    # 10. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    ###1st Half
+    ##1st Half/ OddEven
+    # 11. Click a number link in FullTime - Odd/Even \ bettype (8th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    8
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 12. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    ## 1st Half/ 1X2Check-NumberLink
+    # 13. Click a number link in FullTime - 1X2\ bettype (9th column)
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    9
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 14. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    ## 1st Half/ 1X2Check-PlusButton
+    # 15. Click a plus button in FullTime - 1X2 \ bettype (10th column)
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    2    50
+    ...    10
+    # VP. Check Forecast table displays
+    check element on report    \    main    Forecast    ${report_table_totalbets}
+    # 16. Click a plus button in Team - 1X2 \ bettype (2th column) to drill down betlist
+    click plus button in table by column    \    main    Forecast    ${report_table_totalbets}    4    4
+    ...    2
+    # VP. Check betlist display on popup
+    check element on report    \    main    Forecast    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    Forecast    RunningBetList.xls
+    # 17. Click Back button on betlist popup
+    click element on report    \    main    Forecast    ${back_button}
+    # VP. Check forecast popup displays
+    check element on report    \    main    Forecast    ${report_table_totalbets}
+    # 18. Close Forecast popup
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_04_ST_TotalBets_Correct Score
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Correct Score
+    navigate left menu    TOTAL BETS    Correct Score
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    CorrectScoreBetlist.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_05_ST_TotalBets_Total Goal
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Total Goal
+    navigate left menu    TOTAL BETS    Total Goal
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click team name to drill down to betlist
+    click team link in table    \    main    None    ${report_table_totalbets}    1    2
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_06_ST_TotalBets_MixParlay
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Mix Parlay
+    navigate left menu    TOTAL BETS    Mix Parlay
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click Mix Parlay ticket to expand
+    click mix parlay link in table    \    main    None    ${betlist_table}    2    5
+    # VP. Check mix parlay ticket is expanded successfully
+    check status of parlay ticket    \    main    None    ${betlist_table}    2    5
+    ...    expand
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 5. Click System Parlay header link on top
+    click element on report    \    main    None    ${system_parlay_header_link}
+    # 6. Click System Parlay ticket to expand
+    click system parlay link in table    \    main    None    ${betlist_table}    2    5
+    # VP. Check system parlay ticket is expanded successfully
+    check status of parlay ticket    \    main    None    ${betlist_table}    2    5
+    ...    expand
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 7. Click Details link in system parlay ticket
+    click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
+    # VP. Check Detail popup displays
+    check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
+    # 8. Close popup
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_07_ST_TotalBets_Outright
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Outright
+    navigate left menu    TOTAL BETS    Outright
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click team name to drill down to betlist
+    click team link in table    \    main    None    ${report_table_totalbets}    2    2
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_08_ST_TotalBets_HT FT
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > HT/FT
+    navigate left menu    TOTAL BETS    HT/FT
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 3. Click a teamlink (2nd column)
+    click team link in table    \    main    None    ${report_table_totalbets}    1    2
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 4. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    # 5. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_09_ST_TotalBets_FG LG
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > FG/LG
+    navigate left menu    TOTAL BETS    FG/LG
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 3. Click a teamlink (3rd column)
+    click team link in table    \    main    None    ${report_table_totalbets}    2    3
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 4. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    # 5. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_10_ST_TotalBets_Clean Sheet
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Clean Sheet
+    navigate left menu    TOTAL BETS    Clean Sheet
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    None    None    None
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_11_ST_TotalBets_Double Chance
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Double Chance
+    navigate left menu    TOTAL BETS    Double Chance
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    None    None    None
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_12_ST_TotalBets_HomeDrawAway No Bet
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Home/Draw/Away No Bet
+    navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click number to drill down to betlist
+    click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
+    ...    6
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_13_ST_TotalBets_BON team to score
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > B/O/N team to score
+    navigate left menu    TOTAL BETS    B/O/N team to score
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    CNY    EUR
+    # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_14_ST_TotalBets_To win to nil
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > To win to nil
+    navigate left menu    TOTAL BETS    To win to nil
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    MYR    EUR
+    # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_15_ST_TotalBets_3way Handicap
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > 3-Way Handicap
+    navigate left menu    TOTAL BETS    3-Way Handicap
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    MYR    EUR
+    # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_16_ST_TotalBets_Racing
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Racing
+    navigate left menu    TOTAL BETS    Racing
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click number to drill down to betlist for Win tickets
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
+    ...    4
+    #VP. Check Betlist
+    check element on report    \    main    None    ${betlist_table}
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    #6. Click link result pop-up in ticket
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. Check result pop-up
+    check element on report    \    main    ResultPopup    ${result_table}
+    #7. Click close result pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+    #9. Click number to drill down to betlist for Place tickets
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
+    ...    6
+    #VP. check Betlist
+    check element on report    \    main    None    ${betlist_table}
+    # 10. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    #11. Click link result pop-up in ticket
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. Check result pop-up
+    check element on report    \    main    ResultPopup    ${result_table}
+    #12. Click close result pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 13. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+    #14. Click munber to drill down to betlist for Win Place tickets
+    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
+    ...    8
+    #VP. check Betlist
+    check element on report    \    main    None    ${betlist_table}
+    # 15. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    #16. Click link result pop-up in ticket
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. Check result pop-up
+    check element on report    \    main    ResultPopup    ${result_table}
+    #17. Click close result pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 18. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_17_ST_TotalBets_Number Game
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Number Game
+    navigate left menu    TOTAL BETS    Number Game
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    None    None    USD
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click number to drill down to betlist
+    click number link in table by row    \    main    None    ${report_table_totalbets}    2    3
+    ...    18
+    #VP. Check Betlist
+    check element on report    \    main    None    ${betlist_table}
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_18_01_ST_Forecast_Handicap
+    [Tags]    Complete
+    # work around
+    navigate left menu    REPORTS    Balance
+    # 1. Navigate to FORECAST > Handicap/Over Under/Live
+    navigate left menu    FORECAST    Handicap/Over Under/Live
+    # 2. Select filters then click Submit button
+    submit filters for forecast    None    1    None    EUR
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Click plus button
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    3    3
+    ...    2
+    #VP. check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 4. Click link View Over/Under Forecast
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    #VP. Check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 5. Click link View Handicap Forecast
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    #VP. Check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 6. Click link Bet List and check betlist if exists
+    check betlist on forecast report    \    main    Forecast    RunningBetList.xls
+    # 7. Click link View Over/Under Forecast
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 8. Click link Bet List and check betlist if exists
+    check betlist on forecast report    \    main    Forecast    RunningBetList.xls
+    # 9. Click close button to close Forecast pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 10. Click plus button
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    4    4
+    ...    2
+    #VP. check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 11. Click link View Over/Under Forecast
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    #VP. Check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 12. Click link View Handicap Forecast
+    click element on report    \    main    Forecast    ${view_handicap_forecast_link}
+    #VP. Check forecast table
+    check element on report    \    main    Forecast    ${forecast_table}
+    # 13. Click link Bet List and check betlist if exists
+    check betlist on forecast report    \    main    Forecast    RunningBetList.xls
+    # 14. Click link View Over/Under Forecast
+    click element on report    \    main    Forecast    ${view_over_under_forecast_link}
+    # 15. Click link Bet List and check betlist if exists
+    check betlist on forecast report    \    main    Forecast    RunningBetList.xls
+    # 16. Click close button to close Forecast pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_18_02_ST_Forecast_Handicap_Bodog
+    [Tags]    Complete
+    # 1. Open testing site
+    # 2. Login with valid account
+    # 3. Select licensee
+    # [Run first 3 steps by select TM_00_ST_Start web]
+    # 4. Switch To Bodog licensee
+    select licensee    Bodog
+    # 5. Navigate to FORECAST > Handicap/Over Under/Live
+    navigate left menu    FORECAST    Handicap/Over Under/Live
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 6. Select filters then click Submit button
+    submit filters for forecast handicap bodog    0    9    None    USD
+    # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 8. Click munber link on Total TurnOver
+    click match link of bodog    ${match_table_bodog}    3    6
+    # VP. Check Bet List page displays
+    check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    # VP. Check Export To Excel function
+    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
+    # 9. Close Bet List window and back to Handicap/Over Under/Live page
+    Select Window    title=LRF - Bet List
+    Close Window
+    # Pre-condition: Cleanup and back to default licensee
+    select licensee    ${cf_licensee}
+
+TM_19_ST_Forecast_1X2
+    [Tags]    Complete
+    select licensee    ${cf_licensee}
+    # 1. Navigate to FORECAST > 1 X 2
+    navigate left menu    FORECAST    1 X 2
+    # 2. Select filters then click Submit button
+    submit filters for forecast    None    None    None    None
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click button "+" of FullTime
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    3    3
+    ...    2
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 5. If "No Information is available" text displays
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # 5.1. If it existed, click Back button
+    Run Keyword If    '${ac_no_info_status}'=='True'    click element on report    \    main    None    ${back_button}
+    # 5.2. If it does not exist, check report table exist
+    Run Keyword If    '${ac_no_info_status}'=='False'    check element on report    \    main    None    ${betlist_table}
+    Run Keyword If    '${ac_no_info_status}'=='False'    click element on report    \    main    None    ${back_button}
+    # 6. Click button "+" of Half Time
+    click plus button in table by column    \    main    None    ${report_table_totalbets}    4    4
+    ...    2
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 7. If "No Information is available" text displays
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # 7.1. If it existed, click Back button
+    Run Keyword If    '${ac_no_info_status}'=='True'    click element on report    \    main    None    ${back_button}
+    # 7.2. If it does not exist, check report table exist
+    Run Keyword If    '${ac_no_info_status}'=='False'    check element on report    \    main    None    ${betlist_table}
+    Run Keyword If    '${ac_no_info_status}'=='False'    click element on report    \    main    None    ${back_button}
+    # 8. Click User Guide
+    check user guide popup
+
+TM_20_ST_Reports_Last Bets Monitoring
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Last Bets Monitoring
+    navigate left menu    REPORTS    Last Bets Monitoring
+    # 2. Select filters then click Submit button
+    ${tm_max_row}=    Set Variable    20
+    submit filters for last bets monitoring    1    4    ${tm_max_row}
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    wait page load
+    check element on report    \    main    None    ${last_bet_monitoring_table}
+    check element on report    \    main    None    xpath=//table[@id='last-bets-monitoring']/tbody/tr[${tm_max_row}+1]
+    # 4. Click User Guide
+    check user guide popup
+    # 5. Show/hide columns of report
+    select showhide listbox in last bets    uncheck    check    uncheck    uncheck    check    uncheck
+    ...    check    uncheck
+    wait page load
+    # VP. Check columns header on report table    External ID, System ID, Trans.Time always display on report
+    check table header existence    ${last_bet_monitoring_table}    1    Platform    not exist
+    check table header existence    ${last_bet_monitoring_table}    1    System ID    exist
+    check table header existence    ${last_bet_monitoring_table}    1    External ID    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Trans.Time    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Choice    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Odds    not exist
+    check table header existence    ${last_bet_monitoring_table}    1    Stake    exist
+    check table header existence    ${last_bet_monitoring_table}    1    Status    not exist
+
+TM_21_ST_Reports_Licensee Win Loss
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Licensee Win Loss
+    navigate left menu    REPORTS    Licensee Win Loss
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for licensee win loss    ${from}    ${to}    ALL    Daily    Normal    Yes
+    ...    All
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 3. Click link in Currency Colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 4. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    LicenseeWinLoss.xls
+    # 5. Click link in External ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    #VP. Check betlist
+    check element on report    \    main    BetList    ${betlist_table}
+    #VP. check export
+    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    # 6. Click link results to open results pop-up
+    click result link in ticket    \    main    BetList    ${betlist_table}    2    11
+    #VP. check result pop-up
+    check result popup exist    \    main    BetList    ResultPopup
+    #7. Close result pop-up
+    click element on report    \    main    BetList    ${close_button_on_popup}
+    #8. Close betlist pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # Work-around: we've to go to another report then come back to clear cache
+    navigate left menu    REPORTS    Settled Match Count
+    navigate left menu    REPORTS    Licensee Win Loss
+    # 9. Submit filter with Monthly option
+    submit filters for licensee win loss    ${from}    ${to}    EUR    Monthly    No Draws    No
+    ...    All
+    # 10. Drilldown to betlist
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    # VP. Check betlist exist
+    check element on report    \    main    BetList    ${betlist_table}
+
+TM_22_ST_Reports_Settled Match Count
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Settled Match Count
+    navigate left menu    REPORTS    Settled Match Count
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_settle_match_count}
+
+TM_23_ST_Reports_Match Win Loss
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Match Win Loss
+    navigate left menu    REPORTS    Match Win Loss
+    # 2. Click User Guide
+    check user guide popup
+    # 3. Select filters then click Submit button
+    ${date}=    Get Time    \    NOW - 1d
+    submit filters for match win loss    ${date}    None    None    None    All
+    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    check special case when no info available    \    main    None
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_match_winloss}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    MatchWinLoss.xls
+    # 5. Click match link
+    click match link of match win loss    \    main    None    ${report_table_match_winloss}    2    2
+    wait page load
+    # 6. Click bettype link
+    click bettype link of match win loss    \    main    None    1
+    wait page load
+    # VP. Check bet list table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    MatchWinLossBetList.xls
+    # 7. Click Results status link
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    # VP. Check result table exist
+    check result popup exist    \    main    ResultPopup    None
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click Back button
+    click element on report    \    main    None    ${back_button}
+    # 9. Check visible of Mix Parlay link. If visible, click Mix Parlay link
+    ${tm_mixParlay_status}=    Run Keyword And Return Status    check element on report    \    main    None    ${mix_parlay_link_match_winloss}
+    Run Keyword If    '${tm_mixParlay_status}'=='True'    click element on report    \    main    None    ${mix_parlay_link_match_winloss}
+    Run Keyword If    '${tm_mixParlay_status}'=='True'    wait page load
+    # 9.1. If visible, click Mix Parlay ticket to expand
+    Run Keyword If    '${tm_mixParlay_status}'=='True'    click mix parlay link in table    \    main    None    ${betlist_table}
+    ...    2    5
+    # VP. Check mix parlay ticket is expanded successfully
+    Run Keyword If    '${tm_mixParlay_status}'=='True'    check status of parlay ticket    \    main    None    ${betlist_table}
+    ...    2    5    expand
+    # 9.2. If visible, click Back button
+    Run Keyword If    '${tm_mixParlay_status}'=='True'    click element on report    \    main    None    ${back_button}
+    # 10. Check visible of System Parlay link. If visible, click System Parlay link
+    ${tm_systemParlay_status}=    Run Keyword And Return Status    check element on report    \    main    None    ${system_parlay_link_match_winloss}
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    click element on report    \    main    None    ${system_parlay_link_match_winloss}
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    wait page load
+    # 10.1. If visible, click System Parlay ticket to expand
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    click system parlay link in table    \    main    None    ${betlist_table}
+    ...    2    5
+    # VP. Check system parlay ticket is expanded successfully
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    check status of parlay ticket    \    main    None    ${betlist_table}
+    ...    2    5    expand
+    # 10.2. If visible, click Details link in system parlay ticket
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    click details link in system parlay ticket    \    main    None    ${betlist_table}
+    ...    2    5
+    # VP. Check Detail popup displays
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
+    # 10.3. If visible, close popup
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    click element on report    \    main    None    ${close_button_on_popup}
+    # 10.4. If visible, click Back button
+    Run Keyword If    '${tm_systemParlay_status}'=='True'    click element on report    \    main    None    ${back_button}
+    # 11. Check visible of Outright link. If visible, click Outright link
+    ${tm_outright_status}=    Run Keyword And Return Status    check element on report    \    main    None    ${outright_link_match_winloss}
+    Run Keyword If    '${tm_outright_status}'=='True'    click element on report    \    main    None    ${outright_link_match_winloss}
+    # VP. Check bet list table exist
+    Run Keyword If    '${tm_outright_status}'=='True'    check element on report    \    main    None    ${betlist_table}
+
+TM_24_ST_Reports_Win Loss By Products
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Win Loss By Product
+    navigate left menu    REPORTS    Win Loss By Products
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
+    ...    All
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 3. Click link in Currency Colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 4. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByProduct.xls
+    # 5. Click link in System ID
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    #VP. Check betlist
+    check element on report    \    main    BetList    ${betlist_table}
+    #VP. check export
+    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    # 6. Click link results to open results pop-up
+    click result link in ticket    \    main    BetList    ${betlist_table}    2    11
+    #VP. check result pop-up
+    check result popup exist    \    main    BetList    ResultPopup
+    #7. Close result pop-up
+    click element on report    \    main    BetList    ${close_button_on_popup}
+    #8. Close betlist pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_25_ST_Reports_Win Loss By Bet Type
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 6 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Win Loss By Bet Type
+    navigate left menu    REPORTS    Win Loss By Bet Type
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    WinLossByBetType.xls
+    # 4. Select filters then click Submit button
+    submit filters for win loss by bettype    ${from}    ${to}    normal    MYR    USD
+    # 5. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+
+TM_26_ST_Reports_Racing Commission
+    [Tags]    Complete
+    ${from}    Get Time    \    Now - 6 day
+    ${to}=    Get Time    \    Now - 11 hour
+    # 1. Navigate to REPORTS > Racing Commission
+    navigate left menu    REPORTS    Racing Commission
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for racing commission    ${from}    ${to}    ALL    ALL    USD
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    RacingCommission.xls
+    # 3. Click link in External ID
+    click drilldown link in div table report    \    main    None    ${div_report_table_reports}    1    2
+    # VP. Check betlist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. check export excel
+    check export excel function    \    main    None    CustomerWinLossBetList.xls
+    # 4. Click link results in betlist
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. check results pop-up
+    check element on report    \    main    Result    ${result_table}
+    # 5. Close results pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 6. Click back button
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+
+TM_27_ST_Reports_Daily Racing Win Loss
+    [Tags]    Complete
+    ${date}=    Get Time    \    Now - 1d
+    # 1. Navigate to REPORTS > Daily Racing Win Loss
+    navigate left menu    REPORTS    Daily Racing Win Loss
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for daily racing win loss    ${date}    ALL    ALL    EUR
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    DailyRacingWinLossReport.xls
+    # 4. Click number link
+    click drilldown link in div table report    \    main    None    ${div_report_table_reports}    2    1
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    DailyRacingWinLossBetList.xls
+    # 5. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    # 6. Select filters then click Submit button
+    submit filters for daily racing win loss    ${date}    normal    MYR    USD
+    # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table
+    check element on report    \    main    None    ${div_report_table_reports}
+
+TM_28_ST_Reports_Cancelled Bets
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Cancelled Bets
+    navigate left menu    REPORTS    Cancelled Bets
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    # VP. check export excel
+    check export excel function    \    main    None    CancelledBetList.xls
+    check user guide popup
+    # 3. Select filters then click Submit button
+    submit filters for cancelled bets    normal    MYR    USD    5
+    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_29_ST_Reports_Daily Bet List
+    [Tags]    Complete
+    ${day}    Get Time    \    Now - 1 day
+    # 1. Navigate to REPORTS > Daily Bet List
+    navigate left menu    REPORTS    Daily Bet List
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for daily bet list    ${day}    CNY    USD    Sportsbook    Won
+    wait page load
+    #VP Check betlist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. check export excel
+    check export excel function    \    main    None    DailyBetList.xls
+    # 3. Click link on results in ticket
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    #VP. Check result pop-up
+    check element on report    \    main    ResultPopup    ${result_table}
+    #4. Close result pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_30_ST_Reports_Live Report
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Live Report
+    navigate left menu    REPORTS    Live Report
+    # 2. Click User Guide
+    check user guide popup
+    # 3. Select filters then click Submit button
+    ${fromDate}=    Get Time    \    NOW - 5d
+    ${toDate}=    Get Time    \    NOW - 11h
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    Live
+    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    check special case when no info available    \    main    None
+    # VP. Check report table exist
+    check element on report    \    main    None    xpath=//div[@class='report-content']/div[@class='data-content']
+    # VP. Check exporting file successfully
+    check export excel function for live report    \    main    None    LiveReport.xls
+    # 5. Click product link on live report.
+    click product link on live report    Sportsbook
+    # 6. Click sport link on live report
+    click sport link on live report    Soccer
+    # 7. Click match link on live report
+    click match link on live report    1
+    # VP. Check bet list table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    LiveReportBetList.xls
+    # 8. Click Results status link
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    # VP. Check result table exist
+    check result popup exist    \    main    ResultPopup    None
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 9. Click Back button on bet list report
+    click element on report    \    main    None    ${back_button}
+    # 10. Click Back button on match report
+    click element on report    \    main    None    ${back_button}
+    # 11. Click view history report link
+    click element on report    \    main    None    xpath=//a[@id='switchreport']
+    # 12. Select filters for history report then click Submit button
+    submit filters for history live report    None    None    None    None    None    None
+    ...    Non-Live
+    # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    check special case when no info available    \    main    None
+    # VP. Check report table exist
+    check element on report    \    main    None    xpath=//div[@class='data-content']
+    # VP. Check exporting file successfully
+    check export excel function for live report    \    main    None    LiveReport.xls
+    # 14. Click product link on live report
+    click product link on live report    Sportsbook
+    # VP. Check report table exist
+    check element on report    \    main    None    xpath=//div[@id='detail-content']/div[@class='data-content'][1]
+    # 15. Click "Back to current repot" link
+    click element on report    \    main    None    xpath=//a[@id='switchreport']
+
+TM_31_ST_Reports_Turnover
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Turnover
+    navigate left menu    REPORTS    Turnover${SPACE}
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for turnover    None    None    None    None    Yes    normal
+    ...    Based EUR    None    ALL
+    wait page load
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    Turnover.xls
+
+TM_32_ST_Reports_Mobile Win Loss
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Mobile Win Loss
+    navigate left menu    REPORTS    Mobile Win Loss
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for mobile win loss    None    None    None    None    CNY    Yes
+    ...    Normal    Smartphone    All
+    wait page load
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    MobileWinLoss.xls
+    # 3. Click link in External ID colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    #VP. Check betlist
+    check element on report    \    main    BetList    ${betlist_table}
+    #VP. check export
+    check export excel function    \    main    BetList    MobileWinLossBetList.xls
+    # 4. Click link result in betlist
+    click result link in ticket    \    main    BetList/MobileWl    ${betlist_table}    2    11
+    # VP. Check result pop-up
+    check result popup exist    \    main    BetList/MobileWl    ResultPopup
+    # 5. Click close result pop-up
+    click element on report    \    main    BetList/MobileWl    ${close_button_on_popup}
+    # 6. Close betlist pop-up
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_33_ST_Reports_AG Casino Win Loss
+    [Tags]    Complete
+    select licensee    12Bet
+    # 1. Navigate to REPORTS > AG Casino Win Loss
+    navigate left menu    REPORTS    AG Casino Win Loss
+    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    check user guide popup
+    # VP. check export excel
+    check export excel function    \    main    None    AgCasinoWinLoss.xls
+    # 3. Click Currency link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    AgCasinoWinLoss.xls
+    # 4. Click SystemID link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    AgCasinoWinLoss.xls
+    # 5. Click Licensee link
+    click element on report    \    main    None    ${licensee_link_ag_casino_wl}
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # 6. Click Main link
+    click element on report    \    main    None    ${main_link_ag_casino_wl}
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+
+TM_34_ST_Reports_Results
+    Comment    Not Done Yet
+
+TM_35_ST_Reports_Balance
+    Comment    Not Done Yet
+
+TM_36_ST_Reports_Win Loss By Leagues
+    Comment    Not Done Yet
+
+TM_37_ST_CustomerReports_Customer Win Loss
+    Comment    Not Done Yet
+
+TM_38_ST_CustomerReports_Customer Pending Funds
+    Comment    Not Done Yet
+
+TM_39_ST_CustomerReports_Customer Balance
+    Comment    Not Done Yet
+
+TM_40_ST_CustomerReports_Customer Turnover
+    Comment    Not Done Yet
+
+TM_41_ST_DataWarehouse_Win Loss
+    Comment    Not Done Yet
+
+TM_42_ST_DataWarehouse_Top Customer
+    Comment    Not Done Yet
+
+TM_43_01_ST_CustomerInformation_Customer List_General
+    Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Comment    Maximize Browser Window
+    Comment    login    autQC1    1234aa
+    Comment    select licensee after login    spondemo
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
+    ...    All    All
+    Comment    select showhide in customer list    check    check    check    check    uncheck
+    ...    uncheck    uncheck    uncheck
+    Comment    check table header existence on customer list    exist    exist    exist    exist    not exist
+    ...    not exist    not exist    not exist
+    Comment    select showhide in customer list    check    check    check    check    check
+    ...    check    check    check
+    Comment    check table header existence on customer list    exist    exist    exist    exist    exist
+    ...    exist    exist    exist
+    Comment    change status based on username    harmony    check    check
+    Comment    change status based on username    harmony1    check    uncheck
+    Comment    check status based on username    harmony    Closed
+    Comment    check status based on username    harmony1    Suspended
+    Comment    change status based on username    harmony    uncheck    uncheck
+    Comment    change status based on username    harmony1    uncheck    uncheck
+    Comment    check status based on username    harmony    Open
+    Comment    check status based on username    harmony1    Open
+    Comment    change ba status based on username    harmony    OFF
+    Comment    check ba status based on username    harmony    OFF
+    Comment    change ba status based on username    harmony    ON
+    Comment    check ba status based on username    harmony    ON
+    Comment    change special level based on custid    9579874    10
+    Comment    check special level based on custid    9579874    10
+    Comment    change special level based on custid    9579874    None
+    Comment    check special level based on custid    9579874    None
+
+TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
+    Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Comment    Maximize Browser Window
+    Comment    login    autQC1    1234aa
+    Comment    select licensee after login    spondemo
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
+    ...    All    All
+    Comment    # check Sportsbook
+    Comment    select customer option based on username    harmony    Bet Setting
+    Comment    click element on report    \    main    BetSetting    ${sportsbook_tab_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    # check Racing
+    Comment    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    # check Number Game
+    Comment    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    # check Virtual Sports
+    Comment    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    # check Keno
+    Comment    click element on report    \    main    BetSetting    ${keno_tab_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    # check AG Casino
+    Comment    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
+    Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
+    Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    check element on report    \    main    BetSetting    ${successful_popup}
+
+TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
+    Comment    Not done yet
+
+TM_44_ST_CustomerInformation_Customer Log
+    Comment    Not Done Yet
