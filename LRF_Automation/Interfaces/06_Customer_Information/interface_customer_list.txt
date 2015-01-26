@@ -23,3 +23,6 @@ ${enable_ag_casino_button}    xpath=//*[@id='btnUpdateStatus' and contains(@valu
 ${ok_button_confirmation_popup_bet_setting}    xpath=//button/span[text()='OK']    # OK button of Confirmation popup when clicking on Submit button in Bet Setting page
 ${successful_popup}    xpath=//span[text()='Successful']    # Successful popup when user submits
 ${bet_setting_groups_listbox}    xpath=//*[@id='betSettingGroup']    # Bet Setting Groups listbox of AG Casino tab in Bet Setting popup
+${view_listbox}    xpath=//*[@id='ViewOption']    # View listbox of BetList page
+${betlist_panel}    xpath=//*[@id='gview_BetListGrid']    # Betlist panel of Customer List page
+${log_info_table}    xpath=//table[@class='log-info']    # Log Info table when clicking on View - Log Info

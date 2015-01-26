@@ -1,0 +1,41 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/06_Customer_Information/interface_customer_log.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+submit filters for customer log general
+    [Arguments]    ${username}
+    [Documentation]    This action is used to submit filters for General tab in Customer Log report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for customer log general | harmony
+    Select Window
+    Select Frame    main
+    Input Text    ${username_textbox_customer_log}    ${username}
+    Click Element    ${submit_button}
+    Unselect Frame
+
+submit filters for customer log setting
+    [Arguments]    ${username}    ${view by}    ${year}    ${month}    ${from day}    ${to day}
+    ...    ${show old value}
+    [Documentation]    This action is used to submit filters for Customer Setting tab in Customer Log report.
+    ...
+    ...    ${show old value}= 'Yes' or 'No'
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for customer log settingl | harmony | All | None | None | None | None | Yes
+    Select Window
+    Select Frame    main
+    # Enter username
+    Run Keyword If    '${username}'!='None'    Input Text    ${username_textbox_customer_log}    ${username}
+    # Select View by
+    Select From List By Label    ${view_by_listbox_customer_log}    ${view by}
+    # Check Show old values
+    Run Keyword If    '${show old value}'=='Yes'    Select Checkbox    ${show_old_value_checkbox}
+    Run Keyword If    '${show old value}'=='No'    Unselect Checkbox    ${show_old_value_checkbox}
+    Click Element    ${submit_button}
+    Unselect Frame

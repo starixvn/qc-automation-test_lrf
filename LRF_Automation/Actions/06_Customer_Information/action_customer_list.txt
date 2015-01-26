@@ -219,3 +219,23 @@ select customer option based on username
     # select option
     Click Element    xpath=//div[@externalid='${username}']/a[contains(text(),'${option}')]
     Unselect Frame
+
+submit filters for betlist and statement
+    [Arguments]    ${view}    ${from date}    ${to date}    ${product}
+    [Documentation]    This action is used to submit filters for betlist or statement of Customer List page.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for betlist and statement | Daily Statement | Dec-01-2014 | Dec-03-2014 | None
+    ...
+    ...    submit filters for betlist and statement | Bet List | Dec-01-2014 | Dec-03-2014 | All
+    # select view mode
+    Run Keyword If    '${view}'!='None'    select listbox by label on report    \    main    BetList    ${view_listbox}
+    ...    ${view}
+    Sleep    3s
+    # select date
+    select date range    \    main    BetList    ${from date}    ${to date}
+    # select products
+    Run Keyword If    '${product}'!='None'    select products filter    \    main    BetList    ${product}
+    # click Submit button
+    click element on report    \    main    BetList    ${submit_button}

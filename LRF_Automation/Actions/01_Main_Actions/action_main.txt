@@ -495,6 +495,19 @@ check checkbox existence
     Run Keyword If    '${state}'=='not exist'    Element Should Not Be Visible    xpath=//label[contains(text(),'${checkbox title}')]/input[@type='checkbox']
     Unselect Frame
 
+check selection of list on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${selection}
+    [Documentation]    Check selection of a list on report.
+    ...
+    ...    Example: check selection of bet setting group listbox is C
+    ...
+    ...    check selection of list on report | ${bet setting groups listbox} | C
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    List Selection Should Be    ${listbox}    ${selection}
+    Unselect Frame
+
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
@@ -508,7 +521,7 @@ wait page load
     [Documentation]    Used to wait when the frame is loading.
     Select Window
     Select Frame    main
-    ${loading_status}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@class='loading'][@style='display: block;']
+    ${loading_status}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@class='loading'][@style='display: block;']
     Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    90s
     Unselect Frame
 

@@ -55,6 +55,7 @@ Resource          ../Actions/06_Customer_Information/action_customer_list.txt
 Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
 Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
 Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -802,7 +803,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # VP. Check User Guide popup exists
     check user guide popup
     # 6. Select filters then click Submit button
-    submit filters for forecast handicap bodog    0    9    None    USD
+    submit filters for forecast handicap bodog    0    0    None    USD
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1358,6 +1359,7 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     Comment    login    autQC1    1234aa
     Comment    select licensee after login    spondemo
     Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    check user guide popup
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
     ...    All    All
     Comment    select showhide in customer list    check    check    check    check    uncheck
@@ -1386,11 +1388,6 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     Comment    check special level based on custid    9579874    None
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
-    Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
-    Comment    Maximize Browser Window
-    Comment    login    autQC1    1234aa
-    Comment    select licensee after login    spondemo
-    Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
     ...    All    All
     Comment    # check Sportsbook
@@ -1427,12 +1424,55 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     Comment    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
     Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
+    Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    select customer option based on username    harmony    Bet Setting
+    Comment    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
+    Comment    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
+    Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
+    Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
-    Comment    Not done yet
+    Comment    ${from}=    Get Time    \    Now - 3 day
+    Comment    ${to}=    Get Time    \    Now - 11 hour
+    Comment    # Bet List
+    Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
+    ...    All    All
+    Comment    select customer option based on username    harmony    Bet List
+    Comment    check selection of list on report    \    main    BetList    ${view_listbox}    Bet List
+    Comment    submit filters for betlist and statement    None    ${from}    ${to}    All
+    Comment    check element on report    \    main    BetList    ${betlist_panel}
+    Comment    submit filters for betlist and statement    Bet List (Running)    ${from}    ${to}    All
+    Comment    check element on report    \    main    BetList    ${betlist_panel}
+    Comment    # Statement
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer Log
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
+    ...    All    All
+    Comment    select customer option based on username    harmony    Statement
+    Comment    check selection of list on report    \    main    BetList    ${view_listbox}    Daily Statement
+    Comment    submit filters for betlist and statement    None    ${from}    ${to}    None
+    Comment    check element on report    \    main    BetList    ${betlist_panel}
+    Comment    click element on report    \    main    None    ${close_button_on_popup}
+    Comment    select customer option based on username    harmony    Log Info
+    Comment    check element on report    \    main    None    ${log_info_table}
 
 TM_44_ST_CustomerInformation_Customer Log
-    Comment    Not Done Yet
+    Comment    navigate left menu    CUSTOMER INFORMATION    Customer Log
+    Comment    # General tab
+    Comment    submit filters for customer log general    harmony
+    Comment    check element on report    \    main    None    ${general_table_customer_log}
+    Comment    check user guide popup
+    Comment    # Customer Setting tab
+    Comment    click element on report    \    main    None    ${customer_setting_tab_customer_log}
+    Comment    submit filters for customer log setting    harmony    All    None    None    None
+    ...    None    Yes
+    Comment    wait page load
+    Comment    check element on report    \    main    None    ${customer_setting_table_customer_log}
+    Comment    check user guide popup
