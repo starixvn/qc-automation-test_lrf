@@ -56,6 +56,7 @@ Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
 Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
 Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
+Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -803,7 +804,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # VP. Check User Guide popup exists
     check user guide popup
     # 6. Select filters then click Submit button
-    submit filters for forecast handicap bodog    0    0    None    USD
+    submit filters for forecast handicap bodog    0    1    None    USD
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1330,7 +1331,6 @@ TM_34_ST_Reports_Results
     Comment    Not Done Yet
 
 TM_35_ST_Reports_Balance
-    Comment    Not Done Yet
 
 TM_36_ST_Reports_Win Loss By Leagues
     Comment    Not Done Yet
@@ -1354,85 +1354,140 @@ TM_42_ST_DataWarehouse_Top Customer
     Comment    Not Done Yet
 
 TM_43_01_ST_CustomerInformation_Customer List_General
+    Comment    # Get today time because exported file have "today" date in file name
+    Comment    ${today}=    Get Time    \    Now - 11h
+    Comment    ${date}=    convert date into month date year    ${today}
+    Comment    # Open Testing Site
     Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Comment    Maximize Browser Window
+    Comment    # Login with test account
     Comment    login    autQC1    1234aa
+    Comment    # Select spondemo licensee
     Comment    select licensee after login    spondemo
+    Comment    # 1. Navigate to CUSTOMER INFORMATION > Customer List
     Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
-    Comment    check user guide popup
+    Comment    wait page load
+    Comment    # 2. Submit filters to view only harmony account
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
-    ...    All    All
+    ...    All    All    None
+    Comment    # 3. Click User Guide button
+    Comment    # VP. Check User Guide popup displays
+    Comment    check user guide popup
+    Comment    # 4. Click Export button
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    CustomerList_${date}.xls
+    Comment    # 5. Select Show/Hide listbox to hide 4 last columns
     Comment    select showhide in customer list    check    check    check    check    uncheck
     ...    uncheck    uncheck    uncheck
+    Comment    # VP. Check 4 last columns are hide successfully
     Comment    check table header existence on customer list    exist    exist    exist    exist    not exist
     ...    not exist    not exist    not exist
+    Comment    # 6. Select Show/Hide to show all columns
     Comment    select showhide in customer list    check    check    check    check    check
     ...    check    check    check
+    Comment    # VP. Check all columns are shown
     Comment    check table header existence on customer list    exist    exist    exist    exist    exist
     ...    exist    exist    exist
+    Comment    # 7. Change Status of "harmony" into Closed
+    Comment    # 8. Change Status of "harmony1" into Suspended
     Comment    change status based on username    harmony    check    check
     Comment    change status based on username    harmony1    check    uncheck
+    Comment    # VP. Check status is changed successfully
     Comment    check status based on username    harmony    Closed
     Comment    check status based on username    harmony1    Suspended
+    Comment    # 9. Change Status back to Open
     Comment    change status based on username    harmony    uncheck    uncheck
     Comment    change status based on username    harmony1    uncheck    uncheck
+    Comment    # VP. Check status is changed successfully
     Comment    check status based on username    harmony    Open
     Comment    check status based on username    harmony1    Open
+    Comment    # 10. Change BA Status to OFF
     Comment    change ba status based on username    harmony    OFF
+    Comment    # VP. Check BA Status is changed to OFF
     Comment    check ba status based on username    harmony    OFF
+    Comment    # 11. Change BA Status to ON
     Comment    change ba status based on username    harmony    ON
+    Comment    # VP. Check BA Status is changed to ON
     Comment    check ba status based on username    harmony    ON
+    Comment    # 12. Change Special Level to 10
     Comment    change special level based on custid    9579874    10
+    Comment    # VP. Check Special Level is changed successfully
     Comment    check special level based on custid    9579874    10
+    Comment    # 13. Change Special Level to None
     Comment    change special level based on custid    9579874    None
+    Comment    # VP. Check Special Level is changed successfully
     Comment    check special level based on custid    9579874    None
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
+    Comment    # 1. Submit filters to see "harmony" testing account
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
-    ...    All    All
-    Comment    # check Sportsbook
+    ...    All    All    None
+    Comment    # 2. Go to View > Bet Setting
     Comment    select customer option based on username    harmony    Bet Setting
+    Comment    # 3. Click Sportsbook tab
     Comment    click element on report    \    main    BetSetting    ${sportsbook_tab_bet_setting}
+    Comment    # 4. Click Submit button and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # VP. Check user submits successfully
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
-    Comment    # check Racing
+    Comment    # 5. Click Racing tab
     Comment    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    Comment    # 6. Click Reset button
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    # 7. Click Submit button and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # VP. Check user submits successfully
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
-    Comment    # check Number Game
+    Comment    # 8. Click Number Game tab
     Comment    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    Comment    # 9. Click Reset button
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    # 10. Click Submit and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # VP. Check user submits successfully
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
-    Comment    # check Virtual Sports
+    Comment    # 11. Click Virtual Sports tab
     Comment    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    Comment    # 12. Click Reset button
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    # 13. Click Submit and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # VP. Check user submits successfully
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
-    Comment    # check Keno
+    Comment    # 14. Click Keno tab
     Comment    click element on report    \    main    BetSetting    ${keno_tab_bet_setting}
+    Comment    # 15. Click Reset button
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    # 16. Click Submit and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # VP. Check user submits successfully
     Comment    check element on report    \    main    BetSetting    ${successful_popup}
-    Comment    # check AG Casino
+    Comment    # 17. Click AG Casino tab
     Comment    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
+    Comment    # 18. Select Group B
     Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
+    Comment    # 19. Click Reset button
     Comment    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Comment    # VP. Group Setting should be reset succesfully
     Comment    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
+    Comment    # 20. Select Group C
     Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
+    Comment    # 21. Click Submit and OK
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    Comment    check element on report    \    main    BetSetting    ${successful_popup}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Comment    # 22. Go to View > Bet Setting again
     Comment    select customer option based on username    harmony    Bet Setting
+    Comment    # 23. Click AG Casino tab
     Comment    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
+    Comment    # VP. Group C should be selected
     Comment    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
+    Comment    # Post-Condition: Return back to group A
     Comment    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
     Comment    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     Comment    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
@@ -1441,38 +1496,131 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     Comment    ${from}=    Get Time    \    Now - 3 day
     Comment    ${to}=    Get Time    \    Now - 11 hour
-    Comment    # Bet List
+    Comment    # 1. Submit filters for viewing "harmony" testing account
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
-    ...    All    All
+    ...    All    All    None
+    Comment    # 2. Go to View > Bet List
     Comment    select customer option based on username    harmony    Bet List
+    Comment    # VP. Bet List page is opened
     Comment    check selection of list on report    \    main    BetList    ${view_listbox}    Bet List
+    Comment    # 3. Submit filters for betlist
     Comment    submit filters for betlist and statement    None    ${from}    ${to}    All
+    Comment    # VP. Bet List existed
     Comment    check element on report    \    main    BetList    ${betlist_panel}
+    Comment    # 4. Submit filters for Bet List (Running)
     Comment    submit filters for betlist and statement    Bet List (Running)    ${from}    ${to}    All
+    Comment    # VP. Bet List (Running) existed
     Comment    check element on report    \    main    BetList    ${betlist_panel}
-    Comment    # Statement
+    Comment    # work around: Go to another page and come back to clear cache
     Comment    navigate left menu    CUSTOMER INFORMATION    Customer Log
     Comment    navigate left menu    CUSTOMER INFORMATION    Customer List
+    Comment    wait page load
+    Comment    # 5. Submit filters for viewing "harmony" testing account
     Comment    submit filters for customer list    ALL    ALL    USD    harmony    All
-    ...    All    All
+    ...    All    All    None
+    Comment    # 6. Go to View > Statement
     Comment    select customer option based on username    harmony    Statement
+    Comment    # VP. Statement page should display
     Comment    check selection of list on report    \    main    BetList    ${view_listbox}    Daily Statement
+    Comment    # 7. Submit filters for statement
     Comment    submit filters for betlist and statement    None    ${from}    ${to}    None
+    Comment    # VP. Statement existed
     Comment    check element on report    \    main    BetList    ${betlist_panel}
+    Comment    # 8. Close popup
     Comment    click element on report    \    main    None    ${close_button_on_popup}
+    Comment    # 9. Go to View > Log Info
     Comment    select customer option based on username    harmony    Log Info
+    Comment    # VP. Log Info popup should display
     Comment    check element on report    \    main    None    ${log_info_table}
 
 TM_44_ST_CustomerInformation_Customer Log
+    Comment    # 1. Navigate to CUSTOMER INFORMATION > Customer Log
     Comment    navigate left menu    CUSTOMER INFORMATION    Customer Log
-    Comment    # General tab
+    Comment    # 2. Submit filters for Customer Log - General tab
     Comment    submit filters for customer log general    harmony
+    Comment    # VP. Log table should display
     Comment    check element on report    \    main    None    ${general_table_customer_log}
+    Comment    # VP. Check User Guide
     Comment    check user guide popup
-    Comment    # Customer Setting tab
+    Comment    # 3. Click Customer Setting tab
     Comment    click element on report    \    main    None    ${customer_setting_tab_customer_log}
+    Comment    # 4. Submit filters for Customer Setting
     Comment    submit filters for customer log setting    harmony    All    None    None    None
     ...    None    Yes
     Comment    wait page load
+    Comment    # VP. Setting log should display
     Comment    check element on report    \    main    None    ${customer_setting_table_customer_log}
+    Comment    # VP. Check User Guide
     Comment    check user guide popup
+
+TM_45_ST_CustomerInformation_Commission Group List
+    Comment    ${tm_group}=    Set Variable    testinggroup1
+    Comment    ${tm_group_edit}=    Set Variable    testinggroup2
+    Comment    ${tm_cust}=    Set Variable    candytest
+    Comment    ${tm_custid}=    Set Variable    12872391
+    Comment    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Comment    Maximize Browser Window
+    Comment    login    pgmjames    4321aa
+    Comment    select licensee after login    Athena000
+    Comment    # 1. Navigate to CUSTOMER INFORMATION > Customer List
+    Comment    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    Comment    wait page load
+    Comment    # VP. Check Export Excel function
+    Comment    check export excel function    \    main    None    CustomerCommGroup.xls
+    Comment    # VP. Check User Guide
+    Comment    check user guide popup
+    Comment    # 2. Create new commission group
+    Comment    create new commission group    ${tm_group}    1    2    3    4
+    Comment    # VP. New group is created successfully
+    Comment    check element on report    \    main    None    ${successful_label}
+    Comment    # 3. Click Cancel button
+    Comment    click element on report    \    main    None    ${cancel_button_commission_group_list}
+    Comment    # 4. Click group link in the table to edit
+    Comment    click group link    ${tm_group}
+    Comment    # 5. Edit group name
+    Comment    input text on report    \    main    None    ${group_name_textbox}    ${tm_group_edit}
+    Comment    # 6. Click Save button
+    Comment    click element on report    \    main    None    ${save_button_commission_group_list}
+    Comment    # 7. Click Cancel button
+    Comment    click element on report    \    main    None    ${cancel_button_commission_group_list}
+    Comment    # VP. Group name is edited successfully
+    Comment    check group name existence    ${tm_group}    not exist
+    Comment    check group name existence    ${tm_group_edit}    exist
+    Comment    # 8. Click Edit button at Edit Group column
+    Comment    ${tm_last_row}=    get total rows in commission group list
+    Comment    click edit group button    ${tm_last_row}    Edit Group
+    Comment    # 9. Click Go To Customer List button
+    Comment    click element on report    \    main    None    ${go_to_customer_list_button}
+    Comment    wait page load
+    Comment    # 10. Submit filters for testing customer "Candytest"
+    Comment    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None
+    ...    All    All    All
+    Comment    # 11. Move user to new group
+    Comment    move to group    ${tm_custid}    ${tm_group_edit}
+    Comment    # VP. User is moved to group successfully
+    Comment    check customer group based on custid    ${tm_custid}    ${tm_group_edit}
+    Comment    # 12. Click Update Commission button
+    Comment    update commission    ${tm_custid}    2    3    4    5
+    Comment    # VP. User is removed from group
+    Comment    check customer group based on custid    ${tm_custid}    None
+    Comment    # 13. Move user to new group again
+    Comment    move to group    ${tm_custid}    ${tm_group_edit}
+    Comment    # VP. User is moved to group successfully
+    Comment    check customer group based on custid    ${tm_custid}    ${tm_group_edit}
+    Comment    # 14. Go to Commission Group List page
+    Comment    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    Comment    # 15. Click No. of Customer link of new creating group
+    Comment    click no of customer link    ${tm_last_row}
+    Comment    # VP. Check that user is brought to customer list of new creating group
+    Comment    check customer group based on custid    ${tm_custid}    ${tm_group_edit}
+    Comment    # 16. Remove from group
+    Comment    remove from group    ${tm_custid}    clear comm
+    Comment    # VP. User is removed from group
+    Comment    check customer group based on custid    ${tm_custid}    None
+    Comment    # 17. Go back to Commission Group List page
+    Comment    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    Comment    wait page load
+    Comment    # 18. Delete creating group
+    Comment    delete commission group    ${tm_last_row}    keep comm
+    Comment    # VP. Group is deleted successfully
+    Comment    check group name existence    ${tm_group_edit}    not exist

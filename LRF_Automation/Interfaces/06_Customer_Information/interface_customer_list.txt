@@ -26,3 +26,21 @@ ${bet_setting_groups_listbox}    xpath=//*[@id='betSettingGroup']    # Bet Setti
 ${view_listbox}    xpath=//*[@id='ViewOption']    # View listbox of BetList page
 ${betlist_panel}    xpath=//*[@id='gview_BetListGrid']    # Betlist panel of Customer List page
 ${log_info_table}    xpath=//table[@class='log-info']    # Log Info table when clicking on View - Log Info
+${move_to_group_button}    xpath=//*[@id='MoveToGroup']    # Move To Group button of Customer List page
+${update_commission_button}    xpath=//*[@id='UpdateComm']    # Update Commission button of Customer List page
+${remove_from_group_button}    xpath=//*[@id='RemoveFromGroup']    # Remove From Group button of Customer List page
+${select_group_listbox}    xpath=//*[@id='GroupListSelect']    # Select Group listbox of Customer List page
+${successfully_move_group_label}    xpath=//div[@id='UpdateCustCommPopUp']/div[text()='Successully moved.']    # Successfully moved lable when moving group
+${group_listbox_customer_list}    xpath=//*[@id='DdlGroupCommId']    # Group listbox of Customer List page
+${successfully_update_commission_label}    xpath=//div[@id='UpdateCustCommPopUp']/div[text()='Successully updated commission.']    # Successfully Updated Commission label
+${sb_comm_listbox}    xpath=//*[@id='CustSBComm1']    # SB Comm listbox of Update Customer Commission popup
+${ng_comm_listbox}    xpath=//*[@id='CustNGComm1']    # NG Comm listbox of Update Customer Commission popup
+${lc_comm_listbox}    xpath=//*[@id='CustLCComm1']    # LC Comm listbox of Update Customer Commission popup
+${cs_comm_listbox}    xpath=//*[@id='CustCSComm1']    # CS Comm listbox of Update Customer Commission popup
+${cancel_update_commission_button}    xpath=//div[@aria-describedby='UpdateCustCommPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Update Customer Commission
+${cancel_move_group_button}    xpath=//div[@aria-describedby='MoveToGroupPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Move Group popup
+${ok_button_remove from_group}    xpath=//div[@aria-describedby='ConfirmRemoveFromGroupPopUp']/div/div/button/span[text()='OK']    # OK button of Remove From Group popup
+${cancel_button_remove_from_group}    xpath=//div[@aria-describedby='ConfirmRemoveFromGroupPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Remove From Group popup
+${ok_button_move_to_group}    xpath=//div[@aria-describedby='MoveToGroupPopUp']/div/div/button/span[text()='OK']    # OK button of Move To Group popup
+${keep_commission_radio_button}    xpath=//*[@id='KeepComm']    # Keep Current Commission radio button
+${clear_commission_radio_button}    xpath=//*[@id='ClearComm']    # Clear Customer's Commission radio button

@@ -7,7 +7,7 @@ Resource          ../01_Main_Actions/action_main.txt
 *** Keywords ***
 submit filters for customer list
     [Arguments]    ${licensee type}    ${currency}    ${based}    ${username}    ${status}    ${special level}
-    ...    ${ba}
+    ...    ${ba}    ${group}
     [Documentation]    This action is used to submit filters for Customer List report.
     ...
     ...    Example:
@@ -26,39 +26,92 @@ submit filters for customer list
     Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
     Run Keyword If    '${special level}'!='None'    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
     Run Keyword If    '${ba}'!='None'    Select From List By Label    ${ba_listbox_customer_list}    ${ba}
-    # select Show/Hide
+    # select Group if needed
+    Run Keyword If    '${group}'!='None'    Select From List By Label    ${group_listbox_customer_list}    ${group}
     Unselect Frame
     # click Submit button
     click element on report    \    main    None    ${submit_button_customer_list}
     wait page load
 
-select showhide in customer list
-    [Arguments]    ${external id}    ${system id}    ${available funds}    ${pending funds}    ${special level}    ${customer option}
-    ...    ${ba status}    ${status}
-    [Documentation]    This action is used to select checkbox inside Show/hide listbox of Customer List page.
-    ...
-    ...    Input *"check"* or *"uncheck"* to work with your selected checkboxes.
+submit filters for betlist and statement
+    [Arguments]    ${view}    ${from date}    ${to date}    ${product}
+    [Documentation]    This action is used to submit filters for betlist or statement of Customer List page.
     ...
     ...    Example:
     ...
-    ...    select showhide listbox in customer list | check | check | check | check | uncheck | check | uncheck | check
+    ...    submit filters for betlist and statement | Daily Statement | Dec-01-2014 | Dec-03-2014 | None
+    ...
+    ...    submit filters for betlist and statement | Bet List | Dec-01-2014 | Dec-03-2014 | All
+    # select view mode
+    Run Keyword If    '${view}'!='None'    select listbox by label on report    \    main    BetList    ${view_listbox}
+    ...    ${view}
+    Sleep    3s
+    # select date
+    select date range    \    main    BetList    ${from date}    ${to date}
+    # select products
+    Run Keyword If    '${product}'!='None'    select products filter    \    main    BetList    ${product}
+    # click Submit button
+    click element on report    \    main    BetList    ${submit_button}
+
+change status based on username
+    [Arguments]    ${username}    ${suspended}    ${close}
+    [Documentation]    This action is used to change status of specific user on Customer List report.
+    ...
+    ...    ${suspended}= 'check' or 'uncheck'
+    ...
+    ...    ${close}= 'check' or 'uncheck'
+    ...
+    ...    Example:
+    ...
+    ...    change status based on username | harmony | check | uncheck
     Select Window
     Select Frame    main
-    # Click listbox to open it
-    Click Element    ${show_hide_listbox_customer_list}
-    # Select - Unselect checkbox
-    select checkbox state    External ID    ${external id}
-    select checkbox state    System ID    ${system id}
-    select checkbox state    Available Funds    ${available funds}
-    select checkbox state    Pending Funds    ${pending funds}
-    select checkbox state    Special Level    ${special level}
-    select checkbox state    Customer Option    ${customer option}
-    select checkbox state    BA Status    ${ba status}
-    Run Keyword If    '${status}'=='check'    Select Checkbox    xpath=//input[@id='Status']
-    Run Keyword If    '${status}'=='uncheck'    Unselect Checkbox    xpath=//input[@id='Status']
-    # Click listbox again to close it
-    Click Element    ${show_hide_listbox_customer_list}
-    Click Element    ${submit_button_customer_list}
+    # Click Status link to open popup
+    Click Element    xpath=//td[@aria-describedby='ReportGrid_Status']/span[@externalid='${username}']
+    # Select Suspended
+    Run Keyword If    '${suspended}'=='check'    Select Checkbox    ${suspended_checkbox}
+    Run Keyword If    '${suspended}'=='uncheck'    Unselect Checkbox    ${suspended_checkbox}
+    # Select Close
+    Run Keyword If    '${close}'=='check'    Select Checkbox    ${close_checkbox}
+    Run Keyword If    '${close}'=='uncheck'    Unselect Checkbox    ${close_checkbox}
+    # click update button
+    Click Element    ${update_button}
+    Confirm Action
+    Unselect Frame
+
+change special level based on custid
+    [Arguments]    ${custid}    ${special level}
+    [Documentation]    This action is used to change Special Level based on Customer ID in Customer List report.
+    ...
+    ...    ${special level}= 'None' or '1' to '10'
+    ...
+    ...    Example:
+    ...
+    ...    change special level based on custid | 9579874 | 5
+    Select Window
+    Select Frame    main
+    # Click Special Level button to open popup
+    Click Element    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}']
+    # Select Level
+    Click Element    xpath=//div[@id='LevelList']/div[text()='${special level}']
+    Confirm Action
+    Unselect Frame
+
+change ba status based on username
+    [Arguments]    ${username}    ${status}
+    [Documentation]    This action is used to change BA Status of specific user in Customer List page.
+    ...
+    ...    ${status}= 'ON' or 'OFF'
+    ...
+    ...    Example:
+    ...
+    ...    change ba status based on username | harmony | ON
+    Select Window
+    Select Frame    main
+    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Run Keyword If    '${status}'!='${ac_current_status}'    Click Element    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Run Keyword If    '${status}'!='${ac_current_status}'    Confirm Action
+    Run Keyword If    '${status}'!='${ac_current_status}'    Sleep    2s
     Unselect Frame
 
 check table header existence on customer list
@@ -99,30 +152,19 @@ check table header existence on customer list
     Run Keyword If    '${customer option}'=='not exist'    Element Should Not Be Visible    xpath=//tr[@role='rowheader']/th[contains(@id,'CustomerOption')]
     Unselect Frame
 
-change status based on username
-    [Arguments]    ${username}    ${suspended}    ${close}
-    [Documentation]    This action is used to change status of specific user on Customer List report.
+check ba status based on username
+    [Arguments]    ${username}    ${status}
+    [Documentation]    This action is used to check BA Status of user in Customer List report.
     ...
-    ...    ${suspended}= 'check' or 'uncheck'
-    ...
-    ...    ${close}= 'check' or 'uncheck'
+    ...    ${status}= 'ON' or 'OFF'
     ...
     ...    Example:
     ...
-    ...    change status based on username | harmony | check | uncheck
+    ...    check ba status based on username | harmony | ON
     Select Window
     Select Frame    main
-    # Click Status link to open popup
-    Click Element    xpath=//td[@aria-describedby='ReportGrid_Status']/span[@externalid='${username}']
-    # Select Suspended
-    Run Keyword If    '${suspended}'=='check'    Select Checkbox    ${suspended_checkbox}
-    Run Keyword If    '${suspended}'=='uncheck'    Unselect Checkbox    ${suspended_checkbox}
-    # Select Close
-    Run Keyword If    '${close}'=='check'    Select Checkbox    ${close_checkbox}
-    Run Keyword If    '${close}'=='uncheck'    Unselect Checkbox    ${close_checkbox}
-    # click update button
-    Click Element    ${update_button}
-    Confirm Action
+    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Should Be True    '${ac_current_status}'=='${status}'
     Unselect Frame
 
 check status based on username
@@ -139,54 +181,16 @@ check status based on username
     Element Should Be Visible    xpath=//span[@externalid='${username}' and contains(text(),'${status}')]
     Unselect Frame
 
-change ba status based on username
-    [Arguments]    ${username}    ${status}
-    [Documentation]    This action is used to change BA Status of specific user in Customer List page.
-    ...
-    ...    ${status}= 'ON' or 'OFF'
+check customer group based on custid
+    [Arguments]    ${custid}    ${group}
+    [Documentation]    This action is used to check current group of a user.
     ...
     ...    Example:
     ...
-    ...    change ba status based on username | harmony | ON
+    ...    check customer group based on custid | 12872391 | testinggroup
     Select Window
     Select Frame    main
-    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
-    Run Keyword If    '${status}'!='${ac_current_status}'    Click Element    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
-    Run Keyword If    '${status}'!='${ac_current_status}'    Confirm Action
-    Run Keyword If    '${status}'!='${ac_current_status}'    Sleep    2s
-    Unselect Frame
-
-check ba status based on username
-    [Arguments]    ${username}    ${status}
-    [Documentation]    This action is used to check BA Status of user in Customer List report.
-    ...
-    ...    ${status}= 'ON' or 'OFF'
-    ...
-    ...    Example:
-    ...
-    ...    check ba status based on username | harmony | ON
-    Select Window
-    Select Frame    main
-    ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
-    Should Be True    '${ac_current_status}'=='${status}'
-    Unselect Frame
-
-change special level based on custid
-    [Arguments]    ${custid}    ${special level}
-    [Documentation]    This action is used to change Special Level based on Customer ID in Customer List report.
-    ...
-    ...    ${special level}= 'None' or '1' to '10'
-    ...
-    ...    Example:
-    ...
-    ...    change special level based on custid | 9579874 | 5
-    Select Window
-    Select Frame    main
-    # Click Special Level button to open popup
-    Click Element    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}']
-    # Select Level
-    Click Element    xpath=//div[@id='LevelList']/div[text()='${special level}']
-    Confirm Action
+    Element Should Be Visible    xpath=//td[@title='${group}']/div[contains(@id,'${custid}')]
     Unselect Frame
 
 check special level based on custid
@@ -201,6 +205,35 @@ check special level based on custid
     Select Window
     Select Frame    main
     Element Should Be Visible    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}' and text()='${special level}']
+    Unselect Frame
+
+select showhide in customer list
+    [Arguments]    ${external id}    ${system id}    ${available funds}    ${pending funds}    ${special level}    ${customer option}
+    ...    ${ba status}    ${status}
+    [Documentation]    This action is used to select checkbox inside Show/hide listbox of Customer List page.
+    ...
+    ...    Input *"check"* or *"uncheck"* to work with your selected checkboxes.
+    ...
+    ...    Example:
+    ...
+    ...    select showhide listbox in customer list | check | check | check | check | uncheck | check | uncheck | check
+    Select Window
+    Select Frame    main
+    # Click listbox to open it
+    Click Element    ${show_hide_listbox_customer_list}
+    # Select - Unselect checkbox
+    select checkbox state    External ID    ${external id}
+    select checkbox state    System ID    ${system id}
+    select checkbox state    Available Funds    ${available funds}
+    select checkbox state    Pending Funds    ${pending funds}
+    select checkbox state    Special Level    ${special level}
+    select checkbox state    Customer Option    ${customer option}
+    select checkbox state    BA Status    ${ba status}
+    Run Keyword If    '${status}'=='check'    Select Checkbox    xpath=//input[@id='Status']
+    Run Keyword If    '${status}'=='uncheck'    Unselect Checkbox    xpath=//input[@id='Status']
+    # Click listbox again to close it
+    Click Element    ${show_hide_listbox_customer_list}
+    Click Element    ${submit_button_customer_list}
     Unselect Frame
 
 select customer option based on username
@@ -220,22 +253,86 @@ select customer option based on username
     Click Element    xpath=//div[@externalid='${username}']/a[contains(text(),'${option}')]
     Unselect Frame
 
-submit filters for betlist and statement
-    [Arguments]    ${view}    ${from date}    ${to date}    ${product}
-    [Documentation]    This action is used to submit filters for betlist or statement of Customer List page.
+select customer checkbox based on custid
+    [Arguments]    ${custid}
+    [Documentation]    This action is used to select a customer checkbox based on custid.
     ...
     ...    Example:
     ...
-    ...    submit filters for betlist and statement | Daily Statement | Dec-01-2014 | Dec-03-2014 | None
+    ...    select customer checkbox based on custid | 12872391
+    Select Window
+    Select Frame    main
+    Select Checkbox    xpath=//input[@id='${custid}' and @type='checkbox']
+    Unselect Frame
+
+move to group
+    [Arguments]    ${custid}    ${group}
+    [Documentation]    This action is used to move a user with cust ID into a group.
     ...
-    ...    submit filters for betlist and statement | Bet List | Dec-01-2014 | Dec-03-2014 | All
-    # select view mode
-    Run Keyword If    '${view}'!='None'    select listbox by label on report    \    main    BetList    ${view_listbox}
-    ...    ${view}
-    Sleep    3s
-    # select date
-    select date range    \    main    BetList    ${from date}    ${to date}
-    # select products
-    Run Keyword If    '${product}'!='None'    select products filter    \    main    BetList    ${product}
-    # click Submit button
-    click element on report    \    main    BetList    ${submit_button}
+    ...    Example:
+    ...
+    ...    move to group | 12872391 | testinggroup
+    # select customer based on customer id
+    select customer checkbox based on custid    ${custid}
+    # Click Move To Group
+    Select Window
+    Select Frame    main
+    Click Element    ${move_to_group_button}
+    # select Group
+    Select From List By Label    ${select_group_listbox}    ${group}
+    # click OK button
+    Click Element    ${ok_button_move_to_group}
+    Wait Until Element Is Visible    ${cancel_move_group_button}    10s
+    # Close popup
+    Click Element    ${cancel_move_group_button}
+    Unselect Frame
+
+update commission
+    [Arguments]    ${custid}    ${sb comm}    ${ng comm}    ${lc comm}    ${cs comm}
+    [Documentation]    This action is used to update customer commission.
+    ...
+    ...    Example:
+    ...
+    ...    update commission | 1 | 2 | 5 | 6
+    # select customer based on customer id
+    select customer checkbox based on custid    ${custid}
+    # Click Update Commission
+    Select Window
+    Select Frame    main
+    Click Element    ${update_commission_button}
+    # select Commission
+    Select From List By Label    ${sb_comm_listbox}    ${sb comm}
+    Select From List By Label    ${ng_comm_listbox}    ${ng comm}
+    Select From List By Label    ${lc_comm_listbox}    ${lc comm}
+    Select From List By Label    ${cs_comm_listbox}    ${cs comm}
+    # click Save button
+    Click Element    ${save_button_popup}
+    Wait Until Element Is Visible    ${cancel_update_commission_button}    10s
+    # Close popup
+    Click Element    ${cancel_update_commission_button}
+    Unselect Frame
+
+remove from group
+    [Arguments]    ${custid}    ${choice}
+    [Documentation]    This action is used to remove user from group.
+    ...
+    ...    ${choice}= 'keep comm' or 'clear comm'
+    ...
+    ...    Example:
+    ...
+    ...    remove from group | 12872391 | keep comm
+    # select customer based on customer id
+    select customer checkbox based on custid    ${custid}
+    # Click Remove From Group
+    Select Window
+    Select Frame    main
+    Click Element    ${remove_from_group_button}
+    # Select "keep commission" or "clear commission"
+    Run Keyword If    '${choice}'=='keep comm'    Click Element    ${keep_commission_radio_button}
+    Run Keyword If    '${choice}'=='clear comm'    Click Element    ${clear_commission_radio_button}
+    # Click OK button
+    Click Element    ${ok_button_remove from_group}
+    # Close popup
+    Wait Until Element Is Visible    ${cancel_button_remove_from_group}
+    Click Element    ${cancel_button_remove_from_group}
+    Unselect Frame

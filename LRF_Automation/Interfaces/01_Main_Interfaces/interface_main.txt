@@ -27,3 +27,7 @@ ${year_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[2][@dat
 ${month_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of To calendar
 ${ok_button_of_from_to_calendar}    xpath=//div/button[text()='OK']    # OK button of From-To calendar
 ${no_info_label}    xpath=//*[contains(text(),'No information is available')]    # "No information is available" text
+${delete_button_popup}    xpath=//button/span[text()='Delete']    # Delete button of popup
+${cancel_button_popup}    xpath=//button/span[text()='Cancel']    # Cancel button of popup
+${ok_button_popup}    xpath=//button/span[text()='OK']    # OK button of the popup
+${save_button_popup}    xpath=//button/span[text()='Save']    # Save button of the popup
