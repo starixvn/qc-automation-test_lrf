@@ -1336,22 +1336,129 @@ TM_36_ST_Reports_Win Loss By Leagues
     Comment    Not Done Yet
 
 TM_37_ST_CustomerReports_Customer Win Loss
-    Comment    Not Done Yet
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 11h
+    # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    # 2. Submit filters
+    submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_customer_reports}
+    # VP. Check Exporting Excel
+    check export excel function    \    main    None    CustomerWinLoss.xls
+    # 3. Click drill down link
+    click drilldown link in customer reports    1    2
+    wait page load
+    # VP. Check Betlist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check Exporting Excel
+    check export excel function    \    main    None    CustomerWinLossBetList.xls
+    # 4. Click Result link
+    click result link in ticket    \    main    None    ${betlist_table}    2    11
+    # VP. Check result popup
+    check element on report    \    main    Result    ${result_table}
+    # 5. Close Result popup
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 6. Click Back button
+    click element on report    \    main    None    ${back_button}
+    # 7. Click history report link
+    click element on report    \    main    None    ${history_report_link_customer_wl}
+    # 8. Submit filters
+    submit filters for history customer win loss    None    None    None    None    ALL    USD
+    ...    All
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_customer_reports}
+    # VP. Check Exporting Excel
+    check export excel function    \    main    None    CustomerWinLoss.xls
+    # 9. Click drill down link
+    click drilldown link in customer reports    1    2
+    wait page load
+    # VP. Check Betlist
+    check element on report    \    main    None    ${betlist_table}
 
 TM_38_ST_CustomerReports_Customer Pending Funds
     Comment    Not Done Yet
 
 TM_39_ST_CustomerReports_Customer Balance
-    Comment    Not Done Yet
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 11h
+    # 1. Navigate to CUSTOMER REPORTS > Customer Balance
+    navigate left menu    CUSTOMER REPORTS    Customer Balance
+    # 2. Submit filters
+    submit filters for customer balance    ${from}    ${to}    ALL    EUR    All    Turnover
+    ...    No    All
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_customer_reports}
+    # VP. Check exporting excel
+    check export excel function    \    main    None    CustomerBalance.xls
+    # VP. Check user guide
+    check user guide popup
 
 TM_40_ST_CustomerReports_Customer Turnover
-    Comment    Not Done Yet
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 11h
+    # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
+    navigate left menu    CUSTOMER REPORTS    Customer Turnover
+    # 2. Submit filters
+    submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
+    ...    1    EUR    All
+    # VP. Check data table
+    check element on report    \    main    None    ${report_table_customer_reports}
+    # VP. Check exporting excel
+    check export excel function    \    main    None    CustomerTurnover.xls
+    # VP. Check User Guide
+    check user guide popup
+    # 3. Unselect one Product in Product list (ex: Number Game)
+    unselect product checkboxes in customer turnover    Number Game
+    # 4. Click Bettype list
+    click element on report    \    main    None    ${bettype_listbox_customer_turnover}
+    # VP. Bettype listbox should remove bettype of Number Game
+    check checkbox existence    \    main    None    NG -    not exist
 
 TM_41_ST_DataWarehouse_Win Loss
-    Comment    Not Done Yet
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 13d
+    ${to}=    Get Time    \    Now - 6d
+    # 1. Select mansion88 licensee
+    select licensee    mansion88
+    # 2. Navigate to DATA WAREHOUSE > Win Loss
+    navigate left menu    DATA WAREHOUSE    Win Loss
+    # 3. Submit filters
+    submit filters for win loss    ALL    USD    ${from}    ${to}    Month    Normal
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_data_warehouse}
+    # VP. Check exporting excel
+    check export excel function    \    main    None    WinLoss.xls
+    # 4. Click Note icon
+    click element on report    \    main    None    ${note_icon_data_warehouse}
+    # VP. Check note popup
+    check element on report    \    main    None    ${note_popup_data_warehouse}
+    # 5. Close popup
+    click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
 
 TM_42_ST_DataWarehouse_Top Customer
-    Comment    Not Done Yet
+    [Tags]    Complete
+    ${from}=    Get Time    \    Now - 13d
+    ${to}=    Get Time    \    Now - 6d
+    select licensee    mansion88
+    # 1. Navigate to DATA WAREHOUSE > Top Customer
+    navigate left menu    DATA WAREHOUSE    Top Customer
+    # 2. Submit filters
+    submit filters for top customer    ALL    USD    ${from}    ${to}    All    None
+    ...    All    2    Worst Win Loss    3    100
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_data_warehouse}
+    # VP. Check exporting excel
+    check export excel function    \    main    None    TopCustomer.xls
+    # 3. Click Note icon
+    click element on report    \    main    None    ${note_icon_data_warehouse}
+    # VP. Check note popup
+    check element on report    \    main    None    ${note_popup_data_warehouse}
+    # 4. Close popup
+    click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
 
 TM_43_01_ST_CustomerInformation_Customer List_General
     Comment    # Get today time because exported file have "today" date in file name
