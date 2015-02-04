@@ -14,3 +14,4 @@ ${note_icon_wl_by_leagues}    xpath=//*[@id='note-icon']    # Note icon at top r
 ${note_popup}     xpath=//*[@id='note-wrapper']/div/ul/li    # Note popup displays when clicking on Note icon
 ${close_button_note_popup_wl_by_leagues}    xpath=//*[@id='note-wrapper']/div[1]    # Close button of Note popup
 ${league_link_wl_by_leagues}    xpath=//a[@id='leagueHeader']    # League link of Win Loss By Leagues report
+${back_link_wl_by_leagues}    xpath=//*[@id='BackLink']    # Back link in WL By Leagues report

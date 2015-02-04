@@ -17,7 +17,7 @@ ${result_table}    xpath=//table[contains(@class,'fn-rs')]    # Result table in 
 ${user_guide_button}    xpath=//*[@id='UserGuide']    # User Guide button
 ${user_guide_popup}    xpath=//*[@id='UserGuidePopup']    # User Guide popup
 ${close_button_user_guide}    xpath=//a[@class='popup-close']    # Close button of User Guide popup
-${single_calendar_picker}    xpath=//*[contains(@id,'Date')]    # Single calendar displays on filter section of LRF pages
+${single_calendar_picker}    xpath=//div/input[contains(@id,'Date')]    # Single calendar displays on filter section of LRF pages
 ${year_listbox_of_single_calendar}    xpath=//*/div/div/select[2][@data-handler='selectYear']    # Year listbox of single calendar
 ${month_listbox_of_single_calendar}    xpath=//*/div/div/select[1][@data-handler='selectMonth']    # Month listbox of single calendar
 ${from_calendar_picker}    xpath=//input[@id='FromDate']    # From Calendar picker of from-to calendar control
