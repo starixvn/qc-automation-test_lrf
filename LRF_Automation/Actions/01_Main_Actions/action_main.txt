@@ -30,6 +30,26 @@ config
     Set Suite Variable    ${cf_password2}    4321aa
     Set Suite Variable    ${cf_licensee}    12Bet
 
+config local
+    [Documentation]    This action is used to set default configuration for entire scripts on Local environment.
+    # Set Timing
+    Set Suite Variable    ${cf_speed}    0.4
+    Set Selenium Speed    ${cf_speed}
+    Set Selenium Timeout    60s
+    # Set Browser & URL testing
+    Set Suite Variable    ${cf_browser}    ff
+    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
+    Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
+    Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
+    # Set Global Variables
+    Set Suite Variable    ${cf_username}    tester02
+    Set Suite Variable    ${cf_password}    1234aa
+    Set Suite Variable    ${cf_username1}    tester02
+    Set Suite Variable    ${cf_password1}    1234aa
+    Set Suite Variable    ${cf_username2}    tester02
+    Set Suite Variable    ${cf_password2}    1234aa
+    Set Suite Variable    ${cf_licensee}    12Bet
+
 login
     [Arguments]    ${username}    ${password}
     [Documentation]    Type 'username' and 'password' into the textboxes then click Login button

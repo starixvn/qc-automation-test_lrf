@@ -1043,18 +1043,21 @@ TM_24_ST_Reports_Win Loss By Products
     check export excel function    \    main    None    WinLossByProduct.xls
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
+    wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    WinLossByProduct.xls
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    WinLossByProduct.xls
     # 5. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
     #VP. check export
@@ -1719,8 +1722,8 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 3 day
-    ${to}=    Get Time    \    Now - 11 hour
+    ${from}=    Get Time    \    Now - 18 hour
+    ${to}=    Get Time    \    Now - 12 hour
     # 1. Submit filters for viewing "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
     ...    All    None
