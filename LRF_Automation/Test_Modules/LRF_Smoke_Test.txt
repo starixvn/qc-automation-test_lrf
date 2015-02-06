@@ -1,5 +1,7 @@
 *** Settings ***
 Suite Setup       config
+Suite Teardown
+Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
 Library           Screenshot
@@ -744,8 +746,9 @@ TM_18_01_ST_Forecast_Handicap
     navigate left menu    REPORTS    Balance
     # 1. Navigate to FORECAST > Handicap/Over Under/Live
     navigate left menu    FORECAST    Handicap/Over Under/Live
+    wait page load
     # 2. Select filters then click Submit button
-    submit filters for forecast    None    1    None    EUR
+    submit filters for forecast    None    None    None    USD
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Click plus button
@@ -1214,7 +1217,7 @@ TM_30_ST_Reports_Live Report
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@class='report-content']/div[@class='data-content']
+    check element on report    \    main    None    ${div_table_live_report}
     # VP. Check exporting file successfully
     check export excel function for live report    \    main    None    LiveReport.xls
     # 5. Click product link on live report.
@@ -1237,22 +1240,24 @@ TM_30_ST_Reports_Live Report
     # 10. Click Back button on match report
     click element on report    \    main    None    ${back_button}
     # 11. Click view history report link
-    click element on report    \    main    None    xpath=//a[@id='switchreport']
+    click element on report    \    main    None    ${history_report_link_live_report}
     # 12. Select filters for history report then click Submit button
     submit filters for history live report    None    None    None    None    None    None
     ...    All
     # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@class='data-content']
+    check element on report    \    main    None    ${div_table_live_report}
     # VP. Check exporting file successfully
     check export excel function for live report    \    main    None    LiveReport.xls
     # 14. Click product link on live report
     click product link on live report    Sportsbook
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@id='detail-content']/div[@class='data-content'][1]
-    # 15. Click "Back to current repot" link
-    click element on report    \    main    None    xpath=//a[@id='switchreport']
+    check element on report    \    main    None    ${div_by_sports_type_table}
+    # 15. Click "Back to current report" link
+    click element on report    \    main    None    ${history_report_link_live_report}
+    # VP. Check user is brought back to current report
+    check element on report    \    main    None    ${from_calendar_picker}
 
 TM_31_ST_Reports_Turnover
     [Tags]    Complete
@@ -1304,6 +1309,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 1. Navigate to REPORTS > AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
     submit filters for ag casino win loss    None    None    None    None    ALL    Yes
+    ...    Daily
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1332,6 +1338,19 @@ TM_33_ST_Reports_AG Casino Win Loss
     check element on report    \    main    None    ${report_table_reports}
     # 6. Click Main link
     click element on report    \    main    None    ${main_link_ag_casino_wl}
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # 7. Submit filters for Monthly
+    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
+    ...    Monthly
+    # VP. check export excel
+    check export excel function    \    main    None    AgCasinoWinLoss.xls
+    # 8. Click Currency link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    # 9. Click SystemID link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
 
@@ -1765,6 +1784,7 @@ TM_44_ST_CustomerInformation_Customer Log
     [Tags]    Complete
     # 1. Navigate to CUSTOMER INFORMATION > Customer Log
     navigate left menu    CUSTOMER INFORMATION    Customer Log
+    wait page load
     # 2. Submit filters for Customer Log - General tab
     submit filters for customer log general    harmony
     # VP. Log table should display

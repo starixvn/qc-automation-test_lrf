@@ -1184,14 +1184,16 @@ TM_28_ST_Reports_Cancelled Bets
 
 TM_29_ST_Reports_Daily Bet List
     [Tags]    Complete
-    ${day}    Get Time    \    Now - 1 day
+    ${day}    Get Time    \    Now - 10 day
     # 1. Navigate to REPORTS > Daily Bet List
     navigate left menu    REPORTS    Daily Bet List
     # VP. Check User Guide popup exists
     check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for daily bet list    ${day}    CNY    USD    Sportsbook    Won
+    submit filters for daily bet list    ${day}    EUR    USD    Sportsbook    Won
     wait page load
+    # Check to handle if no information displays
+    check special case when no info available    \    main    None
     #VP Check betlist
     check element on report    \    main    None    ${betlist_table}
     # VP. check export excel
@@ -1210,13 +1212,14 @@ TM_30_ST_Reports_Live Report
     # 2. Click User Guide
     check user guide popup
     # 3. Select filters then click Submit button
-    ${fromDate}=    Get Time    \    NOW - 5d
+    ${fromDate}=    Get Time    \    NOW - 10d
     ${toDate}=    Get Time    \    NOW - 12h
-    submit filters for live report    ${fromDate}    ${toDate}    None    None    Live
+    submit filters for live report    ${fromDate}    ${toDate}    ALL    EUR    All
+    wait page load
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@class='report-content']/div[@class='data-content']
+    check element on report    \    main    None    ${div_table_live_report}
     # VP. Check exporting file successfully
     check export excel function for live report    \    main    None    LiveReport.xls
     # 5. Click product link on live report.
@@ -1239,22 +1242,24 @@ TM_30_ST_Reports_Live Report
     # 10. Click Back button on match report
     click element on report    \    main    None    ${back_button}
     # 11. Click view history report link
-    click element on report    \    main    None    xpath=//a[@id='switchreport']
+    click element on report    \    main    None    ${history_report_link_live_report}
     # 12. Select filters for history report then click Submit button
-    submit filters for history live report    None    None    None    None    None    None
+    submit filters for history live report    None    None    None    None    ALL    USD
     ...    All
     # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@class='data-content']
+    check element on report    \    main    None    ${div_table_live_report}
     # VP. Check exporting file successfully
     check export excel function for live report    \    main    None    LiveReport.xls
     # 14. Click product link on live report
     click product link on live report    Sportsbook
     # VP. Check report table exist
-    check element on report    \    main    None    xpath=//div[@id='detail-content']/div[@class='data-content'][1]
+    check element on report    \    main    None    ${div_by_sports_type_table}
     # 15. Click "Back to current repot" link
-    click element on report    \    main    None    xpath=//a[@id='switchreport']
+    click element on report    \    main    None    ${history_report_link_live_report}
+    # VP. Check user is brought back to current report
+    check element on report    \    main    None    ${from_calendar_picker}
 
 TM_31_ST_Reports_Turnover
     [Tags]    Complete
@@ -1266,10 +1271,12 @@ TM_31_ST_Reports_Turnover
     submit filters for turnover    None    None    None    None    Yes    normal
     ...    Based EUR    None    All
     wait page load
-    #VP Check report
-    check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    Turnover.xls
+    # Check to handle in case there is no info
+    check special case when no info available    \    main    None
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
 
 TM_32_ST_Reports_Mobile Win Loss
     [Tags]    Complete
@@ -1278,15 +1285,18 @@ TM_32_ST_Reports_Mobile Win Loss
     # VP. Check User Guide popup exists
     check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for mobile win loss    None    None    None    None    CNY    Yes
-    ...    Normal    Smartphone    All
+    submit filters for mobile win loss    None    None    None    None    ALL    Yes
+    ...    Normal    Others    All
     wait page load
-    #VP Check report
-    check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    MobileWinLoss.xls
+    # Check to handle in case there is no info
+    check special case when no info available    \    main    None
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
     # 3. Click link in External ID colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    wait page load
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
     #VP. check export
@@ -1306,6 +1316,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 1. Navigate to REPORTS > AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
     submit filters for ag casino win loss    None    None    None    None    ALL    Yes
+    ...    Daily
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1336,10 +1347,23 @@ TM_33_ST_Reports_AG Casino Win Loss
     click element on report    \    main    None    ${main_link_ag_casino_wl}
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
+    # 7. Submit filters for Monthly
+    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
+    ...    Monthly
+    # VP. check export excel
+    check export excel function    \    main    None    AgCasinoWinLoss.xls
+    # 8. Click Currency link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    # 9. Click SystemID link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
 
 TM_34_ST_Reports_Results
     [Tags]    Complete
-    ${tm_date}=    Get Time    \    Now - 1 day
+    ${tm_date}=    Get Time    \    Now - 10 day
     # 1. Navigate to REPORTS > Results
     navigate left menu    REPORTS    Results
     # 2. Submit filters
@@ -1408,10 +1432,12 @@ TM_36_ST_Reports_Win Loss By Leagues
     # 3. Submit filters
     submit filters for win loss by leagues    None    None    None    None    ALL    USD
     ...    1    0    0    0    All    All
-    # VP. Check data table
-    check element on report    \    main    None    ${report_table_reports}
     # VP. Check Export Excel
     check export excel function    \    main    None    WinLossByLeague.xls
+    # Check to handle when there is no info
+    check special case when no info available    \    main    None
+    # VP. Check data table
+    check element on report    \    main    None    ${report_table_reports}
     # 4. Click league link
     click element on report    \    main    None    ${league_link_wl_by_leagues}
     wait page load
