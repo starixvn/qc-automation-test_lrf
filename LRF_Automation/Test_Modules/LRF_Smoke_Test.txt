@@ -235,6 +235,8 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     navigate left menu    TOTAL BETS    Handicap/Over Under/Live
     # VP. Check User Guide popup exists
     check user guide popup
+    # Check to handle in case there is no info
+    check special case when no info available    \    main    None
     # 6. Click match link
     click match link of bodog    ${report_table_totalbets}    2    3
     wait page load

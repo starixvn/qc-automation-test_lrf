@@ -424,7 +424,7 @@ click result link in ticket
     # Find link in the columns. If existed, click on it
     ${ac_results_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
     Run Keyword If    '${ac_results_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div[text()='Results']
-    Run Keyword If    '${ac_results_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Run Keyword If    '${ac_results_link_status}'!='True'    Pass Execution    Void ticket displays and doesn't contain Result link.
     Unselect Frame
 
 click link on report

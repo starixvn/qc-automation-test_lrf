@@ -1469,17 +1469,19 @@ TM_36_ST_Reports_Win Loss By Leagues
 
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 7d
+    ${from}=    Get Time    \    Now - 15d
     ${to}=    Get Time    \    Now - 12h
     select licensee    12Bet
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
     submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_customer_reports}
     # VP. Check Exporting Excel
     check export excel function    \    main    None    CustomerWinLoss.xls
+    # Check to handle in case there is no info
+    check special case when no info available    \    main    None
+    # VP. Check data table
+    check element on report    \    main    None    ${div_report_table_customer_reports}
     # 3. Click drill down link
     click drilldown link in customer reports    1    2
     wait page load
@@ -1554,17 +1556,19 @@ TM_39_ST_CustomerReports_Customer Balance
 
 TM_40_ST_CustomerReports_Customer Turnover
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 7d
+    ${from}=    Get Time    \    Now - 15d
     ${to}=    Get Time    \    Now - 12h
     # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
     navigate left menu    CUSTOMER REPORTS    Customer Turnover
     # 2. Submit filters
     submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
     ...    1    EUR    All
-    # VP. Check data table
-    check element on report    \    main    None    ${report_table_customer_reports}
     # VP. Check exporting excel
     check export excel function    \    main    None    CustomerTurnover.xls
+    # Check to handle in case there is no info
+    check special case when no info available    \    main    None
+    # VP. Check data table
+    check element on report    \    main    None    ${report_table_customer_reports}
     # VP. Check User Guide
     check user guide popup
     # 3. Unselect one Product in Product list (ex: Number Game)
@@ -1763,8 +1767,8 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 3 day
-    ${to}=    Get Time    \    Now - 11 hour
+    ${from}=    Get Time    \    Now - 36 hour
+    ${to}=    Get Time    \    Now - 12 hour
     # 1. Submit filters for viewing "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    None    All
     ...    All    None
