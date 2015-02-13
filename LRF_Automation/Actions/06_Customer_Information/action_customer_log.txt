@@ -17,6 +17,7 @@ submit filters for customer log general
     Input Text    ${username_textbox_customer_log}    ${username}
     Click Element    ${submit_button}
     Unselect Frame
+    wait page load
 
 submit filters for customer log setting
     [Arguments]    ${username}    ${view by}    ${year}    ${month}    ${from day}    ${to day}
@@ -39,3 +40,4 @@ submit filters for customer log setting
     Run Keyword If    '${show old value}'=='No'    Unselect Checkbox    ${show_old_value_checkbox}
     Click Element    ${submit_button}
     Unselect Frame
+    wait page load

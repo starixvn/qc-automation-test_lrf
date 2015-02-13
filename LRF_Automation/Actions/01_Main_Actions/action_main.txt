@@ -21,6 +21,7 @@ config
     Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
+    Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_username}    autQC
     Set Suite Variable    ${cf_password}    1234aa
@@ -41,6 +42,7 @@ config local
     Set Suite Variable    ${cf_url}    http://10.18.200.209:8003/V3/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
+    Set Suite Variable    ${cf_screeshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_username}    tester02
     Set Suite Variable    ${cf_password}    1234aa
@@ -106,14 +108,13 @@ convert date into month date year
 
 create test directory
     [Arguments]    ${export path}
-    [Documentation]    This action is used to create folder which will contain our exporting files. If the folder is existed, it'll be empty.
+    [Documentation]    This action is used to create folder which will contain our exporting files.
     ...
     ...    Example:
     ...
     ...    create test directory | C:\\Test Data
     ${result}=    Run Keyword And Return Status    Directory Should Exist    ${export path}
     Run Keyword If    '${result}'!='true'    Create Directory    ${export path}
-    Run Keyword If    '${result}'=='true'    Empty Directory    ${export path}
 
 select count down refresh time
     [Arguments]    ${selected time}
@@ -615,3 +616,22 @@ input text on report
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     Input Text    ${textbox}    ${text}
     Unselect Frame
+
+take applications screenshot
+    [Arguments]    ${site}    ${screenshot name}
+    [Documentation]    This action is used to take application screenshot.
+    ...
+    ...    ${site}= 'Product' or 'Local'
+    ${ac_today}=    Get Time    \    Now
+    # Cut year, month, date from input date
+    ${yyyy}=    Get Slice From List    ${ac_today}    0    4
+    ${mm}=    Get Slice From List    ${ac_today}    5    7
+    ${dd}=    Get Slice From List    ${ac_today}    8    10
+    # Return converted date
+    ${ac_today}=    Set Variable    ${yyyy}_${mm}_${dd}
+    ${ac_screenshot_directory}=    Set Variable    ${cf_screenshot_dir}${site}_${ac_today}\\
+    # Create directory for current date to contain screenshot
+    ${result}=    Run Keyword And Return Status    Directory Should Exist    ${ac_screenshot_directory}
+    Run Keyword If    '${result}'!='true'    Create Directory    ${ac_screenshot_directory}
+    # Take screenshot
+    Take Screenshot Without Embedding    ${ac_screenshot_directory}${screenshot name}

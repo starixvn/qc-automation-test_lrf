@@ -84,7 +84,8 @@ TM_01_01_ST_TotalBets_Handicap
     # licensee type = normal
     # currency = ALL
     # based = USD
-    submit filters for totalbets    75 sec    normal    ALL    USD
+    submit filters for totalbets    75 sec    normal    CNY    USD
+    take applications screenshot    Product    TM_01_01_TotalBets_Handicap.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -95,6 +96,7 @@ TM_01_01_ST_TotalBets_Handicap
     ...    4
     # VP. Check Bet List displays
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_01_01_TotalBets_Handicap_Betlist.jpg
     # 8. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
@@ -105,6 +107,7 @@ TM_01_01_ST_TotalBets_Handicap
     ...    5
     # VP. Check Forecast table displays
     check element on report    \    main    Forecast    ${forecast_table}
+    take applications screenshot    Product    TM_01_01_TotalBets_Handicap_ForecastHandicap.jpg
     # 11. Click "View Over/Under Forecast" link
     click element on report    \    main    Forecast    ${view_over_under_forecast_link}
     # VP. Check Forecast table displays
@@ -138,6 +141,7 @@ TM_01_01_ST_TotalBets_Handicap
     ...    7
     # VP. Check Forecast table displays
     check element on report    \    main    Forecast    ${forecast_table}
+    take applications screenshot    Product    TM_01_01_TotalBets_Handicap_ForecastOverUnder.jpg
     # 20. Click "View Handicap Forecast" link
     click element on report    \    main    Forecast    ${view_handicap_forecast_link}
     # VP. Check Forecast table displays
@@ -235,6 +239,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     navigate left menu    TOTAL BETS    Handicap/Over Under/Live
     # VP. Check User Guide popup exists
     check user guide popup
+    take applications screenshot    Product    TM_01_02_TotalBets_Handicap_Bodog.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
     # 6. Click match link
@@ -242,8 +247,10 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     wait page load
     # 7. Click number link to drill down bet list
     click match link of bodog    ${match_table_bodog}    3    6
+    wait page load
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    take applications screenshot    Product    TM_01_02_TotalBets_Handicap_Bodog_Betlist.jpg
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 8. Close Bet List window and back to Handicap/Over Under/Live page
@@ -304,8 +311,9 @@ TM_02_ST_TotalBets_Money Line
     # 3. Click a number link in FullTime - Total Home bettype (4th column)
     click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
     ...    11
-    # VP. Check report table exist
+    # VP. Check betlist table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_02_TotalBets_MoneyLine_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
@@ -317,6 +325,7 @@ TM_02_ST_TotalBets_Money Line
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check report table exist
     check element on report    \    main    None    ${report_table_totalbets}
+    take applications screenshot    Product    TM_02_TotalBets_MoneyLine.jpg
     # VP. Check User Guide popup exists
     check user guide popup
 
@@ -334,10 +343,13 @@ TM_03_ST_TotalBets_OddEven
     ...    4
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_03_TotalBets_OddEven_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
+    wait page load
+    take applications screenshot    Product    TM_03_TotalBets_OddEven.jpg
     ## FullTime/ 1X2Check-NumberLink
     # 5. Click a number link in FullTime - 1X2\ bettype (5th column)
     click number link in table by column    \    main    None    ${report_table_totalbets}    2    50
@@ -414,6 +426,7 @@ TM_04_ST_TotalBets_Correct Score
     navigate left menu    TOTAL BETS    Correct Score
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
+    take applications screenshot    Product    TM_04_TotalBets_CorrectScore.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # VP. Check exporting file successfully
@@ -430,6 +443,7 @@ TM_05_ST_TotalBets_Total Goal
     navigate left menu    TOTAL BETS    Total Goal
     # 2. Select filters then click Submit button
     submit filters for totalbets    75 sec    normal    None    EUR
+    take applications screenshot    Product    TM_05_TotalBets_TotalGoal.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -440,6 +454,7 @@ TM_05_ST_TotalBets_Total Goal
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
+    take applications screenshot    Product    TM_05_TotalBets_TotalGoal_Betlist.jpg
     # 6. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # VP. Check report table exist
@@ -451,6 +466,7 @@ TM_06_ST_TotalBets_MixParlay
     navigate left menu    TOTAL BETS    Mix Parlay
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    None    EUR
+    take applications screenshot    Product    TM_06_TotalBets_MixParlay.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -465,6 +481,8 @@ TM_06_ST_TotalBets_MixParlay
     check export excel function    \    main    None    RunningBetList.xls
     # 5. Click System Parlay header link on top
     click element on report    \    main    None    ${system_parlay_header_link}
+    wait page load
+    take applications screenshot    Product    TM_06_TotalBets_SystemParlay.jpg
     # 6. Click System Parlay ticket to expand
     click system parlay link in table    \    main    None    ${betlist_table}    2    5
     # VP. Check system parlay ticket is expanded successfully
@@ -476,6 +494,7 @@ TM_06_ST_TotalBets_MixParlay
     click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
     # VP. Check Detail popup displays
     check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
+    take applications screenshot    Product    TM_06_TotalBets_DetailSystemParlay.jpg
     # 8. Close popup
     click element on report    \    main    None    ${close_button_on_popup}
 
@@ -485,6 +504,7 @@ TM_07_ST_TotalBets_Outright
     navigate left menu    TOTAL BETS    Outright
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    None    EUR
+    take applications screenshot    Product    TM_07_TotalBets_Outright.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -492,6 +512,8 @@ TM_07_ST_TotalBets_Outright
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # 4. Click team name to drill down to betlist
     click team link in table    \    main    None    ${report_table_totalbets}    2    2
+    wait page load
+    take applications screenshot    Product    TM_07_TotalBets_Outright_Betlist.jpg
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
@@ -506,6 +528,7 @@ TM_08_ST_TotalBets_HT FT
     navigate left menu    TOTAL BETS    HT/FT
     # VP. Check User Guide popup exists
     check user guide popup
+    take applications screenshot    Product    TM_08_TotalBets_HTFT.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -513,6 +536,7 @@ TM_08_ST_TotalBets_HT FT
     click team link in table    \    main    None    ${report_table_totalbets}    1    2
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_08_TotalBets_HTFT_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
@@ -531,6 +555,7 @@ TM_09_ST_TotalBets_FG LG
     navigate left menu    TOTAL BETS    FG/LG
     # VP. Check User Guide popup exists
     check user guide popup
+    take applications screenshot    Product    TM_09_TotalBets_FGLG.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -538,6 +563,7 @@ TM_09_ST_TotalBets_FG LG
     click team link in table    \    main    None    ${report_table_totalbets}    2    3
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_09_TotalBets_FGLG_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
@@ -556,6 +582,7 @@ TM_10_ST_TotalBets_Clean Sheet
     navigate left menu    TOTAL BETS    Clean Sheet
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    None    None
+    take applications screenshot    Product    TM_10_TotalBets_CleanSheet.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # VP. Check exporting file successfully
@@ -572,6 +599,7 @@ TM_11_ST_TotalBets_Double Chance
     navigate left menu    TOTAL BETS    Double Chance
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    None    None
+    take applications screenshot    Product    TM_11_TotalBets_DoubleChance.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # VP. Check exporting file successfully
@@ -588,6 +616,7 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
     # 2. Select filters then click Submit button
     submit filters for totalbets    75 sec    normal    None    EUR
+    take applications screenshot    Product    TM_12_TotalBets_HomeDrawAway.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -599,6 +628,7 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
+    take applications screenshot    Product    TM_12_TotalBets_HomeDrawAway_Betlist.jpg
     # 6. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # VP. Check report table exist
@@ -614,6 +644,7 @@ TM_13_ST_TotalBets_BON team to score
     check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
+    take applications screenshot    Product    TM_13_TotalBets_BONTeamToScore.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -630,6 +661,7 @@ TM_14_ST_TotalBets_To win to nil
     check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    MYR    EUR
+    take applications screenshot    Product    TM_14_TotalBets_ToWinToNil.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -646,6 +678,7 @@ TM_15_ST_TotalBets_3way Handicap
     check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    normal    MYR    EUR
+    take applications screenshot    Product    TM_15_TotalBets_3WayHandicap.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -658,6 +691,7 @@ TM_16_ST_TotalBets_Racing
     navigate left menu    TOTAL BETS    Racing
     # 2. Select filters then click Submit button
     submit filters for totalbets    75 sec    normal    None    EUR
+    take applications screenshot    Product    TM_16_TotalBets_Racing.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -668,6 +702,7 @@ TM_16_ST_TotalBets_Racing
     ...    4
     #VP. Check Betlist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_16_TotalBets_Racing_Betlist.jpg
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
@@ -675,6 +710,7 @@ TM_16_ST_TotalBets_Racing
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     #VP. Check result pop-up
     check element on report    \    main    ResultPopup    ${result_table}
+    take applications screenshot    Product    TM_16_TotalBets_Result.jpg
     #7. Click close result pop-up
     click element on report    \    main    None    ${close_button_on_popup}
     # 8. Click Back button on betlist
@@ -724,6 +760,7 @@ TM_17_ST_TotalBets_Number Game
     navigate left menu    TOTAL BETS    Number Game
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    None    USD
+    take applications screenshot    Product    TM_17_TotalBets_NumberGame.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -734,6 +771,7 @@ TM_17_ST_TotalBets_Number Game
     ...    18
     #VP. Check Betlist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_17_TotalBets_NumberGame_Betlist.jpg
     # 5. Click Export button
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
@@ -751,6 +789,7 @@ TM_18_01_ST_Forecast_Handicap
     wait page load
     # 2. Select filters then click Submit button
     submit filters for forecast    None    None    None    USD
+    take applications screenshot    Product    TM_18_01_Forecast_Handicap.jpg
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Click plus button
@@ -758,6 +797,7 @@ TM_18_01_ST_Forecast_Handicap
     ...    2
     #VP. check forecast table
     check element on report    \    main    Forecast    ${forecast_table}
+    take applications screenshot    Product    TM_18_01_Forecast_Handicap_Forecast.jpg
     # 4. Click link View Over/Under Forecast
     click element on report    \    main    Forecast    ${view_over_under_forecast_link}
     #VP. Check forecast table
@@ -768,6 +808,7 @@ TM_18_01_ST_Forecast_Handicap
     check element on report    \    main    Forecast    ${forecast_table}
     # 6. Click link Bet List and check betlist if exists
     check betlist on forecast report    \    main    Forecast    RunningBetList.xls
+    take applications screenshot    Product    TM_18_01_Forecast_Handicap_Betlist.jpg
     # 7. Click link View Over/Under Forecast
     click element on report    \    main    Forecast    ${view_over_under_forecast_link}
     # 8. Click link Bet List and check betlist if exists
@@ -810,6 +851,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     check user guide popup
     # 6. Select filters then click Submit button
     submit filters for forecast handicap bodog    0    1    None    USD
+    take applications screenshot    Product    TM_18_02_Forecast_Handicap_Bodog.jpg
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -817,6 +859,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     click match link of bodog    ${match_table_bodog}    3    6
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    take applications screenshot    Product    TM_18_02_Forecast_Handicap_Bodog_Betlist.jpg
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 9. Close Bet List window and back to Handicap/Over Under/Live page
@@ -832,6 +875,7 @@ TM_19_ST_Forecast_1X2
     navigate left menu    FORECAST    1 X 2
     # 2. Select filters then click Submit button
     submit filters for forecast    None    None    None    None
+    take applications screenshot    Product    TM_19_Forecast_1X2.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -840,6 +884,7 @@ TM_19_ST_Forecast_1X2
     ...    2
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
+    take applications screenshot    Product    TM_19_Forecast_1X2_Betlist.jpg
     # 5. If "No Information is available" text displays
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # 5.1. If it existed, click Back button
@@ -869,6 +914,7 @@ TM_20_ST_Reports_Last Bets Monitoring
     # 2. Select filters then click Submit button
     ${tm_max_row}=    Set Variable    20
     submit filters for last bets monitoring    1    4    ${tm_max_row}
+    take applications screenshot    Product    TM_20_Reports_LastBetsMonitoring.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -902,6 +948,7 @@ TM_21_ST_Reports_Licensee Win Loss
     # 2. Select filters then click Submit button
     submit filters for licensee win loss    ${from}    ${to}    ALL    Daily    Normal    Yes
     ...    All
+    take applications screenshot    Product    TM_21_Reports_LicenseeWinLoss_Main.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -909,6 +956,7 @@ TM_21_ST_Reports_Licensee Win Loss
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
+    take applications screenshot    Product    TM_21_Reports_LicenseeWinLoss_Licensee.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -916,6 +964,7 @@ TM_21_ST_Reports_Licensee Win Loss
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
+    take applications screenshot    Product    TM_21_Reports_LicenseeWinLoss_Customer.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -923,6 +972,7 @@ TM_21_ST_Reports_Licensee Win Loss
     # 5. Click link in External ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
     wait page load
+    take applications screenshot    Product    TM_21_Reports_LicenseeWinLoss_BetList.jpg
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
     #VP. check export
@@ -959,6 +1009,7 @@ TM_22_ST_Reports_Settled Match Count
     check user guide popup
     # VP. Check report table
     check element on report    \    main    None    ${report_table_settle_match_count}
+    take applications screenshot    Product    TM_22_Reports_SettleMatchCount.jpg
 
 TM_23_ST_Reports_Match Win Loss
     [Tags]    Complete
@@ -969,6 +1020,7 @@ TM_23_ST_Reports_Match Win Loss
     # 3. Select filters then click Submit button
     ${date}=    Get Time    \    NOW - 1d
     submit filters for match win loss    ${date}    None    None    None    All
+    take applications screenshot    Product    TM_23_Reports_MatchWinLoss.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
@@ -978,17 +1030,20 @@ TM_23_ST_Reports_Match Win Loss
     # 5. Click match link
     click match link of match win loss    \    main    None    ${report_table_match_winloss}    2    2
     wait page load
+    take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Match.jpg
     # 6. Click bettype link
     click bettype link of match win loss    \    main    None    1
     wait page load
     # VP. Check bet list table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    MatchWinLossBetList.xls
     # 7. Click Results status link
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     # VP. Check result table exist
     check result popup exist    \    main    ResultPopup    None
+    take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Result.jpg
     click element on report    \    main    None    ${close_button_on_popup}
     # 8. Click Back button
     click element on report    \    main    None    ${back_button}
@@ -1042,6 +1097,7 @@ TM_24_ST_Reports_Win Loss By Products
     # 2. Select filters then click Submit button
     submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
     ...    All
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1049,6 +1105,7 @@ TM_24_ST_Reports_Win Loss By Products
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
     wait page load
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Licensee.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1056,6 +1113,7 @@ TM_24_ST_Reports_Win Loss By Products
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Customer.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1063,6 +1121,7 @@ TM_24_ST_Reports_Win Loss By Products
     # 5. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Betlist.jpg
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
     #VP. check export
@@ -1071,6 +1130,7 @@ TM_24_ST_Reports_Win Loss By Products
     click result link in ticket    \    main    BetList    ${betlist_table}    2    11
     #VP. check result pop-up
     check result popup exist    \    main    BetList    ResultPopup
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Result.jpg
     #7. Close result pop-up
     click element on report    \    main    BetList    ${close_button_on_popup}
     #8. Close betlist pop-up
@@ -1086,6 +1146,7 @@ TM_25_ST_Reports_Win Loss By Bet Type
     check user guide popup
     # 2. Select filters then click Submit button
     submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    EUR
+    take applications screenshot    Product    TM_25_Reports_WinLossByBettype.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1111,14 +1172,17 @@ TM_26_ST_Reports_Racing Commission
     check user guide popup
     # 2. Select filters then click Submit button
     submit filters for racing commission    ${from}    ${to}    ALL    ALL    USD
+    take applications screenshot    Product    TM_26_Reports_RacingCommission.jpg
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    RacingCommission.xls
     # 3. Click link in External ID
     click drilldown link in div table report    \    main    None    ${div_report_table_reports}    1    2
+    wait page load
     # VP. Check betlist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_26_Reports_RacingCommission_Betlist.jpg
     # VP. check export excel
     check export excel function    \    main    None    CustomerWinLossBetList.xls
     # 4. Click link results in betlist
@@ -1141,6 +1205,7 @@ TM_27_ST_Reports_Daily Racing Win Loss
     check user guide popup
     # 2. Select filters then click Submit button
     submit filters for daily racing win loss    ${date}    ALL    ALL    EUR
+    take applications screenshot    Product    TM_27_Reports_DailyRacingWinLoss.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1150,12 +1215,15 @@ TM_27_ST_Reports_Daily Racing Win Loss
     check export excel function    \    main    None    DailyRacingWinLossReport.xls
     # 4. Click number link
     click drilldown link in div table report    \    main    None    ${div_report_table_reports}    2    1
+    wait page load
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_27_Reports_DailyRacingWinLoss_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    DailyRacingWinLossBetList.xls
     # 5. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
+    wait page load
     # 6. Select filters then click Submit button
     submit filters for daily racing win loss    ${date}    normal    MYR    USD
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -1173,6 +1241,7 @@ TM_28_ST_Reports_Cancelled Bets
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_28_Reports_CancelledBets.jpg
     # VP. Check User Guide popup exists
     # VP. check export excel
     check export excel function    \    main    None    CancelledBetList.xls
@@ -1194,7 +1263,7 @@ TM_29_ST_Reports_Daily Bet List
     check user guide popup
     # 2. Select filters then click Submit button
     submit filters for daily bet list    ${day}    CNY    USD    Sportsbook    Won
-    wait page load
+    take applications screenshot    Product    TM_29_Reports_DailyBetList.jpg
     #VP Check betlist
     check element on report    \    main    None    ${betlist_table}
     # VP. check export excel
@@ -1203,6 +1272,7 @@ TM_29_ST_Reports_Daily Bet List
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     #VP. Check result pop-up
     check element on report    \    main    ResultPopup    ${result_table}
+    take applications screenshot    Product    TM_29_Reports_DailyBetList_Result.jpg
     #4. Close result pop-up
     click element on report    \    main    None    ${close_button_on_popup}
 
@@ -1216,6 +1286,7 @@ TM_30_ST_Reports_Live Report
     ${fromDate}=    Get Time    \    NOW - 5d
     ${toDate}=    Get Time    \    NOW - 12h
     submit filters for live report    ${fromDate}    ${toDate}    None    None    Live
+    take applications screenshot    Product    TM_30_Reports_LiveReport.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
@@ -1226,10 +1297,12 @@ TM_30_ST_Reports_Live Report
     click product link on live report    Sportsbook
     # 6. Click sport link on live report
     click sport link on live report    Soccer
+    take applications screenshot    Product    TM_30_Reports_LiveReport_Match.jpg
     # 7. Click match link on live report
     click match link on live report    1
     # VP. Check bet list table exist
     check element on report    \    main    None    ${betlist_table}
+    take applications screenshot    Product    TM_30_Reports_LiveReport_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    LiveReportBetList.xls
     # 8. Click Results status link
@@ -1246,6 +1319,7 @@ TM_30_ST_Reports_Live Report
     # 12. Select filters for history report then click Submit button
     submit filters for history live report    None    None    None    None    None    None
     ...    All
+    take applications screenshot    Product    TM_30_Reports_LiveReport_History.jpg
     # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
@@ -1271,6 +1345,7 @@ TM_31_ST_Reports_Turnover
     submit filters for turnover    None    None    None    None    Yes    normal
     ...    Based EUR    None    All
     wait page load
+    take applications screenshot    Product    TM_31_Reports_Turnover.jpg
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1286,20 +1361,24 @@ TM_32_ST_Reports_Mobile Win Loss
     submit filters for mobile win loss    None    None    None    None    CNY    Yes
     ...    Normal    Smartphone    All
     wait page load
+    take applications screenshot    Product    TM_32_Reports_MobileWinLoss.jpg
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    MobileWinLoss.xls
     # 3. Click link in External ID colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    wait page load
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
+    take applications screenshot    Product    TM_32_Reports_MobileWinLoss_Betlist.jpg
     #VP. check export
     check export excel function    \    main    BetList    MobileWinLossBetList.xls
     # 4. Click link result in betlist
     click result link in ticket    \    main    BetList/MobileWl    ${betlist_table}    2    11
     # VP. Check result pop-up
     check result popup exist    \    main    BetList/MobileWl    ResultPopup
+    take applications screenshot    Product    TM_32_Reports_MobileWinLoss_Result.jpg
     # 5. Click close result pop-up
     click element on report    \    main    BetList/MobileWl    ${close_button_on_popup}
     # 6. Close betlist pop-up
@@ -1312,6 +1391,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
     submit filters for ag casino win loss    None    None    None    None    ALL    Yes
     ...    Daily
+    take applications screenshot    Product    TM_33_Reports_AGWinLoss.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1323,6 +1403,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 3. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
+    take applications screenshot    Product    TM_33_Reports_AGWinLoss_Licensee.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1332,6 +1413,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
+    take applications screenshot    Product    TM_33_Reports_AGWinLoss_Customer.jpg
     # VP. check export excel
     check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 5. Click Licensee link
@@ -1363,6 +1445,7 @@ TM_34_ST_Reports_Results
     navigate left menu    REPORTS    Results
     # 2. Submit filters
     submit filters for results    ${tm_date}
+    take applications screenshot    Product    TM_34_Reports_Result.jpg
     # 3. Select Sport and League
     select sport and league by index on results    1    1
     # VP. Check data table
@@ -1382,9 +1465,11 @@ TM_34_ST_Reports_Results
     # 6. Click Outright button
     click element on report    \    main    None    ${outright_button}
     wait page load
+    take applications screenshot    Product    TM_34_Reports_Result_Outright.jpg
     # 7. Click Keno button
     click element on report    \    main    None    ${keno_button}
     wait page load
+    take applications screenshot    Product    TM_34_Reports_Result_Keno.jpg
     # 8. Submit filter
     submit filters for keno results    Australia    ${tm_date}
     # VP. Check result table
@@ -1400,10 +1485,12 @@ TM_34_ST_Reports_Results
     # 12. Select Sport Tennis
     select listbox by label on report    \    main    None    ${sport_listbox_results}    Tennis
     wait page load
+    take applications screenshot    Product    TM_34_Reports_Result_Tennis.jpg
     # 13. Click [i] link on result table
     click result link of tennis match    1    40
     # VP. Check result table
     check element on report    \    main    Result    ${result_table}
+    take applications screenshot    Product    TM_34_Reports_Result_TennisResult.jpg
     # 14. Close popup
     click element on report    \    main    None    ${close_button_on_popup}
 
@@ -1413,6 +1500,7 @@ TM_35_ST_Reports_Balance
     navigate left menu    REPORTS    Balance
     # 2. Submit filters
     submit filters for balance    ALL    ALL    USD    None    None
+    take applications screenshot    Product    TM_35_Reports_Balance.jpg
     # VP. Check data table
     check element on report    \    main    None    ${report_table_balance_information}
     # VP. Check export excel
@@ -1427,6 +1515,7 @@ TM_36_ST_Reports_Win Loss By Leagues
     # 3. Submit filters
     submit filters for win loss by leagues    None    None    None    None    ALL    USD
     ...    1    0    0    0    All    All
+    take applications screenshot    Product    TM_36_Reports_WinLossByLeagues.jpg
     # VP. Check data table
     check element on report    \    main    None    ${report_table_reports}
     # VP. Check Export Excel
@@ -1441,6 +1530,7 @@ TM_36_ST_Reports_Win Loss By Leagues
     wait page load
     # VP. Betlist page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
+    take applications screenshot    Product    TM_36_Reports_WinLossByLeagues_Betlist.jpg
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    WinLossByLeagueBetList.xls
     # 6. Close Bet List window
@@ -1463,6 +1553,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
     submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
+    take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
     # VP. Check Exporting Excel
@@ -1470,6 +1561,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 3. Click drill down link
     click drilldown link in customer reports    1    2
     wait page load
+    take applications screenshot    Product    TM_37_Reports_CustomerWinLoss_Betlist.jpg
     # VP. Check Betlist
     check element on report    \    main    None    ${betlist_table}
     # VP. Check Exporting Excel
@@ -1503,6 +1595,7 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
     # 2. Submit filters
     submit filters for customer pending funds    ALL    EUR    USD    All
+    take applications screenshot    Product    TM_38_Reports_CustomerPending.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
     # VP. Check Export Excel
@@ -1512,6 +1605,7 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     # 3. Click Drilldown link
     click drilldown link in customer reports    1    2
     wait page load
+    take applications screenshot    Product    TM_38_Reports_CustomerPending_Betlist.jpg
     # VP. Check betlist table
     check element on report    \    main    None    ${betlist_table}
     # VP. Check Export Excel
@@ -1530,6 +1624,7 @@ TM_39_ST_CustomerReports_Customer Balance
     # 2. Submit filters
     submit filters for customer balance    ${from}    ${to}    ALL    EUR    All    Turnover
     ...    No    All
+    take applications screenshot    Product    TM_39_Reports_CustomerBalance.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
     # VP. Check exporting excel
@@ -1546,6 +1641,7 @@ TM_40_ST_CustomerReports_Customer Turnover
     # 2. Submit filters
     submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
     ...    1    EUR    All
+    take applications screenshot    Product    TM_40_Reports_CustomerTurnover.jpg
     # VP. Check data table
     check element on report    \    main    None    ${report_table_customer_reports}
     # VP. Check exporting excel
@@ -1569,6 +1665,7 @@ TM_41_ST_DataWarehouse_Win Loss
     navigate left menu    DATA WAREHOUSE    Win Loss
     # 3. Submit filters
     submit filters for win loss    ALL    USD    ${from}    ${to}    Month    Normal
+    take applications screenshot    Product    TM_41_DW_WinLoss.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_data_warehouse}
     # VP. Check exporting excel
@@ -1590,6 +1687,7 @@ TM_42_ST_DataWarehouse_Top Customer
     # 2. Submit filters
     submit filters for top customer    ALL    USD    ${from}    ${to}    All    None
     ...    All    2    Worst Win Loss    3    100
+    take applications screenshot    Product    TM_42_DW_TopCustomer.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_data_warehouse}
     # VP. Check exporting excel
@@ -1617,6 +1715,7 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     # 2. Submit filters to view only harmony account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
     ...    All    None
+    take applications screenshot    Product    TM_43_CustInfo_CustomerList.jpg
     # 3. Click User Guide button
     # VP. Check User Guide popup displays
     check user guide popup
@@ -1629,12 +1728,14 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     # VP. Check 4 last columns are hide successfully
     check table header existence on customer list    exist    exist    exist    exist    not exist    not exist
     ...    not exist    not exist
+    take applications screenshot    Product    TM_43_CustInfo_CustomerList_Hide.jpg
     # 6. Select Show/Hide to show all columns
     select showhide in customer list    check    check    check    check    check    check
     ...    check    check
     # VP. Check all columns are shown
     check table header existence on customer list    exist    exist    exist    exist    exist    exist
     ...    exist    exist
+    take applications screenshot    Product    TM_43_CustInfo_CustomerList_Show.jpg
     # 7. Change Status of "harmony" into Closed
     # 8. Change Status of "harmony1" into Suspended
     change status based on username    harmony    check    check
@@ -1789,6 +1890,7 @@ TM_44_ST_CustomerInformation_Customer Log
     wait page load
     # 2. Submit filters for Customer Log - General tab
     submit filters for customer log general    harmony
+    take applications screenshot    Product    TM_44_CustInfo_CustomerLog_General.jpg
     # VP. Log table should display
     check element on report    \    main    None    ${general_table_customer_log}
     # VP. Check User Guide
@@ -1798,7 +1900,7 @@ TM_44_ST_CustomerInformation_Customer Log
     # 4. Submit filters for Customer Setting
     submit filters for customer log setting    harmony    All    None    None    None    None
     ...    Yes
-    wait page load
+    take applications screenshot    Product    TM_44_CustInfo_CustomerLog_CustSetting.jpg
     # VP. Setting log should display
     check element on report    \    main    None    ${customer_setting_table_customer_log}
     # VP. Check User Guide
@@ -1827,10 +1929,12 @@ TM_45_ST_CustomerInformation_Commission Group List
     check element on report    \    main    None    ${successful_label}
     # 3. Click Cancel button
     click element on report    \    main    None    ${cancel_button_commission_group_list}
+    take applications screenshot    Product    TM_45_CustInfo_CommissionGroupList.jpg
     # 4. Click group link in the table to edit
     click group link    ${tm_group}
     # 5. Edit group name
     input text on report    \    main    None    ${group_name_textbox}    ${tm_group_edit}
+    take applications screenshot    Product    TM_45_CustInfo_CommissionGroupList_Edit.jpg
     # 6. Click Save button
     click element on report    \    main    None    ${save_button_commission_group_list}
     # 7. Click Cancel button
@@ -1847,6 +1951,7 @@ TM_45_ST_CustomerInformation_Commission Group List
     # 10. Submit filters for testing customer "Candytest"
     submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
     ...    All    All
+    take applications screenshot    Product    TM_45_CustInfo_CommissionGroupList_CustomerList.jpg
     # 11. Move user to new group
     move to group    ${tm_custid}    ${tm_group_edit}
     # VP. User is moved to group successfully
@@ -1869,6 +1974,7 @@ TM_45_ST_CustomerInformation_Commission Group List
     remove from group    ${tm_custid}    clear comm
     # VP. User is removed from group
     check customer group based on custid    ${tm_custid}    None
+    take applications screenshot    Product    TM_45_CustInfo_CommissionGroupList_Remove.jpg
     # 17. Go back to Commission Group List page
     navigate left menu    CUSTOMER INFORMATION    Commission Group List
     wait page load
