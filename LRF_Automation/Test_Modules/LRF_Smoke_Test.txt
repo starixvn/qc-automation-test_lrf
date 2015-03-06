@@ -1577,7 +1577,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 7. Click history report link
     click element on report    \    main    None    ${history_report_link_customer_wl}
     # 8. Submit filters
-    submit filters for history customer win loss    None    None    None    None    ALL    USD
+    submit filters for history customer win loss    None    None    None    None    EUR    USD
     ...    All
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
@@ -1634,7 +1634,7 @@ TM_39_ST_CustomerReports_Customer Balance
 
 TM_40_ST_CustomerReports_Customer Turnover
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 7d
+    ${from}=    Get Time    \    Now - 5d
     ${to}=    Get Time    \    Now - 12h
     # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
     navigate left menu    CUSTOMER REPORTS    Customer Turnover

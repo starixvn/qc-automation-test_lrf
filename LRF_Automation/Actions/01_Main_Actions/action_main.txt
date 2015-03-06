@@ -578,18 +578,18 @@ check selection of list on report
 wait for export file
     [Arguments]    ${filepath}
     [Documentation]    This action is used to wait for a export file.
-    : FOR    ${ac_index}    IN RANGE    0    45
+    : FOR    ${ac_index}    IN RANGE    0    90
     \    ${ac_exist}    Run Keyword And Return Status    File Should Exist    ${filepath}
     \    ${ac_saving}    Run Keyword And Return Status    File Should Exist    ${filepath}.part
     \    Run Keyword If    '${ac_exist}'!='True' or '${ac_saving}'=='True'    sleep    2s
-    \    Exit For Loop If    '${ac_index}'==45 or ('${ac_exist}'=='True' and '${ac_saving}'!='True')
+    \    Exit For Loop If    '${ac_index}'==90 or ('${ac_exist}'=='True' and '${ac_saving}'!='True')
 
 wait page load
     [Documentation]    Used to wait when the frame is loading.
     Select Window
     Select Frame    main
     ${loading_status}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@class='loading'][@style='display: block;']
-    Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    90s
+    Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    150s
     Unselect Frame
 
 get total rows in table
