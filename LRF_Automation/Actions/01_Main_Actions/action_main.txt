@@ -23,6 +23,7 @@ config
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
+    Set Suite Variable    ${cf_static_capcha}    1710
     Set Suite Variable    ${cf_username}    autQC
     Set Suite Variable    ${cf_password}    1234aa
     Set Suite Variable    ${cf_username1}    autQC1
@@ -44,6 +45,7 @@ config local
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
+    Set Suite Variable    ${cf_static_capcha}    1710
     Set Suite Variable    ${cf_username}    tester02
     Set Suite Variable    ${cf_password}    1234aa
     Set Suite Variable    ${cf_username1}    tester02
@@ -58,8 +60,8 @@ login
     # input username & password
     Input Text    ${username_textbox}    ${username}
     Input Text    ${password_textbox}    ${password}
-    #manual input capcha
-    Pause Execution    Please enter capcha number then click OK
+    # input capcha
+    Input Text    ${capcha_textbox}    ${cf_static_capcha}
     Click button    ${login_button}
 
 logout
