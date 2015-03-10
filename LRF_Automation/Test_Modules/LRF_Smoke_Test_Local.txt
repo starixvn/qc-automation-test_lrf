@@ -316,7 +316,7 @@ TM_02_ST_TotalBets_Money Line
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     # 5. Select filters then click Submit button
-    submit filters for totalbets    None    normal    CNY    EUR
+    submit filters for totalbets    None    normal    ALL    USD
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
