@@ -1547,7 +1547,7 @@ TM_36_ST_Reports_Win Loss By Leagues
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    Complete
     ${from}=    Get Time    \    Now - 7d
-    ${to}=    Get Time    \    Now - 11h
+    ${to}=    Get Time    \    Now - 12h
     select licensee    12Bet
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
