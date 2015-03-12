@@ -1,0 +1,68 @@
+*** Settings ***
+Suite Setup       config
+Suite Teardown
+Test Teardown
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
+Resource          ../Actions/04_Reports/action_racing_commission.txt
+Resource          ../Actions/04_Reports/action_daily_racing_win_loss.txt
+Resource          ../Actions/04_Reports/action_cancelled_bets.txt
+Resource          ../Actions/04_Reports/action_daily_bet_list.txt
+Resource          ../Interfaces/04_Reports/interface_live_report.txt
+Resource          ../Actions/04_Reports/action_live_report.txt
+Resource          ../Actions/04_Reports/action_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_turnover.txt
+Resource          ../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_ag_casino_win_loss.txt
+Resource          ../Actions/04_Reports/action_results.txt
+Resource          ../Actions/04_Reports/action_balance.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_leagues.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_win_loss.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_win_loss.txt
+Resource          ../Actions/05_Customer_Reports/action_general_customer_reports.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
+Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
+Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+Resource          ../Actions/06_Customer_Information/action_customer_log.txt
+Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+
+*** Test Cases ***
+TM_00_ST_Start web
+    [Tags]    Complete
+    # 1. Open testing site
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
