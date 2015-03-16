@@ -338,6 +338,7 @@ navigate left menu
     # Handle normal case
     Run Keyword If    '${ac_status}'!='True'    Click Element    xpath=//td/a[text()='${submenu}']
     Unselect Frame
+    wait page load
 
 click element on report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${clicked element}
