@@ -148,6 +148,6 @@ TM_22_ST_Reports_Settled Match Count
     check element on report    \    main    None    ${report_table_settle_match_count}
     take applications screenshot    Local    TM_22_Reports_SettleMatchCount.jpg
 
-TM_END_Clear temporary files and folders
+TM_END_Export temporary files and folders path
     # Clear temp files and folders
-    clear temporary folder
+    create temporary path file

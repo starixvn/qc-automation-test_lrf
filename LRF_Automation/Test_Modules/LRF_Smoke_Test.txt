@@ -1982,7 +1982,3 @@ TM_45_ST_CustomerInformation_Commission Group List
     delete commission group    ${tm_last_row}    keep comm
     # VP. Group is deleted successfully
     check group name existence    ${tm_group_edit}    not exist
-
-TM_END_Clear temporary files and folders
-    # Clear temp files and folders
-    clear temporary folder

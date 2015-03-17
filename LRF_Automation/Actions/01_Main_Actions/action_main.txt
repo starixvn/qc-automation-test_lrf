@@ -118,10 +118,16 @@ create test directory
     ${result}=    Run Keyword And Return Status    Directory Should Exist    ${export path}
     Run Keyword If    '${result}'!='True'    Create Directory    ${export path}
 
-clear temporary folder
-    [Documentation]    This action is used to clear temporary files and folders.
-    ${result}=    Run Keyword And Return Status    Directory Should Exist    C:\\Users\\jenkins.ci\\AppData\\Local\\Temp
-    Run Keyword If    '${result}'=='True'    Empty Directory    C:\\Users\\jenkins.ci\\AppData\\Local\\Temp
+create temporary path file
+    [Documentation]    This action creates a TXT file which contains temporary path.
+    ${ac_path_file}=    Set Variable    automation-temp-path.txt
+    # Get TEMP path folder
+    ${ac_temp}=    Get Environment Variable    TMP
+    # Check to delete if file existed
+    ${result}=    Run Keyword And Return Status    File Should Exist    ${ac_path_file}
+    Run Keyword If    '${result}'=='True'    Remove File    ${ac_path_file}
+    # Create TXT file containing the TEMP path folder
+    Create File    ${ac_path_file}    content=${ac_temp}
 
 select count down refresh time
     [Arguments]    ${selected time}

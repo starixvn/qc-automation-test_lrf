@@ -1732,6 +1732,6 @@ TM_42_ST_DataWarehouse_Top Customer
     # 4. Close popup
     click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
 
-TM_END_Clear temporary files and folders
+TM_END_Export temporary files and folders path
     # Clear temp files and folders
-    clear temporary folder
+    create temporary path file
