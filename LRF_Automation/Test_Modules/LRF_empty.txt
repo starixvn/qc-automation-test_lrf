@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config
-Suite Teardown
+Suite Teardown    Close Browser
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
