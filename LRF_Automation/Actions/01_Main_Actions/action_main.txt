@@ -116,7 +116,12 @@ create test directory
     ...
     ...    create test directory | C:\\Test Data
     ${result}=    Run Keyword And Return Status    Directory Should Exist    ${export path}
-    Run Keyword If    '${result}'!='true'    Create Directory    ${export path}
+    Run Keyword If    '${result}'!='True'    Create Directory    ${export path}
+
+clear temporary folder
+    [Documentation]    This action is used to clear temporary files and folders.
+    ${result}=    Run Keyword And Return Status    Directory Should Exist    C:\\Users\\jenkins.ci\\AppData\\Local\\Temp
+    Run Keyword If    '${result}'=='True'    Empty Directory    C:\\Users\\jenkins.ci\\AppData\\Local\\Temp
 
 select count down refresh time
     [Arguments]    ${selected time}

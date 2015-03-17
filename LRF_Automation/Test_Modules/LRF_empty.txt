@@ -66,3 +66,7 @@ TM_00_ST_Start web
     # 1. Open testing site
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
+
+TM_END_Clear temporary files and folders
+    # Clear temp files and folders
+    clear temporary folder

@@ -96,8 +96,8 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check Bet List displays
     check element on report    \    main    None    ${betlist_table}
     # 8. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     Comment    # 9. Click Back button on betlist
     Comment    click element on report    \    main    None    ${back_button}
     Comment    # 10. Click plus button in FullTime - Handicap bettype (5th column)
@@ -247,8 +247,8 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     take applications screenshot    Local    TM_01_02_TotalBets_Handicap_Bodog_Betlist.jpg
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
-    # VP. Check Export To Excel function
-    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
+    Comment    # VP. Check Export To Excel function
+    Comment    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 8. Close Bet List window and back to Handicap/Over Under/Live page
     Select Window    title=LRF - Bet List
     Close Window
@@ -311,8 +311,8 @@ TM_02_ST_TotalBets_Money Line
     take applications screenshot    Local    TM_02_TotalBets_MoneyLine_Betlist.jpg
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     # 5. Select filters then click Submit button
@@ -341,8 +341,8 @@ TM_03_ST_TotalBets_OddEven
     take applications screenshot    Local    TM_03_TotalBets_OddEven_Betlist.jpg
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     Comment    ## FullTime/ 1X2Check-NumberLink
@@ -424,8 +424,8 @@ TM_04_ST_TotalBets_Correct Score
     take applications screenshot    Local    TM_04_TotalBets_CorrectScore.jpg
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    CorrectScoreBetlist.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    CorrectScoreBetlist.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -448,8 +448,8 @@ TM_05_ST_TotalBets_Total Goal
     click team link in table    \    main    None    ${report_table_totalbets}    1    2
     take applications screenshot    Local    TM_05_TotalBets_TotalGoal_Betlist.jpg
     # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 6. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # VP. Check report table exist
@@ -473,8 +473,8 @@ TM_06_ST_TotalBets_MixParlay
     Comment    # VP. Check mix parlay ticket is expanded successfully
     Comment    check status of parlay ticket    \    main    None    ${betlist_table}    2
     ...    5    expand
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 5. Click System Parlay header link on top
     click element on report    \    main    None    ${system_parlay_header_link}
     wait page load
@@ -487,8 +487,8 @@ TM_06_ST_TotalBets_MixParlay
     # VP. Check system parlay ticket is expanded successfully
     check status of parlay ticket    \    main    None    ${betlist_table}    2    5
     ...    expand
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 7. Click Details link in system parlay ticket
     click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
     take applications screenshot    Local    TM_06_TotalBets_SystemParlay_Details.jpg
@@ -513,8 +513,8 @@ TM_07_ST_TotalBets_Outright
     click team link in table    \    main    None    ${report_table_totalbets}    2    2
     take applications screenshot    Local    TM_07_TotalBets_Outright_Betlist.jpg
     # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 6. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # VP. Check report table exist
@@ -535,8 +535,8 @@ TM_08_ST_TotalBets_HT FT
     take applications screenshot    Local    TM_08_TotalBets_HTFT_Betlist.jpg
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     # 5. Select filters then click Submit button
@@ -562,8 +562,8 @@ TM_09_ST_TotalBets_FG LG
     take applications screenshot    Local    TM_09_TotalBets_FGLG_Betlist.jpg
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 4. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     # 5. Select filters then click Submit button
@@ -583,8 +583,8 @@ TM_10_ST_TotalBets_Clean Sheet
     take applications screenshot    Local    TM_10_TotalBets_CleanSheet.jpg
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -600,8 +600,8 @@ TM_11_ST_TotalBets_Double Chance
     take applications screenshot    Local    TM_11_TotalBets_DoubleChance.jpg
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -625,8 +625,8 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     ...    6
     take applications screenshot    Local    TM_12_TotalBets_HomeDrawAway_Betlist.jpg
     # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 6. Click Back button on betlist
     click element on report    \    main    None    ${back_button}
     # VP. Check report table exist
@@ -639,8 +639,8 @@ TM_13_ST_TotalBets_BON team to score
     # VP. Check User Guide popup exists
     check user guide popup
     take applications screenshot    Local    TM_13_TotalBets_BONTeamToScore.jpg
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    EUR
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -656,8 +656,8 @@ TM_14_ST_TotalBets_To win to nil
     # VP. Check User Guide popup exists
     check user guide popup
     take applications screenshot    Local    TM_14_TotalBets_ToWinToNil.jpg
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    EUR
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -673,8 +673,8 @@ TM_15_ST_TotalBets_3way Handicap
     # VP. Check User Guide popup exists
     check user guide popup
     take applications screenshot    Local    TM_15_TotalBets_3WayHandicap.jpg
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    EUR
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -701,9 +701,9 @@ TM_16_ST_TotalBets_Racing
     take applications screenshot    Local    TM_16_TotalBets_Racing_Betlist.jpg
     #VP. Check Betlist
     check element on report    \    main    None    ${betlist_table}
-    # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # 5. Click Export button
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     #6. Click link result pop-up in ticket
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     #VP. Check result pop-up
@@ -857,8 +857,8 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     take applications screenshot    Local    TM_18_02_Forecast_Handicap_Bodog_Betlist.jpg
     # VP. Check Bet List page displays
     check element on report    title=LRF - Bet List    None    None    ${betlist_table}
-    # VP. Check Export To Excel function
-    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
+    Comment    # VP. Check Export To Excel function
+    Comment    check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 9. Close Bet List window and back to Handicap/Over Under/Live page
     Select Window    title=LRF - Bet List
     Close Window
@@ -880,8 +880,8 @@ TM_19_ST_Forecast_1X2
     click plus button in table by column    \    main    None    ${report_table_totalbets}    3    3
     ...    2
     take applications screenshot    Local    TM_19_Forecast_1X2_Betlist.jpg
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 5. If "No Information is available" text displays
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # 5.1. If it existed, click Back button
@@ -892,8 +892,8 @@ TM_19_ST_Forecast_1X2
     # 6. Click button "+" of Half Time
     click plus button in table by column    \    main    None    ${report_table_totalbets}    4    4
     ...    2
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    RunningBetList.xls
     # 7. If "No Information is available" text displays
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # 7.1. If it existed, click Back button
@@ -949,30 +949,30 @@ TM_21_ST_Reports_Licensee Win Loss
     check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    LicenseeWinLoss.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    LicenseeWinLoss.xls
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
     take applications screenshot    Local    TM_21_Reports_LicenseeWL_Agent.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    LicenseeWinLoss.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    LicenseeWinLoss.xls
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
     take applications screenshot    Local    TM_21_Reports_LicenseeWL_Customer.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    LicenseeWinLoss.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    LicenseeWinLoss.xls
     # 5. Click link in External ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
     wait page load
     take applications screenshot    Local    TM_21_Reports_LicenseeWL_Betlist.jpg
-    #VP. check export
-    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    Comment    #VP. check export
+    Comment    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
     # Check to handle if there is no info
     check special case when no info available    \    main    BetList
     #VP. Check betlist
@@ -1026,8 +1026,8 @@ TM_23_ST_Reports_Match Win Loss
     check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${report_table_match_winloss}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    MatchWinLoss.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    MatchWinLoss.xls
     # 5. Click match link
     click match link of match win loss    \    main    None    ${report_table_match_winloss}    2    2
     wait page load
@@ -1038,8 +1038,8 @@ TM_23_ST_Reports_Match Win Loss
     take applications screenshot    Local    TM_23_Reports_MatchWinLoss_BetList.jpg
     # VP. Check bet list table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    MatchWinLossBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    MatchWinLossBetList.xls
     # 7. Click Results status link
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     # VP. Check result table exist
@@ -1102,16 +1102,16 @@ TM_24_ST_Reports_Win Loss By Products
     check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    WinLossByProduct.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    WinLossByProduct.xls
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
     wait page load
     take applications screenshot    Local    TM_24_Reports_WinLossByProduct_Agent.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    WinLossByProduct.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    WinLossByProduct.xls
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
@@ -1119,16 +1119,16 @@ TM_24_ST_Reports_Win Loss By Products
     check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    WinLossByProduct.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    WinLossByProduct.xls
     # 5. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
     take applications screenshot    Local    TM_24_Reports_WinLossByProduct_Betlist.jpg
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
-    #VP. check export
-    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
+    Comment    #VP. check export
+    Comment    check export excel function    \    main    BetList    LicenseeWinLossBetList.xls
     # 6. Click link results to open results pop-up
     click result link in ticket    \    main    BetList    ${betlist_table}    2    11
     take applications screenshot    Local    TM_24_Reports_WinLossByProduct_Result.jpg
@@ -1155,8 +1155,8 @@ TM_25_ST_Reports_Win Loss By Bet Type
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    WinLossByBetType.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    WinLossByBetType.xls
     # 4. Select filters then click Submit button
     submit filters for win loss by bettype    ${from}    ${to}    None    ALL    USD
     # 5. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -1180,15 +1180,15 @@ TM_26_ST_Reports_Racing Commission
     check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    RacingCommission.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    RacingCommission.xls
     # 3. Click link in External ID
     click drilldown link in div table report    \    main    None    ${div_report_table_reports}    1    2
     take applications screenshot    Local    TM_26_Reports_RacingCommission_Betlist.jpg
     # VP. Check betlist
     check element on report    \    main    None    ${betlist_table}
-    # VP. check export excel
-    check export excel function    \    main    None    CustomerWinLossBetList.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    CustomerWinLossBetList.xls
     # 4. Click link results in betlist
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     take applications screenshot    Local    TM_26_Reports_RacingCommission_Result.jpg
@@ -1216,15 +1216,15 @@ TM_27_ST_Reports_Daily Racing Win Loss
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    DailyRacingWinLossReport.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    DailyRacingWinLossReport.xls
     # 4. Click number link
     click drilldown link in div table report    \    main    None    ${div_report_table_reports}    2    1
     take applications screenshot    Local    TM_27_Reports_DailyRacingWinLoss_Betlist.jpg
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    DailyRacingWinLossBetList.xls
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    DailyRacingWinLossBetList.xls
     # 5. Click Back button on betlist popup
     click element on report    \    main    None    ${back_button}
     Comment    # 6. Select filters then click Submit button
@@ -1243,8 +1243,8 @@ TM_28_ST_Reports_Cancelled Bets
     take applications screenshot    Local    TM_28_Reports_CancelledBets.jpg
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. check export excel
-    check export excel function    \    main    None    CancelledBetList.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    CancelledBetList.xls
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1273,8 +1273,8 @@ TM_29_ST_Reports_Daily Bet List
     check special case when no info available    \    main    None
     #VP Check betlist
     check element on report    \    main    None    ${betlist_table}
-    # VP. check export excel
-    check export excel function    \    main    None    DailyBetList.xls
+    Comment    # VP. check export excel
+    Comment    check export excel function    \    main    None    DailyBetList.xls
     # 3. Click link on results in ticket
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     take applications screenshot    Local    TM_29_Reports_DailyBetList_Result.jpg
@@ -1299,41 +1299,42 @@ TM_30_ST_Reports_Live Report
     check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${div_table_live_report}
-    # VP. Check exporting file successfully
-    check export excel function for live report    \    main    None    LiveReport.xls
-    # 5. Click product link on live report.
-    click product link on live report    Sportsbook
-    take applications screenshot    Local    TM_30_Reports_LiveReport_Sport.jpg
-    # 6. Click sport link on live report
-    click sport link on live report    Soccer
-    take applications screenshot    Local    TM_30_Reports_LiveReport_Match.jpg
-    # 7. Click match link on live report
-    click match link on live report    1
-    take applications screenshot    Local    TM_30_Reports_LiveReport_Betlist.jpg
-    # VP. Check bet list table exist
-    check element on report    \    main    None    ${betlist_table}
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    LiveReportBetList.xls
-    # 8. Click Results status link
-    click result link in ticket    \    main    None    ${betlist_table}    2    11
-    take applications screenshot    Local    TM_30_Reports_LiveReport_Result.jpg
-    # VP. Check result table exist
-    check result popup exist    \    main    ResultPopup    None
-    click element on report    \    main    None    ${close_button_on_popup}
-    # 9. Click Back button on bet list report
-    click element on report    \    main    None    ${back_button}
-    # 10. Click Back button on match report
-    click element on report    \    main    None    ${back_button}
-    # 11. Click view history report link
-    click element on report    \    main    None    ${history_report_link_live_report}
-    # 12. Select filters for history report then click Submit button
-    submit filters for history live report    None    None    None    None    ALL    USD
-    ...    All
-    take applications screenshot    Local    TM_30_Reports_LiveReport_History.jpg
-    # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    check special case when no info available    \    main    None
-    # VP. Check report table exist
-    check element on report    \    main    None    ${div_table_live_report}
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function for live report    \    main    None    LiveReport.xls
+    Comment    # 5. Click product link on live report.
+    Comment    click product link on live report    Sportsbook
+    Comment    take applications screenshot    Local    TM_30_Reports_LiveReport_Sport.jpg
+    Comment    # 6. Click sport link on live report
+    Comment    click sport link on live report    Soccer
+    Comment    take applications screenshot    Local    TM_30_Reports_LiveReport_Match.jpg
+    Comment    # 7. Click match link on live report
+    Comment    click match link on live report    1
+    Comment    take applications screenshot    Local    TM_30_Reports_LiveReport_Betlist.jpg
+    Comment    # VP. Check bet list table exist
+    Comment    check element on report    \    main    None    ${betlist_table}
+    Comment    # VP. Check exporting file successfully
+    Comment    check export excel function    \    main    None    LiveReportBetList.xls
+    Comment    # 8. Click Results status link
+    Comment    click result link in ticket    \    main    None    ${betlist_table}    2
+    ...    11
+    Comment    take applications screenshot    Local    TM_30_Reports_LiveReport_Result.jpg
+    Comment    # VP. Check result table exist
+    Comment    check result popup exist    \    main    ResultPopup    None
+    Comment    click element on report    \    main    None    ${close_button_on_popup}
+    Comment    # 9. Click Back button on bet list report
+    Comment    click element on report    \    main    None    ${back_button}
+    Comment    # 10. Click Back button on match report
+    Comment    click element on report    \    main    None    ${back_button}
+    Comment    # 11. Click view history report link
+    Comment    click element on report    \    main    None    ${history_report_link_live_report}
+    Comment    # 12. Select filters for history report then click Submit button
+    Comment    submit filters for history live report    None    None    None    None    ALL
+    ...    USD    All
+    Comment    take applications screenshot    Local    TM_30_Reports_LiveReport_History.jpg
+    Comment    # 13. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    Comment    check special case when no info available    \    main    None
+    Comment    # VP. Check report table exist
+    Comment    check element on report    \    main    None    ${div_table_live_report}
     Comment    # VP. Check exporting file successfully
     Comment    check export excel function for live report    \    main    None    LiveReport.xls
     Comment    # 14. Click product link on live report
@@ -1574,8 +1575,8 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 2. Submit filters
     submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss.jpg
-    # VP. Check Exporting Excel
-    check export excel function    \    main    None    CustomerWinLoss.xls
+    Comment    # VP. Check Exporting Excel
+    Comment    check export excel function    \    main    None    CustomerWinLoss.xls
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
     # VP. Check data table
@@ -1586,8 +1587,8 @@ TM_37_ST_CustomerReports_Customer Win Loss
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss_Betlist.jpg
     # VP. Check Betlist
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check Exporting Excel
-    check export excel function    \    main    None    CustomerWinLossBetList.xls
+    Comment    # VP. Check Exporting Excel
+    Comment    check export excel function    \    main    None    CustomerWinLossBetList.xls
     # 4. Click Result link
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss_Result.jpg
@@ -1605,8 +1606,8 @@ TM_37_ST_CustomerReports_Customer Win Loss
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss_History.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
-    # VP. Check Exporting Excel
-    check export excel function    \    main    None    CustomerWinLoss.xls
+    Comment    # VP. Check Exporting Excel
+    Comment    check export excel function    \    main    None    CustomerWinLoss.xls
     # 9. Click drill down link
     click drilldown link in customer reports    1    2
     wait page load
@@ -1620,8 +1621,8 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     # 2. Submit filters
     submit filters for customer pending funds    ALL    EUR    USD    All
     take applications screenshot    Local    TM_38_CustomerReports_CustomerPending.jpg
-    # VP. Check Export Excel
-    check export excel function    \    main    None    CustomerPendingFunds.xls
+    Comment    # VP. Check Export Excel
+    Comment    check export excel function    \    main    None    CustomerPendingFunds.xls
     # VP. Check User Guide
     check user guide popup
     # Check to handle if there is no info
@@ -1634,8 +1635,8 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     take applications screenshot    Local    TM_38_CustomerReports_CustomerPending_Betlist.jpg
     # VP. Check betlist table
     check element on report    \    main    None    ${betlist_table}
-    # VP. Check Export Excel
-    check export excel function    \    main    None    CustomerPendingFundsBetList.xls
+    Comment    # VP. Check Export Excel
+    Comment    check export excel function    \    main    None    CustomerPendingFundsBetList.xls
     # 4. Click Back button
     click element on report    \    main    None    ${back_button}
     # VP. User is brought back to latest page
@@ -1653,8 +1654,8 @@ TM_39_ST_CustomerReports_Customer Balance
     take applications screenshot    Local    TM_39_CustomerReports_CustomerBalance.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
-    # VP. Check exporting excel
-    check export excel function    \    main    None    CustomerBalance.xls
+    Comment    # VP. Check exporting excel
+    Comment    check export excel function    \    main    None    CustomerBalance.xls
     # VP. Check user guide
     check user guide popup
 
@@ -1668,8 +1669,8 @@ TM_40_ST_CustomerReports_Customer Turnover
     submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
     ...    1    EUR    All
     take applications screenshot    Local    TM_40_CustomerReports_CustomerTurnover.jpg
-    # VP. Check exporting excel
-    check export excel function    \    main    None    CustomerTurnover.xls
+    Comment    # VP. Check exporting excel
+    Comment    check export excel function    \    main    None    CustomerTurnover.xls
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
     # VP. Check data table
@@ -1686,7 +1687,7 @@ TM_40_ST_CustomerReports_Customer Turnover
 TM_41_ST_DataWarehouse_Win Loss
     [Tags]    Complete
     ${from}=    Get Time    \    Now - 10d
-    ${to}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 9d
     # 1. Select mansion88 licensee
     select licensee    mansion88
     # 2. Navigate to DATA WAREHOUSE > Win Loss
@@ -1698,8 +1699,8 @@ TM_41_ST_DataWarehouse_Win Loss
     check special case when no info available    \    main    None
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_data_warehouse}
-    # VP. Check exporting excel
-    check export excel function    \    main    None    WinLoss.xls
+    Comment    # VP. Check exporting excel
+    Comment    check export excel function    \    main    None    WinLoss.xls
     # 4. Click Note icon
     click element on report    \    main    None    ${note_icon_data_warehouse}
     # VP. Check note popup
@@ -1710,7 +1711,7 @@ TM_41_ST_DataWarehouse_Win Loss
 TM_42_ST_DataWarehouse_Top Customer
     [Tags]    Complete
     ${from}=    Get Time    \    Now - 10d
-    ${to}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 9d
     select licensee    mansion88
     # 1. Navigate to DATA WAREHOUSE > Top Customer
     navigate left menu    DATA WAREHOUSE    Top Customer
@@ -1722,11 +1723,15 @@ TM_42_ST_DataWarehouse_Top Customer
     check special case when no info available    \    main    None
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_data_warehouse}
-    # VP. Check exporting excel
-    check export excel function    \    main    None    TopCustomer.xls
+    Comment    # VP. Check exporting excel
+    Comment    check export excel function    \    main    None    TopCustomer.xls
     # 3. Click Note icon
     click element on report    \    main    None    ${note_icon_data_warehouse}
     # VP. Check note popup
     check element on report    \    main    None    ${note_popup_data_warehouse}
     # 4. Close popup
     click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
+
+TM_END_Clear temporary files and folders
+    # Clear temp files and folders
+    clear temporary folder
