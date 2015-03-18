@@ -30,7 +30,10 @@ submit filters for customer list
     Run Keyword If    '${group}'!='None'    Select From List By Label    ${group_listbox_customer_list}    ${group}
     Unselect Frame
     # click Submit button
-    click element on report    \    main    None    ${submit_button_customer_list}
+    Select Window
+    Select Frame    main
+    Click Element At Coordinates    ${submit_button_customer_list}    5    5
+    Unselect Frame
     wait page load
 
 submit filters for betlist and statement
