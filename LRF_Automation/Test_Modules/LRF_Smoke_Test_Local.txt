@@ -80,7 +80,7 @@ TM_01_01_ST_TotalBets_Handicap
     navigate left menu    TOTAL BETS    Handicap/Over Under/Live
     # 5. Select filters then click Submit button
     # countdown = 75 sec
-    # licenseetype = normal
+    # licensee type = normal
     # currency = ALL
     # based = USD
     submit filters for totalbets    75 sec    ALL    ALL    EUR
