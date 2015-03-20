@@ -1687,8 +1687,8 @@ TM_40_ST_CustomerReports_Customer Turnover
 
 TM_41_ST_DataWarehouse_Win Loss
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 10d
-    ${to}=    Get Time    \    Now - 9d
+    ${from}=    Get Time    \    Now - 30d
+    ${to}=    Get Time    \    Now - 29d
     # 1. Select mansion88 licensee
     select licensee    mansion88
     # 2. Navigate to DATA WAREHOUSE > Win Loss
@@ -1711,8 +1711,8 @@ TM_41_ST_DataWarehouse_Win Loss
 
 TM_42_ST_DataWarehouse_Top Customer
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 10d
-    ${to}=    Get Time    \    Now - 9d
+    ${from}=    Get Time    \    Now - 30d
+    ${to}=    Get Time    \    Now - 29d
     select licensee    mansion88
     # 1. Navigate to DATA WAREHOUSE > Top Customer
     navigate left menu    DATA WAREHOUSE    Top Customer
