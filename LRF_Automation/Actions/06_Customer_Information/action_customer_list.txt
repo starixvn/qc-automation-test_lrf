@@ -23,7 +23,9 @@ submit filters for customer list
     # input username
     Input Text    ${username_textbox_customer_list}    ${username}
     # select status - special level - BA\
-    Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
+    ${IsStatusExsited}    Run Keyword And Return Status    Page Should Contain Element    ${status_listbox_customer_list}
+    Run Keyword If    ${IsStatusExsited}=='True' and '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
+    Comment    Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
     Run Keyword If    '${special level}'!='None'    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
     Run Keyword If    '${ba}'!='None'    Select From List By Label    ${ba_listbox_customer_list}    ${ba}
     # select Group if needed
