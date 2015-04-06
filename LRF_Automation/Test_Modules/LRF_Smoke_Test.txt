@@ -59,6 +59,7 @@ Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehou
 Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1841,6 +1842,50 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Voidbridge
+    # 1. Switch To spondemo licensee
+    select licensee    spondemo
+    # 2. Navigate to CUSTOMER INFORMATION > Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
+    # 3. Submit filters to see "testact1" testing account
+    submit filters for customer list    ALL    ALL    USD    testact1    All    All
+    ...    All    All
+    # 4. Go to View > Bet Setting
+    select customer option based on username    testact1    Bet Setting
+    # 5. Click Voidbridge tab
+    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # 6. Change status
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    wait page load
+    # 7. Go to View > Bet Setting
+    select customer option based on username    testact1    Bet Setting
+    # 8. Click Voidbridge tab
+    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    wait page load
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    '${status1_button}'    '${status2_button}'
+    # 9. Change status
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    wait page load
+    # 10. Go to View > Bet Setting
+    select customer option based on username    testact1    Bet Setting
+    # 11. Click Voidbridge tab
+    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    wait page load
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    '${status1_button}'    '${status2_button}'
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]    Complete
