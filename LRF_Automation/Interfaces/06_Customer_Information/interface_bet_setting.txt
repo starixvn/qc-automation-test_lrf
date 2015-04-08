@@ -1,3 +1,5 @@
 *** Variables ***
 ${bet_setting_enable/disable_button}    xpath=//*[@id='btnUpdateStatus']    # Enable_Disable \ button of Bet Setting popup
 ${bet_setting_voidbridge_tab}    xpath=//*[@id='voidbridge']    # Voidbridge tab of Bet Setting popup
+${bet_setting_gold_deluxe_tab}    xpath=//*[@id='golddeluxe']
+${bet_setting_gold_deluxe_group_listbox}    xpath=//*[@id='betSettingGroup']
