@@ -68,7 +68,7 @@ TM_00_ST_Start web
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
     # 2. Login with valid account
-    login    ${cf_username}    ${cf_password}
+    login    ${cf_username1}    ${cf_password1}
     # 3. Select licensee
     select licensee after login    ${cf_licensee}
 
@@ -1842,6 +1842,65 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
+    # Select licensee as spondemo
+    select licensee    spondemo
+    # Go to Customer list
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
+    # Search username as 'qatest04'
+    submit filters for customer list    ALL    ALL    USD    qatest04    All    All
+    ...    All    None
+    # 2. Go to View > Bet Setting
+    select customer option based on username    qatest04    Bet Setting
+    # 3. Click Golde duluxe tab
+    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    # Pre condition: Checkwhere user is enable or disable, if it is disable then enable (to change status, user must be enable before)
+    ${status}    get status    \    main    BetSetting
+    Run Keyword If    '${status}'=='Enable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # 2. Go to View > Bet Setting
+    select customer option based on username    qatest04    Bet Setting
+    # 3. Click Golde duluxe tab
+    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    # Get returned value as current group and non selected group from action
+    ${current_group}    ${non_current_group}    get gold deluxe group    \    main    BetSetting
+    # check selected value
+    # update group
+    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    @{non_current_group}[0]
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # Check data after update
+    select customer option based on username    qatest04    Bet Setting
+    # 3. Click Golde duluxe tab
+    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    # get current value
+    ${current_group}    ${list}    get gold deluxe group    \    main    BetSetting
+    # Checkwhether current value is updated value
+    Should Contain    ${current_group}    @{non_current_group}[0]
+    # check Enable/Disable status
+    # get status before update
+    select customer option based on username    qatest04    Bet Setting
+    # 3. Click Golde duluxe tab
+    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    ${before_status}    get status    \    main    BetSetting
+    # Update status
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # get status after update
+    select customer option based on username    qatest04    Bet Setting
+    # 3. Click Golde duluxe tab
+    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    ${after_status}    get status    \    main    BetSetting
+    # Verify status after updated
+    Run Keyword If    '${before_status}'=='Enable'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
+    ...    ${after_status}    Enable
+    # 4. Check that initialize if user is disabled , he is enabled successfully
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    select customer option based on username    qatest04    Bet Setting
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    ${after2_status}    get status    \    main    BetSetting
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    Should Contain    ${after2_status}    Disable
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Voidbridge
     # 1. Switch To spondemo licensee
