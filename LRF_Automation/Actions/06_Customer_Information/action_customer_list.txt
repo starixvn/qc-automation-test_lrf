@@ -3,6 +3,7 @@ Library           Selenium2Library
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../../Interfaces/06_Customer_Information/interface_customer_list.txt
 Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/06_Customer_Information/interface_bet_setting.txt
 
 *** Keywords ***
 submit filters for customer list
@@ -341,3 +342,28 @@ remove from group
     Wait Until Element Is Visible    ${cancel_button_remove_from_group}
     Click Element    ${cancel_button_remove_from_group}
     Unselect Frame
+
+get gold deluxe group
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    [Documentation]    Get selected value and unselected value from list
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    sleep    2s
+    # get selected value
+    ${selected_group}    Get Selected List Label    ${bet_setting_gold_deluxe_group_listbox}
+    # get items in list
+    ${group_list}    Get List Items    ${bet_setting_gold_deluxe_group_listbox}
+    # Remove selected value from list
+    Remove Values From List    ${group_list}    ${selected_group}
+    unselect frame
+    [Return]    ${selected_group}    ${group_list}    # Return groups from list
+
+get status
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    # Return status is enable or disable
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${status}    Get Element Attribute    id=btnUpdateStatus@value
+    unselect frame
+    [Return]    ${status}
