@@ -1104,7 +1104,7 @@ TM_24_ST_Reports_Win Loss By Products
     # VP. check export excel
     check export excel function    \    main    None    WinLossByProduct.xls
     # 3. Click link in Currency Colum
-    click drilldown link in table report    \    main    None    ${report_table_reports}    4    Currency
+    click drilldown link in table report    \    main    None    ${report_table_reports}    3    Currency
     wait page load
     take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Licensee.jpg
     # VP. Check report table
