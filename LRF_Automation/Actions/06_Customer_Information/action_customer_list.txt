@@ -271,6 +271,14 @@ select customer checkbox based on custid
     Select Checkbox    xpath=//input[@id='${custid}' and @type='checkbox']
     Unselect Frame
 
+select livecasino checkbox
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checkbox_value}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Select Checkbox    ${checkbox_value}
+    Unselect Frame
+
 move to group
     [Arguments]    ${custid}    ${group}
     [Documentation]    This action is used to move a user with cust ID into a group.
@@ -367,3 +375,33 @@ get status
     ${status}    Get Element Attribute    id=btnUpdateStatus@value
     unselect frame
     [Return]    ${status}
+
+get odds group value
+    Select Window
+    select frame    main
+    ${current_value}    get text    xpath=//*[@id='1']/td[10]/div
+    click element    xpath=//*[@id='1']/td[10]/span
+    ${list}    create list
+    : FOR    ${i}    IN RANGE    1    5
+    \    ${temp}    get text    xpath=//*[@id='OddsGroupList']/div[${i}]
+    \    Append To List    ${list}    ${temp}
+    \    Run Keyword If    '${temp}'=='${current_value}'    Remove Values From List    ${list}    ${temp}
+    unselect frame
+    [Return]    ${current_value}    ${list}
+
+update odds group
+    [Arguments]    ${group_name}
+    Select Window
+    select frame    main
+    click element    xpath=//*[@id='1']/td[10]/span
+    click element    xpath=//*[@id='OddsGroupList']/div[text()='${group_name}']
+    confirm action
+    unselect frame
+
+get BA status based on username
+    [Arguments]    ${username}
+    Select Window
+    Select Frame    main
+    ${ba_status}    get text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
+    Unselect Frame
+    [Return]    ${ba_status}
