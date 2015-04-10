@@ -68,7 +68,7 @@ TM_00_ST_Start web
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
     # 2. Login with valid account
-    login    ${cf_username1}    ${cf_password1}
+    login    ${cf_username}    ${cf_password}
     # 3. Select licensee
     select licensee after login    ${cf_licensee}
 
@@ -1817,31 +1817,6 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    # 17. Click AG Casino tab
-    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
-    # 18. Select Group B
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
-    # 19. Click Reset button
-    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
-    # VP. Group Setting should be reset succesfully
-    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
-    # 20. Select Group C
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
-    # 21. Click Submit and OK
-    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
-    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    # 22. Go to View > Bet Setting again
-    select customer option based on username    harmony    Bet Setting
-    # 23. Click AG Casino tab
-    click element on report    \    main    BetSetting    ${ag_casino_tab_bet_setting}
-    # VP. Group C should be selected
-    check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
-    # Post-Condition: Return back to group A
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    A
-    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
-    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     # Select licensee as Athena000
