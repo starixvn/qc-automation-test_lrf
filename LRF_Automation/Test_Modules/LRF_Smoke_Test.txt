@@ -2076,6 +2076,11 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Voidbridge
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]    Complete
+    # 1. Switch To spondemo licensee
+    select licensee    spondemo
+    # 2. Navigate to CUSTOMER INFORMATION > Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
     ${from}=    Get Time    \    Now - 18 hour
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Submit filters for viewing "harmony" testing account
