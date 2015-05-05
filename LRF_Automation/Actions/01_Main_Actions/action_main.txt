@@ -472,6 +472,7 @@ check export excel function
     # Check file existed
     wait for export file    ${cf_export_dir}${checked file name}
     File Should Exist    ${cf_export_dir}${checked file name}
+    Sleep    3s
     Empty Directory    ${cf_export_dir}
     Unselect Frame
 
