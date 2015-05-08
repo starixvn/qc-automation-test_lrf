@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config
-Suite Teardown    Close Browser
+Suite Teardown
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
@@ -1396,27 +1396,24 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check export
+    click element on report    \    main    None    ${export_to_excel_button}
+    Sleep    10s
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     check user guide popup
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 3. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
     take applications screenshot    Product    TM_33_Reports_AGWinLoss_Licensee.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 4. Click SystemID link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     take applications screenshot    Product    TM_33_Reports_AGWinLoss_Customer.jpg
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 5. Click Licensee link
     click element on report    \    main    None    ${licensee_link_ag_casino_wl}
     # VP. Check report table
@@ -1428,8 +1425,6 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 7. Submit filters for Monthly
     submit filters for ag casino win loss    None    None    None    None    ALL    Yes
     ...    Monthly
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 8. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
