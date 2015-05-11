@@ -60,6 +60,7 @@ Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+Library           ExcelLibrary
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1484,7 +1485,11 @@ TM_34_ST_Reports_Results
     # 11. Click Yesterday button
     click element on report    \    main    None    ${yesterday_button}
     # 12. Select Sport Tennis
-    select listbox by label on report    \    main    None    ${sport_listbox_results}    Tennis
+    # Chris - start modify - 08-May-2015
+    wait page load
+    select listbox by label on report    \    main    None    ${sport_listbox_results}    5
+    # Comment    select listbox by label on report    \    main    None    ${sport_listbox_results}    Tennis
+    # Chris - end modify - 08-May-2015
     wait page load
     take applications screenshot    Product    TM_34_Reports_Result_Tennis.jpg
     # 13. Click [i] link on result table
