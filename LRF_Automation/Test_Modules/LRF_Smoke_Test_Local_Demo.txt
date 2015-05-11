@@ -1,0 +1,150 @@
+*** Settings ***
+Suite Setup       config local
+Suite Teardown    Close Browser
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
+Resource          ../Actions/04_Reports/action_racing_commission.txt
+Resource          ../Actions/04_Reports/action_daily_racing_win_loss.txt
+Resource          ../Actions/04_Reports/action_cancelled_bets.txt
+Resource          ../Actions/04_Reports/action_daily_bet_list.txt
+Resource          ../Interfaces/04_Reports/interface_live_report.txt
+Resource          ../Actions/04_Reports/action_live_report.txt
+Resource          ../Actions/04_Reports/action_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_turnover.txt
+Resource          ../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_ag_casino_win_loss.txt
+Resource          ../Actions/04_Reports/action_results.txt
+Resource          ../Actions/04_Reports/action_balance.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_leagues.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_win_loss.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_win_loss.txt
+Resource          ../Actions/05_Customer_Reports/action_general_customer_reports.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
+Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
+Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+Resource          ../Actions/06_Customer_Information/action_customer_log.txt
+Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+
+*** Test Cases ***
+TM_00_ST_Start web
+    [Tags]    Complete
+    # 1. Open testing site
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    # 2. Login with valid account
+    login    ${cf_username}    ${cf_password}
+    # 3. Select licensee
+    select licensee after login    ${cf_licensee}
+
+TM_02_ST_TotalBets_Money Line
+    [Tags]    Complete
+    select licensee    ${cf_licensee}
+    # 1. Navigate to TOTAL BETS > Money Line
+    navigate left menu    TOTAL BETS    Money Line
+    take applications screenshot    Local    TM_02_TotalBets_MoneyLine.jpg
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 3. Click a number link in FullTime - Total Home bettype (4th column)
+    click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
+    ...    11
+    take applications screenshot    Local    TM_02_TotalBets_MoneyLine_Betlist.jpg
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 4. Click Back button on betlist popup
+    click element on report    \    main    None    ${back_button}
+    # 5. Select filters then click Submit button
+    submit filters for totalbets    None    normal    ALL    USD
+    # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+    # VP. Check User Guide popup exists
+    check user guide popup
+
+TM_04_ST_TotalBets_Correct Score
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Correct Score
+    navigate left menu    TOTAL BETS    Correct Score
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    None    normal    ALL    EUR
+    take applications screenshot    Local    TM_04_TotalBets_CorrectScore.jpg
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    CorrectScoreBetlist.xls
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check report table exist
+    check element on report    \    main    None    ${betlist_table}
+
+TM_05_ST_TotalBets_Total Goal
+    [Tags]    Complete
+    # 1. Navigate to TOTAL BETS > Total Goal
+    navigate left menu    TOTAL BETS    Total Goal
+    # 2. Select filters then click Submit button
+    submit filters for totalbets    75 sec    normal    None    EUR
+    take applications screenshot    Local    TM_05_TotalBets_TotalGoal.jpg
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # 4. Click team name to drill down to betlist
+    click team link in table    \    main    None    ${report_table_totalbets}    1    2
+    take applications screenshot    Local    TM_05_TotalBets_TotalGoal_Betlist.jpg
+    # 5. Click Export button
+    # VP. Check exporting file successfully
+    check export excel function    \    main    None    RunningBetList.xls
+    # 6. Click Back button on betlist
+    click element on report    \    main    None    ${back_button}
+    # VP. Check report table exist
+    check element on report    \    main    None    ${report_table_totalbets}
+
+TM_22_ST_Reports_Settled Match Count
+    [Tags]    Complete
+    # 1. Navigate to REPORTS > Settled Match Count
+    navigate left menu    REPORTS    Settled Match Count
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_settle_match_count}
+    take applications screenshot    Local    TM_22_Reports_SettleMatchCount.jpg
