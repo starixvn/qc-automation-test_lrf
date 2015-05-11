@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config
-Suite Teardown    Close Browser
+Suite Teardown
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
@@ -64,7 +64,7 @@ Library           ExcelLibrary
 
 *** Test Cases ***
 TM_00_ST_Start web
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Open testing site
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
@@ -74,7 +74,7 @@ TM_00_ST_Start web
     select licensee after login    ${cf_licensee}
 
 TM_01_01_ST_TotalBets_Handicap
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Open testing site
     # 2. Login with valid account
     # 3. Select licensee
@@ -230,7 +230,7 @@ TM_01_01_ST_TotalBets_Handicap
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_01_02_ST_TotalBets_Handicap_Bodog
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Open testing site
     # 2. Login with valid account
     # 3. Select licensee
@@ -303,7 +303,7 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     select licensee    ${cf_licensee}
 
 TM_02_ST_TotalBets_Money Line
-    [Tags]    Complete
+    [Tags]    CI
     select licensee    ${cf_licensee}
     # 1. Navigate to TOTAL BETS > Money Line
     navigate left menu    TOTAL BETS    Money Line
@@ -332,7 +332,7 @@ TM_02_ST_TotalBets_Money Line
     check user guide popup
 
 TM_03_ST_TotalBets_OddEven
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Odd/Even + 1x2 + DND
     navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -423,7 +423,7 @@ TM_03_ST_TotalBets_OddEven
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_04_ST_TotalBets_Correct Score
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Correct Score
     navigate left menu    TOTAL BETS    Correct Score
     # 2. Select filters then click Submit button
@@ -440,7 +440,7 @@ TM_04_ST_TotalBets_Correct Score
     check element on report    \    main    None    ${betlist_table}
 
 TM_05_ST_TotalBets_Total Goal
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Total Goal
     navigate left menu    TOTAL BETS    Total Goal
     # 2. Select filters then click Submit button
@@ -463,7 +463,7 @@ TM_05_ST_TotalBets_Total Goal
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_06_ST_TotalBets_MixParlay
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Mix Parlay
     navigate left menu    TOTAL BETS    Mix Parlay
     # 2. Select filters then click Submit button
@@ -501,7 +501,7 @@ TM_06_ST_TotalBets_MixParlay
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_07_ST_TotalBets_Outright
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Outright
     navigate left menu    TOTAL BETS    Outright
     # 2. Select filters then click Submit button
@@ -525,7 +525,7 @@ TM_07_ST_TotalBets_Outright
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_08_ST_TotalBets_HT FT
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > HT/FT
     navigate left menu    TOTAL BETS    HT/FT
     # VP. Check User Guide popup exists
@@ -552,7 +552,7 @@ TM_08_ST_TotalBets_HT FT
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_09_ST_TotalBets_FG LG
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > FG/LG
     navigate left menu    TOTAL BETS    FG/LG
     # VP. Check User Guide popup exists
@@ -579,7 +579,7 @@ TM_09_ST_TotalBets_FG LG
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_10_ST_TotalBets_Clean Sheet
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Clean Sheet
     navigate left menu    TOTAL BETS    Clean Sheet
     # 2. Select filters then click Submit button
@@ -596,7 +596,7 @@ TM_10_ST_TotalBets_Clean Sheet
     check element on report    \    main    None    ${betlist_table}
 
 TM_11_ST_TotalBets_Double Chance
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Double Chance
     navigate left menu    TOTAL BETS    Double Chance
     # 2. Select filters then click Submit button
@@ -613,7 +613,7 @@ TM_11_ST_TotalBets_Double Chance
     check element on report    \    main    None    ${betlist_table}
 
 TM_12_ST_TotalBets_HomeDrawAway No Bet
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Home/Draw/Away No Bet
     navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
     # 2. Select filters then click Submit button
@@ -637,7 +637,7 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_13_ST_TotalBets_BON team to score
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > B/O/N team to score
     navigate left menu    TOTAL BETS    B/O/N team to score
     # VP. Check User Guide popup exists
@@ -654,7 +654,7 @@ TM_13_ST_TotalBets_BON team to score
     check element on report    \    main    None    ${betlist_table}
 
 TM_14_ST_TotalBets_To win to nil
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > To win to nil
     navigate left menu    TOTAL BETS    To win to nil
     # VP. Check User Guide popup exists
@@ -671,7 +671,7 @@ TM_14_ST_TotalBets_To win to nil
     check element on report    \    main    None    ${betlist_table}
 
 TM_15_ST_TotalBets_3way Handicap
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > 3-Way Handicap
     navigate left menu    TOTAL BETS    3-Way Handicap
     # VP. Check User Guide popup exists
@@ -688,7 +688,7 @@ TM_15_ST_TotalBets_3way Handicap
     check element on report    \    main    None    ${betlist_table}
 
 TM_16_ST_TotalBets_Racing
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Racing
     navigate left menu    TOTAL BETS    Racing
     # 2. Select filters then click Submit button
@@ -757,7 +757,7 @@ TM_16_ST_TotalBets_Racing
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_17_ST_TotalBets_Number Game
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to TOTAL BETS > Number Game
     navigate left menu    TOTAL BETS    Number Game
     # 2. Select filters then click Submit button
@@ -783,7 +783,7 @@ TM_17_ST_TotalBets_Number Game
     check element on report    \    main    None    ${report_table_totalbets}
 
 TM_18_01_ST_Forecast_Handicap
-    [Tags]    Complete
+    [Tags]    CI
     # work around
     navigate left menu    REPORTS    Balance
     # 1. Navigate to FORECAST > Handicap/Over Under/Live
@@ -840,7 +840,7 @@ TM_18_01_ST_Forecast_Handicap
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_18_02_ST_Forecast_Handicap_Bodog
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Open testing site
     # 2. Login with valid account
     # 3. Select licensee
@@ -871,7 +871,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     select licensee    ${cf_licensee}
 
 TM_19_ST_Forecast_1X2
-    [Tags]    Complete
+    [Tags]    CI
     select licensee    ${cf_licensee}
     # 1. Navigate to FORECAST > 1 X 2
     navigate left menu    FORECAST    1 X 2
@@ -910,7 +910,7 @@ TM_19_ST_Forecast_1X2
     check user guide popup
 
 TM_20_ST_Reports_Last Bets Monitoring
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Last Bets Monitoring
     navigate left menu    REPORTS    Last Bets Monitoring
     # 2. Select filters then click Submit button
@@ -940,7 +940,7 @@ TM_20_ST_Reports_Last Bets Monitoring
     check table header existence    ${last_bet_monitoring_table}    1    Status    not exist
 
 TM_21_ST_Reports_Licensee Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 7 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Licensee Win Loss
@@ -1004,7 +1004,7 @@ TM_21_ST_Reports_Licensee Win Loss
     check element on report    \    main    BetList    ${betlist_table}
 
 TM_22_ST_Reports_Settled Match Count
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Settled Match Count
     navigate left menu    REPORTS    Settled Match Count
     # VP. Check User Guide popup exists
@@ -1014,7 +1014,7 @@ TM_22_ST_Reports_Settled Match Count
     take applications screenshot    Product    TM_22_Reports_SettleMatchCount.jpg
 
 TM_23_ST_Reports_Match Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Match Win Loss
     navigate left menu    REPORTS    Match Win Loss
     # 2. Click User Guide
@@ -1089,7 +1089,7 @@ TM_23_ST_Reports_Match Win Loss
     Run Keyword If    '${tm_outright_status}'=='True'    check element on report    \    main    None    ${betlist_table}
 
 TM_24_ST_Reports_Win Loss By Products
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 7 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Win Loss By Product
@@ -1139,7 +1139,7 @@ TM_24_ST_Reports_Win Loss By Products
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_25_ST_Reports_Win Loss By Bet Type
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 6 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Win Loss By Bet Type
@@ -1165,7 +1165,7 @@ TM_25_ST_Reports_Win Loss By Bet Type
     check element on report    \    main    None    ${div_report_table_reports}
 
 TM_26_ST_Reports_Racing Commission
-    [Tags]    Complete
+    [Tags]    CI
     ${from}    Get Time    \    Now - 6 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Racing Commission
@@ -1199,7 +1199,7 @@ TM_26_ST_Reports_Racing Commission
     check element on report    \    main    None    ${div_report_table_reports}
 
 TM_27_ST_Reports_Daily Racing Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     ${date}=    Get Time    \    Now - 1d
     # 1. Navigate to REPORTS > Daily Racing Win Loss
     navigate left menu    REPORTS    Daily Racing Win Loss
@@ -1235,7 +1235,7 @@ TM_27_ST_Reports_Daily Racing Win Loss
     check element on report    \    main    None    ${div_report_table_reports}
 
 TM_28_ST_Reports_Cancelled Bets
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Cancelled Bets
     navigate left menu    REPORTS    Cancelled Bets
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -1257,7 +1257,7 @@ TM_28_ST_Reports_Cancelled Bets
     check element on report    \    main    None    ${betlist_table}
 
 TM_29_ST_Reports_Daily Bet List
-    [Tags]    Complete
+    [Tags]    CI
     ${day}    Get Time    \    Now - 1 day
     # 1. Navigate to REPORTS > Daily Bet List
     navigate left menu    REPORTS    Daily Bet List
@@ -1279,7 +1279,7 @@ TM_29_ST_Reports_Daily Bet List
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_30_ST_Reports_Live Report
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Live Report
     navigate left menu    REPORTS    Live Report
     # 2. Click User Guide
@@ -1338,7 +1338,7 @@ TM_30_ST_Reports_Live Report
     check element on report    \    main    None    ${from_calendar_picker}
 
 TM_31_ST_Reports_Turnover
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Turnover
     navigate left menu    REPORTS    Turnover${SPACE}
     # VP. Check User Guide popup exists
@@ -1354,7 +1354,7 @@ TM_31_ST_Reports_Turnover
     check export excel function    \    main    None    Turnover.xls
 
 TM_32_ST_Reports_Mobile Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to REPORTS > Mobile Win Loss
     navigate left menu    REPORTS    Mobile Win Loss
     # VP. Check User Guide popup exists
@@ -1387,7 +1387,7 @@ TM_32_ST_Reports_Mobile Win Loss
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_33_ST_Reports_AG Casino Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     select licensee    12Bet
     # 1. Navigate to REPORTS > AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
@@ -1397,27 +1397,24 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check export
+    click element on report    \    main    None    ${export_to_excel_button}
+    Sleep    10s
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     check user guide popup
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 3. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
     take applications screenshot    Product    TM_33_Reports_AGWinLoss_Licensee.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 4. Click SystemID link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     take applications screenshot    Product    TM_33_Reports_AGWinLoss_Customer.jpg
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 5. Click Licensee link
     click element on report    \    main    None    ${licensee_link_ag_casino_wl}
     # VP. Check report table
@@ -1429,8 +1426,6 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 7. Submit filters for Monthly
     submit filters for ag casino win loss    None    None    None    None    ALL    Yes
     ...    Monthly
-    # VP. check export excel
-    check export excel function    \    main    None    AgCasinoWinLoss.xls
     # 8. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
@@ -1441,7 +1436,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     check element on report    \    main    None    ${report_table_reports}
 
 TM_34_ST_Reports_Results
-    [Tags]    Complete
+    [Tags]    CI
     ${tm_date}=    Get Time    \    Now - 1 day
     # 1. Navigate to REPORTS > Results
     navigate left menu    REPORTS    Results
@@ -1501,7 +1496,7 @@ TM_34_ST_Reports_Results
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_35_ST_Reports_Balance
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to Balance
     navigate left menu    REPORTS    Balance
     # 2. Submit filters
@@ -1513,7 +1508,7 @@ TM_35_ST_Reports_Balance
     check export excel function    \    main    None    Balance.xls
 
 TM_36_ST_Reports_Win Loss By Leagues
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Select SunGame licensee
     select licensee    SunGame
     # 2. Navigate to REPORTS > Win Loss By Leagues
@@ -1551,7 +1546,7 @@ TM_36_ST_Reports_Win Loss By Leagues
     select licensee    12Bet
 
 TM_37_ST_CustomerReports_Customer Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 7d
     ${to}=    Get Time    \    Now - 12h
     select licensee    12Bet
@@ -1596,7 +1591,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     check element on report    \    main    None    ${betlist_table}
 
 TM_38_ST_CustomerReports_Customer Pending Funds
-    [Tags]    Complete
+    [Tags]    CI
     # 1. Navigate to CUSTOMER REPORTS > Customer Pending Funds
     navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
     # 2. Submit filters
@@ -1622,7 +1617,7 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     check element on report    \    main    None    ${div_report_table_customer_reports}
 
 TM_39_ST_CustomerReports_Customer Balance
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 7d
     ${to}=    Get Time    \    Now - 12h
     # 1. Navigate to CUSTOMER REPORTS > Customer Balance
@@ -1639,7 +1634,7 @@ TM_39_ST_CustomerReports_Customer Balance
     check user guide popup
 
 TM_40_ST_CustomerReports_Customer Turnover
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 5d
     ${to}=    Get Time    \    Now - 12h
     # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
@@ -1662,7 +1657,7 @@ TM_40_ST_CustomerReports_Customer Turnover
     check checkbox existence    \    main    None    NG -    not exist
 
 TM_41_ST_DataWarehouse_Win Loss
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 13d
     ${to}=    Get Time    \    Now - 6d
     # 1. Select mansion88 licensee
@@ -1684,7 +1679,7 @@ TM_41_ST_DataWarehouse_Win Loss
     click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
 
 TM_42_ST_DataWarehouse_Top Customer
-    [Tags]    Complete
+    [Tags]    CI
     ${from}=    Get Time    \    Now - 13d
     ${to}=    Get Time    \    Now - 6d
     select licensee    mansion88
@@ -1706,7 +1701,7 @@ TM_42_ST_DataWarehouse_Top Customer
     click element on report    \    main    None    ${close_note_popup_button_data_warehouse}
 
 TM_43_01_ST_CustomerInformation_Customer List_General
-    [Tags]    Complete
+    [Tags]
     # Get today time because exported file have "today" date in file name
     ${today}=    Get Time    \    Now - 11h
     ${date}=    convert date into month date year    ${today}
@@ -1773,7 +1768,7 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     check special level based on custid    9579874    None
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
-    [Tags]    Complete
+    [Tags]
     # 1. Submit filters to see "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
     ...    All    None
@@ -2080,7 +2075,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Voidbridge
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
-    [Tags]    Complete
+    [Tags]
     # 1. Switch To spondemo licensee
     select licensee    spondemo
     # 2. Navigate to CUSTOMER INFORMATION > Customer List
@@ -2126,7 +2121,7 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     check element on report    \    main    None    ${log_info_table}
 
 TM_44_ST_CustomerInformation_Customer Log
-    [Tags]    Complete
+    [Tags]
     # 1. Navigate to CUSTOMER INFORMATION > Customer Log
     navigate left menu    CUSTOMER INFORMATION    Customer Log
     wait page load
@@ -2149,7 +2144,7 @@ TM_44_ST_CustomerInformation_Customer Log
     check user guide popup
 
 TM_45_ST_CustomerInformation_Commission Group List
-    [Tags]    Complete
+    [Tags]
     ${tm_group}=    Set Variable    testinggroup1
     ${tm_group_edit}=    Set Variable    testinggroup2
     ${tm_cust}=    Set Variable    candytest
