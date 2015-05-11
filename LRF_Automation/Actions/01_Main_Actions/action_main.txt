@@ -24,20 +24,14 @@ config
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-<<<<<<< HEAD
     Set Suite Variable    ${cf_username}    autqc
-=======
     Set Suite Variable    ${cf_username}    autQC
->>>>>>> 2589adb54d30af9c609d0a77843c6a2bf227ae56
     Set Suite Variable    ${cf_password}    1234aa
     Set Suite Variable    ${cf_username1}    autoQC1
     Set Suite Variable    ${cf_password1}    1234aa
     Set Suite Variable    ${cf_username2}    pgmjames
-<<<<<<< HEAD
     Set Suite Variable    ${cf_password2}    4321aa
-=======
     Set Suite Variable    ${cf_password2}    1234aa
->>>>>>> 2589adb54d30af9c609d0a77843c6a2bf227ae56
     Set Suite Variable    ${cf_licensee}    12Bet
 
 config local
