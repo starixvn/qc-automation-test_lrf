@@ -58,7 +58,6 @@ Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehou
 Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
-Library           ExcelLibrary
 
 *** Test Cases ***
 TM_00_ST_Start web

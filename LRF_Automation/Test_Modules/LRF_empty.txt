@@ -70,29 +70,3 @@ TM_00_ST_Start web
     # 1. Open testing site
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
-
-Test Excel Library
-    # 1. Open testing site
-    Open Browser    https://10.18.200.209:444/V4/Utility/SelectLicensee    ff    ff_profile_dir=${cf_ff_profile_dir}
-    Maximize Browser Window
-    # 2. Login with valid account
-    login    tester04    1234aa
-    # 3. Select licensee
-    select licensee after login    12Bet
-    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    ${from}=    Get Time    \    Now - 7d
-    ${to}=    Get Time    \    Now - 12h
-    submit filters for customer win loss    ${from}    ${to}    ALL    USD    All
-    click drilldown link in customer reports    1    2
-    Open Excel Current Directory    Data_BetList.xls
-    ${testdata}    Read Cell Data By Coordinates    Expected Data    0    0
-    ${rowcount}    Get Row Count    Expected Data
-    :FOR    ${idxRow}    IN RANGE    1    ${rowcount}
-    \    ${Excel_TansId}    Read Cell Data By Coordinates    Expected Data    0    ${idxRow}
-    \    ${Excel_Choice}    Read Cell Data By Coordinates    Expected Data    1    ${idxRow}
-    \    ${Excel_Odds}    Read Cell Data By Coordinates    Expected Data    2    ${idxRow}
-    \    ${Excel_BetType}    Read Cell Data By Coordinates    Expected Data    3    ${idxRow}
-    :FOR    ${indexTicketWeb}    IN RANGE    0    1000
-    \    ${aaa}    Get Text    xpath=//td[@aria-describedby='BetListGrid_Choice'][0]
-    \    Exit For Loop If    ${indexTicketWeb}==5
-    \    Exit For Loop If    ${idxRow}==${rowcount}
