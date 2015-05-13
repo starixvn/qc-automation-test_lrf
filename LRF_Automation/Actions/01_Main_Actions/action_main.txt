@@ -55,6 +55,8 @@ config local
     Set Suite Variable    ${cf_username2}    tester02
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
+    Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
+    Set Suite Variable    ${cf_betlist_user}    iceEW
 
 login
     [Arguments]    ${username}    ${password}
@@ -297,7 +299,7 @@ select listbox by label on report
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    Select From List By Label    ${listbox}    ${label}
+    Select From List By Value    ${listbox}    ${label}
     Unselect Frame
 
 unselect products filter

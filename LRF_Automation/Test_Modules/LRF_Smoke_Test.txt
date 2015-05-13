@@ -60,8 +60,6 @@ Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
-Library           ExcelLibrary
-Resource          ../Actions/04_Reports/action_gold_deluxe_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1481,11 +1479,8 @@ TM_34_ST_Reports_Results
     # 11. Click Yesterday button
     click element on report    \    main    None    ${yesterday_button}
     # 12. Select Sport Tennis
-    # Chris - start modify - 08-May-2015
     wait page load
     select listbox by label on report    \    main    None    ${sport_listbox_results}    5
-    # Comment    select listbox by label on report    main    None    ${sport_listbox_results}    Tennis
-    # Chris - end modify - 08-May-2015
     wait page load
     take applications screenshot    Product    TM_34_Reports_Result_Tennis.jpg
     # 13. Click [i] link on result table
@@ -1545,30 +1540,6 @@ TM_36_ST_Reports_Win Loss By Leagues
     check element on report    \    main    None    ${league_link_wl_by_leagues}
     # Post-Condition
     select licensee    12Bet
-
-TM_46_ST_Reports_Gold Deluxe Win Loss
-    select licensee    spondemo
-    # 1. Navigate to REPORTS > AG Gold Deluxe Win Loss
-    navigate left menu    REPORTS    Gold Deluxe Win Loss
-    ${from}=    Get Time    \    Now - 7d
-    ${to}=    Get Time    \    Now - 12h
-    submit filters for gold deluxe win loss report    ${from}    ${to}    None    No    Daily
-    take applications screenshot    Product    TM_46_ST_Reports_Gold Deluxe Win Loss.jpg
-    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no ticket at this moment.
-    # VP. check element on report
-    check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
-    # 3. Click Currency link
-    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
-    wait page load
-    take applications screenshot    Product    TM_46_ST_Reports_Gold Deluxe Win Loss.jpg
-    # VP. Check report table
-    check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
 
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    CI
@@ -1792,32 +1763,6 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     # VP. Check Special Level is changed successfully
     check special level based on custid    9579874    None
 
-TM_43_01_ST_CustomerInformation_Customer List_General_Odds Group
-    # Select licensee as spondemo
-    select licensee    spondemo
-    # Go to Customer list
-    navigate left menu    CUSTOMER INFORMATION    Customer List
-    wait page load
-    # Search username as 'qatest04'
-    submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
-    ######## Pre condition: Member must be OFF BA
-    ## Check BA status
-    ${isBA}    get ba status based on username    qatest04
-    run keyword if    '${isBA}'=='ON'    Should Be Byte String
-    run keyword if    '${isBA}'=='ON'    change ba status based on username    qatest04    OFF
-    ######## \ End Pre_condition
-    # get group list
-    ${current_group}    ${list_without_selected_group}    get odds group value
-    update odds group    @{list_without_selected_group}[0]
-    # check status after update
-    submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
-    # get status after updated
-    ${current_group}    ${list}    get odds group value
-    # Check updated status as current status
-    Should Contain    ${current_group}    @{list_without_selected_group}[0]
-
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     [Tags]
     # 1. Submit filters to see "harmony" testing account
@@ -1951,72 +1896,6 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     # VP. Check Status is changed successfully
     Should Not Be Equal    ${status1_button}    ${status2_button}
     wait page load
-
-TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
-    # Select licensee as Athena000
-    select licensee    spondemo
-    # Go to Customer list
-    navigate left menu    CUSTOMER INFORMATION    Customer List
-    wait page load
-    # Search username as 'qatest04'
-    submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
-    # 2. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    # Pre condition: Checkwhere user is enable or disable, if it is disable then enable (to change status, user must be enable before)
-    ${status}    get status    \    main    BetSetting
-    Run Keyword If    '${status}'=='Enable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    # 2. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    # Get returned value as current group and non selected group from action
-    ${before_selected_list}    ${before_unselected_list}    get rng casino group    \    main    BetSetting
-    # Checkwhether list is empty
-    ${before_selected}    Run Keyword And Return Status    should be empty    ${before_selected_list}
-    # if list is empty, set it as None
-    ${before_selected}    Set Variable If    '${before_selected}'=='True'    None    @{before_selected_list}[0]
-    # Checkwhether list is empty
-    ${before_unselected}    Run Keyword And Return Status    should be empty    ${before_unselected_list}
-    # if list is empty, set it as None
-    ${before_unselected}    Set Variable If    '${before_unselected}'=='True'    None    @{before_unselected_list}[0]
-    # update group included: select new value and unselect exsited selected status
-    update bet setting    \    main    BetSetting    ${before_unselected}    ${before_selected}
-    # Check data after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    # Check after updated
-    # get selected status after update
-    ${ischecked}    check status of checkbox    \    main    BetSetting    ${before_unselected}
-    run key word if    '${before_unselected}'!='None'    should be true    ${ischecked}
-    # get unselected status after update
-    ${ischecked}    check status of checkbox    \    main    BetSetting    ${before_selected}
-    run key word if    '${before_selected}'!='None'    Should Not Be True    ${ischecked}
-    # check Enable/Disable status
-    # get status before update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    ${before_status}    get status    \    main    BetSetting
-    # Update status
-    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    # get status after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click RNG casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    ${after_status}    get status    \    main    BetSetting
-    # Verify status after updated
-    Run Keyword If    '${before_status}'=='Enable RNG Casino'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
-    ...    ${after_status}    Enable
-    # 4. Check that initialize if user is disabled , he is enabled successfully
-    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    Run Keyword If    '${status}'=='Disable RNG Casino'    select customer option based on username    qatest04    Bet Setting
-    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    ${after2_status}    get status    \    main    BetSetting
-    Run Keyword If    '${status}'=='Disable RNG Casino'    Should Contain    ${after2_status}    Disable
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     # 1. Switch To spondemo licensee
