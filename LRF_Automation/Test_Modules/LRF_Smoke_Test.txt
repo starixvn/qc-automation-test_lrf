@@ -1481,7 +1481,7 @@ TM_34_ST_Reports_Results
     click element on report    \    main    None    ${yesterday_button}
     # 12. Select Sport Tennis
     wait page load
-    select listbox by label on report    \    main    None    ${sport_listbox_results}    5
+    select listbox by value on report    \    main    None    ${sport_listbox_results}    5
     wait page load
     take applications screenshot    Product    TM_34_Reports_Result_Tennis.jpg
     # 13. Click [i] link on result table
@@ -2061,7 +2061,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     wait page load
     # Update Setting
     # 12. Select Group B
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
     # 13. Click Submit and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
@@ -2073,13 +2073,13 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     # VP. Group Setting should be updated succesfully
     check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
     # 16. Select Group C
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    C
     # 17. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
     # VP. Group Setting should be reset succesfully
     check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
     # Post-Condition: Return back to group A
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    F
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    F
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
@@ -2108,7 +2108,7 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     ${current_group}    ${non_current_group}    get gold deluxe group    \    main    BetSetting
     # check selected value
     # update group
-    select listbox by label on report    \    main    BetSetting    ${bet_setting_groups_listbox}    @{non_current_group}[0]
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    @{non_current_group}[0]
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
