@@ -2208,7 +2208,7 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     # VP. Bet List existed
     check element on report    \    main    BetList    ${betlist_panel}
     # 4. Submit filters for Bet List (Running)
-    submit filters for betlist and statement    Bet List (Running)    ${from}    ${to}    All
+    submit filters for betlist and statement    betlistrunning    ${from}    ${to}    All
     # VP. Bet List (Running) existed
     check element on report    \    main    BetList    ${betlist_panel}
     # work around: Go to another page and come back to clear cache
