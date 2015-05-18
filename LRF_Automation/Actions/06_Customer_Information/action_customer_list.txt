@@ -49,7 +49,7 @@ submit filters for betlist and statement
     ...
     ...    submit filters for betlist and statement | Bet List | Dec-01-2014 | Dec-03-2014 | All
     # select view mode
-    Run Keyword If    '${view}'!='None'    select listbox by label on report    \    main    BetList    ${view_listbox}
+    Run Keyword If    '${view}'!='None'    select listbox by value on report    \    main    BetList    ${view_listbox}
     ...    ${view}
     Sleep    3s
     # select date
