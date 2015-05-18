@@ -43,7 +43,7 @@ create ref no list
     [Documentation]    This action is used to create a list of Ref Number for all tickets in bet list.
     ${ac_totalrow_betlist}=    Execute Javascript    return document.getElementById('BetListGrid').rows.length
     ${ac_ref_list}=    Create List
-    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_betlist}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_betlist}
     \    Wait Until Element Is Visible    xpath=//*[@id='${ac_index}']/td[4]    60s
     \    ${ac_ref}    Get Text    xpath=//*[@id='${ac_index}']/td[4]
     \    ${ac_ref}    Fetch From Right    ${ac_ref}    No:
@@ -137,7 +137,7 @@ check bet list
     \    Run Keyword If    '${ac_lastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//*[@id='${ac_ticket_row}']/td[5]/div/div[2]/div[contains(@class,'lastGoal')]
     \    Run Keyword If    '${ac_1hfirstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//*[@id='${ac_ticket_row}']/td[5]/div/div[2]/div[contains(@class,'fhFirstGoal')]
     \    Run Keyword If    '${ac_1hlastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//*[@id='${ac_ticket_row}']/td[5]/div/div[2]/div[contains(@class,'fhLastGoal')]
-    Set Selenium Speed    ${cf_speed}
+    # Set Selenium Speed    ${cf_speed}
 
 check bet list with selected products
     [Arguments]    ${products}    ${excel file}    ${ref no list}
