@@ -535,7 +535,7 @@ TM_30_ST_Reports_Live Report
     # 2. Click User Guide
     check user guide popup
     # 3. Select filters then click Submit button
-    ${fromDate}=    Get Time    \    NOW - 6d
+    ${fromDate}=    Get Time    \    NOW - 1d
     ${toDate}=    Get Time    \    NOW - 12h
     submit filters for live report    ${fromDate}    ${toDate}    EUR    EUR    All
     wait page load
