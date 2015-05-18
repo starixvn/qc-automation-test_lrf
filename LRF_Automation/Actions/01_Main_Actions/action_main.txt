@@ -295,17 +295,17 @@ select products filter
     Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
     Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
 
-select listbox by label on report
-    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${label}
-    [Documentation]    This action is used to select value from listbox by its label.
+select listbox by value on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${value}
+    [Documentation]    This action is used to select value from listbox.
     ...
     ...    Example: select option "2000" in page size listbox
     ...
-    ...    select listbox by label on report | ${page_size_listbox} | 2000
+    ...    select listbox by value on report | ${page_size_listbox} | 2000
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    Select From List By Value    ${listbox}    ${label}
+    Select From List By Value    ${listbox}    ${value}
     Unselect Frame
 
 unselect products filter
