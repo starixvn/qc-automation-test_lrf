@@ -85,7 +85,7 @@ TM_BL_NB_01_Licensee Win Loss
     click element on report    \    main    None    xpath=//*[@id='1']/td/a[text()='${cf_betlist_user}']
     wait page load
     # Select to display 2000 tickets in one page
-    select listbox by label on report    \    main    BetList    xpath=//td/select[@class='ui-pg-selbox']    2000
+    select listbox by value on report    \    main    BetList    xpath=//td/select[@class='ui-pg-selbox']    2000
     Sleep    5s
     Select Window
     Select Frame    main
@@ -107,7 +107,7 @@ TM_BL_NB_06_Customer Win Loss
     wait page load
     Sleep    3s
     # Select to display 2000 tickets in one page
-    select listbox by label on report    \    main    None    xpath=//td/select[@class='ui-pg-selbox']    2000
+    select listbox by value on report    \    main    None    xpath=//td/select[@class='ui-pg-selbox']    2000
     Sleep    3s
     Select Window
     Select Frame    main
