@@ -162,3 +162,95 @@ check bet list with selected products
     Run Keyword If    '${VS}'=='True'    check bet list    ${excel file}    Virtual Sports    ${ref no list}
     Run Keyword If    '${CS}'=='True'    check bet list    ${excel file}    RNG Casino    ${ref no list}
     Run Keyword If    '${KN}'=='True'    check bet list    ${excel file}    Keno    ${ref no list}
+
+get Total values in report
+    [Arguments]    ${report_name}    ${product}
+    [Documentation]    This action is used to get Toal values in each report
+    ...
+    ...    Params:
+    ...    - ${report_name} = "*Win Loss By Products*" or "*Match Win Loss*" or "*Customer Win Loss*" or "*Live Report*" or "*Licensee Win Loss*" or "*Win Loss By Products*" or "*Turnover*"
+    ...    - ${product} = "*Sportsbook*" or "*Racing*" or "*Number Game*" or "*Live Casino*" or "*Keno*" or "*RNG Casino*" or "*Virtual Sports*"
+    ...
+    ...    Example: get Number Game total value of Turnover, Total Trans, Customer WL, Customer Comm, Customer Total, Licensee WL columns in report Win Loss By Products
+    ...
+    ...    ${NG_turnover}	${NG_totaltrans}	${NG_customerwl}	${NG_customercomm}	${NG_customertotal}	${NG_licenseewl}= | get Total values in report | Win Loss By Products | Number Game
+    ...
+    ...    *NOTE: Just get Total value of GBP row (in case get total from Licensee Win Loss)*
+    select frame    main
+    ${isVS}    Run Keyword And Return Status    Should Contain    ${product}    Virtual
+    sleep    10s
+    ${turnover}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[2]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[2]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[7]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalTurnOverSingle']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[1]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[7]
+    ${turnover}    Run Keyword If    '${turnover}'!='None'    remove string    ${turnover}    ,
+    ${totaltrans}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[3]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[3]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[9]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalTransaction']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[2]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${totaltrans}    Run Keyword If    '${totaltrans}'!='None'    remove string    ${totaltrans}    ,
+    ${customerwl}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[4]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[4]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[1]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerWinLoss']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[3]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[11]
+    ${customerwl}    Run Keyword If    '${customerwl}'!='None'    remove string    ${customerwl}    ,
+    ${customercomm}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[5]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[5]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[3]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerComm']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[4]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[12]
+    ${customercomm}    Run Keyword If    '${customercomm}'!='None'    remove string    ${customercomm}    ,
+    ${customertotal}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[6]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[6]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[5]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerTotal']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[5]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${customertotal}    Run Keyword If    '${customertotal}'!='None'    remove string    ${customertotal}    ,
+    ${licenseewl}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[7]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[8]    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[11]/span
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalLicenseeWLSingle']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[6]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${licenseewl}    Run Keyword If    '${licenseewl}'!='None'    remove string    ${licenseewl}    ,
+    sleep    5s
+    ${turnover}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${turnover}
+    ${totaltrans}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${totaltrans}
+    ${customerwl}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customerwl}
+    ${customercomm}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customercomm}
+    ${customertotal}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customertotal}
+    ${licenseewl}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${licenseewl}
+    : FOR    ${i}    IN RANGE    1    8
+    \    ${temp_turnover}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[1]
+    \    ${temp_turnover}    Run Keyword If    '${temp_turnover}'!='None'    remove string    ${temp_turnover}    ,
+    \    ${turnover}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${turnover}+${temp_turnover}    ELSE
+    \    ...    Set Variable    ${turnover}
+    \    ${temp_totaltrans}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[2]
+    \    ${temp_totaltrans}    Run Keyword If    '${temp_totaltrans}'!='None'    remove string    ${temp_totaltrans}    ,
+    \    ${totaltrans}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${totaltrans} +${temp_totaltrans}    ELSE
+    \    ...    Set Variable    ${totaltrans}
+    \    ${temp_customerwl}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[3]
+    \    ${temp_customerwl}    Run Keyword If    '${temp_customerwl}'!='None'    remove string    ${temp_customerwl}    ,
+    \    ${customerwl}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customerwl}+${temp_customerwl}    ELSE
+    \    ...    Set Variable    ${customerwl}
+    \    ${temp_customercomm}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[4]
+    \    ${temp_customercomm}    Run Keyword If    '${temp_customercomm}'!='None'    remove string    ${temp_customercomm}    ,
+    \    ${customercomm}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customercomm}+${temp_customercomm}    ELSE
+    \    ...    Set Variable    ${customercomm}
+    \    ${temp_customertotal}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[5]
+    \    ${temp_customertotal}    Run Keyword If    '${temp_customertotal}'!='None'    remove string    ${temp_customertotal}    ,
+    \    ${customertotal}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customertotal}+${temp_customertotal}    ELSE
+    \    ...    Set Variable    ${customertotal}
+    \    ${temp_licenseewl}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[6]
+    \    ${temp_licenseewl}    Run Keyword If    '${temp_licenseewl}'!='None'    remove string    ${temp_licenseewl}    ,
+    \    ${licenseewl}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${licenseewl}+${temp_licenseewl}    ELSE
+    \    ...    Set Variable    ${licenseewl}
+    ${turnover}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${turnover}    ELSE    Set Variable
+    ...    ${turnover}
+    ${totaltrans}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${totaltrans}    ELSE    Set Variable
+    ...    ${totaltrans}
+    ${customerwl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customerwl}    ELSE    Set Variable
+    ...    ${customerwl}
+    ${customercomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customercomm}    ELSE    Set Variable
+    ...    ${customercomm}
+    ${customertotal}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customertotal}    ELSE    Set Variable
+    ...    ${customertotal}
+    ${licenseewl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseewl}    ELSE    Set Variable
+    ...    ${licenseewl}
+    [Return]    ${turnover}    ${totaltrans}    ${customerwl}    ${customercomm}    ${customertotal}    ${licenseewl}
