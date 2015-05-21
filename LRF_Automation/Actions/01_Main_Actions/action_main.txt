@@ -662,3 +662,39 @@ take applications screenshot
     Run Keyword If    '${result}'!='true'    Create Directory    ${ac_screenshot_directory}
     # Take screenshot
     Take Screenshot Without Embedding    ${ac_screenshot_directory}${screenshot name}
+
+remove decimal part
+    [Arguments]    ${value}
+    [Documentation]    Remove fractional in Decimal Number
+    ...
+    ...    Example:
+    ...    - Input: 756.35
+    ...    - Output: 756 \ (remove .35)
+    ${value}    Run Keyword If    '${value}'!='None'    Convert To String    ${value}
+    ${result}    Run Keyword If    '${value}'!='None'    Fetch From Left    ${value}    .
+    [Return]    ${result}
+
+convert date
+    [Arguments]    ${from}    ${to}
+    # Get month
+    ${from_mm}=    Get Slice From List    ${from}    5    7
+    ${from_month}=    Convert To Integer    ${from_mm}
+    ${to_mm}=    Get Slice From List    ${to}    5    7
+    ${to_month}=    Convert To Integer    ${to_mm}
+    # split day-month-year of from date
+    ${from}=    convert date format    ${from}
+    ${from_day}=    Get Slice From List    ${from}    4    6
+    ${dd11}=    Get Slice From List    ${from_day}    0    1
+    ${dd12}=    Get Slice From List    ${from_day}    1    2
+    Run Keyword If    '${dd11}'=='0'    Set Test Variable    ${from_day}    ${dd12}
+    ${mm1}=    Get Slice From List    ${from}    0    3
+    ${from_year}=    Get Slice From List    ${from}    7    11
+    # split day-month-year of to date
+    ${to}=    convert date format    ${to}
+    ${to_day}=    Get Slice From List    ${to}    4    6
+    ${dd21}=    Get Slice From List    ${to_day}    0    1
+    ${dd22}=    Get Slice From List    ${to_day}    1    2
+    Run Keyword If    '${dd21}'=='0'    Set Test Variable    ${to_day}    ${dd22}
+    ${mm2}=    Get Slice From List    ${to}    0    3
+    ${to_year}=    Get Slice From List    ${to}    7    11
+    [Return]    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}
