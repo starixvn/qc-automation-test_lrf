@@ -405,3 +405,44 @@ get BA status based on username
     ${ba_status}    get text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
     Unselect Frame
     [Return]    ${ba_status}
+
+get rngcasino group
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${selected_list}    create list
+    ${unselected_list}    create list
+    ${total_rows}    Get Matching Xpath Count    xpath=//*[@class='casino-row']
+    : FOR    ${i}    IN RANGE    1    ${total_rows} +1
+    \    ${temp}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${i}]/td[3]/input
+    \    Run Keyword If    '${temp}'=='True'    append to list    ${selected_list}    ${i}    ELSE
+    \    ...    append to list    ${unselected_list}    ${i}
+    \    ${exsited_selected_list}    Run Keyword And Return Status    Should Not Be Empty    ${selected_list}
+    \    ${exsited_unselected_list}    Run Keyword And Return Status    should not be empty    ${unselected_list}
+    \    Exit For Loop If    '${exsited_selected_list}'=='True' and \ '${exsited_unselected_list}'=='True'
+    [Return]    ${selected_list}    ${unselected_list}
+
+update bet setting
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${check_value}    ${unchecked_value}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Run Keyword If    '${check_value}'!='None'    click element    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${check_value}]/td[3]/input
+    Run Keyword If    '${unchecked_value}'!='None'    click element    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${unchecked_value}]/td[3]/input
+    sleep    2s
+    click element    xpath=//*[@id='btnRngCasino']
+    Sleep    2s
+    click element    xpath=html/body/div[2]/div[3]/div/button[1]
+    Sleep    2s
+    click element    xpath=//div[2]/div[3]/div/button
+    unselect frame
+
+check status of checkbox
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${locator}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ischecked}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${locator}]/td[3]/input
+    unselect frame
+    [Return]    ${ischecked}
