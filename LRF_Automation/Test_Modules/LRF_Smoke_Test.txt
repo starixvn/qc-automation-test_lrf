@@ -1337,6 +1337,33 @@ TM_30_ST_Reports_Live Report
     # VP. Check user is brought back to current report
     check element on report    \    main    None    ${from_calendar_picker}
 
+TM_30_01_ST_Reports_Live Report Cover Sports Link
+    [Documentation]    This test module will cover all products and sports link of Live Report
+    [Tags]    CI
+    # 1. Navigate to REPORTS > Live Report
+    navigate left menu    REPORTS    Live Report
+    # 2. Select filters then click Submit button
+    ${fromDate}=    Get Time    \    NOW - 5d
+    ${toDate}=    Get Time    \    NOW - 12h
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    All
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    check special case when no info available    \    main    None
+    # VP. Check report table exist
+    check element on report    \    main    None    ${div_table_live_report}
+    # 4. Click products link on live report.
+    # 4.1. Click product with no drill down on Sports Type
+    @{ITEMS}    Create List    Keno    Live Casino    RNG Casino
+    : FOR    ${index}    IN    @{ITEMS}
+    \    LOG    product list = ${index}
+    \    click product link    \    main    None    ${index}
+    \    wait page load
+    \    check sport table existed on live report
+    # 4.2. Click product with drill down on Sports Type
+    @{ITEMS}    Create List    Number Game    Racing    Virtual Sports    Sportsbook
+    : FOR    ${index}    IN    @{ITEMS}
+    \    LOG    product list = ${index}
+    \    click sport link on live report with loop    ${index}
+
 TM_31_ST_Reports_Turnover
     [Tags]    CI
     # 1. Navigate to REPORTS > Turnover
