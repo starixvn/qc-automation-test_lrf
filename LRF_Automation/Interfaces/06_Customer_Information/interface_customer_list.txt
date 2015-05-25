@@ -44,3 +44,10 @@ ${cancel_button_remove_from_group}    xpath=//div[@aria-describedby='ConfirmRemo
 ${ok_button_move_to_group}    xpath=//div[@aria-describedby='MoveToGroupPopUp']/div/div/button/span[text()='OK']    # OK button of Move To Group popup
 ${keep_commission_radio_button}    xpath=//*[@id='KeepComm']    # Keep Current Commission radio button
 ${clear_commission_radio_button}    xpath=//*[@id='ClearComm']    # Clear Customer's Commission radio button
+${live_casino_tab_bet_setting}    xpath=//*[@id='livecasino']
+${live_casino_update_bet_setting_option_1}    xpath=//*[@id='bettingLimit_111']
+${live_casino_update_bet_setting_option_2}    xpath=//*[@id='bettingLimit_11']
+${edit_status_live_casino}    xpath=//*[@id='btnUpdateStatus']
+${gold_deluxe_bet_setting}    xpath=//*[@id='golddeluxe']
+${gold_deluxe_group_list}    xpath=//*[@id='betSettingGroup']
+${odds_group_list}    xpath=//*[@id='1']/td[10]/div
