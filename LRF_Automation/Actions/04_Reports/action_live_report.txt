@@ -104,3 +104,41 @@ check export excel function for live report
     File Should Exist    ${cf_export_dir}${checked file name}
     Empty Directory    ${cf_export_dir}
     Unselect Frame
+
+check sport table existed on live report
+    [Documentation]    This action is used to check By Sport Type table (Soccer, Basketball, Tennis ...) on Live Report report is existed or not.
+    ...
+    ...    Example:
+    ...
+    ...    check sport table existed on live report
+    Select Window
+    Select Frame    main
+    ${sport_table_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(text(),'By Sports Type')]
+    Run Keyword If    '${sport_table_status}'!='True'    Fail    By Sport Type table does not exist. Please investigate the UI.
+    Unselect Frame
+
+click sport link on live report with loop
+    [Arguments]    ${product}
+    [Documentation]    This action is used to click *all* \ By Sport Type links (Soccer, Basketball, Tennis ...) on Live Report report. Only apply for products have drill down sports link.
+    ...
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Virtual Sports'*
+    ...
+    ...    Example:
+    ...
+    ...    click sport link on live report with loop | Sportsbook
+    : FOR    ${INDEX}    IN RANGE    1    50
+    \    click product link    \    main    None    ${product}
+    \    wait page load
+    \    check sport table existed on live report
+    \    Select Window
+    \    Select Frame    main
+    \    Comment    # Check if sport link exists, click link. If not, exit loop
+    \    ${sport_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']    #//div[@class='data-content']/div[@class='content-row'][2]/div[@class='row text-data'][1]/div/a[@class='sport-detailt-link']    #//div[@class='content-row'][2]/div[1]/div/a[@class='sport-detailt-link']
+    \    Run Keyword If    '${sport_status}'!='True'    Exit For Loop
+    \    ${a}=    Get Text    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']
+    \    LOG    select sport = ${a}
+    \    Click Element    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']
+    \    Comment    # Click Back button on bet list report
+    \    click element on report    \    main    None    ${back_button}
+    \    wait page load
+    \    Unselect Frame
