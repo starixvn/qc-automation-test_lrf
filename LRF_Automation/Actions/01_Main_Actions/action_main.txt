@@ -698,3 +698,30 @@ convert date
     ${mm2}=    Get Slice From List    ${to}    0    3
     ${to_year}=    Get Slice From List    ${to}    7    11
     [Return]    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}
+
+click product link
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    This action is used to check and click *one* product link if it's available.
+    ...
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    click product link | Sportsbook
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${product}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${product}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${product}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
+    Run Keyword If    '${SB}'=='True'    Click Element    xpath=//*[contains(text(),'Sportsbook')]
+    Run Keyword If    '${RB}'=='True'    Click Element    xpath=//*[contains(text(),'Racing')]
+    Run Keyword If    '${NG}'=='True'    Click Element    xpath=//*[contains(text(),'Number Game')]
+    Run Keyword If    '${LC}'=='True'    Click Element    xpath=//*[contains(text(),'Live Casino')]
+    Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'Virtual Sports')]
+    Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'RNG Casino')]
+    Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'Keno')]
