@@ -415,6 +415,8 @@ get rngcasino group
     ${unselected_list}    create list
     ${total_rows}    Get Matching Xpath Count    xpath=//*[@class='casino-row']
     : FOR    ${i}    IN RANGE    1    ${total_rows} +1
+    \    ${is_visible}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${i}]/td[3]/input
+    \    Run Keyword If    '${is_visible}'!='True'    Continue For Loop
     \    ${temp}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${i}]/td[3]/input
     \    Run Keyword If    '${temp}'=='True'    append to list    ${selected_list}    ${i}    ELSE
     \    ...    append to list    ${unselected_list}    ${i}
