@@ -91,17 +91,67 @@ TM_BL_ALL_01_Licensee Win Loss
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetList')]
     Set Selenium Speed    0.1
-    # Create List of Ref No
-    ${tm_ref_list}=    create ref no list
     # Get Data from Excel File & Bet List. Then check them
-    check bet list with selected products    ${cf_betlist_product}    Test_Data_All.xls    ${tm_ref_list}
+    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_02_Match Win Loss
+    # Navigate to REPORTS > Match Win Loss
+    navigate left menu    REPORTS    Match Win Loss
+    # Select filters then click Submit button
+    submit filters for match win loss    ${cf_to_betlist}    None    UUS    None    ${cf_betlist_product}
+    select window
+    select frame    main
+    check bet list in match win loss for selected products    ${cf_betlist_product}    Test_Data_All.xls
+
+TM_BL_ALL_03_Win Loss By Product
+    # Navigate to Licensee WL report
+    navigate left menu    REPORTS    Win Loss By Products
+    # Submit filters for products
+    submit filters for win loss by products    ${cf_from_betlist}    ${cf_to_betlist}    UUS    Daily    Normal    No
+    ...    ${cf_betlist_product}
+    # Click UUS link to open customer list
+    click element on report    \    main    None    xpath=//*[@id='1']/td/a[text()='UUS']
+    wait page load
+    # Click customer link to open bet list
+    click element on report    \    main    None    xpath=//*[@id='1']/td/a[text()='${cf_betlist_user}']
+    wait page load
+    # Select to display 2000 tickets in one page
+    select listbox by value on report    \    main    BetList    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Sleep    5s
+    Select Window
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetList')]
+    Set Selenium Speed    0.1
+    # Get Data from Excel File & Bet List. Then check them
+    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_04_Daily Bet List
+    # Navigate to REPORTS > Daily Bet List
+    navigate left menu    REPORTS    Daily Bet List
+    # Check Bet List for products
+    Set Selenium Speed    0.1
+    check bet list in daily bet list for selected products    ${cf_to_betlist}    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_05_Live Report
+    # Navigate to REPORTS > Live Report
+    navigate left menu    REPORTS    Live Report
+    # Submit filters for products
+    submit filters for live report    ${cf_from_betlist}    ${cf_to_betlist}    UUS    None    All
+    # Get Data from Excel File & Bet List. Then check them
+    Select Window
+    Select Frame    main
+    Set Selenium Speed    0.1
+    check bet list in live report for selected products    ${cf_betlist_product}    Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_06_Customer Win Loss
     # Navigate to Customer WL report
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # Submit filters for products
-    submit filters for customer win loss    ${cf_from_betlist}    ${cf_to_betlist}    UUS    EUR    ${cf_betlist_product}
+    submit filters for customer win loss    ${cf_from_betlist}    ${cf_to_betlist}    UUS    UUS    ${cf_betlist_product}
     # Click customer link to proceed bet list
     click element on report    \    main    None    xpath=//*[@id='data-content']/div/div/div/a/span[text()='${cf_betlist_user}']
     wait page load
@@ -112,8 +162,51 @@ TM_BL_ALL_06_Customer Win Loss
     Select Window
     Select Frame    main
     Set Selenium Speed    0.1
-    # Create List of Ref No
-    ${tm_ref_list}=    create ref no list
     # Get Data from Excel File & Bet List. Then check them
-    check bet list with selected products    ${cf_betlist_product}    Test_Data_All.xls    ${tm_ref_list}
+    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_07_Customer List_Statement
+    # Navigate to Customer WL report
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # Submit filters for products
+    submit filters for customer list    ALL    UUS    UUS    ${cf_betlist_user}    All    All
+    ...    All    None
+    # Go to View > Bet List
+    select customer option based on username    ${cf_betlist_user}    Statement
+    # Submit filters for statement
+    submit filters for betlist and statement    None    ${cf_from_betlist}    ${cf_to_betlist}    None
+    wait page load
+    # Click date link
+    click element on report    \    main    BetList    xpath=//tr/td/a[contains(@href,'${cf_betlist_user}')]
+    wait page load
+    # Select to display 2000 tickets in one page
+    select listbox by value on report    \    main    BetList    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Select Window
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetList')]
+    Set Selenium Speed    0.1
+    # Get Data from Excel File & Bet List. Then check them
+    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_08_Customer List_Bet List
+    # Navigate to Customer WL report
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # Submit filters for products
+    submit filters for customer list    ALL    UUS    UUS    ${cf_betlist_user}    All    All
+    ...    All    None
+    # Go to View > Bet List
+    select customer option based on username    ${cf_betlist_user}    Bet List
+    # Submit filters for betlist
+    submit filters for betlist and statement    None    ${cf_from_betlist}    ${cf_to_betlist}    ${cf_betlist_product}
+    # Select to display 2000 tickets in one page
+    select listbox by value on report    \    main    BetList    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Sleep    3s
+    Select Window
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetList')]
+    Set Selenium Speed    0.1
+    # Get Data from Excel File & Bet List. Then check them
+    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
