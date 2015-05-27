@@ -56,8 +56,8 @@ config local
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
     # Set Global Variables for Checking Bet List
-    ${cf_from_betlist}    Get Time    \    Now
-    ${cf_to_betlist}    Get Time    \    Now
+    ${cf_from_betlist}    Get Time    \    Now-2d
+    ${cf_to_betlist}    Get Time    \    Now-2d
     Set Suite Variable    ${cf_from_betlist}    ${cf_from_betlist}
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
     Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V3/
