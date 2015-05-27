@@ -501,10 +501,6 @@ TM_31_ST_Reports_Turnover
     [Tags]    Complete
     # 1. Navigate to REPORTS > Turnover
     navigate left menu    REPORTS    Turnover${SPACE}
-    # 2. Select filters then click Submit button
-    submit filters for turnover    None    None    None    None    Yes    None
-    ...    None    None    All
-    take applications screenshot    Local    TM_31_Reports_Turnover.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check User Guide popup exists
