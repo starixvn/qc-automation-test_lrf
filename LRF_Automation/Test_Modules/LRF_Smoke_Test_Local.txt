@@ -144,7 +144,7 @@ TM_05_ST_TotalBets_Total Goal
     # 1. Navigate to TOTAL BETS > Total Goal
     navigate left menu    TOTAL BETS    Total Goal
     # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    EUR
+    submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_05_TotalBets_TotalGoal.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -157,7 +157,7 @@ TM_06_ST_TotalBets_MixParlay
     # 1. Navigate to TOTAL BETS > Mix Parlay
     navigate left menu    TOTAL BETS    Mix Parlay
     # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    EUR
+    submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_06_TotalBets_MixParlay.jpg
     # VP. Check User Guide popup exists
     check user guide popup
@@ -169,26 +169,13 @@ TM_06_ST_TotalBets_MixParlay
     take applications screenshot    Local    TM_06_TotalBets_SystemParlay.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # 6. Click System Parlay ticket to expand
-    click system parlay link in table    \    main    None    ${betlist_table}    2    5
-    take applications screenshot    Local    TM_06_TotalBets_SystemParlay_Expand.jpg
-    # VP. Check system parlay ticket is expanded successfully
-    check status of parlay ticket    \    main    None    ${betlist_table}    2    5
-    ...    expand
-    # 7. Click Details link in system parlay ticket
-    click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
-    take applications screenshot    Local    TM_06_TotalBets_SystemParlay_Details.jpg
-    # VP. Check Detail popup displays
-    check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
-    # 8. Close popup
-    click element on report    \    main    None    ${close_button_on_popup}
 
 TM_07_ST_TotalBets_Outright
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > Outright
     navigate left menu    TOTAL BETS    Outright
     # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    EUR
+    submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_07_TotalBets_Outright.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -227,7 +214,7 @@ TM_10_ST_TotalBets_Clean Sheet
     # 1. Navigate to TOTAL BETS > Clean Sheet
     navigate left menu    TOTAL BETS    Clean Sheet
     # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    EUR
+    submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_10_TotalBets_CleanSheet.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -242,13 +229,11 @@ TM_11_ST_TotalBets_Double Chance
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_11_TotalBets_DoubleChance.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_12_ST_TotalBets_HomeDrawAway No Bet
     [Tags]    Complete
@@ -257,58 +242,50 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
     take applications screenshot    Local    TM_12_TotalBets_HomeDrawAway.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_totalbets}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_13_ST_TotalBets_BON team to score
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > B/O/N team to score
     navigate left menu    TOTAL BETS    B/O/N team to score
-    # VP. Check User Guide popup exists
-    check user guide popup
     take applications screenshot    Local    TM_13_TotalBets_BONTeamToScore.jpg
     # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    EUR
+    submit filters for totalbets    None    None    ALL    None
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_14_ST_TotalBets_To win to nil
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > To win to nil
     navigate left menu    TOTAL BETS    To win to nil
-    # VP. Check User Guide popup exists
-    check user guide popup
     take applications screenshot    Local    TM_14_TotalBets_ToWinToNil.jpg
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_15_ST_TotalBets_3way Handicap
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > 3-Way Handicap
     navigate left menu    TOTAL BETS    3-Way Handicap
-    # VP. Check User Guide popup exists
-    check user guide popup
     take applications screenshot    Local    TM_15_TotalBets_3WayHandicap.jpg
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_16_ST_TotalBets_Racing
     [Tags]    Complete
@@ -340,7 +317,7 @@ TM_18_01_ST_Forecast_Handicap
     # 1. Navigate to FORECAST > Handicap/Over Under/Live
     navigate left menu    FORECAST    Handicap/Over Under/Live
     # 2. Select filters then click Submit button
-    submit filters for forecast    None    None    ALL    EUR
+    submit filters for forecast    None    None    ALL    None
     take applications screenshot    Local    TM_18_01_Forecast_Handicap.jpg
     # VP. Check User Guide popup exists
     check user guide popup
@@ -356,7 +333,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # 5. Navigate to FORECAST > Handicap/Over Under/Live
     navigate left menu    FORECAST    Handicap/Over Under/Live
     # 6. Select filters then click Submit button
-    submit filters for forecast handicap bodog    None    None    ALL    USD
+    submit filters for forecast handicap bodog    None    None    ALL    None
     take applications screenshot    Local    TM_18_02_Forecast_Handicap_Bodog.jpg
     # VP. Check User Guide popup exists
     check user guide popup
@@ -369,7 +346,7 @@ TM_19_ST_Forecast_1X2
     # 1. Navigate to FORECAST > 1 X 2
     navigate left menu    FORECAST    1 X 2
     # 2. Select filters then click Submit button
-    submit filters for forecast    None    None    ALL    EUR
+    submit filters for forecast    None    None    ALL    None
     take applications screenshot    Local    TM_19_Forecast_1X2.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -382,13 +359,11 @@ TM_20_ST_Reports_Last Bets Monitoring
     # 1. Navigate to REPORTS > Last Bets Monitoring
     navigate left menu    REPORTS    Last Bets Monitoring
     take applications screenshot    Local    TM_20_Reports_LastBetsMonitoring.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${last_bet_monitoring_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_21_ST_Reports_Licensee Win Loss
     [Tags]    Complete
@@ -396,16 +371,14 @@ TM_21_ST_Reports_Licensee Win Loss
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Licensee Win Loss
     navigate left menu    REPORTS    Licensee Win Loss
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
     submit filters for licensee win loss    ${from}    ${to}    ALL    Daily    Normal    Yes
     ...    All
     take applications screenshot    Local    TM_21_Reports_LicenseeWL_Currency.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check report table
-    check element on report    \    main    None    ${report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_22_ST_Reports_Settled Match Count
     [Tags]    Complete
@@ -413,9 +386,6 @@ TM_22_ST_Reports_Settled Match Count
     navigate left menu    REPORTS    Settled Match Count
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. Check report table
-    check element on report    \    main    None    ${report_table_settle_match_count}
-    take applications screenshot    Local    TM_22_Reports_SettleMatchCount.jpg
 
 TM_23_ST_Reports_Match Win Loss
     [Tags]    Complete
@@ -429,8 +399,6 @@ TM_23_ST_Reports_Match Win Loss
     take applications screenshot    Local    TM_23_Reports_MatchWinLoss.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_match_winloss}
 
 TM_24_ST_Reports_Win Loss By Products
     [Tags]    Complete
@@ -438,16 +406,14 @@ TM_24_ST_Reports_Win Loss By Products
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Win Loss By Product
     navigate left menu    REPORTS    Win Loss By Products
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
     submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
     ...    All
     take applications screenshot    Local    TM_24_Reports_WinLossByProduct.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check report table
-    check element on report    \    main    None    ${report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_25_ST_Reports_Win Loss By Bet Type
     [Tags]    Complete
@@ -455,16 +421,14 @@ TM_25_ST_Reports_Win Loss By Bet Type
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Win Loss By Bet Type
     navigate left menu    REPORTS    Win Loss By Bet Type
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    EUR
+    submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    None
     take applications screenshot    Local    TM_25_Reports_WinLossByBetType.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table
-    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_26_ST_Reports_Racing Commission
     [Tags]    Complete
@@ -472,102 +436,80 @@ TM_26_ST_Reports_Racing Commission
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Racing Commission
     navigate left menu    REPORTS    Racing Commission
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for racing commission    ${from}    ${to}    ALL    ALL    USD
+    submit filters for racing commission    ${from}    ${to}    ALL    ALL    None
     take applications screenshot    Local    TM_26_Reports_RacingCommission.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check report table
-    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_27_ST_Reports_Daily Racing Win Loss
     [Tags]    Complete
     ${date}=    Get Time    \    Now - 9d
     # 1. Navigate to REPORTS > Daily Racing Win Loss
     navigate left menu    REPORTS    Daily Racing Win Loss
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for daily racing win loss    ${date}    None    ALL    EUR
+    submit filters for daily racing win loss    ${date}    None    ALL    None
     take applications screenshot    Local    TM_27_Reports_DailyRacingWinLoss.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table
-    check element on report    \    main    None    ${div_report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_28_ST_Reports_Cancelled Bets
     [Tags]    Complete
     # 1. Navigate to REPORTS > Cancelled Bets
     navigate left menu    REPORTS    Cancelled Bets
-    wait page load
     take applications screenshot    Local    TM_28_Reports_CancelledBets.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check report table exist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_29_ST_Reports_Daily Bet List
     [Tags]    Complete
     ${day}    Get Time    \    Now - 9 day
     # 1. Navigate to REPORTS > Daily Bet List
     navigate left menu    REPORTS    Daily Bet List
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for daily bet list    ${day}    USD    USD    Sportsbook    Won
-    wait page load
+    submit filters for daily bet list    ${day}    None    None    Sportsbook    Won
     take applications screenshot    Local    TM_29_Reports_DailyBetList.jpg
     # Check to handle if no information displays
     check special case when no info available    \    main    None
-    #VP Check betlist
-    check element on report    \    main    None    ${betlist_table}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_30_ST_Reports_Live Report
     [Tags]    Complete
     # 1. Navigate to REPORTS > Live Report
     navigate left menu    REPORTS    Live Report
-    # 2. Click User Guide
-    check user guide popup
     # 3. Select filters then click Submit button
-    ${fromDate}=    Get Time    \    NOW - 1d
+    ${fromDate}=    Get Time    \    NOW - 6d
     ${toDate}=    Get Time    \    NOW - 12h
-    submit filters for live report    ${fromDate}    ${toDate}    EUR    EUR    All
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    All
     wait page load
     take applications screenshot    Local    TM_30_Reports_LiveReport.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check report table exist
-    check element on report    \    main    None    ${div_table_live_report}
+    # Check User Guide
+    check user guide popup
 
 TM_31_ST_Reports_Turnover
     [Tags]    Complete
     # 1. Navigate to REPORTS > Turnover
     navigate left menu    REPORTS    Turnover${SPACE}
-    # VP. Check User Guide popup exists
-    check user guide popup
-    # 2. Select filters then click Submit button
-    submit filters for turnover    None    None    None    None    Yes    None
-    ...    Based EUR    None    All
-    take applications screenshot    Local    TM_31_Reports_Turnover.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # Check to handle in case there is no info
-    check special case when no info available    \    main    None
-    #VP Check report
-    check element on report    \    main    None    ${report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_32_ST_Reports_Mobile Win Loss
     [Tags]    Complete
     # 1. Navigate to REPORTS > Mobile Win Loss
     navigate left menu    REPORTS    Mobile Win Loss
-    # VP. Check User Guide popup exists
-    check user guide popup
     # 2. Select filters then click Submit button
     submit filters for mobile win loss    None    None    None    None    ALL    Yes
     ...    Normal    Others    All
@@ -575,8 +517,8 @@ TM_32_ST_Reports_Mobile Win Loss
     take applications screenshot    Local    TM_32_Reports_MobileWinLoss.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
-    #VP Check report
-    check element on report    \    main    None    ${report_table_reports}
+    # VP. Check User Guide popup exists
+    check user guide popup
 
 TM_33_ST_Reports_AG Casino Win Loss
     [Tags]    Complete
@@ -591,8 +533,6 @@ TM_33_ST_Reports_AG Casino Win Loss
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check User Guide popup exists
     check user guide popup
-    # VP. Check report table
-    check element on report    \    main    None    ${report_table_reports}
 
 TM_34_ST_Reports_Results
     [Tags]    Complete
@@ -604,18 +544,14 @@ TM_34_ST_Reports_Results
     take applications screenshot    Local    TM_34_Reports_Results.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${result_table}
 
 TM_35_ST_Reports_Balance
     [Tags]    Complete
     # 1. Navigate to Balance
     navigate left menu    REPORTS    Balance
     # 2. Submit filters
-    submit filters for balance    ALL    ALL    USD    None    None
+    submit filters for balance    ALL    ALL    None    None    None
     take applications screenshot    Local    TM_35_Reports_Balance.jpg
-    # VP. Check data table
-    check element on report    \    main    None    ${report_table_balance_information}
 
 TM_36_ST_Reports_Win Loss By Leagues
     [Tags]    Complete
@@ -624,13 +560,11 @@ TM_36_ST_Reports_Win Loss By Leagues
     # 2. Navigate to REPORTS > Win Loss By Leagues
     navigate left menu    REPORTS    Win Loss By Leagues
     # 3. Submit filters
-    submit filters for win loss by leagues    None    None    None    None    ALL    USD
+    submit filters for win loss by leagues    None    None    None    None    ALL    None
     ...    1    0    0    0    All    All
     take applications screenshot    Local    TM_36_Reports_WinLossByLeagues.jpg
     # Check to handle when there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${report_table_reports}
     # Post-Condition
     select licensee    12Bet
 
@@ -642,26 +576,22 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
-    submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
+    submit filters for customer win loss    ${from}    ${to}    None    None    All
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_customer_reports}
 
 TM_38_ST_CustomerReports_Customer Pending Funds
     [Tags]    Complete
     # 1. Navigate to CUSTOMER REPORTS > Customer Pending Funds
     navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
     # 2. Submit filters
-    submit filters for customer pending funds    ALL    EUR    USD    All
+    submit filters for customer pending funds    ALL    None    None    All
     take applications screenshot    Local    TM_38_CustomerReports_CustomerPending.jpg
-    # VP. Check User Guide
-    check user guide popup
     # Check to handle if there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_customer_reports}
+    # VP. Check User Guide
+    check user guide popup
 
 TM_39_ST_CustomerReports_Customer Balance
     [Tags]    Complete
@@ -670,15 +600,12 @@ TM_39_ST_CustomerReports_Customer Balance
     # 1. Navigate to CUSTOMER REPORTS > Customer Balance
     navigate left menu    CUSTOMER REPORTS    Customer Balance
     # 2. Submit filters
-    submit filters for customer balance    ${from}    ${to}    ALL    EUR    All    Turnover
-    ...    No    All
+    click element on report    \    main    None    ${submit_button}
     take applications screenshot    Local    TM_39_CustomerReports_CustomerBalance.jpg
-    # VP. Check user guide
-    check user guide popup
     # Check to handle if there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_customer_reports}
+    # VP. Check user guide
+    check user guide popup
 
 TM_40_ST_CustomerReports_Customer Turnover
     [Tags]    Complete
@@ -688,14 +615,12 @@ TM_40_ST_CustomerReports_Customer Turnover
     navigate left menu    CUSTOMER REPORTS    Customer Turnover
     # 2. Submit filters
     submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
-    ...    1    EUR    All
+    ...    1    None    All
     take applications screenshot    Local    TM_40_CustomerReports_CustomerTurnover.jpg
-    # VP. Check User Guide
-    check user guide popup
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${report_table_customer_reports}
+    # VP. Check User Guide
+    check user guide popup
 
 TM_41_ST_DataWarehouse_Win Loss
     [Tags]    Complete
@@ -706,12 +631,10 @@ TM_41_ST_DataWarehouse_Win Loss
     # 2. Navigate to DATA WAREHOUSE > Win Loss
     navigate left menu    DATA WAREHOUSE    Win Loss
     # 3. Submit filters
-    submit filters for win loss    ALL    USD    ${from}    ${to}    Month    Normal
+    submit filters for win loss    ALL    None    ${from}    ${to}    Month    Normal
     take applications screenshot    Local    TM_41_DW_WinLoss.jpg
     # Check to handle if there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_data_warehouse}
 
 TM_42_ST_DataWarehouse_Top Customer
     [Tags]    Complete
@@ -721,10 +644,8 @@ TM_42_ST_DataWarehouse_Top Customer
     # 1. Navigate to DATA WAREHOUSE > Top Customer
     navigate left menu    DATA WAREHOUSE    Top Customer
     # 2. Submit filters
-    submit filters for top customer    ALL    USD    ${from}    ${to}    All    None
+    submit filters for top customer    ALL    None    ${from}    ${to}    All    None
     ...    All    2    Worst Win Loss    3    100
     take applications screenshot    Local    TM_42_DW_TopCustomer.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_data_warehouse}
