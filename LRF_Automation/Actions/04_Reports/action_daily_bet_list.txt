@@ -27,3 +27,40 @@ submit filters for daily bet list
     # click Submit button
     click element on report    \    main    None    ${submit_button}
     wait page load
+
+check bet list in daily bet list
+    [Arguments]    ${date}    ${product}    ${excel file}
+    [Documentation]    Ex:
+    ...
+    ...    check bet list for daily bet list | date | Sportsbook
+    # filter product
+    submit filters for daily bet list    ${date}    UUS    UUS    ${product}    Lose
+    # select 2000 items display in 1 page
+    select listbox by value on report    \    main    None    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Sleep    3s
+    Select Window
+    Select Frame    main
+    # Get Data from Excel File & Bet List. Then check them
+    check bet list for selected products    ${product}    ${excel file}
+
+check bet list in daily bet list for selected products
+    [Arguments]    ${date}    ${products}    ${excel file}
+    [Documentation]    Ex:
+    ...
+    ...    check bet list for daily bet list with selected products | date | Sportsbooks, Number Game | Test_All.xls
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${products}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${products}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${products}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${products}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${products}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
+    Run Keyword If    '${SB}'=='True'    check bet list in daily bet list    ${date}    Sportsbook    ${excel file}
+    Run Keyword If    '${RB}'=='True'    check bet list in daily bet list    ${date}    Racing    ${excel file}
+    Run Keyword If    '${NG}'=='True'    check bet list in daily bet list    ${date}    Number Game    ${excel file}
+    Run Keyword If    '${BA}'=='True'    check bet list in daily bet list    ${date}    BA    ${excel file}
+    Run Keyword If    '${LC}'=='True'    check bet list in daily bet list    ${date}    Live Casino    ${excel file}
+    Run Keyword If    '${VS}'=='True'    check bet list in daily bet list    ${date}    Virtual Sports    ${excel file}
+    Run Keyword If    '${CS}'=='True'    check bet list in daily bet list    ${date}    RNG Casino    ${excel file}
+    Run Keyword If    '${KN}'=='True'    check bet list in daily bet list    ${date}    Keno    ${excel file}
