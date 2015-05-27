@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config local
-Suite Teardown
+Suite Teardown    Close Browser
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
@@ -92,7 +92,7 @@ TM_BL_ALL_01_Licensee Win Loss
     Select Frame    xpath=//iframe[contains(@src,'BetList')]
     Set Selenium Speed    0.1
     # Get Data from Excel File & Bet List. Then check them
-    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_02_Match Win Loss
@@ -102,7 +102,9 @@ TM_BL_ALL_02_Match Win Loss
     submit filters for match win loss    ${cf_to_betlist}    None    UUS    None    ${cf_betlist_product}
     select window
     select frame    main
-    check bet list in match win loss for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    Set Selenium Speed    0.1
+    check bet list in match win loss for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_03_Win Loss By Product
     # Navigate to Licensee WL report
@@ -124,7 +126,7 @@ TM_BL_ALL_03_Win Loss By Product
     Select Frame    xpath=//iframe[contains(@src,'BetList')]
     Set Selenium Speed    0.1
     # Get Data from Excel File & Bet List. Then check them
-    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_04_Daily Bet List
@@ -132,7 +134,7 @@ TM_BL_ALL_04_Daily Bet List
     navigate left menu    REPORTS    Daily Bet List
     # Check Bet List for products
     Set Selenium Speed    0.1
-    check bet list in daily bet list for selected products    ${cf_to_betlist}    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list in daily bet list for selected products    ${cf_to_betlist}    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_05_Live Report
@@ -144,7 +146,7 @@ TM_BL_ALL_05_Live Report
     Select Window
     Select Frame    main
     Set Selenium Speed    0.1
-    check bet list in live report for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list in live report for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_06_Customer Win Loss
@@ -163,7 +165,7 @@ TM_BL_ALL_06_Customer Win Loss
     Select Frame    main
     Set Selenium Speed    0.1
     # Get Data from Excel File & Bet List. Then check them
-    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_07_Customer List_Statement
@@ -187,7 +189,7 @@ TM_BL_ALL_07_Customer List_Statement
     Select Frame    xpath=//iframe[contains(@src,'BetList')]
     Set Selenium Speed    0.1
     # Get Data from Excel File & Bet List. Then check them
-    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_08_Customer List_Bet List
@@ -208,5 +210,5 @@ TM_BL_ALL_08_Customer List_Bet List
     Select Frame    xpath=//iframe[contains(@src,'BetList')]
     Set Selenium Speed    0.1
     # Get Data from Excel File & Bet List. Then check them
-    check bet list for selected products    ${cf_betlist_product}    Test_Data_All.xls
+    check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
