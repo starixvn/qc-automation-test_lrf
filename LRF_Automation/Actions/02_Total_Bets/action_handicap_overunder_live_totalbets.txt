@@ -12,5 +12,7 @@ click match link of bodog
     Select Window
     Select Frame    main
     # Find plus button in the range of columns. If existed, click on it
-    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span
+    ${ac_existence}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[${column}]/span
+    Run Keyword If    '${ac_existence}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span
+    Run Keyword If    '${ac_existence}'!='True'    Pass Execution    There is no ticket at this time.
     Unselect Frame
