@@ -1933,7 +1933,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
-    ${Bet_setting2}=    Get Element Attribute    xpath=.//*[@id='bettingLimit_18']@data-stake-id
+    ${Bet_setting2}=    Get Element Attribute    xpath=.//*[@id='bettingLimit_12']@data-stake-id
     # 8. Update bet setting
     select livecasino checkbox    \    main    BetSetting    ${bet_setting_livecasino_update_option_3}
     # 9. Click Reset button
@@ -2189,7 +2189,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Vegas Games
     # 4. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
     # 5. Click Voidbridge tab
-    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    click element on report    \    main    BetSetting    ${bet_setting_vegasgames_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
@@ -2201,7 +2201,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Vegas Games
     # 7. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
     # 8. Click Voidbridge tab
-    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    click element on report    \    main    BetSetting    ${bet_setting_vegasgames_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
@@ -2216,7 +2216,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Vegas Games
     # 10. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
     # 11. Click Voidbridge tab
-    click element on report    \    main    BetSetting    ${bet_setting_voidbridge_tab}
+    click element on report    \    main    BetSetting    ${bet_setting_vegasgames_tab}
     wait page load
     # VP. Check Status is changed successfully
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
