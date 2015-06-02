@@ -340,6 +340,15 @@ unselect products filter
     Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
     Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
 
+unselect SB product
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Unselect Checkbox    xpath=//*[@id='ProductOptions0']
+    click element    xpath=//*[@id='SubmitButton']
+    unselect frame
+
 navigate left menu
     [Arguments]    ${mainmenu}    ${submenu}
     [Documentation]    Give "Main Menu" name and "Sub Menu" name that you want to navigate.
@@ -656,7 +665,7 @@ take applications screenshot
     ${dd}=    Get Slice From List    ${ac_today}    8    10
     # Return converted date
     ${ac_today}=    Set Variable    ${yyyy}_${mm}_${dd}
-    ${ac_screenshot_directory}=    Set Variable    ${cf_screenshot_dir}${site}_${ac_today}\\
+    ${ac_screenshot_directory}=    Set Variable    ${cf_screenshot_dir}${site}_${ac_today}\\LRF\\
     # Create directory for current date to contain screenshot
     ${result}=    Run Keyword And Return Status    Directory Should Exist    ${ac_screenshot_directory}
     Run Keyword If    '${result}'!='true'    Create Directory    ${ac_screenshot_directory}
