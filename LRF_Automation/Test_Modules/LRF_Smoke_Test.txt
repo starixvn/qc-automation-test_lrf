@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config
-Suite Teardown
+Suite Teardown    Close Browser
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
@@ -342,7 +342,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # 5. Navigate to FORECAST > Handicap/Over Under/Live
     navigate left menu    FORECAST    Handicap/Over Under/Live
     # 6. Select filters then click Submit button
-    submit filters for forecast handicap bodog    0    1    None    USD
+    submit filters for forecast handicap bodog    None    None    None    USD
     take applications screenshot    Product    TM_18_02_Forecast_Handicap_Bodog.jpg
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -496,7 +496,7 @@ TM_30_ST_Reports_Live Report
     # 1. Navigate to REPORTS > Live Report
     navigate left menu    REPORTS    Live Report
     # 2. Select filters then click Submit button
-    ${fromDate}=    Get Time    \    NOW - 5d
+    ${fromDate}=    Get Time    \    NOW - 1d
     ${toDate}=    Get Time    \    NOW - 12h
     submit filters for live report    ${fromDate}    ${toDate}    None    None    Live
     take applications screenshot    Product    TM_30_Reports_LiveReport.jpg
