@@ -173,37 +173,43 @@ TM_03_FUN_Compare data for WL by Product report
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Racing
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${Racing_turnover}    ${Racing_totaltrans}    ${Racing_customerwl}    ${Racing_customercomm}    ${Racing_customertotal}    ${Racing_licenseewl}    get Total values in report
     ...    Win Loss By Products    Racing
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Number Game
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${NG_turnover}    ${NG_totaltrans}    ${NG_customerwl}    ${NG_customercomm}    ${NG_customertotal}    ${NG_licenseewl}    get Total values in report
     ...    Win Loss By Products    Number Game
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Live Casino
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${LC_turnover}    ${LC_totaltrans}    ${LC_customerwl}    ${LC_customercomm}    ${LC_customertotal}    ${LC_licenseewl}    get Total values in report
     ...    Win Loss By Products    Live Casino
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Keno
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${Keno_turnover}    ${Keno_totaltrans}    ${Keno_customerwl}    ${Keno_customercomm}    ${Keno_customertotal}    ${Keno_licenseewl}    get Total values in report
     ...    Win Loss By Products    Keno
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    RNG Casino
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${RNG_turnover}    ${RNG_totaltrans}    ${RNG_customerwl}    ${RNG_customercomm}    ${RNG_customertotal}    ${RNG_licenseewl}    get Total values in report
     ...    Win Loss By Products    RNG Casino
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Virtual Sports
-    unselect products filter    \    main    None    Sportsbook
+    unselect SB product    \    main    None
+    # unselect products filter    \    main    None    Sportsbook
     ${VS_turnover}    ${VS_totaltrans}    ${VS_customerwl}    ${VS_customercomm}    ${VS_customertotal}    ${VS_licenseewl}    get Total values in report
     ...    Win Loss By Products    Virtual Sports
     ${total_Turnover}    Evaluate    ${SB_turnover}+${Racing_turnover}+${NG_turnover}+${LC_turnover}+${Keno_turnover}+${RNG_turnover}+${VS_turnover}
