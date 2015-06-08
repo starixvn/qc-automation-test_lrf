@@ -73,23 +73,23 @@ TM_00_FUN_Start web
     # 3. Select licensee
     select licensee after login    ${cf_licensee}
 
-TM_01_FUN_Compare Sportsbook data LicWL, Live Report and Customer WL reports
+TM_01_FUN_Compare data between Licwl, Live Report and Customer WL reports
     ${from}=    Get Time    \    Now - 14 day
     ${to}=    Get Time    \    Now - 48 hour
     # 1. Navigate to REPORTS > Licensee Win Loss
     navigate left menu    REPORTS    Licensee Win Loss
     submit filters for licensee win loss    ${from}    ${to}    Based GBP    None    None    No
     ...    All
-    ${licwl_turnover}    ${licwl_totaltrans}    ${licwl_customerwl}    ${licwl_customercomm}    ${licwl_customertotal}    ${licwl_licenseewl}    get Total values in report
-    ...    Licensee Win Loss    All
+    ${licwl_turnover}    ${licwl_totaltrans}    ${licwl_customerwl}    ${licwl_customercomm}    ${licwl_customertotal}    ${licwl_licenseewl}    ${licwl_licenseecomm}
+    ...    ${licwl_amt}    get Total values in report    Licensee Win Loss    All
     navigate left menu    REPORTS    Live Report
-    submit filters for live report    ${from}    ${to}    ALL    GBP    All
-    ${livereport_turnover}    ${livereport_totaltrans}    ${livereport_customerwl}    ${livereport_customercomm}    ${livereport_customertotal}    ${livereport_licenseewl}    get Total values in report
-    ...    Live Report    Total
+    submit filters for live report    ${from}    ${to}    ALL    GBP    All    None
+    ${livereport_turnover}    ${livereport_totaltrans}    ${livereport_customerwl}    ${livereport_customercomm}    ${livereport_customertotal}    ${livereport_licenseewl}    ${livereport_licenseecomm}
+    ...    ${livereport_amt}    get Total values in report    Live Report    Total
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
-    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    get Total values in report
-    ...    Customer Win Loss    All
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecom}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     # Compare data in reports
     should be true    '${licwl_turnover}'=='${livereport_turnover}'=='${customerwl_turnover}'
     should be true    '${licwl_totaltrans}'=='${livereport_totaltrans}'=='${customerwl_totaltrans}'
@@ -103,17 +103,17 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     ${to}=    Get Time    \    Now - 2 day
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
-    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    get Total values in report
-    ...    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
-    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    get Total values in report
-    ...    Customer Win Loss    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     ####### Compare data for Match WL in bettrans range
     navigate left menu    REPORTS    Match Win Loss
     submit filters for match win loss    ${from}    None    ALL    GBP    All
-    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    get Total values in report
-    ...    Match Win Loss    All
+    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    ${matchwl_licenseecomm}
+    ...    ${matchwl_amt}    get Total values in report    Match Win Loss    All
     should be true    '${customerwl_turnover}'=='${matchwl_turnover}'
     should be true    '${customerwl_totaltrans}'=='${matchwl_totaltrans}'
     should be true    '${customerwl_customerwl}'=='${matchwl_customerwl}'
@@ -126,8 +126,8 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     ...    ${from}    ${to}
     submit filters for turnover    None    None    ${from_day}    ${to_day}    No    ALL
     ...    Based GBP    None    All
-    ${TO_turnover}    ${TO_totaltrans}    ${TO_customerwl}    ${TO_customercomm}    ${TO_customertotal}    ${TO_licenseewl}    get Total values in report
-    ...    Turnover    All
+    ${TO_turnover}    ${TO_totaltrans}    ${TO_customerwl}    ${TO_customercomm}    ${TO_customertotal}    ${TO_licenseewl}    ${TO_licenseecomm}
+    ...    ${TO_amt}    get Total values in report    Turnover    All
     should be true    '${customerwl_customerwl_total}'=='${TO_customerwl}'
     should be true    '${customerwl_customercomm_total}'=='${TO_customercomm}'
     ####### Compare data for Match WL in bettrans14 range
@@ -135,83 +135,73 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     ${to}=    Get Time    \    Now - 8 day
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
-    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    get Total values in report
-    ...    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
-    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    get Total values in report
-    ...    Customer Win Loss    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     navigate left menu    REPORTS    Match Win Loss
     submit filters for match win loss    ${from}    None    ALL    GBP    All
-    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    get Total values in report
-    ...    Match Win Loss    All
+    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    ${matchwl_licenseecomm}
+    ...    ${matchwl_amt}    get Total values in report    Match Win Loss    All
     should be true    '${customerwl_turnover}'=='${matchwl_turnover}'
     should be true    '${customerwl_totaltrans}'=='${matchwl_totaltrans}'
     should be true    '${customerwl_customerwl}'=='${matchwl_customerwl}'
     should be true    '${customerwl_customercomm}'=='${matchwl_customercomm}'
     should be true    '${customerwl_customertotal}'=='${matchwl_customertotal}'
     should be true    '${customerwl_licenseewl}'=='${matchwl_licenseewl}'
-    ### Compare data for Turnover
-    navigate left menu    REPORTS    Turnover${SPACE}
-    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
-    ...    ${from}    ${to}
-    submit filters for turnover    None    None    ${from_day}    ${to_day}    No    ALL
-    ...    Based GBP    None    All
-    ${TO_turnover}    ${TO_totaltrans}    ${TO_customerwl}    ${TO_customercomm}    ${TO_customertotal}    ${TO_licenseewl}    get Total values in report
-    ...    Turnover    All
-    should be true    '${customerwl_customerwl_total}'=='${TO_customerwl}'
-    should be true    '${customerwl_customercomm_total}'=='${TO_customercomm}'
 
 TM_03_FUN_Compare data for WL by Product report
-    ${from}=    Get Time    \    Now - 20 day
+    ${from}=    Get Time    \    Now - 16 day
     ${to}=    Get Time    \    Now - 48 hour
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Sportsbook
-    ${SB_turnover}    ${SB_totaltrans}    ${SB_customerwl}    ${SB_customercomm}    ${SB_customertotal}    ${SB_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Sportsbook
+    ${SB_turnover}    ${SB_totaltrans}    ${SB_customerwl}    ${SB_customercomm}    ${SB_customertotal}    ${SB_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Sportsbook
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Racing
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${Racing_turnover}    ${Racing_totaltrans}    ${Racing_customerwl}    ${Racing_customercomm}    ${Racing_customertotal}    ${Racing_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Racing
+    # unselect products filter    main    None    Sportsbook
+    ${Racing_turnover}    ${Racing_totaltrans}    ${Racing_customerwl}    ${Racing_customercomm}    ${Racing_customertotal}    ${Racing_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Racing
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Number Game
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${NG_turnover}    ${NG_totaltrans}    ${NG_customerwl}    ${NG_customercomm}    ${NG_customertotal}    ${NG_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Number Game
+    # unselect products filter    main    None    Sportsbook
+    ${NG_turnover}    ${NG_totaltrans}    ${NG_customerwl}    ${NG_customercomm}    ${NG_customertotal}    ${NG_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Number Game
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Live Casino
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${LC_turnover}    ${LC_totaltrans}    ${LC_customerwl}    ${LC_customercomm}    ${LC_customertotal}    ${LC_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Live Casino
+    # unselect products filter    main    None    Sportsbook
+    ${LC_turnover}    ${LC_totaltrans}    ${LC_customerwl}    ${LC_customercomm}    ${LC_customertotal}    ${LC_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Live Casino
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Keno
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${Keno_turnover}    ${Keno_totaltrans}    ${Keno_customerwl}    ${Keno_customercomm}    ${Keno_customertotal}    ${Keno_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Keno
+    # unselect products filter    main    None    Sportsbook
+    ${Keno_turnover}    ${Keno_totaltrans}    ${Keno_customerwl}    ${Keno_customercomm}    ${Keno_customertotal}    ${Keno_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Keno
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    RNG Casino
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${RNG_turnover}    ${RNG_totaltrans}    ${RNG_customerwl}    ${RNG_customercomm}    ${RNG_customertotal}    ${RNG_licenseewl}    get Total values in report
-    ...    Win Loss By Products    RNG Casino
+    # unselect products filter    main    None    Sportsbook
+    ${RNG_turnover}    ${RNG_totaltrans}    ${RNG_customerwl}    ${RNG_customercomm}    ${RNG_customertotal}    ${RNG_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    RNG Casino
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    Virtual Sports
     unselect SB product    \    main    None
-    # unselect products filter    \    main    None    Sportsbook
-    ${VS_turnover}    ${VS_totaltrans}    ${VS_customerwl}    ${VS_customercomm}    ${VS_customertotal}    ${VS_licenseewl}    get Total values in report
-    ...    Win Loss By Products    Virtual Sports
+    # unselect products filter    main    None    Sportsbook
+    ${VS_turnover}    ${VS_totaltrans}    ${VS_customerwl}    ${VS_customercomm}    ${VS_customertotal}    ${VS_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Virtual Sports
     ${total_Turnover}    Evaluate    ${SB_turnover}+${Racing_turnover}+${NG_turnover}+${LC_turnover}+${Keno_turnover}+${RNG_turnover}+${VS_turnover}
     ${total_Totaltrans}    Evaluate    ${SB_totaltrans}+${Racing_totaltrans}+${NG_totaltrans}+${LC_totaltrans}+${Keno_totaltrans}+${RNG_totaltrans}+${VS_totaltrans}
     ${total_Customerwl}    Evaluate    ${SB_customerwl}+${Racing_customerwl}+${NG_customerwl}+${LC_customerwl}+${Keno_customerwl}+${RNG_customerwl}+${VS_customerwl}
@@ -220,8 +210,8 @@ TM_03_FUN_Compare data for WL by Product report
     ${total_licenseewl}    Evaluate    ${SB_licenseewl}+${Racing_licenseewl}+${NG_licenseewl}+${LC_licenseewl}+${Keno_licenseewl}+${RNG_licenseewl}+${VS_licenseewl}
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
-    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    get Total values in report
-    ...    Customer Win Loss    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Customer Win Loss    All
     ${total_Turnover}    remove decimal part    ${total_Turnover}
     ${total_Totaltrans}    remove decimal part    ${total_Totaltrans}
     ${total_Customerwl}    remove decimal part    ${total_Customerwl}
@@ -240,3 +230,53 @@ TM_03_FUN_Compare data for WL by Product report
     should be true    '${total_customercomm}'=='${customerwl_customercomm_total}'
     should be true    '${total_customertotal}'=='${customerwl_customertotal_total}'
     should be true    '${total_licenseewl}'=='${customerwl_licenseewl_total}'
+
+TM_04_FUN_Compare data for Balance report
+    select licensee    alog
+    ### Compare data in current month
+    navigate left menu    REPORTS    Live Report
+    submit filters for live report    None    None    ALL    GBP    All    Current month
+    ${livereport_ba_turnover}    ${livereport_ba_totaltrans}    ${livereport_ba_customerwl}    ${livereport_ba_customercomm}    ${livereport_ba_customertotal}    ${livereport_ba_licenseewl}    ${livereport_ba_ba_comm}
+    ...    ${livereport_ba_amt}    get Total values in report    Live Report    BA
+    ${livereport_racing_turnover}    ${livereport_racing_totaltrans}    ${livereport_racing_customerwl}    ${livereport_racing_customercomm}    ${livereport_racing_customertotal}    ${livereport_racing_licenseewl}    ${livereport_racing_racing_comm}
+    ...    ${livereport_racing_amt}    get Total values in report    Live Report    Racing
+    navigate left menu    REPORTS    Balance
+    submit filters for balance    ALL    ALL    GBP    None    None
+    ${balance_licenseewl}    ${balance_ba_comm}    ${balance_racing_renuve}    ${balance_amt_ba}    ${balance_amt_racing}    ${balance_customer_comm}    get data in Balance report
+    ...    current month
+    should be true    '${livereport_ba_ba_comm}'=='${balance_ba_comm}'
+    should be true    '${livereport_racing_racing_comm}'=='${balance_racing_renuve}'
+    should be true    '${livereport_ba_amt}'=='${balance_amt_ba}'
+    should be true    '${livereport_racing_amt}'=='${balance_amt_racing}'
+    ### Compare data in Yesterday
+    navigate left menu    REPORTS    Live Report
+    submit filters for live report    None    None    ALL    GBP    All    Yesterday
+    ${livereport_ba_turnover}    ${livereport_ba_totaltrans}    ${livereport_ba_customerwl}    ${livereport_ba_customercomm}    ${livereport_ba_customertotal}    ${livereport_ba_licenseewl}    ${livereport_ba_ba_comm}
+    ...    ${livereport_ba_amt}    get Total values in report    Live Report    BA
+    ${livereport_racing_turnover}    ${livereport_racing_totaltrans}    ${livereport_racing_customerwl}    ${livereport_racing_customercomm}    ${livereport_racing_customertotal}    ${livereport_racing_licenseewl}    ${livereport_racing_racing_comm}
+    ...    ${livereport_racing_amt}    get Total values in report    Live Report    Racing
+    ${livereport_total_turnover}    ${livereport_total_totaltrans}    ${livereport_total_customerwl}    ${livereport_total_customercomm}    ${livereport_total_customertotal}    ${livereport_total_licenseewl}    ${livereport_total_racing_comm}
+    ...    ${livereport_total_amt}    get Total values in report    Live Report    Total
+    navigate left menu    REPORTS    Balance
+    submit filters for balance    ALL    ALL    GBP    None    None
+    ${balance_licenseewl}    ${balance_ba_comm}    ${balance_racing_renuve}    ${balance_amt_ba}    ${balance_amt_racing}    ${balance_customer_comm}    get data in Balance report
+    ...    Yesterday
+    should be true    '${livereport_ba_ba_comm}'=='${balance_ba_comm}'
+    should be true    '${livereport_racing_racing_comm}'=='${balance_racing_renuve}'
+    should be true    '${livereport_ba_amt}'=='${balance_amt_ba}'
+    should be true    '${livereport_racing_amt}'=='${balance_amt_racing}'
+    should be true    '${livereport_total_licenseewl}'=='${balance_licenseewl}'
+    should be true    '${livereport_total_customercomm}'=='${balance_customer_comm}'
+
+TM_05_FUN_Compare data for AG Casino report with API
+    ${from}=    Get Time    \    Now - 50 hour
+    ${to}=    Get Time    \    Now - 50 hour
+    navigate left menu    REPORTS    AG Casino Win Loss
+    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
+    ${report_totaltrans}    get data in AG Casino Win Loss report
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    ${date}    Set Variable    ${from_year}-${from_month}-${from_day}
+    start api    12bet    ${date}
+    ${api_total_trans}    get data from API
+    Should Be True    ${api_total_trans}==${report_totaltrans}

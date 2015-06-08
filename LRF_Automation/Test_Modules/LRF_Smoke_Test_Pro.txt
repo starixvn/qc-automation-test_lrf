@@ -1280,14 +1280,13 @@ TM_29_ST_Reports_Daily Bet List
 
 TM_30_ST_Reports_Live Report
     [Tags]    CI
-    # 1. Navigate to REPORTS > Live Report
     navigate left menu    REPORTS    Live Report
     # 2. Click User Guide
     check user guide popup
     # 3. Select filters then click Submit button
     ${fromDate}=    Get Time    \    NOW - 5d
     ${toDate}=    Get Time    \    NOW - 12h
-    submit filters for live report    ${fromDate}    ${toDate}    None    None    Live
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    Live    None
     take applications screenshot    Product    TM_30_Reports_LiveReport.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
