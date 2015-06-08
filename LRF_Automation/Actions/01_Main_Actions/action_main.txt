@@ -734,3 +734,37 @@ click product link
     Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'Virtual Sports')]
     Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'RNG Casino')]
     Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'Keno')]
+
+select date on picker
+    [Arguments]    ${date}
+    select frame    main
+    Click Element    xpath=//*[@id='livereport']/div[2]/img
+    Run Keyword If    '${date}'!='None' and '${date}'=='Current month'    Click Element    xpath=html/body/div[4]/div/ul/li[5]/a
+    Run Keyword If    '${date}'!='None' and '${date}'=='Yesterday'    Click Element    xpath=html/body/div[4]/div/ul/li[2]/a
+    Run Keyword If    '${date}'!='None' and '${date}'=='Today'    Click Element    xpath=html/body/div[4]/div/ul/li[1]/a
+    Run Keyword If    '${date}'!='None' and '${date}'=='Current week'    Click Element    xpath=html/body/div[4]/div/ul/li[3]/a
+    Run Keyword If    '${date}'!='None' and '${date}'=='Last week'    Click Element    xpath=html/body/div[4]/div/ul/li[4]/a
+    Run Keyword If    '${date}'!='None' and '${date}'=='Last month'    Click Element    xpath=html/body/div[4]/div/ul/li[6]
+    Run Keyword If    '${date}'!='None' and '${date}'=='Since last month'    Click Element    xpath=html/body/div[4]/div/ul/li[7]/a
+
+get data from API
+    Select Window
+    ${total_rows}    get text    xpath=html/body/translist/count
+    ${total_trans}    Set Variable    0
+    : FOR    ${i}    IN RANGE    1    ${total_rows}+1
+    \    ${temp}    get text    xpath=html/body/translist/transaction[${i}]/order_count
+    \    ${total_trans}    Evaluate    ${total_trans}+${temp}
+    close window
+    [Return]    ${totaltrans}
+
+start api
+    [Arguments]    ${site}    ${date}
+    Open Browser    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    ff
+    Maximize Browser Window
+    sleep    5s
+    Input Text    xpath=//*[@id='content']/div/form/table/tbody/tr[1]/td[2]/input    ${site}
+    Input Text    xpath=//*[@id='content']/div/form/table/tbody/tr[2]/td[2]/input    ${date}
+    sleep    2s
+    Click Element    xpath=//*[@id='content']/div/form/table/tbody/tr[3]/td[2]/input
+    sleep    5s
+    close window

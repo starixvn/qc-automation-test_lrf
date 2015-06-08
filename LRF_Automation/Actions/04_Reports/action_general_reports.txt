@@ -207,6 +207,10 @@ get Total values in report
     ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalLicenseeWLSingle']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
     ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[6]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
     ${licenseewl}    Run Keyword If    '${licenseewl}'!='None'    remove string    ${licenseewl}    ,
+    ${licenseecomm}    Run Keyword If    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[12]/div
+    ${licenseecomm}    Run Keyword If    '${licenseecomm}'!='None'    remove string    ${licenseecomm}    ,
+    ${amtdueto}    Run Keyword If    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[14]/div
+    ${amtdueto}    Run Keyword If    '${amtdueto}'!='None'    remove string    ${amtdueto}    ,
     sleep    5s
     ${turnover}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${turnover}
     ${totaltrans}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${totaltrans}
@@ -214,6 +218,8 @@ get Total values in report
     ${customercomm}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customercomm}
     ${customertotal}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customertotal}
     ${licenseewl}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${licenseewl}
+    ${licenseecomm}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${licenseecomm}
+    ${amtdueto}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${amtdueto}
     : FOR    ${i}    IN RANGE    1    8
     \    ${temp_turnover}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[1]
     \    ${temp_turnover}    Run Keyword If    '${temp_turnover}'!='None'    remove string    ${temp_turnover}    ,
@@ -251,7 +257,13 @@ get Total values in report
     ...    ${customertotal}
     ${licenseewl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseewl}    ELSE    Set Variable
     ...    ${licenseewl}
+    ${licenseecomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseecomm}    ELSE    Set Variable
+    ...    ${licenseecomm}
+    ${amtdueto}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${amtdueto}    ELSE    Set Variable
+    ...    ${amtdueto}
+    unselect frame
     [Return]    ${turnover}    ${totaltrans}    ${customerwl}    ${customercomm}    ${customertotal}    ${licenseewl}
+    ...    ${licenseecomm}    ${amtdueto}
 
 wait for loading
     [Documentation]    Wait for loading icon disappear on web.

@@ -6,8 +6,7 @@ Resource          ../../Interfaces/04_Reports/interface_ag_casino_win_loss.txt
 
 *** Keywords ***
 submit filters for ag casino win loss
-    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${exclude test data}
-    ...    ${report by}
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${exclude test data}    ${report by}
     [Documentation]    This action is used to submit filters for AG Casino Win Loss report.
     ...
     ...    ${exclude test data}= *'Yes'* or *'No'*
@@ -15,6 +14,8 @@ submit filters for ag casino win loss
     ...    Example:
     ...
     ...    submit filters for ag casino win loss | None | None | None | None | EUR | Yes
+    Run Keyword If    '${from date}'!='None' and '${to date}'!='None'    select date range    \    main    None    ${from date}
+    ...    ${to date}
     Select Window
     Select Frame    main
     # select Currency
