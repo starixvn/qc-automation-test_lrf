@@ -62,7 +62,7 @@ Resource          ../Actions/06_Customer_Information/action_customer_group_list.
 *** Test Cases ***
 TM_00_ST_Start web
     [Tags]    Complete
-    # 1. Open testing site
+    # 1. Open testing sites
     Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
     # 2. Login with valid account
