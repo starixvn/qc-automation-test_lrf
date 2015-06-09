@@ -489,7 +489,7 @@ TM_30_ST_Reports_Live Report
     # 3. Select filters then click Submit button
     ${fromDate}=    Get Time    \    NOW - 1d
     ${toDate}=    Get Time    \    NOW - 12h
-    submit filters for live report    ${fromDate}    ${toDate}    None    None    All
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    Live    None
     wait page load
     take applications screenshot    Local    TM_30_Reports_LiveReport.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -525,8 +525,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     select licensee    12Bet
     # 1. Navigate to REPORTS > AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
-    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
-    ...    Daily
+    submit filters for ag casino win loss    None    None    ALL    Yes    Daily
     take applications screenshot    Local    TM_33_Reports_AGCasinoWinLoss.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
