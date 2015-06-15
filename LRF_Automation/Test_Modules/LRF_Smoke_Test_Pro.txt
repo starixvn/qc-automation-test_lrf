@@ -852,7 +852,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # VP. Check User Guide popup exists
     check user guide popup
     # 6. Select filters then click Submit button
-    submit filters for forecast handicap bodog    0    1    None    USD
+    submit filters for forecast handicap bodog    0    0    None    USD
     take applications screenshot    Product    TM_18_02_Forecast_Handicap_Bodog.jpg
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -1344,7 +1344,7 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     # 2. Select filters then click Submit button
     ${fromDate}=    Get Time    \    NOW - 5d
     ${toDate}=    Get Time    \    NOW - 12h
-    submit filters for live report    ${fromDate}    ${toDate}    None    None    All
+    submit filters for live report    ${fromDate}    ${toDate}    None    None    All    None
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
     # VP. Check report table exist
@@ -1417,8 +1417,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     select licensee    12Bet
     # 1. Navigate to REPORTS > AG Casino Win Loss
     navigate left menu    REPORTS    AG Casino Win Loss
-    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
-    ...    Daily
+    submit filters for ag casino win loss    None    None    ALL    Yes    Daily
     take applications screenshot    Product    TM_33_Reports_AGWinLoss.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
@@ -1450,8 +1449,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # 7. Submit filters for Monthly
-    submit filters for ag casino win loss    None    None    None    None    ALL    Yes
-    ...    Monthly
+    submit filters for ag casino win loss    None    None    ALL    Yes    Monthly
     # 8. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
