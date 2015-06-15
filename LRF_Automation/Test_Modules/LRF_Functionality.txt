@@ -269,14 +269,102 @@ TM_04_FUN_Compare data for Balance report
     should be true    '${livereport_total_customercomm}'=='${balance_customer_comm}'
 
 TM_05_FUN_Compare data for AG Casino report with API
-    ${from}=    Get Time    \    Now - 50 hour
-    ${to}=    Get Time    \    Now - 50 hour
+    [Documentation]    Purpose: Compare data AG WL report with API
+    ...
+    ...    10/06/2015: Edit TM to check data for 4 days
+    ${from}=    Get Time    \    Now - 5 day
+    ${to}=    Get Time    \    Now - 48 hour
     navigate left menu    REPORTS    AG Casino Win Loss
     submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
     ${report_totaltrans}    get data in AG Casino Win Loss report
     ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
     ...    ${from}    ${to}
-    ${date}    Set Variable    ${from_year}-${from_month}-${from_day}
-    start api    12bet    ${date}
-    ${api_total_trans}    get data from API
+    ${api_total_trans}    Set Variable    0
+    : FOR    ${i}    IN RANGE    0    4
+    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
+    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
+    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
+    \    ${temp_totaltrans}    get data from API
+    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
     Should Be True    ${api_total_trans}==${report_totaltrans}
+
+TM_07_FUN_Check create, move, remove, edit, delete commission group
+    # Define variables
+    ${tm_group}=    Set Variable    testinggroup1
+    ${tm_group_edit}=    Set Variable    testinggroup2
+    ${tm_cust}=    Set Variable    candytest
+    ${tm_custid}=    Set Variable    12872391
+    ${tm_sb_com}=    Set Variable    1
+    ${tm_ng_com}=    Set Variable    2
+    ${tm_lc_com}=    Set Variable    3
+    ${tm_cs_com}=    Set Variable    4
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    login    autoQC1    1234aa
+    select licensee after login    Athena000
+    # 1. Navigate to Commission Group List
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # 2. Create new commission group
+    create new commission group    ${tm_group}    ${tm_sb_com}    ${tm_ng_com}    ${tm_lc_com}    ${tm_cs_com}
+    # 3. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 4. Submit filters for testing customer "Candytest"
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 5. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 6. Update commission for user
+    update commission    ${tm_custid}    ${tm_cs_com}    ${tm_sb_com}    ${tm_ng_com}    ${tm_lc_com}
+    # VP. User's commission should be updated sucessfully
+    check user commission    ${tm_custid}    ${tm_cs_com}.00    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00
+    # 7. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 8. Remove user from group and keep commission
+    remove from group    ${tm_custid}    keep comm
+    # VP. Commission should be kept and user should be remove from group
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 9. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 10. Remove user from group and clear commission
+    remove from group    ${tm_custid}    clear comm
+    # VP. Commission should be reset to 0.00 and user should be remove from group
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
+    # 11. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 12. Navigate to Commission Group list page
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # 13. Edit group's commission
+    click group link    ${tm_group}
+    select listbox by value on report    \    main    None    ${sportsbook_commission_listbox}    ${tm_cs_com}
+    select listbox by value on report    \    main    None    ${number_game_commission_listbox}    ${tm_sb_com}
+    select listbox by value on report    \    main    None    ${live_casino_commission_listbox}    ${tm_ng_com}
+    select listbox by value on report    \    main    None    ${rng_casino_commission_listbox}    ${tm_lc_com}
+    click element on report    \    main    None    ${save_button_commission_group_list}
+    Sleep    3s
+    # 14. Click Go To Customer button
+    click element on report    \    main    None    ${go_to_customer_list_button}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    0.00    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00
+    # 15. Navigate to Commission Group list page
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # 16. Delete group
+    ${tm_last_row}    get total rows in commission group list
+    delete commission group    ${tm_last_row}    clear comm
+    # 17. Navigate to Customer List page
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 18. Submit filters for testing customer "Candytest"
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # VP. Customer's commission should be cleared
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
