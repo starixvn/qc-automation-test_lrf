@@ -213,6 +213,21 @@ check special level based on custid
     Element Should Be Visible    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}' and text()='${special level}']
     Unselect Frame
 
+check user commission
+    [Arguments]    ${custid}    ${sb commission}    ${ng commission}    ${lc commission}    ${cs commission}
+    [Documentation]    This action is used to check user's commission on Customer List.
+    ...
+    ...    Ex:
+    ...
+    ...    check user commission | 1.00 | 2.00 | 3.00 | 4.00
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${sb commission}'!='None'    Element Should Be Visible    xpath=//td[@id='SBComm-${custid}' and text()='${sb commission}']
+    Run Keyword If    '${ng commission}'!='None'    Element Should Be Visible    xpath=//td[@id='NGComm-${custid}' and text()='${ng commission}']
+    Run Keyword If    '${lc commission}'!='None'    Element Should Be Visible    xpath=//td[@id='LCComm-${custid}' and text()='${lc commission}']
+    Run Keyword If    '${cs commission}'!='None'    Element Should Be Visible    xpath=//td[@id='CSComm-${custid}' and text()='${cs commission}']
+    Unselect Frame
+
 select showhide in customer list
     [Arguments]    ${external id}    ${system id}    ${available funds}    ${pending funds}    ${special level}    ${customer option}
     ...    ${ba status}    ${status}
@@ -286,6 +301,10 @@ move to group
     ...    Example:
     ...
     ...    move to group | 12872391 | testinggroup
+    ...
+    ...    -------------------------------------
+    ...
+    ...    [20150612][Line 11] Ben: Fix wait time from 10s into 20s for more stable.
     # select customer based on customer id
     select customer checkbox based on custid    ${custid}
     # Click Move To Group
@@ -296,7 +315,7 @@ move to group
     Select From List By Label    ${select_group_listbox}    ${group}
     # click OK button
     Click Element    ${ok_button_move_to_group}
-    Wait Until Element Is Visible    ${cancel_move_group_button}    10s
+    Wait Until Element Is Visible    ${cancel_move_group_button}    20s
     # Close popup
     Click Element    ${cancel_move_group_button}
     Unselect Frame
