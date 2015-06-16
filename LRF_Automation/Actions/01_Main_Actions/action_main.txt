@@ -758,8 +758,8 @@ get data from API
     [Return]    ${totaltrans}
 
 start api
-    [Arguments]    ${site}    ${date}
-    Open Browser    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    ff
+    [Arguments]    ${link}    ${site}    ${date}
+    Open Browser    ${link}    ff
     Maximize Browser Window
     sleep    5s
     Input Text    xpath=//*[@id='content']/div/form/table/tbody/tr[1]/td[2]/input    ${site}
