@@ -840,6 +840,9 @@ TM_18_01_ST_Forecast_Handicap
     click element on report    \    main    None    ${close_button_on_popup}
 
 TM_18_02_ST_Forecast_Handicap_Bodog
+    [Documentation]    -------------------
+    ...    Logs:
+    ...    [12 Jun 2015] Chris - Update #step12: submit filters for forecast handicap bodog | 0 | 0 | None | USD
     [Tags]    CI
     # 1. Open testing site
     # 2. Login with valid account
