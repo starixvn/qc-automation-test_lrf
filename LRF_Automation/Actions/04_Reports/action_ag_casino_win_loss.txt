@@ -13,7 +13,7 @@ submit filters for ag casino win loss
     ...
     ...    Example:
     ...
-    ...    submit filters for ag casino win loss | None | None | None | None | EUR | Yes
+    ...    submit filters for ag casino win loss | None | None | USD | Yes | Daily
     Run Keyword If    '${from date}'!='None' and '${to date}'!='None'    select date range    \    main    None    ${from date}
     ...    ${to date}
     Select Window
@@ -29,3 +29,12 @@ submit filters for ag casino win loss
     # click Submit button
     click element on report    \    main    None    ${submit_button}
     wait page load
+
+get data in AG Casino Win Loss report
+    [Documentation]    10/06/2015: remove string for total trans
+    select frame    main
+    ${totaltrans}    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/*/td[1][contains(text(),'Total in GBP')]/following::td[6]
+    ${totaltrans}    remove string    ${totaltrans}    ,
+    unselect frame
+    [Teardown]
+    [Return]    ${totaltrans}

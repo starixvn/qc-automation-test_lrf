@@ -11,7 +11,7 @@ submit filters for live report
     ...
     ...    Example:
     ...
-    ...    submit filters for live report | Dec-01-2014 | Dec-03-2014 | \ ALL | EUR | Live
+    ...    submit filters for live report | Dec-01-2014 | Dec-03-2014 | \ ALL | EUR | Live | None
     # select date
     Run Keyword If    '${from date}' !='None' and '${to date}' !='None' and '${special date}'=='None'    select date range    \    main    None    ${from date}
     ...    ${to date}
