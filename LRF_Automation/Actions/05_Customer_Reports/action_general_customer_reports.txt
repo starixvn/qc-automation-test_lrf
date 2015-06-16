@@ -14,10 +14,3 @@ click drilldown link in customer reports
     # Find link in the columns. If existed, click on it
     Click Element    xpath=//*[@id='data-content']/div[${row}]/div[${column}]/div/a/span
     Unselect Frame
-
-get data in AG Casino Win Loss report
-    select frame    main
-    ${totaltrans}    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/*/td[1][contains(text(),'Total in GBP')]/following::td[6]
-    unselect frame
-    [Teardown]
-    [Return]    ${totaltrans}
