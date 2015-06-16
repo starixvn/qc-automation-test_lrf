@@ -298,9 +298,8 @@ TM_07_FUN_Check create, move, remove, edit, delete commission group
     ${tm_ng_com}=    Set Variable    2
     ${tm_lc_com}=    Set Variable    3
     ${tm_cs_com}=    Set Variable    4
-    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
-    Maximize Browser Window
-    login    autoQC1    1234aa
+    log out
+    login    ${cf_username2}    ${cf_password2}
     select licensee after login    Athena000
     # 1. Navigate to Commission Group List
     navigate left menu    CUSTOMER INFORMATION    Commission Group List
@@ -368,3 +367,7 @@ TM_07_FUN_Check create, move, remove, edit, delete commission group
     # VP. Customer's commission should be cleared
     check customer group based on custid    ${tm_custid}    None
     check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
+    # Pre-Condition: Go back to default user & licensee
+    log out
+    login    ${cf_username}    ${cf_password}
+    select licensee after login    ${cf_licensee}
