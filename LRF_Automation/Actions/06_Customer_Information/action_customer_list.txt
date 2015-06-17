@@ -467,3 +467,135 @@ check status of checkbox
     ${ischecked}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='BodyContent']/div/div[5]/table/tbody/tr[${locator}]/td[3]/input
     unselect frame
     [Return]    ${ischecked}
+
+get data of member in Statement report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${d}    ${m}    ${yyyy}
+    ${ac_index1}    ${date1}    get index of from date    \    main    BetList    ${d}
+    ...    ${m}    ${yyyy}
+    ${ac_index2}    ${date2}    Run Keyword If    '${ac_index1}'=='None'    get index before from date    \    main
+    ...    BetList    ${d}    ${m}    ${yyyy}
+    ${ac_index}    Run Keyword If    '${ac_index1}'!='None'    Set Variable    ${ac_index1}    ELSE    Set Variable
+    ...    ${ac_index2}
+    ${ac_index}    Run Keyword If    '${ac_index1}'=='None'    Evaluate    ${ac_index} +1    ELSE    Set Variable
+    ...    ${ac_index}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${index_openingbalance_ac_index1}    Run Keyword If    '${ac_index1}'!='None'    Evaluate    ${ac_index1}-1
+    ${index_openingbalance}    Run Keyword If    '${ac_index1}'!='None'    Set Variable    ${index_openingbalance_ac_index1}    ELSE    Set Variable
+    ...    ${ac_index2}
+    ${opening_balance}    get text    xpath=//*[@id='${index_openingbalance}']/td[7]
+    ${opening_balance}    Run Keyword If    '${opening_balance}' >= 1000    remove string    ${opening_balance}    ,    ELSE
+    ...    Set Variable    ${opening_balance}
+    ${deposit}    Set Variable    0
+    ${withdrawal}    Set Variable    0
+    ${turnover}    Set Variable    0
+    ${pending_funds}    Set Variable    0
+    ${customerwl}    Set Variable    0
+    ${customercomm}    Set Variable    0
+    ${closing_balance}    Set Variable    0
+    ${bonus}    Set Variable    0
+    ${ac_totalrows}    Get Matching Xpath Count    xpath=//*/td[@aria-describedby='BetListGrid_Index']
+    : FOR    ${i}    IN RANGE    ${ac_index}    ${ac_totalrows}+1
+    \    ${isDeposit}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'DDEP')]/following::td[2]
+    \    ${temp_deposit}    Run Keyword If    '${isDeposit}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'DDEP')]/following::td[2]    ELSE
+    \    ...    Set Variable    0
+    \    ${temp_deposit}    Run Keyword If    '${isDeposit}'=='True' and '${temp_deposit}'!='None' and '${temp_deposit}' >= 1000    remove string    ${temp_deposit}    ,
+    \    ...    ELSE    Set Variable    0
+    \    ${deposit}    Run Keyword If    '${isDeposit}'=='True' and '${temp_deposit}'!='None' and '${deposit}' !='None'    Evaluate    ${deposit} + ${temp_deposit}    ELSE
+    \    ...    Set Variable    ${deposit}
+    \    ${isWithdrawal}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'DWIT')]/following::td[2]
+    \    ${temp_withdrawal}    Run Keyword If    '${isWithdrawal}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'DWIT')]/following::td[2]    ELSE
+    \    ...    Set Variable    0
+    \    ${temp_withdrawal}    Run Keyword If    '${isWithdrawal}'=='True' and '${temp_withdrawal}'!='None' and '${temp_withdrawal}' >= 1000    remove string    ${temp_withdrawal}    ,
+    \    ...    ELSE    Set Variable    0
+    \    ${withdrawal}    Run Keyword If    '${isWithdrawal}'=='True' and '${temp_withdrawal}'!='None' and '${withdrawal}'!='None'    Evaluate    ${withdrawal} + ${temp_withdrawal}    ELSE
+    \    ...    Set Variable    ${withdrawal}
+    \    ${isTurnover}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[1]
+    \    ${temp_turnover}    Run Keyword If    '${isTurnover}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[1]    ELSE
+    \    ...    Set Variable    0
+    \    ${temp_turnover}    Run Keyword If    '${isTurnover}'=='True' and '${temp_turnover}'!='None' and '${temp_turnover}' >= 1000    remove string    ${temp_turnover}    ,
+    \    ...    ELSE    Set Variable    0
+    \    ${turnover}    Run Keyword If    '${isTurnover}'=='True' and '${temp_turnover}'!='None' and '${turnover}'!='None'    Evaluate    ${turnover} + ${temp_turnover}    ELSE
+    \    ...    Set Variable    ${turnover}
+    \    ${isPendingFunds}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'Outstanding Bet')]/following::td[1]
+    \    ${temp_pending_funds}    Run Keyword If    '${isPendingFunds}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'Outstanding Bet')]/following::td[1]    ELSE
+    \    ...    Set Variable    0
+    \    ${temp_pending_funds}    Run Keyword If    '${isPendingFunds}'=='True' and '${temp_pending_funds}'!='None' and '${temp_pending_funds}' >= 1000    remove string    ${temp_pending_funds}    ,
+    \    ...    ELSE    Set Variable    0
+    \    ${pending_funds}    Run Keyword If    '${isPendingFunds}'=='True' and '${temp_pending_funds}'!='None' and '${pending_funds}'!='None'    Evaluate    ${pending_funds} + ${temp_pending_funds}    ELSE
+    \    ...    Set Variable    ${pending_funds}
+    \    ${isCustomerwl}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[2]
+    \    ${temp_customerwl}    Run Keyword If    '${isCustomerwl}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[2]    ELSE
+    \    ...    Set Variable    0
+    \    ${temp_customerwl}    Run Keyword If    '${isCustomerwl}'=='True' and '${temp_customerwl}'!='None' and '${temp_customerwl}' >= \ 1000    remove string    ${temp_customerwl}    ,
+    \    ${customerwl}    Run Keyword If    '${isCustomerwl}'=='True' and '${temp_customerwl}'!='None' and '${customerwl}'!='None'    Evaluate    ${customerwl}+${temp_customerwl}    ELSE
+    \    ...    Set Variable    ${customerwl}
+    \    ${isCustomerComm}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[3]
+    \    ${temp_customercomm}    Run Keyword If    '${isCustomerComm}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'Betting Statement')]/following::td[3]    ELSE
+    \    ...    Set Variable    0
+    \    ${customercomm}    Run Keyword If    '${isCustomerComm}'=='True' and '${temp_customercomm}'!='None' and '${customercomm}'!='None'    Evaluate    ${customercomm}+${temp_customercomm}    ELSE
+    \    ...    Set Variable    ${customercomm}
+    \    ${isBonus}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'DBON - ')]/following::td[1]
+    \    ${temp_bonus}    Run Keyword If    '${isBonus}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'DBON - ')]/following::td[1]    ELSE
+    \    ...    Set Variable    0
+    \    ${bonus}    Run Keyword If    '${isBonus}'=='True' and '${temp_bonus}'!='None' and '${bonus}'!='None'    Evaluate    ${bonus}+${temp_bonus}    ELSE
+    \    ...    Set Variable    ${bonus}
+    ${closing_balance}    get text    xpath=//*[@id='${ac_totalrows}']/td[7]
+    ${closing_balance}    Run Keyword If    '${closing_balance}' >= 1000    remove string    ${closing_balance}    ,    ELSE
+    ...    Set Variable    ${closing_balance}
+    ${deposit}    remove decimal part    ${deposit}
+    ${withdrawal}    remove decimal part    ${withdrawal}
+    ${withdrawal}    Run Keyword If    '${withdrawal}' < '0'    Fetch From Right    ${withdrawal}    -    ELSE
+    ...    Set Variable    ${withdrawal}
+    ${turnover}    remove decimal part    ${turnover}
+    ${pending_funds}    remove decimal part    ${pending_funds}
+    ${customerwl}    remove decimal part    ${customerwl}
+    ${customercomm}    remove decimal part    ${customercomm}
+    ${closing_balance}    remove decimal part    ${closing_balance}
+    ${opening_balance}    remove decimal part    ${opening_balance}
+    [Return]    ${opening_balance}    ${deposit}    ${withdrawal}    ${turnover}    ${pending_funds}    ${customerwl}
+    ...    ${customercomm}    ${closing_balance}    ${bonus}
+
+get index of from date
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${d}    ${m}    ${yyyy}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${date}=    Set Variable    ${m}/${d}/${yyyy}
+    ${ac_totalrows}    Get Matching Xpath Count    xpath=//*/td[@aria-describedby='BetListGrid_Index']
+    : FOR    ${i}    IN RANGE    1    ${ac_totalrows}+1
+    \    ${IsExisted}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'${date}')]
+    \    ${index}    Set Variable if    '${IsExisted}'=='True'    ${i}
+    \    ${result_date}    Set Variable if    '${IsExisted}'=='True'    ${date}
+    \    Exit For Loop If    '${IsExisted}'=='True'
+    unselect frame
+    [Return]    ${index}    ${result_date}
+
+get index before from date
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${d}    ${m}    ${yyyy}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ac_totalrows}    Get Matching Xpath Count    xpath=//*/td[@aria-describedby='BetListGrid_Index']
+    : FOR    ${i}    IN RANGE    1    ${ac_totalrows}+1
+    \    ${temp}=    Evaluate    ${d}-${i}
+    \    ${date}=    Set Variable    ${m}/${temp}/${yyyy}
+    \    ${ac_index}    ${ac_IsExsited}    ${date}    loop in for    ${date}
+    \    ${index}    Run Keyword If    '${ac_IsExsited}'=='True'    Set Variable    ${ac_index}
+    \    ${return_date}    Set Variable if    '${ac_IsExsited}'=='True'    ${date}
+    \    Exit For Loop If    '${ac_IsExsited}'=='True'
+    unselect frame
+    [Return]    ${index}    ${return_date}
+
+loop in for
+    [Arguments]    ${date}
+    ${ac_totalrows}    Get Matching Xpath Count    xpath=//*/td[@aria-describedby='BetListGrid_Index']
+    : FOR    ${i}    IN RANGE    0    ${ac_totalrows}
+    \    ${temp}    Evaluate    ${ac_totalrows} -${i}
+    \    ${IsExisted}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${temp}']/td[contains(@title,'${date}')]
+    \    ${result_index}    Run Keyword If    '${IsExisted}'=='True'    Set Variable    ${temp}    ELSE
+    \    ...    Set Variable    None
+    \    ${result_date}    Set Variable If    '${IsExisted}'=='True'    ${date}
+    \    Exit For Loop If    '${IsExisted}'=='True'
+    [Return]    ${result_index}    ${IsExisted}    ${result_date}
