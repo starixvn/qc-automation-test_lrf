@@ -288,6 +288,35 @@ TM_05_FUN_Compare data for AG Casino report with API
     \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
     Should Be True    ${api_total_trans}==${report_totaltrans}
 
+TM_06_FUN_Compare data between Statement and Customer Balance for a member
+    [Timeout]
+    ${from}=    Get Time    \    Now - 3d
+    ${to}=    Get Time    \    Now - 2d
+    navigate left menu    CUSTOMER REPORTS    Customer Balance
+    submit filters for customer balance    ${from}    ${to}    ALL    CNY    All    Deposit
+    ...    No    All
+    ${tm_username}    ${tm_opening_balance}    ${tm_deposit}    ${tm_withdrawal}    ${tm_bonus}    ${tm_turnover}    ${tm_pending_funds}
+    ...    ${tm_customerwl}    ${tm_customercomm}    ${tm_closing_balance}    get data of member in customer balance report
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    submit filters for customer list    ALL    CNY    CNY    ${tm_username}    All    All
+    ...    All    All
+    select customer option based on username    ${tm_username}    Statement
+    submit filters for betlist and statement    None    ${from}    ${to}    None
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    ${statement_openingbalance}    ${statement_deposit}    ${statement_withdrawal}    ${statement_turnover}    ${statement_pendingfunds}    ${statement_customerwl}    ${statement_customercomm}
+    ...    ${statement_closingbalance}    ${statement_bonus}    get data of member in Statement report    \    main    BetList
+    ...    ${from_day}    ${from_month}    ${from_year}
+    should be true    '${tm_opening_balance}'=='${statement_openingbalance}'
+    should be true    '${tm_deposit}'=='${statement_deposit}'
+    should be true    '${tm_withdrawal}'=='${statement_withdrawal}'
+    should be true    '${tm_bonus}'=='${statement_bonus}'
+    should be true    '${tm_turnover}'=='${statement_turnover}'
+    should be true    '${tm_pending_funds}'=='${statement_pendingfunds}'
+    should be true    '${tm_customerwl}'=='${statement_customerwl}'
+    should be true    '${tm_customercomm}'=='${statement_customercomm}'
+    should be true    '${tm_closing_balance}'=='${statement_closingbalance}'
+
 TM_07_FUN_Check create, move, remove, edit, delete commission group
     # Define variables
     ${tm_group}=    Set Variable    testinggroup1
