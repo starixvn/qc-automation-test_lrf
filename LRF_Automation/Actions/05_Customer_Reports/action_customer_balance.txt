@@ -35,3 +35,37 @@ submit filters for customer balance
     # click Submit button
     click element on report    \    main    None    ${submit_button}
     wait page load
+
+get data of member in customer balance report
+    select frame    main
+    ${username}    get text    xpath=//*[@id='data-content']/div[1]/div[2]/span
+    ${opening_balance}    get text    xpath=//*[@id='data-content']/div[1]/div[4]/div
+    ${deposit}    get text    xpath=//*[@id='data-content']/div[1]/div[5]/div
+    ${withdrawal}    get text    xpath=//*[@id='data-content']/div[1]/div[6]/div
+    ${bonus}    get text    xpath=//*[@id='data-content']/div[1]/div[7]/div
+    ${turnover}    get text    xpath=//*[@id='data-content']/div[1]/div[9]/div
+    ${pending_funds}    get text    xpath=//*[@id='data-content']/div[1]/div[12]/div
+    ${customerwl}    get text    xpath=//*[@id='data-content']/div[1]/div[13]/div
+    ${customercomm}    get text    xpath=//*[@id='data-content']/div[1]/div[14]/div
+    ${closing_balance}    get text    xpath=//*[@id='data-content']/div[1]/div[16]/div
+    ${opening_balance}    remove string    ${opening_balance}    ,
+    ${deposit}    remove string    ${deposit}    ,
+    ${withdrawal}    remove string    ${withdrawal}    ,
+    ${bonus}    remove string    ${bonus}    ,
+    ${turnover}    remove string    ${turnover}    ,
+    ${pending_funds}    remove string    ${pending_funds}    ,
+    ${customerwl}    remove string    ${customerwl}    ,
+    ${closing_balance}    remove string    ${closing_balance}    ,
+    ${customercomm}    remove string    ${customercomm}    ,
+    ${opening_balance}    remove decimal part    ${opening_balance}
+    ${deposit}    remove decimal part    ${deposit}
+    ${withdrawal}    remove decimal part    ${withdrawal}
+    ${bonus}    remove decimal part    ${bonus}
+    ${turnover}    remove decimal part    ${turnover}
+    ${pending_funds}    remove decimal part    ${pending_funds}
+    ${customerwl}    remove decimal part    ${customerwl}
+    ${closing_balance}    remove decimal part    ${closing_balance}
+    ${customercomm}    remove decimal part    ${customercomm}
+    unselect frame
+    [Return]    ${username}    ${opening_balance}    ${deposit}    ${withdrawal}    ${bonus}    ${turnover}
+    ...    ${pending_funds}    ${customerwl}    ${customercomm}    ${closing_balance}
