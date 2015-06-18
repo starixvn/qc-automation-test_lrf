@@ -64,6 +64,7 @@ Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.tx
 
 *** Test Cases ***
 TM_BL_ALL_Start web
+    [Tags]    demo
     # 1. Open testing site
     Open Browser    ${cf_url_betlist}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
     Maximize Browser Window
@@ -150,6 +151,7 @@ TM_BL_ALL_05_Live Report
     Set Selenium Speed    ${cf_speed}
 
 TM_BL_ALL_06_Customer Win Loss
+    [Tags]    demo
     # Navigate to Customer WL report
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # Submit filters for products
