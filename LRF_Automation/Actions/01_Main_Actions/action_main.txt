@@ -24,7 +24,7 @@ config
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-    Set Suite Variable    ${cf_username}    autoqc
+    Set Suite Variable    ${cf_username}    autqc
     Set Suite Variable    ${cf_password}    1234aa
     Set Suite Variable    ${cf_username1}    autoQC1
     Set Suite Variable    ${cf_password1}    1234aa
