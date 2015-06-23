@@ -61,6 +61,8 @@ Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
 Resource          ../Actions/04_Reports/action_gold_deluxe_win_loss.txt
+Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+Resource          ../Actions/06_Customer_Information/action_bet_settings.txt
 
 *** Test Cases ***
 TM_00_FUN_Start web
@@ -320,7 +322,6 @@ TM_06_FUN_Compare data between Statement and Customer Balance for a member
 TM_07_FUN_Check create, move, remove, edit, delete commission group
     # Define variables
     ${tm_group}=    Set Variable    testinggroup1
-    ${tm_group_edit}=    Set Variable    testinggroup2
     ${tm_cust}=    Set Variable    candytest
     ${tm_custid}=    Set Variable    12872391
     ${tm_sb_com}=    Set Variable    1
@@ -332,8 +333,27 @@ TM_07_FUN_Check create, move, remove, edit, delete commission group
     select licensee after login    Athena000
     # 1. Navigate to Commission Group List
     navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # Special case: Handle if group has been already existed
+    Select Window
+    Select Frame    main
+    ${tm_state}    Run Keyword And Return Status    Element Should Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${tm_group}')]
+    Unselect Frame
+    ${tm_last_row}    get total rows in commission group list
+    Run Keyword If    '${tm_state}'=='True'    delete commission group    ${tm_last_row}    clear comm
+    Run Keyword If    '${tm_state}'=='True'    Sleep    3s
     # 2. Create new commission group
     create new commission group    ${tm_group}    ${tm_sb_com}    ${tm_ng_com}    ${tm_lc_com}    ${tm_cs_com}
+    # VP. Create same group again and warning message should be displayed
+    click element on report    \    main    None    ${cancel_button_commission_group_list}
+    Select Window
+    Select Frame    main
+    # click New Group button
+    Click Element    ${new_group_button}
+    # enter group name
+    Input Text    ${group_name_textbox}    ${tm_group}
+    Click Element    ${check_availability_button}
+    Sleep    1s
+    Element Should Be Visible    xpath=//div[contains(text(),'This group name already existed')]
     # 3. Navigate to Customer List
     navigate left menu    CUSTOMER INFORMATION    Customer List
     # 4. Submit filters for testing customer "Candytest"
@@ -396,7 +416,457 @@ TM_07_FUN_Check create, move, remove, edit, delete commission group
     # VP. Customer's commission should be cleared
     check customer group based on custid    ${tm_custid}    None
     check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
-    # Pre-Condition: Go back to default user & licensee
-    log out
-    login    ${cf_username}    ${cf_password}
-    select licensee after login    ${cf_licensee}
+
+TM_08_FUN_Check update bet settings for Sportsbook
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_sb_min_bet}=    Set Variable    5
+    ${tm_min_invalid}=    Set Variable    4
+    ${tm_min_valid}=    Set Variable    6
+    ${tm_max_valid}=    Set Variable    899,999
+    ${tm_sb_max_bet}=    Set Variable    900,000
+    ${tm_sb_max_per_match}=    Set Variable    1,000,000
+    ${tm_max_invalid}=    Set Variable    1,000,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Sportsbook
+    click element on report    \    main    BetSetting    ${sportsbook_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet value)
+    input min bet for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check min bet for sportsbook    ${tm_sb_min_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    # 9. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 10. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 11. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for sportsbook    ${tm_max_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 12. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 13. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 14. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check max bet for sportsbook    ${tm_sb_max_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    # 15. Input invalid value into Max Per Match (smaller than Max Bet)
+    input max per match for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 16. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 17. Input invalid value into Max Per Match (smaller than Max Bet)
+    input max per match for sportsbook    ${tm_max_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 16. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 17. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 18. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check max per match for sportsbook    ${tm_sb_max_per_match}    None    None    None    None    None
+    ...    None    None    None    None
+    # 19. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for sportsbook    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    input max bet for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    input max per match for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 20. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 21. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Valid data should be saved successfully
+    check min bet for sportsbook    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    check max bet for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    check max per match for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 22. Check on Copy All Bet Setting from Soccer checkbox
+    Select Window
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    Select Checkbox    ${copy_all_bet_setting_from_soccer_checkbox}
+    Unselect Frame
+    # 23. Input valid data for Soccer only
+    input min bet for sportsbook    ${tm_sb_min_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    input max bet for sportsbook    ${tm_sb_max_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    input max per match for sportsbook    ${tm_sb_max_per_match}    None    None    None    None    None
+    ...    None    None    None    None
+    # 24. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 25. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Valid data from Soccer should be saved successfully into other sports.
+    check min bet for sportsbook    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}
+    ...    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}
+    check max bet for sportsbook    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}
+    ...    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}
+    check max per match for sportsbook    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}
+    ...    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}
+    # 26. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_09_FUN_Check update bet settings for Racing
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_rc_min_bet}=    Set Variable    15
+    ${tm_min_invalid}=    Set Variable    14
+    ${tm_min_valid}=    Set Variable    16
+    ${tm_max_valid}=    Set Variable    499
+    ${tm_rc_max_bet}=    Set Variable    500
+    ${tm_rc_max_per_match}=    Set Variable    1,500
+    ${tm_max_invalid}=    Set Variable    1,501
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for racing    ${tm_rc_min_bet}    None    None    None    None    None
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for racing    ${tm_max_invalid}    None    None    None    None    None
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for racing    ${tm_rc_max_bet}    None    None    None    None    None
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than Max Bet)
+    input max per match for racing    ${tm_max_invalid}    None    None    None    None    None
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for racing    ${tm_rc_max_per_match}    None    None    None    None    None
+    # 25. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for racing    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    input max bet for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    input max per match for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 26. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 27. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 28. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for racing    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    check max bet for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    check max per match for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for racing    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}
+    input max bet for racing    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}
+    input max per match for racing    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_10_FUN_Check update bet settings for Number Game
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_ng_min_bet}=    Set Variable    1
+    ${tm_min_invalid}=    Set Variable    0
+    ${tm_min_valid}=    Set Variable    2
+    ${tm_max_valid}=    Set Variable    999,999
+    ${tm_ng_max_bet}=    Set Variable    1,100,000
+    ${tm_ng_max_per_match}=    Set Variable    1,100,000
+    ${tm_ng_max_per_ball}=    Set Variable    1,000,000
+    ${tm_max_invalid}=    Set Variable    1,100,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for number game    ${tm_min_invalid}
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for number game    ${tm_ng_min_bet}
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for number game    ${tm_min_invalid}
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for number game    ${tm_max_invalid}
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for number game    ${tm_ng_max_bet}
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for number game    ${tm_min_invalid}
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than than Max Bet)
+    input max per match for number game    ${tm_max_invalid}
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for number game    ${tm_ng_max_per_match}
+    # 25. Input invalid value into Max Per Ball (larger than than Max Per Ball)
+    input max per ball for number game    ${tm_max_invalid}
+    # 26. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Ball must be less than or equal to')]
+    # 27. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 28. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 29. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per ball for number game    ${tm_ng_max_per_ball}
+    # 30. Enter valid data for Number Game
+    input min bet for number game    ${tm_min_valid}
+    input max bet for number game    ${tm_max_valid}
+    input max per match for number game    ${tm_max_valid}
+    input max per ball for number game    ${tm_max_valid}
+    # 31. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 32. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 33. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for number game    ${tm_min_valid}
+    check max bet for number game    ${tm_max_valid}
+    check max per match for number game    ${tm_max_valid}
+    check max per ball for number game    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for number game    ${tm_ng_min_bet}
+    input max bet for number game    ${tm_ng_max_bet}
+    input max per match for number game    ${tm_ng_max_per_match}
+    input max per ball for number game    ${tm_ng_max_per_ball}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_11_FUN_Check update bet settings for Virtual Sports
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_vs_min_bet}=    Set Variable    5
+    ${tm_min_invalid}=    Set Variable    4
+    ${tm_min_valid}=    Set Variable    6
+    ${tm_max_valid}=    Set Variable    9,999
+    ${tm_vs_max_bet}=    Set Variable    10,000
+    ${tm_vs_max_per_match}=    Set Variable    100,000
+    ${tm_max_invalid}=    Set Variable    100,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for virtual sports    ${tm_vs_min_bet}    None    None    None    None    None
+    ...    None
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for virtual sports    ${tm_max_invalid}    None    None    None    None    None
+    ...    None
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for virtual sports    ${tm_vs_max_bet}    None    None    None    None    None
+    ...    None
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than Max Bet)
+    input max per match for virtual sports    ${tm_max_invalid}    None    None    None    None    None
+    ...    None
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for virtual sports    ${tm_vs_max_per_match}    None    None    None    None    None
+    ...    None
+    # 25. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for virtual sports    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}
+    input max bet for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    input max per match for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    # 26. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 27. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 28. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for virtual sports    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}
+    check max bet for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    check max per match for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for virtual sports    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}
+    ...    ${tm_vs_min_bet}
+    input max bet for virtual sports    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}
+    ...    ${tm_vs_max_bet}
+    input max per match for virtual sports    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}
+    ...    ${tm_vs_max_per_match}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
