@@ -1,6 +1,6 @@
 *** Variables ***
 ${bet_setting_enable/disable_button}    xpath=//*[@id='btnUpdateStatus']    # Enable_Disable \ button of Bet Setting popup
-${bet_setting_vegasgames_tab}    xpath=//*[@id='vegasgames']    # Vegas Games tab of Bet Setting popup
+${bet_setting_macau_tab}    xpath=//*[@id='macau']    # Macau tab of Bet Setting popup
 ${bet_setting_gold_deluxe_tab}    xpath=//*[@id='golddeluxe']
 ${bet_setting_gold_deluxe_group_listbox}    xpath=//*[@id='betSettingGroup']
 ${bet_setting_agcasino_tab}    xpath=//*[@id='agcasino']    # Ag Casino tab of Bet Setting popup
