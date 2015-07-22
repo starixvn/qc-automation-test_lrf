@@ -2,6 +2,7 @@
 Library           Selenium2Library
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../01_Main_Actions/action_main.txt
+Library           ExcelLibrary
 
 *** Keywords ***
 submit filters for match win loss

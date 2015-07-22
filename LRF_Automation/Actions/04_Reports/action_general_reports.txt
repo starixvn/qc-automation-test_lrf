@@ -161,6 +161,30 @@ check bet list for selected products
     Run Keyword If    '${CS}'=='True'    check bet list    ${excel file}    RNG Casino
     Run Keyword If    '${KN}'=='True'    check bet list    ${excel file}    Keno
 
+check running bet list for selected products
+    [Arguments]    ${products}    ${excel file}
+    [Documentation]    This action is used to check running bet list with selected products.
+    ...
+    ...    Ex:
+    ...
+    ...    check running bet list with selected products | Sportsbook, Number Game
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${products}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${products}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${products}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${products}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${products}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
+    Run Keyword If    '${SB}'=='True'    check bet list    ${excel file}    Sportsbook Running
+    Run Keyword If    '${RB}'=='True'    check bet list    ${excel file}    Racing Running
+    Run Keyword If    '${NG}'=='True'    check bet list    ${excel file}    Number Game Running
+    Run Keyword If    '${BA}'=='True'    check bet list    ${excel file}    BA Running
+    Run Keyword If    '${LC}'=='True'    check bet list    ${excel file}    Live Casino Running
+    Run Keyword If    '${VS}'=='True'    check bet list    ${excel file}    Virtual Sports Running
+    Run Keyword If    '${CS}'=='True'    check bet list    ${excel file}    RNG Casino Running
+    Run Keyword If    '${KN}'=='True'    check bet list    ${excel file}    Keno Running
+
 get Total values in report
     [Arguments]    ${report_name}    ${product}
     [Documentation]    This action is used to get Toal values in each report

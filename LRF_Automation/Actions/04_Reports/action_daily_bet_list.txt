@@ -3,6 +3,7 @@ Library           Selenium2Library
 Resource          ../01_Main_Actions/action_main.txt
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../../Interfaces/04_Reports/interface_daily_bet_list.txt
+Resource          action_general_reports.txt
 
 *** Keywords ***
 submit filters for daily bet list
