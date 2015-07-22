@@ -18,8 +18,8 @@ submit filters for customer pending funds
     Run Keyword If    '${licensee type}'!='None' and '${ac_type_status}'=='True'    Select From List By Label    ${type_listbox}    ${licensee type}
     Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
-    Click Element    ${submit_button}
-    Unselect Frame
     # select products
     select products filter    \    main    None    ${product}
+    Click Element    ${submit_button}
+    Unselect Frame
     wait page load
