@@ -18,13 +18,13 @@ config
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    ff
-    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
+    Set Suite Variable    ${cf_url}    https://internal.amazzu.com/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-    Set Suite Variable    ${cf_username}    autqc
+    Set Suite Variable    ${cf_username}    autQC
     Set Suite Variable    ${cf_password}    1234aa
     Set Suite Variable    ${cf_username1}    autoQC1
     Set Suite Variable    ${cf_password1}    1234aa
@@ -63,6 +63,8 @@ config local
     Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V3/
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
+    Set Suite Variable    ${cf_running_match_id}    71000100
+    Set Suite Variable    ${cf_running_outright_match_id}    71000101
 
 login
     [Arguments]    ${username}    ${password}
