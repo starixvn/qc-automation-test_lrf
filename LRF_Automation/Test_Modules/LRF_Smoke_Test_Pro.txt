@@ -1593,6 +1593,40 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
     # VP. check export excel
     check export excel function    \    main    None    GoldDeluxeWinLoss.xls
 
+TM_47_ST_Reports_MaCau Win Loss
+    #1. Define test data
+    ${tm_current_month}    Get Time    return month
+    ${tm_month}    Evaluate    int(${tm_current_month}) - 1
+    ${tm_current_year}    Get Time    return year
+    ${tm_year}    Evaluate    int(${tm_current_year})
+    select licensee    12Bet
+    # 2. Navigate to REPORTS > AG Gold Deluxe Win Loss
+    navigate left menu    REPORTS    Macau Win Loss
+    submit filters for macau win loss    ${tm_year}    ${tm_month}    1    28    ALL    Yes
+    ...    Daily
+    take applications screenshot    Product    TM_47_ST_Reports_MaCau Win Loss.jpg
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. check element on report
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    MCWinLoss*.xls
+    # 4. Click Currency link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    take applications screenshot    Product    TM_47_ST_Reports_MaCau Win Loss_licensee_drilldown.jpg
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    MCWinLoss*.xls
+    # 5. Click Licensee Link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    take applications screenshot    Product    TM_47_ST_Reports_MaCau Win Loss_customer_drilldown.jpg
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    CI
     ${from}=    Get Time    \    Now - 7d

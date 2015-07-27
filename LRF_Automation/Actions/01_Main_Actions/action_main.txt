@@ -229,6 +229,26 @@ select date range
     # click OK button
     Click Element    ${ok_button_of_from_to_calendar}
 
+select date range by month
+    [Arguments]    ${year}=None    ${month}=None    ${from date}=None    ${to date}=None
+    [Documentation]    This action is used to select date range in Month-From-To calendar.
+    ...
+    ...    Example: select date range by month | 2015 | 6 | 1 | 30 |
+    # Click on Month dropdow list
+    Run Keyword if    ${year}!=None    Click Element    css=span.selectedMonth
+    # Check specified year is selected or not. If this year is not selected, click on it
+    ${ac_attribute}=    Get Element Attribute    xpath=//div[@class='monPickrDropDown']//a[@year='${year}']@class
+    ${ac_year_selected_status}    Run Keyword And Return Status    Should Contain    ${ac_attribute}    selected
+    Run Keyword If    '${ac_year_selected_status}' == 'False'    Click Element    xpath=//div[@class='monPickrDropDown']//a[@year='${year}']
+    # Click on month
+    Click Element    xpath=//div[@class='monPickrDropDown']//li[@year='${year}']//a[@month='${month}']
+    # Select from date
+    Run Keyword If    ${from date} != None    Click Element    id=MonthPickerFromDay
+    Run Keyword If    ${from date} != None    Click Element    xpath=//div[@id='MonthPickerFromDay']/following-sibling::div//a[contains(text(),'${from date}')]
+    # Select to date
+    Run Keyword If    ${to date} != None    Click Element    id=MonthPickerToDay
+    Run Keyword If    ${to date} != None    Click Element    xpath=//div[@id='MonthPickerToDay']/following-sibling::div//a[contains(text(),'${to date}')]
+
 select specific date
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${date}
     [Documentation]    This action is used to select date of single calendar.
