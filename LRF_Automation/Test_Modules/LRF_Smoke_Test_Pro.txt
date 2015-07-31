@@ -61,6 +61,7 @@ Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
 Resource          ../Actions/04_Reports/action_gold_deluxe_win_loss.txt
+Resource          ../Actions/04_Reports/action_macau_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
