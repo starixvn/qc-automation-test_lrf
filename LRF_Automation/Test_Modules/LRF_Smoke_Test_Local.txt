@@ -58,6 +58,7 @@ Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehou
 Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -566,6 +567,23 @@ TM_36_ST_Reports_Win Loss By Leagues
     check special case when no info available    \    main    None
     # Post-Condition
     select licensee    12Bet
+
+TM_49_ST_Reports_Microgaming Win Loss
+    select licensee    12Bet
+    # 1. Navigate to Microgaming Win Loss report
+    navigate left menu    REPORTS    Microgaming Win Loss
+    # 2. Submit filters
+    ${fromDate}=    Get Time    \    NOW - 30d
+    ${toDate}=    Get Time    \    NOW - 1d
+    submit_filters_for_microgaming_win_loss    ${fromDate}    ${toDate}    ALL    No    Monthly
+    wait page load
+    take applications screenshot    Local    TM_49_ST_Reports_Microgaming_WinLoss.jpg
+    #VP: Verify that data should display properly
+    check special case when no info available    \    main    None
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    MGCWinloss_*.xls
 
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    Complete

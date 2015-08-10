@@ -62,6 +62,17 @@ Resource          ../Actions/06_Customer_Information/action_customer_group_list.
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
 Resource          ../Actions/04_Reports/action_gold_deluxe_win_loss.txt
 Resource          ../Actions/04_Reports/action_macau_win_loss.txt
+Resource          ../Actions/06_Customer_Information/action_bet_settings.txt
+Resource          ../Actions/02_Total_Bets/action_moneyline.txt
+Resource          ../Interfaces/02_Total_Bets/interface_oddeven_1x2_dnd.txt
+Resource          ../Interfaces/02_Total_Bets/interface_total_goal.txt
+Resource          ../Interfaces/02_Total_Bets/interface_outright.txt
+Resource          ../Interfaces/02_Total_Bets/interface_ht_ft.txt
+Resource          ../Interfaces/02_Total_Bets/interface_fg_lg.txt
+Resource          ../Interfaces/02_Total_Bets/interface_home_draw_away_no_bet.txt
+Resource          ../Interfaces/02_Total_Bets/interface_racing.txt
+Resource          ../Interfaces/02_Total_Bets/interface_number_game.txt
+Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1656,6 +1667,23 @@ TM_47_ST_Reports_MaCau Win Loss
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
 
+TM_49_ST_Reports_Microgaming Win Loss
+    select licensee    spondemo
+    # 1. Navigate to Microgaming Win Loss report
+    navigate left menu    REPORTS    Microgaming Win Loss
+    # 2. Submit filters
+    ${fromDate}=    Get Time    \    NOW - 30d
+    ${toDate}=    Get Time    \    NOW - 1d
+    submit_filters_for_microgaming_win_loss    ${fromDate}    ${toDate}    ALL    No    Monthly
+    wait page load
+    take applications screenshot    Local    TM_49_ST_Reports_Microgaming_WinLoss.jpg
+    #VP: Verify that data should display properly
+    check special case when no info available    \    main    None
+    #VP Check report
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    MGCWinloss_*.xls
+
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    CI
     ${from}=    Get Time    \    Now - 7d
@@ -2529,3 +2557,115 @@ TM_45_ST_CustomerInformation_Commission Group List
     delete commission group    ${tm_last_row}    keep comm
     # VP. Group is deleted successfully
     check group name existence    ${tm_group_edit}    not exist
+
+TM_48_ST_TotalBets_Total Row of Submenus and Bet list
+    select licensee    12Bet
+    # 1. Check Total Row for HANDICAP/OVER UNDER LIVE
+    # Navigate to Total Bets > Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    submit filters for totalbets    75 sec    normal    CNY    USD
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Full Time-Handicap displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_handicap}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Full Time-Over/Under displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_overunder}    ${report_table_totalbets}    6
+    # VP: Verify that total stake of Half Time-Handicap displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_handicap}    ${report_table_totalbets}    8
+    # VP: Verify that total stake of Half Time-Over/Under displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_overunder}    ${report_table_totalbets}    10
+    # Check Total Row for MONEY LINE
+    navigate left menu    TOTAL BETS    Money Line
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Total Home- Money Line displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_moneyline}    ${report_table_totalbets}    6
+    # VP: Verify that total stake of Total Home- Money Line displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_moneyline}    ${report_table_totalbets}    10
+    # Check Total Row for Odd/Even + 1x2 + DND
+    navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Full Time - Odd Even displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_oddeven}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Full Time - 1x2 displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_1x2}    ${report_table_totalbets}    5
+    # VP: Verify that total stake of Full Time - DND displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_dnd}    ${report_table_totalbets}    7
+    # VP: Verify that total stake of Half Time - Odd Even displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_oddeven}    ${report_table_totalbets}    8
+    # VP: Verify that total stake of Half Time - Odd Even displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_1x2}    ${report_table_totalbets}    9
+    # Check Total Row for CORRECT SCORE
+    navigate left menu    TOTAL BETS    Correct Score
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    # 5. Check Total Row for TOTAL GOAL
+    navigate left menu    TOTAL BETS    Total Goal
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Full time - Total Goal displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_totalgoal}    ${report_table_totalbets}    2    team
+    # VP: Verify that total stake of Full time - Total Goal displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_totalgoal}    ${report_table_totalbets}    2    team
+    # 6. Check Total Row for MIX PARLAY
+    navigate left menu    TOTAL BETS    Mix Parlay
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Full time - Mix Parlay displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    # VP: Verify that total stake of Full time - Mix Parlay displays properly
+    click element on report    \    main    None    ${system_parlay_header_link}
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    #7. Check Total Row for OUTRIGHT
+    navigate left menu    TOTAL BETS    Outright
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_outright}    ${report_table_totalbets}    2    team
+    #8. Check Total Row for HT/FT
+    navigate left menu    TOTAL BETS    HT/FT
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_fulltime}    ${report_table_totalbets}    2    team
+    #9. Check Total Row for FG/LG
+    navigate left menu    TOTAL BETS    FG/LG
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of full time First Goal - Last Goal displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_fg_lg}    ${report_table_totalbets}    3    team
+    # VP: Verify that total stake of half time First Goal - Last Goal displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_fg_lg}    ${report_table_totalbets}    3    team
+    #10. Check Total Row for CLEAN SHEET
+    navigate left menu    TOTAL BETS    Clean Sheet
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Clean Sheet displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    #11. Check Total Row for DOUBLE CHANCE
+    navigate left menu    TOTAL BETS    Double Chance
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Double Chance displays properly
+    check total stake displays in betlist    \    main
+    #12. Check Total Row for HOME/DRAW/AWAY NO BET
+    navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Home No Bet displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_home_no_bet}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Draw No Bet displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_draw_no_bet}    ${report_table_totalbets}    5
+    # VP: Verify that total stake of Away No Bet displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_away_no_bet}    ${report_table_totalbets}    6
+    #13. Check Total Row for B/O/N TEAM TO SCORE
+    navigate left menu    TOTAL BETS    B/O/N team to score
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of B/O/N TEAM TO SCORE displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    #14. Check Total Row for TO WIN TO NIL
+    navigate left menu    TOTAL BETS    To win to nil
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of To win to nil \ displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    #15. Check Total Row for 3-WAY HANDICAP
+    navigate left menu    TOTAL BETS    3-Way Handicap
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of To win to nil displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    #16. Check Total Row for RACING
+    navigate left menu    TOTAL BETS    Racing
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    # VP: Verify that total stake of Racing displays properly
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_win_total}    ${report_table_totalbets}    4
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_place_total}    ${report_table_totalbets}    6
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_winplace_total}    ${report_table_totalbets}    8
