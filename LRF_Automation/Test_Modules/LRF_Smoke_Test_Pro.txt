@@ -1281,6 +1281,20 @@ TM_29_ST_Reports_Daily Bet List
     take applications screenshot    Product    TM_29_Reports_DailyBetList_Result.jpg
     #4. Close result pop-up
     click element on report    \    main    None    ${close_button_on_popup}
+    # 5. Submit to cover all products list
+    Select Window
+    Select Frame    main
+    @{ITEMS}    Get List Items    ${product_listbox_daily_bet_list}    \    \    \    ${EMPTY}
+    ...    \    RNG Casino    Keno
+    : FOR    ${index}    IN    @{ITEMS}
+    \    LOG    product list = ${index}
+    \    submit filters for daily bet list    ${day}    CNY    USD    ${index}    Lose
+    \    wait page load
+    \    Comment    # Special Case: If "No Information is available" text displays, we'll skip this product since there is no data
+    \    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    Continue For Loop If    '${ac_no_info_status}'=='True'
+    \    #VP Check betlist
+    \    check element on report    \    main    None    ${betlist_table}
 
 TM_30_ST_Reports_Live Report
     [Tags]    CI
@@ -1355,9 +1369,12 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     check element on report    \    main    None    ${div_table_live_report}
     # 4. Click products link on live report.
     # 4.1. Click product with no drill down on Sports Type
-    @{ITEMS}    Create List    Keno    Live Casino    RNG Casino
+    @{ITEMS}    Create List    Keno    Live Casino    RNG Casino    Microgaming
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
+    \    Comment    # Special Case: If the product is not available, we'll skip this product since there is no data
+    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${index}
+    \    Continue For Loop If    '${ac_no_product_link}'=='False'
     \    click product link    \    main    None    ${index}
     \    wait page load
     \    check sport table existed on live report
@@ -1365,6 +1382,9 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     @{ITEMS}    Create List    Number Game    Racing    Virtual Sports    Sportsbook
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
+    \    Comment    # Special Case: If the product is not available, we'll skip this product since there is no data
+    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${index}
+    \    Continue For Loop If    '${ac_no_product_link}'=='False'
     \    click sport link on live report with loop    ${index}
 
 TM_31_ST_Reports_Turnover
@@ -1573,7 +1593,7 @@ TM_36_ST_Reports_Win Loss By Leagues
 TM_46_ST_Reports_Gold Deluxe Win Loss
     ${from}=    Get Time    \    Now - 7d
     ${to}=    Get Time    \    Now - 12h
-    select licensee    spondemo
+    select licensee    12Bet
     # 1. Navigate to REPORTS > AG Gold Deluxe Win Loss
     navigate left menu    REPORTS    Gold Deluxe Win Loss
     submit filters for gold deluxe win loss report    ${from}    ${to}    None    No    Daily
@@ -1593,11 +1613,19 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    GoldDeluxeWinLoss.xls
+    # 4. Click SystemID link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    take applications screenshot    Product    TM_46_ST_Reports_Gold Deluxe Win Loss_Customer.jpg
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # VP. check export excel
+    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
 
 TM_47_ST_Reports_MaCau Win Loss
     #1. Define test data
     ${tm_current_month}    Get Time    return month
-    ${tm_month}    Evaluate    int(${tm_current_month}) - 1
+    ${tm_month}    Evaluate    int("${tm_current_month}") - 1
     ${tm_current_year}    Get Time    return year
     ${tm_year}    Evaluate    int(${tm_current_year})
     select licensee    12Bet
@@ -1859,10 +1887,10 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     # Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
     ...    All    None
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_1.jpg
     ######## Pre condition: Member must be OFF BA
     ## Check BA status
     ${isBA}    get ba status based on username    qatest04
-    run keyword if    '${isBA}'=='ON'    Should Be Byte String
     run keyword if    '${isBA}'=='ON'    change ba status based on username    qatest04    OFF
     ######## \ End Pre_condition
     # get group list
@@ -1871,6 +1899,7 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     # check status after update
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
     ...    All    None
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_2.jpg
     # get status after updated
     ${current_group}    ${list}    get odds group value
     # Check updated status as current status
@@ -1878,54 +1907,76 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     [Tags]
+    # Select licensee as spondemo
+    select licensee    spondemo
+    # Go to Customer list
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
     # 1. Submit filters to see "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
     ...    All    None
     # 2. Go to View > Bet Setting
     select customer option based on username    harmony    Bet Setting
-    # 3. Click Sportsbook tab
-    click element on report    \    main    BetSetting    ${sportsbook_tab_bet_setting}
-    # 4. Click Submit button and OK
-    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
-    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    # VP. Check user submits successfully
-    check element on report    \    main    BetSetting    ${successful_popup}
-    # 5. Click Racing tab
-    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
-    # 6. Click Reset button
+    # 3. Select Sportsbook from list
+    select product in bet setting    Sportsbook
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Sportsbook.jpg
+    # 4. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
-    # 7. Click Submit button and OK
+    # 5. Click Submit button and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    # 8. Click Number Game tab
-    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
-    # 9. Click Reset button
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 6. Select Racing from list
+    select product in bet setting    Racing
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Racing.jpg
+    # 7. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
-    # 10. Click Submit and OK
+    # 8. Click Submit button and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    # 11. Click Virtual Sports tab
-    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
-    # 12. Click Reset button
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 9. Select Number Game from list
+    select product in bet setting    Number Game
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_NumberGame.jpg
+    # 10. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
-    # 13. Click Submit and OK
+    # 11. Click Submit and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    # 14. Click Keno tab
-    click element on report    \    main    BetSetting    ${keno_tab_bet_setting}
-    # 15. Click Reset button
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 12. Select Virtual Sports from list
+    select product in bet setting    Virtual Sports
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_VirtualSports.jpg
+    # 13. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
-    # 16. Click Submit and OK
+    # 14. Click Submit and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 15. Select Keno from list
+    select product in bet setting    Keno
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Keno.jpg
+    # 16. Click Reset button
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    # 17. Click Submit and OK
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     # Select licensee as Athena000
@@ -1938,8 +1989,10 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     ...    All    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
-    # 3. Click Live Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
+    # 3. Select Live Casino from list
+    select product in bet setting    Live Casino
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_LiveCasino.jpg
     # 4. Update bet setting
     select livecasino checkbox    \    main    BetSetting    ${bet_setting_livecasino_update_option_1}
     # VP. Check user submits successfully
@@ -1947,96 +2000,83 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
     # Post condition
-    select customer option based on username    qatest04    Bet Setting
-    # 5. Click Live casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${Bet_setting1}=    Get Element Attribute    xpath=.//*[@id='bettingLimit_11']@data-stake-id
-    wait page load
-    # 6. Update bet setting
+    # 5. Update bet setting
     select livecasino checkbox    \    main    BetSetting    ${bet_setting_livecasino_update_option_2}
     # VP. Check user submits successfully
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    # Post condition
-    select customer option based on username    qatest04    Bet Setting
-    # 7. Click Live casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${Bet_setting2}=    Get Element Attribute    xpath=.//*[@id='bettingLimit_12']@data-stake-id
-    # 8. Update bet setting
+    # 6. Update bet setting
     select livecasino checkbox    \    main    BetSetting    ${bet_setting_livecasino_update_option_3}
-    # 9. Click Reset button
+    # 7. Click Reset button
     click element on report    \    main    BetSetting    ${reset_button_bet_setting}
     wait page load
     # VP. Check edit setting is changed successfully
     Should Not Be Equal    ${Bet_setting1}    ${Bet_setting2}
     # Update status
-    wait page load
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
-    # 10. Change status
+    # 8. Change status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
-    # 11. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 12. Click Live Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
-    wait page load
     # VP. Check Status is changed successfully
     Should Not Be Equal    ${status1_button}    ${status2_button}
-    # 13. Change status
+    # 9. Change status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
-    wait page load
-    # 14. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 15. Click Live Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_livecasino_tab}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
     # VP. Check Status is changed successfully
     Should Not Be Equal    ${status1_button}    ${status2_button}
     wait page load
-    # 16. Update bet setting again
+    # 10. Update bet setting again
     select livecasino checkbox    \    main    BetSetting    ${bet_setting_livecasino_update_option_1}
     # VP. Check user submits successfully
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
-    # Select licensee as Athena000
+    # Select licensee
     select licensee    spondemo
     # Go to Customer list
     navigate left menu    CUSTOMER INFORMATION    Customer List
     wait page load
-    # Search username as 'qatest04'
+    # 1. Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
     ...    All    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
+    # 3. Select RNG Casino from list
+    select product in bet setting    RNG Casino
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_RNG_Casino.jpg
     # Pre condition: Checkwhere user is enable or disable, if it is disable then enable (to change status, user must be enable before)
     ${status}    get status    \    main    BetSetting
     Run Keyword If    '${status}'=='Enable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    # 2. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
+    Run Keyword If    '${status}'=='Enable RNG Casino'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # Get returned value as current group and non selected group from action
     ${before_selected_list}    ${before_unselected_list}    get rng casino group    \    main    BetSetting
     # Checkwhether list is empty
@@ -2050,10 +2090,6 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     # update group included: select new value and unselect exsited selected status
     update bet setting    \    main    BetSetting    ${before_unselected}    ${before_selected}
     # Check data after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
-    # Check after updated
     # get selected status after update
     ${ischecked}    check status of checkbox    \    main    BetSetting    ${before_unselected}
     run key word if    '${before_unselected}'!='None'    should be true    ${ischecked}
@@ -2062,16 +2098,11 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     run key word if    '${before_selected}'!='None'    Should Not Be True    ${ischecked}
     # check Enable/Disable status
     # get status before update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
     ${before_status}    get status    \    main    BetSetting
     # Update status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # get status after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click RNG casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_rngcasino_tab}
     ${after_status}    get status    \    main    BetSetting
     # Verify status after updated
     Run Keyword If    '${before_status}'=='Enable RNG Casino'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
@@ -2095,8 +2126,10 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     ...    All    All
     # 4. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
-    # 5. Click Ag Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_agcasino_tab}
+    # 5. Select AG Casino from list
+    select product in bet setting    AG Casino
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_AgCasino.jpg
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
@@ -2104,27 +2137,24 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
-    # 7. Go to View > Bet Setting
-    select customer option based on username    testact1    Bet Setting
-    # 8. Click Ag Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_agcasino_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
     wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     # VP. Check Status is changed successfully
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
     # 9. Change status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
-    # 10. Go to View > Bet Setting
-    select customer option based on username    testact1    Bet Setting
-    # 11. Click Ag Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_agcasino_tab}
-    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     # VP. Check Status is changed successfully
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
     wait page load
@@ -2134,11 +2164,9 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     # 13. Click Submit and OK
     click element on report    \    main    BetSetting    ${submit_button_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    check element on report    \    main    BetSetting    ${successful_popup}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
-    # 14. Go to View > Bet Setting again
-    select customer option based on username    testact1    Bet Setting
-    # 15. Click AG Casino tab
-    click element on report    \    main    BetSetting    ${bet_setting_agcasino_tab}
+    wait page load
     # VP. Group Setting should be updated succesfully
     check selection of list on report    \    main    BetSetting    ${bet_setting_groups_listbox}    B
     # 16. Select Group C
@@ -2164,15 +2192,14 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     ...    All    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    # 3. Select Gold Deluxe from list
+    select product in bet setting    Gold Deluxe
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_GoldDeluxe.jpg
     # Pre condition: Checkwhere user is enable or disable, if it is disable then enable (to change status, user must be enable before)
     ${status}    get status    \    main    BetSetting
     Run Keyword If    '${status}'=='Enable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    # 2. Go to View > Bet Setting
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    Run Keyword If    '${status}'=='Enable Gold Deluxe'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # Get returned value as current group and non selected group from action
     ${current_group}    ${non_current_group}    get gold deluxe group    \    main    BetSetting
     # check selected value
@@ -2182,33 +2209,26 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # Check data after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
     # get current value
     ${current_group}    ${list}    get gold deluxe group    \    main    BetSetting
     # Checkwhether current value is updated value
     Should Contain    ${current_group}    @{non_current_group}[0]
     # check Enable/Disable status
     # get status before update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
     ${before_status}    get status    \    main    BetSetting
     # Update status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     # get status after update
-    select customer option based on username    qatest04    Bet Setting
-    # 3. Click Golde duluxe tab
-    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
     ${after_status}    get status    \    main    BetSetting
     # Verify status after updated
     Run Keyword If    '${before_status}'=='Enable'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
     ...    ${after_status}    Enable
     # 4. Check that initialize if user is disabled , he is enabled successfully
     Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
-    Run Keyword If    '${status}'=='Disable Gold Deluxe'    select customer option based on username    qatest04    Bet Setting
-    Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_gold_deluxe_tab}
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    check element on report    \    main    BetSetting    ${successful_popup}
+    Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     ${after2_status}    get status    \    main    BetSetting
     Run Keyword If    '${status}'=='Disable Gold Deluxe'    Should Contain    ${after2_status}    Disable
 
@@ -2223,8 +2243,10 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Macau
     ...    All    All
     # 4. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
-    # 5. Click Macau tab
-    click element on report    \    main    BetSetting    ${bet_setting_macau_tab}
+    # 5. Select Macau from list
+    select product in bet setting    Macau
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Macau.jpg
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
@@ -2232,29 +2254,127 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Macau
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
-    # 7. Go to View > Bet Setting
-    select customer option based on username    testact1    Bet Setting
-    # 8. Click Voidbridge tab
-    click element on report    \    main    BetSetting    ${bet_setting_macau_tab}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
     wait page load
     # VP. Check Status is changed successfully
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
-    # 9. Change status
+    # 7. Change status
     click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     # VP. Check user submits successfully
     check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     wait page load
-    # 10. Go to View > Bet Setting
-    select customer option based on username    testact1    Bet Setting
-    # 11. Click Voidbridge tab
-    click element on report    \    main    BetSetting    ${bet_setting_macau_tab}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is changed successfully
+    Should Be Equal    '${status1_button}'    '${status3_button}'
+
+TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Microgaming
+    # 1. Switch To spondemo licensee
+    select licensee    Athena000
+    # 2. Navigate to CUSTOMER INFORMATION > Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
     wait page load
+    # 3. Submit filters to see "testact1" testing account
+    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    ...    All    All
+    # 4. Go to View > Bet Setting
+    select customer option based on username    qatest01    Bet Setting
+    # 5. Select Microgaming from list
+    select product in bet setting    Microgaming
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Microgaming.jpg
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # 6. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
     # VP. Check Status is changed successfully
     Should Not Be Equal    '${status1_button}'    '${status2_button}'
+    # 7. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status1_button}'    '${status3_button}'
+    # 8. Reset button
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status4_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status3_button}'    '${status4_button}'
+
+TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_BetTrade
+    # 1. Switch To spondemo licensee
+    select licensee    Athena000
+    # 2. Navigate to CUSTOMER INFORMATION > Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
+    # 3. Submit filters to see "testact1" testing account
+    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    ...    All    All
+    # 4. Go to View > Bet Setting
+    select customer option based on username    qatest01    Bet Setting
+    # 5. Select BetTrade from list
+    select product in bet setting    Bet Trade
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_BetTrade.jpg
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # 6. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    '${status1_button}'    '${status2_button}'
+    # 7. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status1_button}'    '${status3_button}'
+    # 8. Reset button
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status4_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status3_button}'    '${status4_button}'
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]
@@ -2274,10 +2394,14 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     check selection of list on report    \    main    BetList    ${view_listbox}    Bet List
     # 3. Submit filters for betlist
     submit filters for betlist and statement    None    ${from}    ${to}    All
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetList.jpg
     # VP. Bet List existed
     check element on report    \    main    BetList    ${betlist_panel}
     # 4. Submit filters for Bet List (Running)
     submit filters for betlist and statement    betlistrunning    ${from}    ${to}    All
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetList_Running.jpg
     # VP. Bet List (Running) existed
     check element on report    \    main    BetList    ${betlist_panel}
     # work around: Go to another page and come back to clear cache
@@ -2289,6 +2413,8 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     ...    All    None
     # 6. Go to View > Statement
     select customer option based on username    harmony    Statement
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_Statement.jpg
     # VP. Statement page should display
     check selection of list on report    \    main    BetList    ${view_listbox}    Daily Statement
     # 7. Submit filters for statement
@@ -2299,6 +2425,8 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     click element on report    \    main    None    ${close_button_on_popup}
     # 9. Go to View > Log Info
     select customer option based on username    harmony    Log Info
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_LogInfo.jpg
     # VP. Log Info popup should display
     check element on report    \    main    None    ${log_info_table}
 
