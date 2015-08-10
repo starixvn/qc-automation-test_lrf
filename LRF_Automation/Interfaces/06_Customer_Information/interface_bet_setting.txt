@@ -89,3 +89,4 @@ ${virtual_speedway_max_per_match_textbox}    xpath=//*[@id='max-per-match-183'] 
 ${virtual_motorsports_max_per_match_textbox}    xpath=//*[@id='max-per-match-184']    # Virtual Motorsports Max Per Match textbox
 ${virtual_cycling_max_per_match_textbox}    xpath=//*[@id='max-per-match-185']    # Virtual Cycling Max Per Match textbox
 ${virtual_tennis_max_per_match_textbox}    xpath=//*[@id='max-per-match-186']    # Virtual Tennis Max Per Match textbox
+${enable_bet_setting_checkbox}    xpath=//input[@id='enable-product']    # Enable bet setting checkbox
