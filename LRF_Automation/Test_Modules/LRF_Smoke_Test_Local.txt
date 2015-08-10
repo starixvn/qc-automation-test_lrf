@@ -575,7 +575,7 @@ TM_49_ST_Reports_Microgaming Win Loss
     # 2. Submit filters
     ${fromDate}=    Get Time    \    NOW - 30d
     ${toDate}=    Get Time    \    NOW - 1d
-    submit_filters_for_microgaming_win_loss    ${fromDate}    ${toDate}    ALL    No    Monthly
+    submit filters for microgaming win loss    ${fromDate}    ${toDate}    ALL    No    Monthly
     wait page load
     take applications screenshot    Local    TM_49_ST_Reports_Microgaming_WinLoss.jpg
     #VP: Verify that data should display properly

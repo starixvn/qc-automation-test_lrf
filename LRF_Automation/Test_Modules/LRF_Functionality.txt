@@ -1,6 +1,6 @@
 *** Settings ***
 Suite Setup       config
-Suite Teardown
+Suite Teardown    Close Browser
 Test Teardown
 Library           Selenium2Library
 Library           OperatingSystem
@@ -269,6 +269,7 @@ TM_04_FUN_Compare data for Balance report
     should be true    '${livereport_racing_amt}'=='${balance_amt_racing}'
     should be true    '${livereport_total_licenseewl}'=='${balance_licenseewl}'
     should be true    '${livereport_total_customercomm}'=='${balance_customer_comm}'
+    select licensee    12Bet
 
 TM_05_FUN_Compare data for AG Casino report with API
     [Documentation]    Purpose: Compare data AG WL report with API
