@@ -470,6 +470,7 @@ check status of checkbox
 
 get data of member in Statement report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${d}    ${m}    ${yyyy}
+    [Documentation]    24062015: fix to get data for bonus column
     ${ac_index1}    ${date1}    get index of from date    \    main    BetList    ${d}
     ...    ${m}    ${yyyy}
     ${ac_index2}    ${date2}    Run Keyword If    '${ac_index1}'=='None'    get index before from date    \    main
@@ -537,8 +538,10 @@ get data of member in Statement report
     \    ${customercomm}    Run Keyword If    '${isCustomerComm}'=='True' and '${temp_customercomm}'!='None' and '${customercomm}'!='None'    Evaluate    ${customercomm}+${temp_customercomm}    ELSE
     \    ...    Set Variable    ${customercomm}
     \    ${isBonus}    Run Keyword And Return Status    Page Should Contain Element    xpath=//*[@id='${i}']/td[contains(@title,'DBON - ')]/following::td[1]
-    \    ${temp_bonus}    Run Keyword If    '${isBonus}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'DBON - ')]/following::td[1]    ELSE
+    \    ${temp_bonus}    Run Keyword If    '${isBonus}'=='True'    get text    xpath=//*[@id='${i}']/td[contains(@title,'DBON - ')]/following::td[2]    ELSE
     \    ...    Set Variable    0
+    \    ${temp_bonus}    Run Keyword If    '${isBonus}'=='True' and '${temp_bonus}'!='None' and '${temp_bonus}' >= 1000    remove string    ${temp_bonus}    ,
+    \    ...    ELSE    Set Variable    0
     \    ${bonus}    Run Keyword If    '${isBonus}'=='True' and '${temp_bonus}'!='None' and '${bonus}'!='None'    Evaluate    ${bonus}+${temp_bonus}    ELSE
     \    ...    Set Variable    ${bonus}
     ${closing_balance}    get text    xpath=//*[@id='${ac_totalrows}']/td[7]
@@ -554,6 +557,7 @@ get data of member in Statement report
     ${customercomm}    remove decimal part    ${customercomm}
     ${closing_balance}    remove decimal part    ${closing_balance}
     ${opening_balance}    remove decimal part    ${opening_balance}
+    ${bonus}    remove decimal part    ${bonus}
     [Return]    ${opening_balance}    ${deposit}    ${withdrawal}    ${turnover}    ${pending_funds}    ${customerwl}
     ...    ${customercomm}    ${closing_balance}    ${bonus}
 
