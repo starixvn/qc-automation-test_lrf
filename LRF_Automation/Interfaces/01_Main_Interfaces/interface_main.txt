@@ -31,3 +31,4 @@ ${delete_button_popup}    xpath=//button/span[text()='Delete']    # Delete butto
 ${cancel_button_popup}    xpath=//button/span[text()='Cancel']    # Cancel button of popup
 ${ok_button_popup}    xpath=//button/span[text()='OK']    # OK button of the popup
 ${save_button_popup}    xpath=//button/span[text()='Save']    # Save button of the popup
+${total_stake_of_TotalBets_betlist}    css=table.ui-jqgrid-ftable td[aria-describedby='BetListGrid_Stake']    # Total row value of betlist
