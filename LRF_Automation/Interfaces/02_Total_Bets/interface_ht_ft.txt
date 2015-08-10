@@ -1,0 +1,2 @@
+*** Variables ***
+${total_row_halftime_fulltime}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Value of total row of half time/full time

@@ -1,2 +1,6 @@
 *** Variables ***
 ${match_table_bodog}    xpath=//div[@id='content-area-3']/table[@class='report-table']    # Match table after drilling down in Bodog licensee
+${total_row_fulltime_handicap}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Total stake of full time handicap
+${total_row_fulltime_overunder}    xpath=//div[@class='footer-content']//td[@class='score-value'][3]    # Total stake of full time over under
+${total_row_halftime_handicap}    xpath=//div[@class='footer-content']//td[@class='score-value'][4]    # Total stake of half time handicap
+${total_row_halftime_overunder}    xpath=//div[@class='footer-content']//td[@class='score-value'][5]    # Total stake of half time over under
