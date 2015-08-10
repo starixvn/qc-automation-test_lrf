@@ -734,7 +734,7 @@ click product link
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
     [Documentation]    This action is used to check and click *one* product link if it's available.
     ...
-    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'*
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'* or *'Microgaming'*
     ...
     ...    Example:
     ...
@@ -749,6 +749,7 @@ click product link
     ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
+    ${MGC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
     Run Keyword If    '${SB}'=='True'    Click Element    xpath=//*[contains(text(),'Sportsbook')]
     Run Keyword If    '${RB}'=='True'    Click Element    xpath=//*[contains(text(),'Racing')]
     Run Keyword If    '${NG}'=='True'    Click Element    xpath=//*[contains(text(),'Number Game')]
@@ -756,6 +757,7 @@ click product link
     Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'Virtual Sports')]
     Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'RNG Casino')]
     Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'Keno')]
+    Run Keyword If    '${MGC}'=='True'    Click Element    xpath=//*[contains(text(),'Microgaming')]
 
 select date on picker
     [Arguments]    ${date}
