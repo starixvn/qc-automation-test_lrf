@@ -73,6 +73,7 @@ Resource          ../Interfaces/02_Total_Bets/interface_home_draw_away_no_bet.tx
 Resource          ../Interfaces/02_Total_Bets/interface_racing.txt
 Resource          ../Interfaces/02_Total_Bets/interface_number_game.txt
 Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
+Resource          ../Interfaces/02_Total_Bets/interface_moneyline.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1407,8 +1408,7 @@ TM_29_ST_Reports_Daily Bet List
     # 5. Submit to cover all products list
     Select Window
     Select Frame    main
-    @{ITEMS}    Get List Items    ${product_listbox_daily_bet_list}    \    \    \    ${EMPTY}
-    ...    \    RNG Casino    Keno
+    @{ITEMS}    Get List Items    ${product_listbox_daily_bet_list}
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
     \    submit filters for daily bet list    ${day}    CNY    USD    ${index}    Lose
