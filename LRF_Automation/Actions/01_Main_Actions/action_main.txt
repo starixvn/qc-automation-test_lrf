@@ -56,12 +56,12 @@ config local
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
     # Set Global Variables for Checking Bet List
-    ${cf_from_betlist}    Get Time    \    Now-12h
-    ${cf_to_betlist}    Get Time    \    Now-12h
+    ${cf_from_betlist}    Get Time    \    Now-10h
+    ${cf_to_betlist}    Get Time    \    Now-10h
     Set Suite Variable    ${cf_from_betlist}    ${cf_from_betlist}
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
     Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V3/
-    Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
+    Set Suite Variable    ${cf_betlist_product}    Sportsbook
     Set Suite Variable    ${cf_betlist_user}    iceEW
     Set Suite Variable    ${cf_running_match_id}    71000100
     Set Suite Variable    ${cf_running_outright_match_id}    71000101
@@ -327,6 +327,7 @@ select listbox by value on report
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Wait Until Element Is Visible    ${listbox}    10s
     Select From List By Value    ${listbox}    ${value}
     Unselect Frame
 
