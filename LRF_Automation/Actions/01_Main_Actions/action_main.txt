@@ -25,11 +25,11 @@ config
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
     Set Suite Variable    ${cf_username}    autQC
-    Set Suite Variable    ${cf_password}    1234aa
+    Set Suite Variable    ${cf_password}    123QWEasd
     Set Suite Variable    ${cf_username1}    autoQC1
-    Set Suite Variable    ${cf_password1}    1234aa
+    Set Suite Variable    ${cf_password1}    123QWEasd
     Set Suite Variable    ${cf_username2}    autoQC1
-    Set Suite Variable    ${cf_password2}    1234aa
+    Set Suite Variable    ${cf_password2}    123QWEasd
     Set Suite Variable    ${cf_licensee}    12Bet
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
