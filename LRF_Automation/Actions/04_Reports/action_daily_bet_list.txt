@@ -59,6 +59,7 @@ check bet list in daily bet list for selected products
     ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
+    ${MG}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming
     Run Keyword If    '${SB}'=='True'    check bet list in daily bet list    ${date}    Sportsbook    ${excel file}    ${status}
     Run Keyword If    '${RB}'=='True'    check bet list in daily bet list    ${date}    Racing    ${excel file}    ${status}
     Run Keyword If    '${NG}'=='True'    check bet list in daily bet list    ${date}    Number Game    ${excel file}    ${status}
@@ -67,6 +68,7 @@ check bet list in daily bet list for selected products
     Run Keyword If    '${VS}'=='True'    check bet list in daily bet list    ${date}    Virtual Sports    ${excel file}    ${status}
     Run Keyword If    '${CS}'=='True'    check bet list in daily bet list    ${date}    RNG Casino    ${excel file}    ${status}
     Run Keyword If    '${KN}'=='True'    check bet list in daily bet list    ${date}    Keno    ${excel file}    ${status}
+    Run Keyword If    '${MG}'=='True'    check bet list in daily bet list    ${date}    Microgaming    ${excel file}    ${status}
 
 check bet list in daily bet list based on status
     [Arguments]    ${excel file}    ${sheet}    ${status}
@@ -83,4 +85,21 @@ check bet list in daily bet list based on status
     \    ${ac_result_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${ac_index}
     \    ${ac_flag_check}    Run Keyword And Return Status    Should Be Equal    ${ac_result_excel}    ${status}
     \    Run Keyword If    '${ac_flag_check}'=='True'    check settled ticket data    ${sheet}    ${ac_index}
+    Set Selenium Speed    ${cf_speed}
+
+check microgaming bet list in daily bet list based on status
+    [Arguments]    ${excel file}    ${sheet}    ${status}
+    [Documentation]    This action is used to check all tickets in the bet list.
+    ...
+    ...    Ex:
+    ...
+    ...    check bet list | Test_Data.xls | Sportsbook | Lose
+    Open Excel Current Directory    ${excel file}
+    Set Selenium Speed    0.1
+    ${ac_totalrow_excel}    Get Row Count    ${sheet}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    \    Comment    Get result in Excel File
+    \    ${ac_result_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${ac_index}
+    \    ${ac_flag_check}    Run Keyword And Return Status    Should Be Equal    ${ac_result_excel}    ${status}
+    \    Run Keyword If    '${ac_flag_check}'=='True'    check microgaming settled ticket data    ${sheet}    ${ac_index}
     Set Selenium Speed    ${cf_speed}

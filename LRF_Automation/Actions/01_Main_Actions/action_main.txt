@@ -305,6 +305,8 @@ select products filter
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
+    ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
+    ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
     Run Keyword If    '${product}'=='All'    Select Checkbox    id=ALLProducts
     Run Keyword If    '${product}'!='All'    Select Checkbox    id=ALLProducts
     Run Keyword If    '${product}'!='All'    Unselect Checkbox    id=ALLProducts
@@ -316,6 +318,7 @@ select products filter
     Run Keyword If    '${VS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='VS'][@type='checkbox']
     Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
     Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
+    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    xpath=//*[@data-product-code='MGC'][@type='checkbox']
 
 select listbox by value on report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${value}
@@ -327,8 +330,9 @@ select listbox by value on report
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    Wait Until Element Is Visible    ${listbox}    10s
-    Select From List By Value    ${listbox}    ${value}
+    ${listbox_existence}    Run Keyword And Return Status    Element Should Be Visible    xpath=//td/select[@class='ui-pg-selbox']
+    Run Keyword If    '${listbox_existence}'=='True'    Wait Until Element Is Visible    ${listbox}    10s
+    Run Keyword If    '${listbox_existence}'=='True'    Select From List By Value    ${listbox}    ${value}
     Unselect Frame
 
 unselect products filter
