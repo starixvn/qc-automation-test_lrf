@@ -330,7 +330,7 @@ select listbox by value on report
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    ${listbox_existence}    Run Keyword And Return Status    Element Should Be Visible    xpath=//td/select[@class='ui-pg-selbox']
+    ${listbox_existence}    Run Keyword And Return Status    Element Should Be Visible    ${listbox}
     Run Keyword If    '${listbox_existence}'=='True'    Wait Until Element Is Visible    ${listbox}    10s
     Run Keyword If    '${listbox_existence}'=='True'    Select From List By Value    ${listbox}    ${value}
     Unselect Frame
