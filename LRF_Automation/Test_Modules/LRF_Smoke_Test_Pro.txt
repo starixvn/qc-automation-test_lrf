@@ -74,6 +74,7 @@ Resource          ../Interfaces/02_Total_Bets/interface_racing.txt
 Resource          ../Interfaces/02_Total_Bets/interface_number_game.txt
 Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 Resource          ../Interfaces/02_Total_Bets/interface_moneyline.txt
+Resource          ../Actions/05_Customer_Reports/action_active_customer_summary.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -85,6 +86,8 @@ TM_00_ST_Start web
     login    ${cf_username}    ${cf_password}
     # 3. Select licensee
     select licensee after login    ${cf_licensee}
+    # VP. Check Time Zone
+    check time zone
 
 TM_01_01_ST_TotalBets_Handicap
     [Tags]    CI
@@ -1803,6 +1806,8 @@ TM_37_ST_CustomerReports_Customer Win Loss
     select licensee    12Bet
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    # VP. Check user guide
+    check user guide popup
     # 2. Submit filters
     submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
     take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
@@ -1906,6 +1911,30 @@ TM_40_ST_CustomerReports_Customer Turnover
     click element on report    \    main    None    ${bettype_listbox_customer_turnover}
     # VP. Bettype listbox should remove bettype of Number Game
     check checkbox existence    \    main    None    NG -    not exist
+
+TM_50_ST_CustomerReports_Active Customer Summary
+    [Tags]    CI
+    ${from}=    Get Time    \    Now - 7d
+    ${to}=    Get Time    \    Now - 1d
+    # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
+    navigate left menu    CUSTOMER REPORTS    Active Customer Summary
+    # VP. Check user guide
+    check user guide popup
+    # 2. Submit filters
+    submit filters for active customer summary    ${from}    ${to}    ALL    All
+    take applications screenshot    Product    TM_50_Reports_ActiveCustomerSummary.jpg
+    # VP. Check data table
+    check element on report    \    main    None    ${report_table_customer_reports}
+    # VP. Check Exporting Excel
+    check export excel function    \    main    None    ActiveCustomerSummary.xls
+    ######
+    # 2. Submit filters
+    submit filters for active customer summary    ${from}    ${to}    USD    Sportsbook, AG Casino, Number Game
+    take applications screenshot    Product    TM_50_Reports_ActiveCustomerSummary2.jpg
+    # VP. Check data table
+    check element on report    \    main    None    ${report_table_customer_reports}
+    # VP. Check Exporting Excel
+    check export excel function    \    main    None    ActiveCustomerSummary.xls
 
 TM_41_ST_DataWarehouse_Win Loss
     [Tags]    CI

@@ -307,6 +307,7 @@ select products filter
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
     ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
     ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
+    ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
     Run Keyword If    '${product}'=='All'    Select Checkbox    id=ALLProducts
     Run Keyword If    '${product}'!='All'    Select Checkbox    id=ALLProducts
     Run Keyword If    '${product}'!='All'    Unselect Checkbox    id=ALLProducts
@@ -319,6 +320,7 @@ select products filter
     Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
     Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
     Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    xpath=//*[@data-product-code='MGC'][@type='checkbox']
+    Run Keyword If    '${AGC}'=='True'    Select Checkbox    xpath=//*[@data-product-code='AGC'][@type='checkbox']
 
 select listbox by value on report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${value}
@@ -576,6 +578,22 @@ check table header existence
     # Check header's existence
     Run Keyword If    '${state}'=='exist'    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[contains(text(),'${header title}')]
     Run Keyword If    '${state}'=='not exist'    Element Should Not Be Visible    ${table}/tbody/tr[${row}]/td[contains(text(),'${header title}')]
+    Unselect Frame
+
+check time zone
+    [Arguments]    ${time zone}=-4
+    [Documentation]    [HotFix #43173] This action is used to verify time zone of LRF system. Default is *GMT-4*.
+    ...
+    ...    Example:
+    ...
+    ...    check time zone
+    ...
+    ...    check time zone | -4
+    Select Window
+    Select Frame    header
+    ${ac_time_zone_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@id='current-time'][contains(string(),'${time zone}')]
+    Run Keyword If    '${ac_time_zone_status}'=='True'    Pass Execution    Time zone of LRF system is GMT${time zone}
+    Run Keyword If    '${ac_time_zone_status}'=='False'    Fail    Time zone of LRF system is not GMT${time zone}
     Unselect Frame
 
 check result popup exist
