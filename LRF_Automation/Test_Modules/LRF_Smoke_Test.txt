@@ -573,6 +573,9 @@ TM_36_ST_Reports_Win Loss By Leagues
     submit filters for win loss by leagues    None    None    None    None    ALL    USD
     ...    1    0    0    0    All    All
     take applications screenshot    Product    TM_36_Reports_WinLossByLeagues.jpg
+    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check data table
     check element on report    \    main    None    ${report_table_reports}
     # Post-Condition
