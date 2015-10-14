@@ -1495,7 +1495,7 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     check element on report    \    main    None    ${div_table_live_report}
     # 4. Click products link on live report.
     # 4.1. Click product with no drill down on Sports Type
-    @{ITEMS}    Create List    Keno    Live Casino    RNG Casino    Microgaming
+    @{ITEMS}    Create List    Keno    Live Casino    RNG Casino
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
     \    Comment    # Special Case: If the product is not available, we'll skip this product since there is no data
