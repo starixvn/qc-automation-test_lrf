@@ -288,29 +288,6 @@ TM_15_ST_TotalBets_3way Handicap
     # VP. Check User Guide popup exists
     check user guide popup
 
-TM_16_ST_TotalBets_Racing
-    [Tags]    Complete
-    # 1. Navigate to TOTAL BETS > Racing
-    navigate left menu    TOTAL BETS    Racing
-    # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    None
-    take applications screenshot    Local    TM_16_TotalBets_Racing.jpg
-    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # VP. Check User Guide popup exists
-    check user guide popup
-
-TM_17_ST_TotalBets_Number Game
-    [Tags]    Complete
-    # 1. Navigate to TOTAL BETS > Number Game
-    navigate left menu    TOTAL BETS    Number Game
-    # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    ALL    None
-    take applications screenshot    Local    TM_17_TotalBets_NumberGame.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
-
 TM_18_01_ST_Forecast_Handicap
     [Tags]    Complete
     # work around
