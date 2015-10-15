@@ -1,0 +1,3 @@
+*** Variables ***
+${div_report_table_customer_reports}    xpath=//*[@id='data-content']    # Div report table of Customer Reports pages
+${report_table_customer_reports}    xpath=//table[@id='ReportGrid']    # Report table of Customer Reports pages

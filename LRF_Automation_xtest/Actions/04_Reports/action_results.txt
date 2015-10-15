@@ -1,0 +1,66 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_results.txt
+
+*** Keywords ***
+submit filters for results
+    [Arguments]    ${date}
+    [Documentation]    This action is used to submit filters for Results page
+    # select date
+    select specific date    \    main    None    ${date}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load
+
+select sport and league by index on results
+    [Arguments]    ${sport index}    ${league index}
+    [Documentation]    This action is used to select Sport and League in Results page based on the index of the values.
+    ...
+    ...    Example: select 1st Sport and 2nd League
+    ...
+    ...    select sport and league by index on results | 1 | 2
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${sport index}'!='None'    Select From List By Index    ${sport_listbox_results}    ${sport index}
+    wait page load
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_results}    ${league index}
+    wait page load
+
+submit filters for keno results
+    [Arguments]    ${category}    ${date}
+    [Documentation]    This action is used to submit filters for Keno Result page.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for keno results | Australia | None
+    Select Window    title=Keno Result
+    # select category
+    Select From List By Label    ${category_listbox_results}    ${category}
+    # click Search button
+    Click Element    ${search_button_results}
+    Sleep    5s
+    Wait Until Element Is Visible    ${keno_result_table}
+
+click result link of tennis match
+    [Arguments]    ${from row}    ${to row}
+    [Documentation]    This action is used to click result link of tennis match in Result report.
+    ...
+    ...    Example:
+    ...
+    ...    click result link of tennis match | 1 | 50
+    Select Window
+    Select Frame    main
+    Set Selenium Speed    0.2
+    # Find link in the range of columns. If existed, click on it
+    :FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
+    \    ${ac_link_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//table[@class='fn-rs ']/tbody/tr[${ac_index}]/td[contains(@class,'cl-status')]/div/span[contains(@class,'tennis-detail-link')]
+    \    Run Keyword If    '${ac_link_status}'=='True'    Click Element    xpath=//table[@class='fn-rs ']/tbody/tr[${ac_index}]/td[contains(@class,'cl-status')]/div/span[contains(@class,'tennis-detail-link')]
+    \    Run Keyword If    '${ac_link_status}'=='True'    Set Selenium Speed    ${cf_speed}
+    \    Exit For Loop If    '${ac_link_status}'=='True'
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_link_status}'!='True'    Set Selenium Speed    ${cf_speed}
+    \    Run Keyword If    '${ac_index}'=='${to row}' and '${ac_link_status}'!='True'    Pass Execution    There is no link at this moment.
+    Unselect Frame

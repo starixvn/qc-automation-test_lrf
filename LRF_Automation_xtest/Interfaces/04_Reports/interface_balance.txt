@@ -1,0 +1,4 @@
+*** Variables ***
+${month_listbox_balance}    xpath=//*[@id='Month']    # Month listbox of Balance page
+${year_listbox_balance}    xpath=//*[@id='Year']    # Year listbox of Balance page
+${report_table_balance_information}    xpath=//div[@class='report-content'][1]/div[@class='data-content']    # Balance Information table of Balance page

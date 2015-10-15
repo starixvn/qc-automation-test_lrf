@@ -1,0 +1,44 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/04_Reports/interface_turnover.txt
+
+*** Keywords ***
+submit filters for mobile win loss
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${exclude test data}
+    ...    ${draw filter}    ${site}    ${product}
+    [Documentation]    This action is used to submit filters for Mobile Win Loss report.
+    ...
+    ...    ${exclude test data}= *'Yes'* or *'No'*
+    ...
+    ...    ${draw filter}= *'Normal'* or *'No Draws'* or *'No Draws For Turnover Only'*
+    ...
+    ...    ${site}= *'WAP'* or *'Smartphone'* or *'Others'*
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for mobile win loss | None | None | None | None | CNY | Yes | No Draws | Others | Sportsbook, BA
+    Select Window
+    Select Frame    main
+    # select Currency
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_turnover}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_test_data_checkbox_turnover}
+    # select Draw Filter
+    Run Keyword If    '${draw filter}'=='Normal'    Click Element    ${normal_radio_button_turnover}
+    Run Keyword If    '${draw filter}'=='No Draws'    Click Element    ${no_draws_radio_button_turnover}
+    Run Keyword If    '${draw filter}'=='No Draws For Turnover Only'    Click Element    ${no_draws_for_turnover_only_radio_button_turnover}
+    # select site
+    Run Keyword If    '${site}'=='WAP'    Click Element    ${wap_radio_button}
+    Run Keyword If    '${site}'=='Smartphone'    Click Element    ${smartphone_radio_button}
+    Run Keyword If    '${site}'=='Others'    Click Element    ${others_radio_button}
+    # select products
+    select products filter    \    main    None    ${product}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

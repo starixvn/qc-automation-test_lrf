@@ -1,0 +1,115 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/06_Customer_Information/interface_customer_group_list.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+create new commission group
+    [Arguments]    ${group name}    ${sb commission}    ${ng commission}    ${lc commission}    ${cs commission}
+    [Documentation]    This action is used to add new commission group.
+    ...
+    ...    Example:
+    ...
+    ...    create new commission group | grouptest | 1 | 2 | 3 | 4
+    Select Window
+    Select Frame    main
+    # click New Group button
+    Click Element    ${new_group_button}
+    # enter group name
+    Input Text    ${group_name_textbox}    ${group name}
+    Click Element    ${check_availability_button}
+    Sleep    1s
+    Element Should Be Visible    ${valid_icon}
+    # select commission for products
+    Select From List By Label    ${sportsbook_commission_listbox}    ${sb commission}
+    Select From List By Label    ${number_game_commission_listbox}    ${ng commission}
+    Select From List By Label    ${live_casino_commission_listbox}    ${lc commission}
+    Select From List By Label    ${rng_casino_commission_listbox}    ${cs commission}
+    # click create group button
+    Click Element    ${create_group_button}
+    Unselect Frame
+
+check group name existence
+    [Arguments]    ${group name}    ${status}
+    [Documentation]    This action is used to check group name existence.
+    ...
+    ...    ${status}= 'exist' or 'not exist'
+    ...
+    ...    Example:
+    ...
+    ...    check group name existence | testinggroup | exist
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${status}'=='exist'    Element Should Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
+    Run Keyword If    '${status}'=='not exist'    Element Should Not Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
+    Unselect Frame
+
+click group link
+    [Arguments]    ${group name}
+    [Documentation]    This action is used to click group link on the table.
+    ...
+    ...    Example:
+    ...
+    ...    click group link | candytest
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
+    Unselect Frame
+
+click edit group button
+    [Arguments]    ${row}    ${button}
+    [Documentation]    This action is used to click Edit or Delete button of commission group.
+    ...
+    ...    ${button}= 'Edit Group' or 'Delete Group'
+    ...
+    ...    Example:
+    ...
+    ...    click edit group button | 7 | Delete Group
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='data-content']/tr[${row}]/td/a[@title='${button}']
+    Unselect Frame
+
+get total rows in commission group list
+    [Documentation]    This action is used to get total rows in commission group list.
+    Select Window
+    Select Frame    main
+    ${output total row}=    Get Matching Xpath Count    xpath=//table[@class='report-table']/tbody/tr
+    Unselect Frame
+    [Return]    ${output total row}
+
+delete commission group
+    [Arguments]    ${row}    ${choice}
+    [Documentation]    This action is used to delete commission group.
+    ...
+    ...    ${choice}= 'keep comm' or 'clear comm'
+    ...
+    ...    Example:
+    ...
+    ...    delete commission group | 7 | keep comm
+    # Click Delete
+    click edit group button    ${row}    Delete Group
+    # Select choice
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${choice}'=='keep comm'    Click Element    ${keep_comm_radio_button}
+    Run Keyword If    '${choice}'=='clear comm'    Click Element    ${clear_comm_radio_button}
+    # click Delete button
+    Click Element    ${delete_button_delete_commission_group}
+    # Click OK on confirm popup
+    Click Element    ${ok_button_confirm_delete}
+    Unselect Frame
+    wait page load
+
+click no of customer link
+    [Arguments]    ${row}
+    [Documentation]    This action is used to click No. of Customer link.
+    ...
+    ...    Example:
+    ...
+    ...    click no of customer link | 7
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='data-content']/tr[${row}]/td[5]/div/span
+    Unselect Frame

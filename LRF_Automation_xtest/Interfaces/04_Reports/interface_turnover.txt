@@ -1,0 +1,3 @@
+*** Variables ***
+${exclude_test_data_checkbox_turnover}    xpath=//*[@id='IsExcludeTest']    # Exclude Test Data checkbox of Turnover page
+${username_textbox_turnover}    xpath=//*[@id='Username']    # Username textbox of Turnover page

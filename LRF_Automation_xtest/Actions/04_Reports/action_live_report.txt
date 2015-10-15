@@ -1,0 +1,263 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_live_report.txt
+Library           ExcelLibrary
+
+*** Keywords ***
+submit filters for live report
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${based}    ${live status}    ${special date}
+    [Documentation]    This action is used to submit filters for Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for live report | Dec-01-2014 | Dec-03-2014 | \ ALL | EUR | Live | None
+    # select date
+    Run Keyword If    '${from date}' !='None' and '${to date}' !='None' and '${special date}'=='None'    select date range    \    main    None    ${from date}
+    ...    ${to date}
+    Run Keyword If    '${from date}' =='None' and '${to date}' =='None'    select date on picker    ${special date}
+    # select currency, based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select live status
+    Select From List By Label    ${live_status_listbox}    ${live status}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button_live_report}
+    wait page load
+
+submit filters for history live report
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${based}
+    ...    ${live status}
+    [Documentation]    This action is used to submit filters for Live Report history report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for history live report | None | None | None | None | CNY | USD | Live
+    # select currency, based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # select live status
+    Select From List By Label    ${live_status_listbox}    ${live status}
+    Unselect Frame
+    # click Submit button
+    click element on report    \    main    None    ${submit_button_live_report}
+    wait page load
+
+click product link on live report
+    [Arguments]    ${product link}
+    [Documentation]    This action is used to click Summary link (Number Game, Sportsbook, Total, ...) on Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    click product link on live report | Total
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//a[@class='product-detail-link' and contains(text(),'${product link}')]
+    wait page load
+    Unselect Frame
+
+click sport link on live report
+    [Arguments]    ${sport link}
+    [Documentation]    This action is used to click By Sport Type link (Soccer, Basketball, Tennis ...) on Live Report report.
+    ...
+    ...    Example:
+    ...
+    ...    click sport link on live report | Soccer
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//a[@class='sport-detailt-link' and contains(text(),'${sport link}')]
+    wait page load
+    Unselect Frame
+
+click match link on live report
+    [Arguments]    ${index}
+    [Documentation]    This action is used to click match link of Live Report report based on index.
+    ...
+    ...    Example: click the link of 2nd match in the list
+    ...
+    ...    click match link on live report | 2
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//div[@class='data-content']/div[${index}]/div[1]/div/a[@class='match-detail-link']
+    wait page load
+    Unselect Frame
+
+check export excel function for live report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${checked file name}
+    [Documentation]    This action is used to check Export To Excel function.
+    ...
+    ...    Example: Check file 'RunningBetList.xls' existed after exporting sucessfully. And exporting file need 5 seconds to be saved.
+    ...
+    ...    check export excel function | ${window title} | ${main frame} | ${sub frame} | 5s | RunningBetList.xls
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Check to see Folder existed or not. If not, we'll create
+    create test directory    ${cf_export_dir}
+    # Click Export
+    Click Element    ${export_to_excel_button_live_report}
+    # Check file existed
+    wait for export file    ${cf_export_dir}${checked file name}
+    File Should Exist    ${cf_export_dir}${checked file name}
+    Empty Directory    ${cf_export_dir}
+    Unselect Frame
+
+check sport table existed on live report
+    [Documentation]    This action is used to check By Sport Type table (Soccer, Basketball, Tennis ...) on Live Report report is existed or not.
+    ...
+    ...    Example:
+    ...
+    ...    check sport table existed on live report
+    Select Window
+    Select Frame    main
+    ${sport_table_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(text(),'By Sports Type')]
+    Run Keyword If    '${sport_table_status}'!='True'    Fail    By Sport Type table does not exist. Please investigate the UI.
+    Unselect Frame
+
+click sport link on live report with loop
+    [Arguments]    ${product}
+    [Documentation]    This action is used to click *all* \ By Sport Type links (Soccer, Basketball, Tennis ...) on Live Report report. Only apply for products have drill down sports link.
+    ...
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Virtual Sports'*
+    ...
+    ...    Example:
+    ...
+    ...    click sport link on live report with loop | Sportsbook
+    : FOR    ${INDEX}    IN RANGE    1    50
+    \    click product link    \    main    None    ${product}
+    \    wait page load
+    \    check sport table existed on live report
+    \    Select Window
+    \    Select Frame    main
+    \    Comment    # Check if sport link exists, click link. If not, exit loop
+    \    ${sport_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']    #//div[@class='data-content']/div[@class='content-row'][2]/div[@class='row text-data'][1]/div/a[@class='sport-detailt-link']    #//div[@class='content-row'][2]/div[1]/div/a[@class='sport-detailt-link']
+    \    Run Keyword If    '${sport_status}'!='True'    Exit For Loop
+    \    ${a}=    Get Text    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']
+    \    LOG    select sport = ${a}
+    \    Click Element    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']
+    \    Comment    # Click Back button on bet list report
+    \    click element on report    \    main    None    ${back_button}
+    \    wait page load
+    \    Unselect Frame
+
+select bet list for other sports in live report
+    [Arguments]    ${product}    ${sport}    ${match}
+    # Click Product link
+    Wait Until Element Is Visible    xpath=//div/a[contains(text(),'${product}')]
+    Click Element    xpath=//div/a[contains(text(),'${product}')]
+    wait for loading
+    # Click Sport link
+    Wait Until Element Is Visible    xpath=//div[@id='detail-content']/div/div/div/div/a[contains(text(),'${sport}')]
+    Click Element    xpath=//div[@id='detail-content']/div/div/div/div/a[contains(text(),'${sport}')]
+    wait for loading
+    # Click Match link
+    Run Keyword If    '${match}'!='None'    Wait Until Element Is Visible    xpath=//div/a[contains(text(),'${match}')]
+    Run Keyword If    '${match}'!='None'    Click Element    xpath=//div/a[contains(text(),'${match}')]
+    # Select display 2000 tickets
+    wait for loading
+    Wait Until Element Is Visible    xpath=//td/select[@class='ui-pg-selbox']
+    Select From List By Value    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Sleep    3s
+
+go back to top page in live report
+    Click Element    ${back_button}
+    Sleep    3s
+    Click Element    ${back_button}
+    Sleep    3s
+
+check bet list in live report
+    [Arguments]    ${excel file}    ${sheet}
+    [Documentation]    check bet list in live report | Test_All.xls | Sportsbook
+    # Get 1st Sport on Excel and proceed to its link to initiate our checking
+    Open Excel Current Directory    ${excel file}
+    ${ac_1st_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    1
+    ${ac_1st_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    1
+    ${ac_1st_text_of_1st_match}    Fetch From Left    ${ac_1st_match_excel}    ${SPACE}
+    Run Keyword If    '${sheet}'=='Sportsbook'    select bet list for other sports in live report    ${sheet}    ${ac_1st_sport_excel}    ${ac_1st_text_of_1st_match}
+    Run Keyword If    '${sheet}'!='Sportsbook'    select bet list for other sports in live report    ${sheet}    ${ac_1st_sport_excel}    None
+    # Get Data and check
+    ${ac_totalrow_excel}    Get Row Count    ${sheet}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    \    Comment    Get Sport type in Excel. If Sport type changes, we have to click Back and proceed new Sport link
+    \    ${ac_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    ${ac_index}
+    \    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${ac_index}
+    \    ${ac_1st_text_of_match}    Fetch From Left    ${ac_match_excel}    ${SPACE}
+    \    Run Keyword If    ('${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'=='Sportsbook') or ('${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'=='Virtual Sports')    go back to top page in live report
+    \    Run Keyword If    '${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'!='Sportsbook' and '${sheet}'!='Virtual Sports'    Click Element    ${back_button}
+    \    Run Keyword If    ('${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'=='Sportsbook') or ('${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'=='Virtual Sports')    select bet list for other sports in live report    ${sheet}    ${ac_sport_excel}    ${ac_1st_text_of_match}
+    \    Run Keyword If    '${ac_sport_excel}'!='${ac_1st_sport_excel}' and '${sheet}'!='Sportsbook' and '${sheet}'!='Virtual Sports'    select bet list for other sports in live report    ${sheet}    ${ac_sport_excel}    None
+    \    ${ac_1st_sport_excel}=    Set Variable If    '${ac_sport_excel}'!='${ac_1st_sport_excel}'    ${ac_sport_excel}    '${ac_sport_excel}'=='${ac_1st_sport_excel}'    ${ac_1st_sport_excel}
+    \    Comment    Get REF NO from Excel
+    \    ${ac_ref_excel_float}    Read Cell Data By Coordinates    ${sheet}    0    ${ac_index}
+    \    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    \    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    \    Comment    Get Data (choice, bettype, ...) from excel
+    \    ${ac_choice_excel}    Read Cell Data By Coordinates    ${sheet}    1    ${ac_index}
+    \    ${ac_bettype_excel}    Read Cell Data By Coordinates    ${sheet}    3    ${ac_index}
+    \    ${ac_odds_excel}    Read Cell Data By Coordinates    ${sheet}    2    ${ac_index}
+    \    ${ac_odds_excel}    Convert To String    ${ac_odds_excel}
+    \    ${ac_league_excel}    Read Cell Data By Coordinates    ${sheet}    6    ${ac_index}
+    \    ${ac_league_excel}    Set Variable    ${ac_sport_excel}${ac_league_excel}
+    \    ${ac_color}    Read Cell Data By Coordinates    ${sheet}    7    ${ac_index}
+    \    ${ac_firstgoal}    Read Cell Data By Coordinates    ${sheet}    8    ${ac_index}
+    \    ${ac_lastgoal}    Read Cell Data By Coordinates    ${sheet}    9    ${ac_index}
+    \    ${ac_1hfirstgoal}    Read Cell Data By Coordinates    ${sheet}    10    ${ac_index}
+    \    ${ac_1hlastgoal}    Read Cell Data By Coordinates    ${sheet}    11    ${ac_index}
+    \    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${ac_index}
+    \    Comment    Get Data (choice, bettype, ...) from web
+    \    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span
+    \    ${ac_bettype}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[1]
+    \    ${ac_odds}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Odds')]/span[1]
+    \    ${ac_odds}    Convert To String    ${ac_odds}
+    \    ${ac_match}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='match']
+    \    ${ac_league}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    \    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    \    Comment    Remove space from string
+    \    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype_excel}    Replace String    ${ac_bettype_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype}    Replace String    ${ac_bettype}    ${SPACE}    ${EMPTY}
+    \    ${ac_match}    Replace String    ${ac_match}    ${SPACE}    ${EMPTY}
+    \    ${ac_match_excel}    Replace String    ${ac_match_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_league}    Replace String    ${ac_league}    ${SPACE}    ${EMPTY}
+    \    ${ac_league_excel}    Replace String    ${ac_league_excel}    ${SPACE}    ${EMPTY}
+    \    Comment    Check data
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_bettype_excel}    ${ac_bettype}    Bettype error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Contain    ${ac_odds_excel}    ${ac_odds}    Odds error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_match}    ${ac_match_excel}    Match error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_league}    ${ac_league_excel}    League error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword If    '${ac_color}'=='Red'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite']
+    \    Run Keyword If    '${ac_color}'=='Black'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='underdog']
+    \    Run Keyword If    '${ac_firstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+    \    Run Keyword If    '${ac_firstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+    Run Keyword If    '${sheet}'=='Sportsbook' or '${sheet}'=='Virtual Sports'    go back to top page in live report
+    Run Keyword If    '${sheet}'!='Sportsbook' and '${sheet}'!='Virtual Sports'    Click Element    ${back_button}
+
+check bet list in live report for selected products
+    [Arguments]    ${products}    ${excel file}
+    [Documentation]    check bet list in live report for selected products | Sportsbook, Number Game | Test.xls
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${products}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${products}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${products}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${products}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${products}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
+    Run Keyword If    '${SB}'=='True'    check bet list in live report    ${excel file}    Sportsbook
+    Run Keyword If    '${RB}'=='True'    check bet list in live report    ${excel file}    Racing
+    Run Keyword If    '${NG}'=='True'    check bet list in live report    ${excel file}    Number Game
+    Run Keyword If    '${VS}'=='True'    check bet list in live report    ${excel file}    Virtual Sports

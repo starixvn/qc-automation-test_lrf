@@ -1,0 +1,8 @@
+*** Variables ***
+${stake_from_textbox}    xpath=//*[@id='stake-from']    # Stake From textbox in Last Bets Monitoring page
+${stake_to_textbox}    xpath=//*[@id='stake-to']    # Stake To textbox in Last Bets Monitoring
+${show_hide_listbox_last_bets}    xpath=//*[@id='se-column']/span    # Show/hide listbox in Last Bets Monitoring page
+${last_bet_monitoring_table}    xpath=//table[@id='last-bets-monitoring']    # The table of Last Bet Monitoring page
+${freeze_button}    xpath=//*[@id='freeze-button' and @value='Freeze']    # Freeze button of Last Bets Monitoring page
+${unfreeze_button}    xpath=//*[@id='freeze-button' and @value='Unfreeze']    # Unfreeze button of Last Bets Monitoring page
+${submit_button_last_bets}    xpath=//*[@id='submit-button']    # Submit button of Last Bets Monitoring page

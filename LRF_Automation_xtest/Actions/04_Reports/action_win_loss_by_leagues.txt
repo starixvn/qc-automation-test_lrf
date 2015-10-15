@@ -1,0 +1,66 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+
+*** Keywords ***
+submit filters for win loss by leagues
+    [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${based}
+    ...    ${minimum odds}    ${sport index}    ${league index}    ${match index}    ${ticket filter}    ${product}
+    [Documentation]    This action is used to submit filter data for Win Loss By Leagues report.
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for win loss by leagues | None | None | None | None | CNY | EUR | 2 | Soccer | 1 | 1 | Win, Loss | Sportsbook
+    # select Currency-Based
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${currency}'!='None'    wait page load
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    # enter minimum odds
+    Run Keyword If    '${minimum odds}'!='None'    Input Text    ${minimum_odds_textbox}    ${minimum odds}
+    # select Sport
+    Run Keyword If    '${sport index}'!='None'    Select From List By Index    ${sport_listbox_wl_by_leagues}    ${sport index}
+    Run Keyword If    '${sport index}'!='None'    wait page load
+    # select League
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_wl_by_leagues}    ${league index}
+    Run Keyword If    '${league index}'!='None'    wait page load
+    # select Match
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${match index}'!='None'    Select From List By Index    ${match_listbox_wl_by_leagues}    ${match index}
+    # select products
+    select products filter    \    main    None    ${product}
+    # select ticket filters
+    select ticket filter    \    main    None    ${ticket filter}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load
+
+select ticket filter
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${ticket}
+    [Documentation]    This action is used to select ticket filter's checkboxes.
+    ...
+    ...    ${ticket}= *'All'* or *'Win, Loss, Draw'*
+    ...
+    ...    Example:
+    ...
+    ...    select ticket filter | All
+    ...
+    ...    select ticket filter | Win, Loss
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ac_win}=    Run Keyword And Return Status    Should Contain    ${ticket}    Win
+    ${ac_loss}=    Run Keyword And Return Status    Should Contain    ${ticket}    Loss
+    ${ac_draw}=    Run Keyword And Return Status    Should Contain    ${ticket}    Draw
+    Run Keyword If    '${ticket}'=='All'    Select Checkbox    ${all_ticket_checkbox}
+    Run Keyword If    '${ac_win}'=='True'    Select Checkbox    ${win_ticket_checkbox}
+    Run Keyword If    '${ac_loss}'=='True'    Select Checkbox    ${loss_ticket_checkbox}
+    Run Keyword If    '${ac_draw}'=='True'    Select Checkbox    ${draw_ticket_checkbox}

@@ -1,0 +1,25 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_general_reports.txt
+Resource          ../../Interfaces/04_Reports/interface_gold_deluxe_win_loss.txt
+
+*** Keywords ***
+submit filters for gold deluxe win loss report
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${exclude test data}    ${report by}
+    # select date
+    select date range    \    main    None    ${from date}    ${to date}
+    Select Window
+    Select Frame    main
+    # select Currency
+    # Click Element    ${month_picker}
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_checkbox}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_checkbox}
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # select Report By
+    Run Keyword If    '${report by}'=='Daily'    Click Element    ${report_by_daily_radio_button}
+    Run Keyword If    '${report by}'=='Monthly'    Click Element    ${report_by_monthly_radio_button}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

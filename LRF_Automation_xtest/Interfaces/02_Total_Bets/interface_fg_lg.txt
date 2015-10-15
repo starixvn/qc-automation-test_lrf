@@ -1,0 +1,3 @@
+*** Variables ***
+${total_row_fulltime_fg_lg}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Value of total row of full time first goal last goal
+${total_row_halftime_fg_lg}    xpath = //div[@class='footer-content']//td[@class='score-value'][3]    # Value of total row of half time first goal last goal

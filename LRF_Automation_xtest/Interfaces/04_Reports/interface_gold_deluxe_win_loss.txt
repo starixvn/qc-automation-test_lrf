@@ -1,0 +1,5 @@
+*** Variables ***
+${exclude_checkbox}    xpath=//*[@id='IsExcludedTestData']
+${report_by_daily_radio_button}    xpath=//*[@id='reportbydaily']    # Daily radio button
+${currency_list}    id=CurrencyId
+${report_by_monthly_radio_button}    xpath=//*[@id='reportbymonthly']    # Monthly radio button

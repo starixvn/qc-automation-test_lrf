@@ -1,0 +1,485 @@
+*** Settings ***
+Suite Setup       config local
+Suite Teardown
+Test Teardown
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Library           ExcelLibrary
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
+Resource          ../Actions/04_Reports/action_racing_commission.txt
+Resource          ../Actions/04_Reports/action_daily_racing_win_loss.txt
+Resource          ../Actions/04_Reports/action_cancelled_bets.txt
+Resource          ../Actions/04_Reports/action_daily_bet_list.txt
+Resource          ../Interfaces/04_Reports/interface_live_report.txt
+Resource          ../Actions/04_Reports/action_live_report.txt
+Resource          ../Actions/04_Reports/action_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_turnover.txt
+Resource          ../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_ag_casino_win_loss.txt
+Resource          ../Actions/04_Reports/action_results.txt
+Resource          ../Actions/04_Reports/action_balance.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_leagues.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_win_loss.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_win_loss.txt
+Resource          ../Actions/05_Customer_Reports/action_general_customer_reports.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
+Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
+Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+Resource          ../Actions/06_Customer_Information/action_customer_log.txt
+Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+
+*** Test Cases ***
+TM_RBL_NB_00_Start web
+    # 1. Open testing site
+    Open Browser    ${cf_url_betlist}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    # 2. Login with valid account
+    login    tester02    1234aa
+    # 3. Select licensee
+    select licensee after login    spondemo
+
+TM_RBL_NB_01_TotalBets_Handicap_OverUnder_Live
+    # Define Variables
+    ${tm_fulltime_handicap_bettype}    Set Variable    1
+    ${tm_1sthalf_handicap_bettype}    Set Variable    7
+    ${tm_fulltime_overunder_bettype}    Set Variable    3
+    ${tm_1sthalf_overunder_bettype}    Set Variable    8
+    ${tm_fulltime_handicap_bettype_list}    Create List    ${tm_fulltime_handicap_bettype}
+    ${tm_1sthalf_handicap_bettype_list}    Create List    ${tm_1sthalf_handicap_bettype}
+    ${tm_fulltime_overunder_bettype_list}    Create List    ${tm_fulltime_overunder_bettype}
+    ${tm_1sthalf_overunder_bettype_list}    Create List    ${tm_1sthalf_overunder_bettype}
+    # 1. Navigate to Total Bets > Handicap/OverUnder/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click on the link of FullTime Handicap
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_fulltime_handicap_bettype}' and @data-match-id='${cf_running_match_id}' and @class='forcast-number']
+    wait page load
+    # VP. Check bet list of FullTime Handicap
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_handicap_bettype_list}
+    # 4. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 5. Click on the link of FullTime Over/Under
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_fulltime_overunder_bettype}' and @data-match-id='${cf_running_match_id}' and @class='forcast-number']
+    wait page load
+    # VP. Check bet list of FullTime Over/Under
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_overunder_bettype_list}
+    # 6. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 7. Click on the link of 1st Half Handicap
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_1sthalf_handicap_bettype}' and @data-match-id='${cf_running_match_id}' and @class='forcast-number']
+    wait page load
+    # VP. Check bet list of 1st Half Handicap
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_handicap_bettype_list}
+    # 8. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 9. Click on the link of 1st half Over/Under
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_1sthalf_overunder_bettype}' and @data-match-id='${cf_running_match_id}' and @class='forcast-number']
+    wait page load
+    # VP. Check bet list of 1st Half Over/Under
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_overunder_bettype_list}
+
+TM_RBL_NB_02_TotalBets_MoneyLine
+    # Define Variables
+    ${tm_fulltime_moneyline_bettype}    Set Variable    20
+    ${tm_1sthalf_moneyline_bettype}    Set Variable    21
+    ${tm_fulltime_moneyline_bettype_list}    Create List    ${tm_fulltime_moneyline_bettype}
+    ${tm_1sthalf_moneyline_bettype_list}    Create List    ${tm_1sthalf_moneyline_bettype}
+    # 1. Navigate to Total Bets > Moneyline
+    navigate left menu    TOTAL BETS    Money Line
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    wait page load
+    # 3. Click on link of FullTime Moneyline
+    click element on report    \    main    None    xpath=//td[5]/a[@data-bet-type='${tm_fulltime_moneyline_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of FullTime MoneyLine
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_moneyline_bettype_list}
+    # 4. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 5. Click on link of 1st Half Moneyline
+    click element on report    \    main    None    xpath=//td[9]/a[@data-bet-type='${tm_1sthalf_moneyline_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of 1st Half Handicap
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_moneyline_bettype_list}
+
+TM_RBL_NB_03_TotalBets_OddEven_1x2_DND
+    # Define Variables
+    ${tm_fulltime_oddeven_bettype}    Set Variable    2
+    ${tm_fulltime_1x2_bettype}    Set Variable    5
+    ${tm_drawnodraw_bettype}    Set Variable    123
+    ${tm_1sthalf_oddeven_bettype}    Set Variable    12
+    ${tm_1sthalf_1x2_bettype}    Set Variable    15
+    ${tm_oddeven_3rd_bettype}    Set Variable    157
+    ${tm_1x2_3rd_bettype}    Set Variable    167
+    ${tm_fulltime_oddeven_bettype_list}    Create List    ${tm_fulltime_oddeven_bettype}
+    ${tm_fulltime_1x2_bettype_list}    Create List    ${tm_fulltime_1x2_bettype}
+    ${tm_drawnodraw_bettype_list}    Create List    ${tm_drawnodraw_bettype}
+    ${tm_1sthalf_oddeven_bettype_list}    Create List    ${tm_1sthalf_oddeven_bettype}
+    ${tm_1sthalf_1x2_bettype_list}    Create List    ${tm_1sthalf_1x2_bettype}
+    ${tm_oddeven_3rd_bettype_list}    Create List    ${tm_oddeven_3rd_bettype}
+    ${tm_1x2_3rd_bettype_list}    Create List    ${tm_1x2_3rd_bettype}
+    # 1. Navigate to Total Bets > Odd/Even + 1x2 + DND
+    navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click on link of FullTime OddEven
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_fulltime_oddeven_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of FullTime Odd/Even
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_oddeven_bettype_list}
+    # 4. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 5. Click on link of FullTime 1X2
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_fulltime_1x2_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of FullTime 1X2
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_1x2_bettype_list}
+    # 6. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 7. Click on link of Draw /No Draw
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_drawnodraw_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Draw/No Draw
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_drawnodraw_bettype_list}
+    # 8. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 9. Click on link of 1st half Odd/Even
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_1sthalf_oddeven_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of 1st half Odd/Even
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_oddeven_bettype_list}
+    # 10. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 11. Click on link of 1st half 1X2
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_1sthalf_1x2_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of 1st half 1X2
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_1x2_bettype_list}
+    # 12. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 13. Click on link of Odd/Even (3rd)
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_oddeven_3rd_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Odd/Even (3rd)
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_oddeven_3rd_bettype_list}
+    # 14. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 15. Click on link of 1X2 (3rd)
+    click element on report    \    main    None    xpath=//a[@class='forcast-number' and @data-bet-type='${tm_1x2_3rd_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of 1X2 (3rd)
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1x2_3rd_bettype_list}
+
+TM_RBL_NB_04_TotalBets_CorrectScore
+    # Define Variables
+    ${tm_correct_score_bettype}    Set Variable    4,30,152,165,166
+    ${tm_correct_score_bettype_list}    Split String    ${tm_correct_score_bettype}    ,
+    # 1. Navigate to Total Bets > Correct Score
+    navigate left menu    TOTAL BETS    Correct Score
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of Correct Score
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_correct_score_bettype_list}
+
+TM_RBL_NB_05_TotalBets_TotalGoal
+    # Define Variables
+    ${tm_total_goal_bettype}    Set Variable    6,126
+    ${tm_total_goal_bettype_list}    Split String    ${tm_total_goal_bettype}    ,
+    # 1. Navigate to Total Bets > Total Goal
+    navigate left menu    TOTAL BETS    Total Goal
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click match link to open bet list
+    click element on report    \    main    None    xpath=//a[@data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Total Goal
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_total_goal_bettype_list}
+
+TM_RBL_NB_06_TotalBets_Outright
+    # Define Variables
+    ${tm_outright_bettype}    Set Variable    10
+    ${tm_outright_bettype_list}    Create List    ${tm_outright_bettype}
+    # 1. Navigate to Total Bets > Outright
+    navigate left menu    TOTAL BETS    Outright
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click on link of testing team
+    click element on report    \    main    None    xpath=//a[@data-match-id='${cf_running_outright_match_id}']
+    wait page load
+    # VP. Check bet list of FullTime MoneyLine
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_outright_bettype_list}
+
+TM_RBL_NB_07_TotalBets_HT_FT
+    # Define Variables
+    ${tm_ht_ft_bettype}    Set Variable    16
+    ${tm_ht_ft_bettype_list}    Create List    ${tm_ht_ft_bettype}
+    # 1. Navigate to Total Bets > HT/FT
+    navigate left menu    TOTAL BETS    HT/FT
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click match link to open bet list
+    click element on report    \    main    None    xpath=//a[@data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of FT/HT
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_ht_ft_bettype_list}
+
+TM_RBL_NB_08_TotalBets_FG_LG
+    # Define Variables
+    ${tm_fg_lg_bettype}    Set Variable    14,127
+    ${tm_fg_lg_bettype_list}    Split String    ${tm_fg_lg_bettype}    ,
+    # 1. Navigate to Total Bets > FG/LG
+    navigate left menu    TOTAL BETS    FG/LG
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click match link to open bet list
+    click element on report    \    main    None    xpath=//a[@data-match-id='${cf_running_match_id}' and text()='Real Madrid']
+    wait page load
+    # VP. Check bet list of FG/LG
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fg_lg_bettype_list}
+
+TM_RBL_NB_09_TotalBets_CleanSheet
+    # Define Variables
+    ${tm_clean_sheet_bettype}    Set Variable    13
+    ${tm_clean_sheet_bettype_list}    Create List    ${tm_clean_sheet_bettype}
+    # 1. Navigate to Total Bets > Clean Sheet
+    navigate left menu    TOTAL BETS    Clean Sheet
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of Clean Sheet
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_clean_sheet_bettype_list}
+
+TM_RBL_NB_10_TotalBets_DoubleChance
+    # Define Variables
+    ${tm_double_chance_bettype}    Set Variable    24,151,186
+    ${tm_double_chance_bettype_list}    Split String    ${tm_double_chance_bettype}    ,
+    # 1. Navigate to Total Bets > Double Chance
+    navigate left menu    TOTAL BETS    Double Chance
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of Double Chances
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_double_chance_bettype_list}
+
+TM_RBL_NB_11_TotalBets_Home_Draw_AwayNoBet
+    # Define Variables
+    ${tm_home_no_bet_bettype}    Set Variable    121
+    ${tm_draw_no_bet_bettype}    Set Variable    25
+    ${tm_away_no_bet_bettype}    Set Variable    122
+    ${tm_home_no_bet_bettype_list}    Create List    ${tm_home_no_bet_bettype}
+    ${tm_draw_no_bet_bettype_list}    Create List    ${tm_draw_no_bet_bettype}
+    ${tm_away_no_bet_bettype_list}    Create List    ${tm_away_no_bet_bettype}
+    # 1. Navigate to Total Bets >Home/Draw/Away No Bet
+    navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # 3. Click on the link of Home No Bet
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_home_no_bet_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Home No Bet
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_home_no_bet_bettype_list}
+    # 4. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 5. Click on the link of Draw No Bet
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_draw_no_bet_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Draw No Bet
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_draw_no_bet_bettype_list}
+    # 6. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 7. Click on the link of Away No Bet
+    click element on report    \    main    None    xpath=//a[@data-bet-type='${tm_away_no_bet_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of Away No Bet
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_away_no_bet_bettype_list}
+    # 8. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+
+TM_RBL_NB_12_TotalBets_BON Team To Score
+    # Define Variables
+    ${tm_b_o_n_teams_to_score_bettype}    Set Variable    26,145,146,170,188
+    ${tm_b_o_n_teams_to_score_bettype_list}    Split String    ${tm_b_o_n_teams_to_score_bettype}    ,
+    # 1. Navigate to Total Bets > B/O/N team to score
+    navigate left menu    TOTAL BETS    B/O/N team to score
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of B/O/N team to score
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_b_o_n_teams_to_score_bettype_list}
+
+TM_RBL_NB_13_TotalBets_To Win To Nil
+    # Define Variables
+    ${tm_to_win_to_nil_bettype}    Set Variable    27
+    ${tm_to_win_to_nil_bettype_list}    Create List    ${tm_to_win_to_nil_bettype}
+    # 1. Navigate to Total Bets > To win to nil
+    navigate left menu    TOTAL BETS    To win to nil
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of To win to nil
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_to_win_to_nil_bettype_list}
+
+TM_RBL_NB_14_TotalBets_3Way Handicap
+    # Define Variables
+    ${tm_3way_handicap_bettype}    Set Variable    28
+    ${tm_3way_handicap_bettype_list}    Create List    ${tm_3way_handicap_bettype}
+    # 1. Navigate to Total Bets > 3-Way Handicap
+    navigate left menu    TOTAL BETS    3-Way Handicap
+    # 2. Submit filters for testing tickets
+    submit filters for totalbets    None    ALL    UUS    None
+    # VP. Check bet list of 3-Way Handicap
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_3way_handicap_bettype_list}
+
+TM_RBL_NB_15_Forecast_Handicap_OverUnder_Live
+    # Define Variables
+    ${tm_fulltime_handicap_bettype}    Set Variable    1
+    ${tm_1sthalf_handicap_bettype}    Set Variable    7
+    ${tm_fulltime_overunder_bettype}    Set Variable    3
+    ${tm_1sthalf_overunder_bettype}    Set Variable    8
+    ${tm_fulltime_handicap_bettype_list}    Create List    ${tm_fulltime_handicap_bettype}
+    ${tm_1sthalf_handicap_bettype_list}    Create List    ${tm_1sthalf_handicap_bettype}
+    ${tm_fulltime_overunder_bettype_list}    Create List    ${tm_fulltime_overunder_bettype}
+    ${tm_1sthalf_overunder_bettype_list}    Create List    ${tm_1sthalf_overunder_bettype}
+    # work around
+    navigate left menu    REPORTS    Balance
+    # 1. Navigate to FORECAST > Handicap/OverUnder/Live
+    navigate left menu    FORECAST    Handicap/Over Under/Live
+    # 2. Submit filters for testing tickets
+    submit filters for forecast    None    None    UUS    None
+    # 3. Click on plus button of FULLTIME
+    click element on report    \    main    None    xpath=//a[@data-bettype='${tm_fulltime_handicap_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # 4. Click Bet List link of Handicap bettype
+    click element on report    \    main    Forecast    xpath=//a[text()='Bet List']
+    wait page load
+    # 5. Check bet list of FULLTIME handicap
+    check running bet list with specific bettype    \    main    Forecast    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_handicap_bettype_list}
+    # 6. Click Back button
+    click element on report    \    main    Forecast    ${back_button}
+    wait page load
+    # 7. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    xpath=//a[contains(text(),'Over/Under')]
+    wait page load
+    # 8. Click Bet List link of Over/Under bettype
+    click element on report    \    main    Forecast    xpath=//a[text()='Bet List']
+    wait page load
+    # 9. Check bet list of FULLTIME Over/Under
+    check running bet list with specific bettype    \    main    Forecast    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_overunder_bettype_list}
+    # 10. Click Close button
+    click element on report    \    main    None    ${close_button_on_popup}
+    wait page load
+    # 11. Click on plus button of HALF TIME
+    click element on report    \    main    None    xpath=//a[@data-bettype='${tm_1sthalf_handicap_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # 12. Click Bet List link of Handicap bettype
+    click element on report    \    main    Forecast    xpath=//a[text()='Bet List']
+    wait page load
+    # 13. Check bet list of HALFTIME handicap
+    check running bet list with specific bettype    \    main    Forecast    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_handicap_bettype_list}
+    # 14. Click Back button
+    click element on report    \    main    Forecast    ${back_button}
+    wait page load
+    # 15. Click "View Over/Under Forecast" link
+    click element on report    \    main    Forecast    xpath=//a[contains(text(),'Over/Under')]
+    wait page load
+    # 16. Click Bet List link of Over/Under bettype
+    click element on report    \    main    Forecast    xpath=//a[text()='Bet List']
+    wait page load
+    # 17. Check bet list of HALFTIME Over/Under
+    check running bet list with specific bettype    \    main    Forecast    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_overunder_bettype_list}
+
+TM_RBL_NB_16_Forecast_1X2
+    # Define Variables
+    ${tm_fulltime_1x2_bettype}    Set Variable    5
+    ${tm_1sthalf_1x2_bettype}    Set Variable    15
+    ${tm_1x2_3rd_bettype}    Set Variable    167
+    ${tm_fulltime_1x2_bettype_list}    Create List    ${tm_fulltime_1x2_bettype}
+    ${tm_1sthalf_1x2_bettype_list}    Create List    ${tm_1sthalf_1x2_bettype}
+    ${tm_1x2_3rd_bettype_list}    Create List    ${tm_1x2_3rd_bettype}
+    # 1. Navigate to FORECAST > 1X2
+    navigate left menu    FORECAST    1 X 2
+    # 2. Submit filters for testing tickets
+    submit filters for forecast    None    None    UUS    None
+    # 3. Click on the link of fulltime 1X2 bettype
+    click element on report    \    main    None    xpath=//a[@data-bettype='${tm_fulltime_1x2_bettype}' and @data-match-id='${cf_running_match_id}']
+    # VP. Check bet list of fulltime 1X2 bettype
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_fulltime_1x2_bettype_list}
+    # 4. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 5. Click on link of halftime 1X2
+    click element on report    \    main    None    xpath=//a[@data-bettype='${tm_1sthalf_1x2_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of halftime 1X2
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1sthalf_1x2_bettype_list}
+    # 6. Click Back button
+    click element on report    \    main    None    ${back_button}
+    wait page load
+    # 7. Click on link of extra time 1X2
+    click element on report    \    main    None    xpath=//a[@data-bettype='${tm_1x2_3rd_bettype}' and @data-match-id='${cf_running_match_id}']
+    wait page load
+    # VP. Check bet list of extra time 1X2
+    check running bet list with specific bettype    \    main    None    Data set\\Test_Data_All.xls    Sportsbook Running    ${tm_1x2_3rd_bettype_list}
+
+TM_RBL_NB_17_CustomerReports_Customer Pending Funds
+    # 1. Navigate to Total Bets > Customer Pending Funds
+    navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
+    # 2. Submit filters for testing tickets
+    submit filters for customer pending funds    None    UUS    None    Sportsbook,Racing,Number Game
+    # 3. Click user's link which contains our testing tickets
+    click element on report    \    main    None    xpath=//*[@id='data-content']/div/div/div/a/span[text()='${cf_betlist_user}']
+    wait page load
+    Sleep    3s
+    # 4. Select to display 2000 tickets in one page
+    select listbox by value on report    \    main    None    xpath=//td/select[@class='ui-pg-selbox']    2000
+    Sleep    3s
+    Select Window
+    Select Frame    main
+    Set Selenium Speed    0.1
+    # VP. Get Data from Excel File & Bet List. Then check them
+    check running bet list for selected products    Sportsbook,Racing,Number Game    Data set\\Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}

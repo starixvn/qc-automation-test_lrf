@@ -1,0 +1,53 @@
+*** Variables ***
+${show_hide_listbox_customer_list}    xpath=//*[@id='grid-columns-multiselect']/span    # Show/hide listbox of Customer List page
+${username_textbox_customer_list}    xpath=//*[@id='txtUsername']    # Username textbox of Customer List page
+${status_listbox_customer_list}    xpath=//*[@id='CustStatusOption']    # Status listbox of Customer List page
+${special_level_listbox_customer_list}    xpath=//*[@id='special-level-list-search']    # Special Level listbox of Customer List page
+${ba_listbox_customer_list}    xpath=//*[@id='BAFilterOption']    # BA listbox of Customer List page
+${suspended_checkbox}    xpath=//*[@id='popup-suspended']    # Suspended checkbox of Customer List page
+${close_checkbox}    xpath=//*[@id='popup-closed']    # Close checkbox of Customer List page
+${update_button}    xpath=//*[@id='popup-update']    # Update button of Customer List page
+${cancel_button_customer_list}    xpath=//*[@id='popup-close']    # Cancel button of Customer List page
+${submit_button_customer_list}    xpath=//*[@id='SubmitButtonComm']    # Submit button of Customer List page
+${sportsbook_tab_bet_setting}    xpath=//*[@id='sportsbook']    # Sportsbook tab of Bet Setting popup
+${racing_tab_bet_setting}    xpath=//*[@id='racing']    # Racing tab of Bet Setting popup
+${number_game_tab_bet_setting}    xpath=//*[@id='numbergame']    # Number Game tab of Bet Setting popup
+${virtual_sports_tab_bet_setting}    xpath=//*[@id='virtualsports']    # Virtual Sports tab of Bet Setting popup
+${keno_tab_bet_setting}    xpath=//*[@id='keno']    # Keno tab of Bet Setting popup
+${ag_casino_tab_bet_setting}    xpath=//*[@id='agcasino']    # AG Casino tab of Bet Setting popup
+${submit_button_bet_setting}    xpath=//*[@id='btnSubmitBetSetting']    # Submit button of Bet Setting popup
+${reset_button_bet_setting}    xpath=//*[@id='btnReset']    # Reset button of Bet Setting popup
+${div_table_bet_setting}    xpath=//div[@class='data-content']    # Setting table of Bet Setting popup
+${disable_ag_casino_button}    xpath=//*[@id='btnUpdateStatus' and contains(@value,'Disable')]    # Disable AG Casino button of Bet Setting popup
+${enable_ag_casino_button}    xpath=//*[@id='btnUpdateStatus' and contains(@value,'Enable')]    # Enable AG Casino button of Bet Setting popup
+${ok_button_confirmation_popup_bet_setting}    xpath=//button/span[text()='OK']    # OK button of Confirmation popup when clicking on Submit button in Bet Setting page
+${successful_popup}    xpath=//span[text()='Successful']    # Successful popup when user submits
+${bet_setting_groups_listbox}    xpath=//*[@id='betSettingGroup']    # Bet Setting Groups listbox of AG Casino tab in Bet Setting popup
+${view_listbox}    xpath=//*[@id='ViewOption']    # View listbox of BetList page
+${betlist_panel}    xpath=//*[@id='gview_BetListGrid']    # Betlist panel of Customer List page
+${log_info_table}    xpath=//table[@class='log-info']    # Log Info table when clicking on View - Log Info
+${move_to_group_button}    xpath=//*[@id='MoveToGroup']    # Move To Group button of Customer List page
+${update_commission_button}    xpath=//*[@id='UpdateComm']    # Update Commission button of Customer List page
+${remove_from_group_button}    xpath=//*[@id='RemoveFromGroup']    # Remove From Group button of Customer List page
+${select_group_listbox}    xpath=//*[@id='GroupListSelect']    # Select Group listbox of Customer List page
+${successfully_move_group_label}    xpath=//div[@id='UpdateCustCommPopUp']/div[text()='Successully moved.']    # Successfully moved lable when moving group
+${group_listbox_customer_list}    xpath=//*[@id='DdlGroupCommId']    # Group listbox of Customer List page
+${successfully_update_commission_label}    xpath=//div[@id='UpdateCustCommPopUp']/div[text()='Successully updated commission.']    # Successfully Updated Commission label
+${sb_comm_listbox}    xpath=//*[@id='CustSBComm1']    # SB Comm listbox of Update Customer Commission popup
+${ng_comm_listbox}    xpath=//*[@id='CustNGComm1']    # NG Comm listbox of Update Customer Commission popup
+${lc_comm_listbox}    xpath=//*[@id='CustLCComm1']    # LC Comm listbox of Update Customer Commission popup
+${cs_comm_listbox}    xpath=//*[@id='CustCSComm1']    # CS Comm listbox of Update Customer Commission popup
+${cancel_update_commission_button}    xpath=//div[@aria-describedby='UpdateCustCommPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Update Customer Commission
+${cancel_move_group_button}    xpath=//div[@aria-describedby='MoveToGroupPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Move Group popup
+${ok_button_remove from_group}    xpath=//div[@aria-describedby='ConfirmRemoveFromGroupPopUp']/div/div/button/span[text()='OK']    # OK button of Remove From Group popup
+${cancel_button_remove_from_group}    xpath=//div[@aria-describedby='ConfirmRemoveFromGroupPopUp']/div/div/button/span[text()='Cancel']    # Cancel button of Remove From Group popup
+${ok_button_move_to_group}    xpath=//div[@aria-describedby='MoveToGroupPopUp']/div/div/button/span[text()='OK']    # OK button of Move To Group popup
+${keep_commission_radio_button}    xpath=//*[@id='KeepComm']    # Keep Current Commission radio button
+${clear_commission_radio_button}    xpath=//*[@id='ClearComm']    # Clear Customer's Commission radio button
+${live_casino_tab_bet_setting}    xpath=//*[@id='livecasino']
+${live_casino_update_bet_setting_option_1}    xpath=//*[@id='bettingLimit_111']
+${live_casino_update_bet_setting_option_2}    xpath=//*[@id='bettingLimit_11']
+${edit_status_live_casino}    xpath=//*[@id='btnUpdateStatus']
+${gold_deluxe_bet_setting}    xpath=//*[@id='golddeluxe']
+${gold_deluxe_group_list}    xpath=//*[@id='betSettingGroup']
+${odds_group_list}    xpath=//*[@id='1']/td[10]/div
