@@ -734,7 +734,7 @@ take applications screenshot
     ${result}=    Run Keyword And Return Status    Directory Should Exist    ${ac_screenshot_directory}
     Run Keyword If    '${result}'!='true'    Create Directory    ${ac_screenshot_directory}
     # Take screenshot
-    Capture Page Screenshot    ${ac_screenshot_directory}${screenshot name}
+    Take Screenshot Without Embedding    ${ac_screenshot_directory}${screenshot name}
 
 remove decimal part
     [Arguments]    ${value}
