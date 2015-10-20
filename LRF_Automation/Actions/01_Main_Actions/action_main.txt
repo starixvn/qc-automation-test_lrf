@@ -285,7 +285,7 @@ select specific date
 
 select products filter
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
-    [Documentation]    This action is used to select product's checkboxes.
+    [Documentation]    This action is used to select product list's checkboxes.
     ...
     ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno'*
     ...
@@ -308,19 +308,24 @@ select products filter
     ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
     ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
-    Run Keyword If    '${product}'=='All'    Select Checkbox    id=ALLProducts
-    Run Keyword If    '${product}'!='All'    Select Checkbox    id=ALLProducts
-    Run Keyword If    '${product}'!='All'    Unselect Checkbox    id=ALLProducts
-    Run Keyword If    '${SB}'=='True'    Select Checkbox    xpath=//*[@data-product-code='SB'][@type='checkbox']
-    Run Keyword If    '${RB}'=='True'    Select Checkbox    xpath=//*[@data-product-code='RB'][@type='checkbox']
-    Run Keyword If    '${NG}'=='True'    Select Checkbox    xpath=//*[@data-product-code='NG'][@type='checkbox']
-    Run Keyword If    '${BA}'=='True'    Select Checkbox    xpath=//*[@data-product-code='BA'][@type='checkbox']
-    Run Keyword If    '${LC}'=='True'    Select Checkbox    xpath=//*[@data-product-code='LC'][@type='checkbox']
-    Run Keyword If    '${VS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='VS'][@type='checkbox']
-    Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
-    Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
-    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    xpath=//*[@data-product-code='MGC'][@type='checkbox']
-    Run Keyword If    '${AGC}'=='True'    Select Checkbox    xpath=//*[@data-product-code='AGC'][@type='checkbox']
+    # Click to open product dropdown list
+    Click Element    xpath=//*[@id='ProductList']/a/input
+    # Select product checkbox
+    Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${product}'!='All'    Unselect Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${SB}'=='True'    Select Checkbox    id=SB
+    Run Keyword If    '${RB}'=='True'    Select Checkbox    id=RB
+    Run Keyword If    '${NG}'=='True'    Select Checkbox    id=NG
+    Run Keyword If    '${BA}'=='True'    Select Checkbox    id=BA
+    Run Keyword If    '${LC}'=='True'    Select Checkbox    id=LC
+    Run Keyword If    '${VS}'=='True'    Select Checkbox    id=VS
+    Run Keyword If    '${CS}'=='True'    Select Checkbox    id=CS
+    Run Keyword If    '${KN}'=='True'    Select Checkbox    id=KN
+    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    id=MGC
+    Run Keyword If    '${AGC}'=='True'    Select Checkbox    id=AGC
+    # Click outside to close dropdown list
+    Click Element    xpath=.//*[@id='BodyContent']
 
 select listbox by value on report
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${listbox}    ${value}
@@ -359,15 +364,25 @@ unselect products filter
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    Run Keyword If    '${product}'=='All'    Unselect Checkbox    id=ALLProducts
-    Run Keyword If    '${SB}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='SB'][@type='checkbox']
-    Run Keyword If    '${RB}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='RB'][@type='checkbox']
-    Run Keyword If    '${NG}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='NG'][@type='checkbox']
-    Run Keyword If    '${BA}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='BA'][@type='checkbox']
-    Run Keyword If    '${LC}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='LC'][@type='checkbox']
-    Run Keyword If    '${VS}'=='True'    Unselect Checkbox    xpath=//*[@data-product-code='VS'][@type='checkbox']
-    Run Keyword If    '${CS}'=='True'    Select Checkbox    xpath=//*[@data-product-code='CS'][@type='checkbox']
-    Run Keyword If    '${KN}'=='True'    Select Checkbox    xpath=//*[@data-product-code='KN'][@type='checkbox']
+    ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
+    ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
+    ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
+    # Click to open product dropdown list
+    Click Element    xpath=//*[@id='ProductList']/a/input
+    # Select product checkbox
+    Run Keyword If    '${product}'=='All'    Unselect Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${SB}'=='True'    Unselect Checkbox    id=SB
+    Run Keyword If    '${RB}'=='True'    Unselect Checkbox    id=RB
+    Run Keyword If    '${NG}'=='True'    Unselect Checkbox    id=NG
+    Run Keyword If    '${BA}'=='True'    Unselect Checkbox    id=BA
+    Run Keyword If    '${LC}'=='True'    Unselect Checkbox    id=LC
+    Run Keyword If    '${VS}'=='True'    Unselect Checkbox    id=VS
+    Run Keyword If    '${CS}'=='True'    Unselect Checkbox    id=CS
+    Run Keyword If    '${KN}'=='True'    Unselect Checkbox    id=KN
+    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Unselect Checkbox    id=MGC
+    Run Keyword If    '${AGC}'=='True'    Unselect Checkbox    id=AGC
+    # Click outside to close dropdown list
+    Click Element    xpath=.//*[@id='BodyContent']
 
 unselect SB product
     [Arguments]    ${window title}    ${main frame}    ${sub frame}
@@ -772,7 +787,6 @@ click product link
     ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    ${MGC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
     Run Keyword If    '${SB}'=='True'    Click Element    xpath=//*[contains(text(),'Sportsbook')]
     Run Keyword If    '${RB}'=='True'    Click Element    xpath=//*[contains(text(),'Racing')]
     Run Keyword If    '${NG}'=='True'    Click Element    xpath=//*[contains(text(),'Number Game')]
@@ -780,7 +794,6 @@ click product link
     Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'Virtual Sports')]
     Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'RNG Casino')]
     Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'Keno')]
-    Run Keyword If    '${MGC}'=='True'    Click Element    xpath=//*[contains(text(),'Microgaming')]
 
 select date on picker
     [Arguments]    ${date}
