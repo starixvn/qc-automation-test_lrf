@@ -183,7 +183,7 @@ check bet list in live report
     Run Keyword If    '${sheet}'!='Sportsbook'    select bet list for other sports in live report    ${sheet}    ${ac_1st_sport_excel}    None
     # Get Data and check
     ${ac_totalrow_excel}    Get Row Count    ${sheet}
-    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
     \    Comment    Get Sport type in Excel. If Sport type changes, we have to click Back and proceed new Sport link
     \    ${ac_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    ${ac_index}
     \    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${ac_index}
@@ -236,6 +236,7 @@ check bet list in live report
     \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
     \    Run Keyword If    '${ac_color}'=='Red'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite']
     \    Run Keyword If    '${ac_color}'=='Black'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='underdog']
+    \    Run Keyword If    '${ac_color}'=='Blue'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite light-blue']
     \    Run Keyword If    '${ac_firstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
     \    Run Keyword If    '${ac_lastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
     \    Run Keyword If    '${ac_1hfirstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]

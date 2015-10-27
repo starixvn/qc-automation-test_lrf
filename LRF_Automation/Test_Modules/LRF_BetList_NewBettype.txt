@@ -141,7 +141,7 @@ TM_BL_NB_05_Live Report
     # Navigate to REPORTS > Live Report
     navigate left menu    REPORTS    Live Report
     # Submit filters for products
-    submit filters for live report    ${cf_from_betlist}    ${cf_to_betlist}    UUS    None    All    ${cf_from_betlist}
+    submit filters for live report    ${cf_from_betlist}    ${cf_to_betlist}    UUS    None    All    None
     # Get Data from Excel File & Bet List. Then check them
     Select Window
     Select Frame    main
