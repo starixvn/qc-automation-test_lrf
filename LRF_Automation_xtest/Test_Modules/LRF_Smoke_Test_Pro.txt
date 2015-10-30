@@ -1791,7 +1791,7 @@ TM_49_ST_Reports_Microgaming Win Loss
     ${toDate}=    Get Time    \    NOW - 1d
     submit filters for microgaming win loss    ${fromDate}    ${toDate}    ALL    No    Monthly
     wait page load
-    take applications screenshot    Local    TM_49_ST_Reports_Microgaming_WinLoss.jpg
+    take applications screenshot    Product    TM_49_ST_Reports_Microgaming_WinLoss.jpg
     #VP: Verify that data should display properly
     check special case when no info available    \    main    None
     #VP Check report
