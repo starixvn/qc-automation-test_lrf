@@ -643,3 +643,21 @@ TM_42_ST_DataWarehouse_Top Customer
     take applications screenshot    Local    TM_42_DW_TopCustomer.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
+
+TC_43_04_ST_CustomerInfomation_LeftMenu
+    [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
+    ...
+    ...
+    ...
+    ...
+    # Set variables
+    ${tc_username}    Set Variable    harmony
+    # Select spondemo licensee
+    select licensee    spondemo
+    # 1. Input "harmony" into username textbox on left menu
+    input text on report    \    menu    None    ${username_textbox_leftmenu}    ${tc_username}
+    # 2. Click Searh button on left menu
+    click element on report    \    menu    None    ${search_button_leftmenu}
+    # 3. Check that "harmony" member display on the customer list
+    Sleep    5s
+    check element on report    \    main    None    xpath=//td[@title='${tc_username}']
