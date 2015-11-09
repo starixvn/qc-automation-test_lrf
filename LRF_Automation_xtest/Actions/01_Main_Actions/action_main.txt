@@ -56,15 +56,15 @@ config local
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
     # Set Global Variables for Checking Bet List
-    ${cf_from_betlist}    Get Time    \    Now-10h
-    ${cf_to_betlist}    Get Time    \    Now-10h
+    ${cf_from_betlist}    Get Time    \    Now-1d
+    ${cf_to_betlist}    Get Time    \    Now-1d
     Set Suite Variable    ${cf_from_betlist}    ${cf_from_betlist}
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
-    Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V3/
+    Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V2/
     Set Suite Variable    ${cf_betlist_product}    Sportsbook
     Set Suite Variable    ${cf_betlist_user}    iceEW
-    Set Suite Variable    ${cf_running_match_id}    71000100
-    Set Suite Variable    ${cf_running_outright_match_id}    71000101
+    Set Suite Variable    ${cf_running_match_id}    71000053
+    Set Suite Variable    ${cf_running_outright_match_id}    71000051
 
 login
     [Arguments]    ${username}    ${password}
@@ -389,11 +389,7 @@ unselect SB product
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    # Click to open product dropdown list
-    Click Element    xpath=//*[@id='ProductList']/a/input
-    Unselect Checkbox    id=SB
-    # Click outside to close dropdown list
-    Click Element    xpath=.//*[@id='BodyContent']
+    Unselect Checkbox    xpath=//*[@id='ProductOptions0']
     click element    xpath=//*[@id='SubmitButton']
     unselect frame
 
@@ -776,7 +772,7 @@ click product link
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
     [Documentation]    This action is used to check and click *one* product link if it's available.
     ...
-    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'*
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'* or *'Microgaming'*
     ...
     ...    Example:
     ...

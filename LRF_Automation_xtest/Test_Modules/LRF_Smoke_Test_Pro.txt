@@ -703,101 +703,6 @@ TM_15_ST_TotalBets_3way Handicap
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
 
-TM_16_ST_TotalBets_Racing
-    [Tags]    CI
-    # 1. Navigate to TOTAL BETS > Racing
-    navigate left menu    TOTAL BETS    Racing
-    # 2. Select filters then click Submit button
-    submit filters for totalbets    75 sec    normal    None    EUR
-    take applications screenshot    Product    TM_16_TotalBets_Racing.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
-    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # 4. Click number to drill down to betlist for Win tickets
-    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
-    ...    4
-    #VP. Check Betlist
-    check element on report    \    main    None    ${betlist_table}
-    take applications screenshot    Product    TM_16_TotalBets_Racing_Betlist.jpg
-    # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
-    #6. Click link result pop-up in ticket
-    click result link in ticket    \    main    None    ${betlist_table}    2    11
-    #VP. Check result pop-up
-    check element on report    \    main    ResultPopup    ${result_table}
-    take applications screenshot    Product    TM_16_TotalBets_Result.jpg
-    #7. Click close result pop-up
-    click element on report    \    main    None    ${close_button_on_popup}
-    # 8. Click Back button on betlist
-    click element on report    \    main    None    ${back_button}
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_totalbets}
-    #9. Click number to drill down to betlist for Place tickets
-    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
-    ...    6
-    #VP. check Betlist
-    check element on report    \    main    None    ${betlist_table}
-    # 10. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
-    #11. Click link result pop-up in ticket
-    click result link in ticket    \    main    None    ${betlist_table}    2    11
-    #VP. Check result pop-up
-    check element on report    \    main    ResultPopup    ${result_table}
-    #12. Click close result pop-up
-    click element on report    \    main    None    ${close_button_on_popup}
-    # 13. Click Back button on betlist
-    click element on report    \    main    None    ${back_button}
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_totalbets}
-    #14. Click munber to drill down to betlist for Win Place tickets
-    click number link in table by column    \    main    None    ${report_table_totalbets}    2    20
-    ...    8
-    #VP. check Betlist
-    check element on report    \    main    None    ${betlist_table}
-    # 15. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
-    #16. Click link result pop-up in ticket
-    click result link in ticket    \    main    None    ${betlist_table}    2    11
-    #VP. Check result pop-up
-    check element on report    \    main    ResultPopup    ${result_table}
-    #17. Click close result pop-up
-    click element on report    \    main    None    ${close_button_on_popup}
-    # 18. Click Back button on betlist
-    click element on report    \    main    None    ${back_button}
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_totalbets}
-
-TM_17_ST_TotalBets_Number Game
-    [Tags]    CI
-    # 1. Navigate to TOTAL BETS > Number Game
-    navigate left menu    TOTAL BETS    Number Game
-    # 2. Select filters then click Submit button
-    submit filters for totalbets    None    None    None    USD
-    take applications screenshot    Product    TM_17_TotalBets_NumberGame.jpg
-    # VP. Check User Guide popup exists
-    check user guide popup
-    # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
-    # 4. Click number to drill down to betlist
-    click number link in table by row    \    main    None    ${report_table_totalbets}    2    3
-    ...    18
-    #VP. Check Betlist
-    check element on report    \    main    None    ${betlist_table}
-    take applications screenshot    Product    TM_17_TotalBets_NumberGame_Betlist.jpg
-    # 5. Click Export button
-    # VP. Check exporting file successfully
-    check export excel function    \    main    None    RunningBetList.xls
-    # 6. Click Back button on betlist
-    click element on report    \    main    None    ${back_button}
-    # VP. Check report table exist
-    check element on report    \    main    None    ${report_table_totalbets}
-
 TM_48_ST_TotalBets_Total Row of Submenus and Bet list
     select licensee    12Bet
     # 1. Check Total Row for HANDICAP/OVER UNDER LIVE
@@ -902,13 +807,6 @@ TM_48_ST_TotalBets_Total Row of Submenus and Bet list
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # VP: Verify that total stake of To win to nil displays properly
     Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    #16. Check Total Row for RACING
-    navigate left menu    TOTAL BETS    Racing
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Racing displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_win_total}    ${report_table_totalbets}    4
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_place_total}    ${report_table_totalbets}    6
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_racing_winplace_total}    ${report_table_totalbets}    8
 
 TM_18_01_ST_Forecast_Handicap
     [Tags]    CI
@@ -1915,7 +1813,7 @@ TM_40_ST_CustomerReports_Customer Turnover
 TM_50_ST_CustomerReports_Active Customer Summary
     [Tags]    CI
     ${from}=    Get Time    \    Now - 7d
-    ${to}=    Get Time    \    Now - 1d
+    ${to}=    Get Time    \    Now - 2d
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Active Customer Summary
     # VP. Check user guide
@@ -2598,6 +2496,24 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     take applications screenshot    Product    TM_43_CustInfo_Customer List_LogInfo.jpg
     # VP. Log Info popup should display
     check element on report    \    main    None    ${log_info_table}
+
+TC_43_04_ST_CustomerInfomation_LeftMenu
+    [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
+    ...
+    ...
+    ...
+    ...
+    # Set variables
+    ${tc_username}    Set Variable    harmony
+    # Select spondemo licensee
+    select licensee    spondemo
+    # 1. Input "harmony" into username textbox on left menu
+    input text on report    \    menu    None    ${username_textbox_leftmenu}    ${tc_username}
+    # 2. Click Searh button on left menu
+    click element on report    \    menu    None    ${search_button_leftmenu}
+    # 3. Check that "harmony" member display on the customer list
+    Sleep    5s
+    check element on report    \    main    None    xpath=//td[@title='${tc_username}']
 
 TM_44_ST_CustomerInformation_Customer Log
     [Tags]

@@ -469,7 +469,7 @@ TM_RBL_NB_17_CustomerReports_Customer Pending Funds
     # 1. Navigate to Total Bets > Customer Pending Funds
     navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
     # 2. Submit filters for testing tickets
-    submit filters for customer pending funds    None    UUS    None    Sportsbook,Racing,Number Game
+    submit filters for customer pending funds    None    UUS    None    ${cf_betlist_product}
     # 3. Click user's link which contains our testing tickets
     click element on report    \    main    None    xpath=//*[@id='data-content']/div/div/div/a/span[text()='${cf_betlist_user}']
     wait page load
@@ -481,5 +481,5 @@ TM_RBL_NB_17_CustomerReports_Customer Pending Funds
     Select Frame    main
     Set Selenium Speed    0.1
     # VP. Get Data from Excel File & Bet List. Then check them
-    check running bet list for selected products    Sportsbook,Racing,Number Game    Data set\\Test_Data_New.xls
+    check running bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_New.xls
     Set Selenium Speed    ${cf_speed}
