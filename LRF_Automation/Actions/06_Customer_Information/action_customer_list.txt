@@ -8,12 +8,12 @@ Resource          ../../Interfaces/06_Customer_Information/interface_bet_setting
 *** Keywords ***
 submit filters for customer list
     [Arguments]    ${licensee type}    ${currency}    ${based}    ${username}    ${status}    ${special level}
-    ...    ${ba}    ${group}
+    ...    ${ba}    ${group}    ${odds group}
     [Documentation]    This action is used to submit filters for Customer List report.
     ...
     ...    Example:
     ...
-    ...    submit filters for customer list | normal | UUS | EUR | harmony | All | All | All | All
+    ...    submit filters for customer list | normal | UUS | EUR | harmony | All | All | All | All | All
     # select type, currency, based
     Select Window
     Select Frame    main
@@ -23,14 +23,17 @@ submit filters for customer list
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     # input username
     Input Text    ${username_textbox_customer_list}    ${username}
-    # select status - special level - BA\
+    # select status - special level - BA
     ${IsStatusExsited}    Run Keyword And Return Status    Page Should Contain Element    ${status_listbox_customer_list}
-    Run Keyword If    ${IsStatusExsited}=='True' and '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
+    Run Keyword If    '${IsStatusExsited}'=='True' and '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
     Comment    Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
     Run Keyword If    '${special level}'!='None'    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
     Run Keyword If    '${ba}'!='None'    Select From List By Label    ${ba_listbox_customer_list}    ${ba}
     # select Group if needed
     Run Keyword If    '${group}'!='None'    Select From List By Label    ${group_listbox_customer_list}    ${group}
+    # select odds group
+    ${ac_IsOddsGroupExisted}    Run Keyword And Return Status    Page Should Contain Element    ${odds_group_listbox_customer_list}
+    Run Keyword If    '${ac_IsOddsGroupExisted}'=='True' and '${odds group}'!='None'    select odds group filter    \    main    ${odds group}
     Unselect Frame
     # click Submit button
     Select Window
@@ -293,6 +296,37 @@ select livecasino checkbox
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     Select Checkbox    ${checkbox_value}
     Unselect Frame
+
+select odds group filter
+    [Arguments]    ${window title}    ${main frame}    ${odds group}
+    [Documentation]    This action is used to select odds group list's checkboxes.
+    ...
+    ...    ${odds group}= *'All'* or *'A, B, C, D'*
+    ...
+    ...    Example:
+    ...
+    ...    select odds group filter | None | main | All
+    ...
+    ...    select odds group filter | None | main | A, C
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    ${odds_group_A}=    Run Keyword And Return Status    Should Contain    ${odds group}    A
+    ${odds_group_B}=    Run Keyword And Return Status    Should Contain    ${odds group}    B
+    ${odds_group_C}=    Run Keyword And Return Status    Should Contain    ${odds group}    C
+    ${odds_group_D}=    Run Keyword And Return Status    Should Contain    ${odds group}    D
+    # Click to open odds group dropdown list
+    Click Element    ${odds_group_listbox_customer_list}
+    # Select odds group checkbox
+    Wait Until Element Is Visible    xpath=//*[@id='odds-group-multiselectHeaderCheckBox']
+    Run Keyword If    '${odds group}'=='All'    Select Checkbox    xpath=//*[@id='odds-group-multiselectHeaderCheckBox']
+    Run Keyword If    '${odds group}'!='All'    Select Checkbox    xpath=//*[@id='odds-group-multiselectHeaderCheckBox']
+    Run Keyword If    '${odds group}'!='All'    Unselect Checkbox    xpath=//*[@id='odds-group-multiselectHeaderCheckBox']
+    Run Keyword If    '${odds_group_A}'=='True'    Select Checkbox    id=A
+    Run Keyword If    '${odds_group_B}'=='True'    Select Checkbox    id=B
+    Run Keyword If    '${odds_group_C}'=='True'    Select Checkbox    id=C
+    Run Keyword If    '${odds_group_D}'=='True'    Select Checkbox    id=D
+    # Click outside to close dropdown list
+    Click Element    xpath=.//*[@id='BodyContent']
 
 move to group
     [Arguments]    ${custid}    ${group}

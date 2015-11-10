@@ -647,7 +647,7 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     wait page load
     # 2. Submit filters to view only harmony account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     take applications screenshot    Product    TM_43_CustInfo_CustomerList.jpg
     # VP. Check User Guide popup displays
     check user guide popup
@@ -685,7 +685,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     [Tags]
     # 1. Submit filters to see "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet Setting
     select customer option based on username    harmony    Bet Setting
     # 3. Click Sportsbook tab
@@ -706,7 +706,7 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Submit filters for viewing "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet List
     select customer option based on username    harmony    Bet List
     # VP. Bet List page is opened
@@ -718,7 +718,6 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
 
 TC_43_04_ST_CustomerInfomation_LeftMenu
     [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
-    ...
     ...
     ...
     # Set variables

@@ -657,7 +657,7 @@ TM_10_FUN_Check update bet settings for Number Game
     navigate left menu    CUSTOMER INFORMATION    Customer List
     # 2. Filter harmony user
     submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
-    ...    All    All
+    ...    All    All    None
     # 3. Click View > Bet Setting
     select customer option based on username    ${tm_cust}    Bet Setting
     # 4. Select Number Game
@@ -772,7 +772,7 @@ TM_11_FUN_Check update bet settings for Virtual Sports
     navigate left menu    CUSTOMER INFORMATION    Customer List
     # 2. Filter harmony user
     submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
-    ...    All    All
+    ...    All    All    None
     # 3. Click View > Bet Setting
     select customer option based on username    ${tm_cust}    Bet Setting
     # 4. Select Virtual Sports

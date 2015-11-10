@@ -51,3 +51,4 @@ ${edit_status_live_casino}    xpath=//*[@id='btnUpdateStatus']
 ${gold_deluxe_bet_setting}    xpath=//*[@id='golddeluxe']
 ${gold_deluxe_group_list}    xpath=//*[@id='betSettingGroup']
 ${odds_group_list}    xpath=//*[@id='1']/td[10]/div
+${odds_group_listbox_customer_list}    xpath=//*[@id='odds-group-multiselect']/span    # Odds Group listbox of Customer List page

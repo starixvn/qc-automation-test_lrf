@@ -1893,7 +1893,7 @@ TM_43_01_ST_CustomerInformation_Customer List_General
     wait page load
     # 2. Submit filters to view only harmony account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     take applications screenshot    Product    TM_43_CustInfo_CustomerList.jpg
     # 3. Click User Guide button
     # VP. Check User Guide popup displays
@@ -1953,7 +1953,7 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     wait page load
     # Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
+    ...    All    None    None
     take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_1.jpg
     ######## Pre condition: Member must be OFF BA
     ## Check BA status
@@ -1965,12 +1965,21 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     update odds group    @{list_without_selected_group}[0]
     # check status after update
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
+    ...    All    None    None
     take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_2.jpg
     # get status after updated
     ${current_group}    ${list}    get odds group value
     # Check updated status as current status
     Should Contain    ${current_group}    @{list_without_selected_group}[0]
+    # check odds group filter
+    submit filters for customer list    None    None    None    qatest01    None    None
+    ...    None    None    None    None
+    update odds group    B
+    submit filters for customer list    None    None    None    qatest01    None    None
+    ...    None    None    B, D    None
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_Filter_1.jpg
+    check element on report    \    main    None    ${report_table_reports}
+    update odds group    A    #return initial setting: A
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     [Tags]
@@ -1981,7 +1990,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting
     wait page load
     # 1. Submit filters to see "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet Setting
     select customer option based on username    harmony    Bet Setting
     # 3. Select Sportsbook from list
@@ -2053,7 +2062,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Live Casino
     wait page load
     # 1. Search username as 'candytest'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
     # 3. Select Live Casino from list
@@ -2133,7 +2142,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     wait page load
     # 1. Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
     # 3. Select RNG Casino from list
@@ -2190,7 +2199,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_AgCasino
     # Update status
     # 3. Submit filters to see "testact1" testing account
     submit filters for customer list    ALL    ALL    USD    testact1    All    All
-    ...    All    All
+    ...    All    All    None
     # 4. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
     # 5. Select AG Casino from list
@@ -2256,7 +2265,7 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     wait page load
     # Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
     # 3. Select Gold Deluxe from list
@@ -2307,7 +2316,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Macau
     wait page load
     # 3. Submit filters to see "testact1" testing account
     submit filters for customer list    ALL    ALL    USD    testact1    All    All
-    ...    All    All
+    ...    All    All    None
     # 4. Go to View > Bet Setting
     select customer option based on username    testact1    Bet Setting
     # 5. Select Macau from list
@@ -2349,7 +2358,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Microgaming
     wait page load
     # 3. Submit filters to see "testact1" testing account
     submit filters for customer list    ALL    ALL    USD    qatest01    All    All
-    ...    All    All
+    ...    All    All    None
     # 4. Go to View > Bet Setting
     select customer option based on username    qatest01    Bet Setting
     # 5. Select Microgaming from list
@@ -2400,7 +2409,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_BetTrade
     wait page load
     # 3. Submit filters to see "testact1" testing account
     submit filters for customer list    ALL    ALL    USD    qatest01    All    All
-    ...    All    All
+    ...    All    All    None
     # 4. Go to View > Bet Setting
     select customer option based on username    qatest01    Bet Setting
     # 5. Select BetTrade from list
@@ -2454,7 +2463,7 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Submit filters for viewing "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     # 2. Go to View > Bet List
     select customer option based on username    harmony    Bet List
     # VP. Bet List page is opened
@@ -2477,7 +2486,7 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     wait page load
     # 5. Submit filters for viewing "harmony" testing account
     submit filters for customer list    ALL    ALL    USD    harmony    All    All
-    ...    All    None
+    ...    All    None    None
     # 6. Go to View > Statement
     select customer option based on username    harmony    Statement
     wait page load
@@ -2499,7 +2508,6 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
 
 TC_43_04_ST_CustomerInfomation_LeftMenu
     [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
-    ...
     ...
     ...
     ...
@@ -2582,7 +2590,7 @@ TM_45_ST_CustomerInformation_Commission Group List
     wait page load
     # 10. Submit filters for testing customer "Candytest"
     submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
-    ...    All    All
+    ...    All    All    None
     take applications screenshot    Product    TM_45_CustInfo_CommissionGroupList_CustomerList.jpg
     # 11. Move user to new group
     move to group    ${tm_custid}    ${tm_group_edit}
