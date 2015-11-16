@@ -545,23 +545,6 @@ TM_36_ST_Reports_Win Loss By Leagues
     # Post-Condition
     select licensee    12Bet
 
-TM_49_ST_Reports_Microgaming Win Loss
-    select licensee    12Bet
-    # 1. Navigate to Microgaming Win Loss report
-    navigate left menu    REPORTS    Microgaming Win Loss
-    # 2. Submit filters
-    ${fromDate}=    Get Time    \    NOW - 30d
-    ${toDate}=    Get Time    \    NOW - 1d
-    submit filters for microgaming win loss    ${fromDate}    ${toDate}    ALL    No    Monthly
-    wait page load
-    take applications screenshot    Local    TM_49_ST_Reports_Microgaming_WinLoss.jpg
-    #VP: Verify that data should display properly
-    check special case when no info available    \    main    None
-    #VP Check report
-    check element on report    \    main    None    ${report_table_reports}
-    # VP. check export excel
-    check export excel function    \    main    None    MGCWinloss_*.xls
-
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    Complete
     ${from}=    Get Time    \    Now - 3d
@@ -646,9 +629,6 @@ TM_42_ST_DataWarehouse_Top Customer
 
 TC_43_04_ST_CustomerInfomation_LeftMenu
     [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
-    ...
-    ...
-    ...
     ...
     # Set variables
     ${tc_username}    Set Variable    harmony
