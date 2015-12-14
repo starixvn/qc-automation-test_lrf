@@ -305,9 +305,14 @@ select products filter
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
-    ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
+    ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-Live Casino
+    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCLC'][@type='checkbox']
+    ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-RNG Casino
+    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCRNG'][@type='checkbox']
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
+    ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='AGC'][@type='checkbox']
+    ${BT}=    Run Keyword And Return Status    Should Contain    ${product}    Bet Trade
+    ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='BT'][@type='checkbox']
     # Click to open product dropdown list
     Click Element    xpath=//*[@id='ProductList']/a/input
     # Select product checkbox
@@ -322,8 +327,10 @@ select products filter
     Run Keyword If    '${VS}'=='True'    Select Checkbox    id=VS
     Run Keyword If    '${CS}'=='True'    Select Checkbox    id=CS
     Run Keyword If    '${KN}'=='True'    Select Checkbox    id=KN
-    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    id=MGC
-    Run Keyword If    '${AGC}'=='True'    Select Checkbox    id=AGC
+    Run Keyword If    '${MGCLC}'=='True' and '${MGCLC_checkbox}'=='True'    Select Checkbox    id=MGCLC
+    Run Keyword If    '${MGCRNG}'=='True' and '${MGCRNG_checkbox}'=='True'    Select Checkbox    id=MGCRNG
+    Run Keyword If    '${AGC}'=='True' and '${AGC_checkbox}'=='True'    Select Checkbox    id=AGC
+    Run Keyword If    '${BT}'=='True' and '${BT_checkbox}'=='True'    Select Checkbox    id=BT
     # Click outside to close dropdown list
     Click Element    xpath=.//*[@id='BodyContent']
 
@@ -364,9 +371,14 @@ unselect products filter
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
-    ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGC'][@type='checkbox']
+    ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-Live Casino
+    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCLC'][@type='checkbox']
+    ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-RNG Casino
+    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCRNG'][@type='checkbox']
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
+    ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='AGC'][@type='checkbox']
+    ${BT}=    Run Keyword And Return Status    Should Contain    ${product}    Bet Trade
+    ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='BT'][@type='checkbox']
     # Click to open product dropdown list
     Click Element    xpath=//*[@id='ProductList']/a/input
     # Select product checkbox
@@ -379,8 +391,10 @@ unselect products filter
     Run Keyword If    '${VS}'=='True'    Unselect Checkbox    id=VS
     Run Keyword If    '${CS}'=='True'    Unselect Checkbox    id=CS
     Run Keyword If    '${KN}'=='True'    Unselect Checkbox    id=KN
-    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Unselect Checkbox    id=MGC
-    Run Keyword If    '${AGC}'=='True'    Unselect Checkbox    id=AGC
+    Run Keyword If    '${MGCLC}'=='True' and '${MGCLC_checkbox}'=='True'    Select Checkbox    id=MGCLC
+    Run Keyword If    '${MGCRNG}'=='True' and '${MGCRNG_checkbox}'=='True'    Select Checkbox    id=MGCRNG
+    Run Keyword If    '${AGC}'=='True' and '${AGC_checkbox}'=='True'    Select Checkbox    id=AGC
+    Run Keyword If    '${BT}'=='True' and '${BT_checkbox}'=='True'    Select Checkbox    id=BT
     # Click outside to close dropdown list
     Click Element    xpath=.//*[@id='BodyContent']
 
