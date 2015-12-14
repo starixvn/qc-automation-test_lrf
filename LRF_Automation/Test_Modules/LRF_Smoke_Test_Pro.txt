@@ -1695,7 +1695,7 @@ TM_49_ST_Reports_Microgaming Win Loss
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    MGCWinloss_*.xls
+    check export excel function    \    main    None    MicroGamingWinloss_*.xls
 
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    CI
@@ -2350,9 +2350,9 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Macau
     # VP. Check Status is changed successfully
     Should Be Equal    '${status1_button}'    '${status3_button}'
 
-TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Microgaming
+TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingLC
     # 1. Switch To spondemo licensee
-    select licensee    Athena000
+    select licensee    spondemo
     # 2. Navigate to CUSTOMER INFORMATION > Customer List
     navigate left menu    CUSTOMER INFORMATION    Customer List
     wait page load
@@ -2362,9 +2362,60 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Microgaming
     # 4. Go to View > Bet Setting
     select customer option based on username    qatest01    Bet Setting
     # 5. Select Microgaming from list
-    select product in bet setting    Microgaming
+    select product in bet setting    Microgaming - Live Casino
     wait page load
-    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_Microgaming.jpg
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_MicrogamingLC.jpg
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # 6. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    '${status1_button}'    '${status2_button}'
+    # 7. Change status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status1_button}'    '${status3_button}'
+    # 8. Reset button
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    ${status4_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    '${status3_button}'    '${status4_button}'
+
+TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingRNG
+    # 1. Switch To spondemo licensee
+    select licensee    spondemo
+    # 2. Navigate to CUSTOMER INFORMATION > Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    wait page load
+    # 3. Submit filters to see "testact1" testing account
+    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    ...    All    All    None
+    # 4. Go to View > Bet Setting
+    select customer option based on username    qatest01    Bet Setting
+    # 5. Select Microgaming from list
+    select product in bet setting    Microgaming - RNG Casino
+    wait page load
+    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_MicrogamingRNG.jpg
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
     ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
@@ -2508,8 +2559,6 @@ TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
 
 TC_43_04_ST_CustomerInformation_LeftMenu
     [Documentation]    Steps:    # 1. Input "harmony" into username textbox on left menu    # 2. Click Searh button on left menu    # 3. Check that "harmony" member display on the customer list
-    ...
-    ...
     # Set variables
     ${tc_username}    Set Variable    harmony
     # Select spondemo licensee
