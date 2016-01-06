@@ -1,3 +1,0 @@
-*** Variables ***
-${countdown_refresh_button}    xpath=//div[@class='timer-countdown']/div[@class='button-select']    # Countdown button at top left of main panel
-${report_table_totalbets}    xpath=//div[@class='data-content']/table[@class='report-table']    # Report table displays in Total Bets pages

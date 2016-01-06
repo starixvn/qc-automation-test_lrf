@@ -1,5 +1,0 @@
-*** Variables ***
-${collapse_licenseeWL_button}    xpath=//*[@id='btnLicenseeWLCollapse']    # Collapse Licensee WL button of Licensee Win Loss report
-${expand_turnover_button}    xpath=//*[@id='btnTurnOverExpand']    # Expand Turnover button of Licensee Win Loss report
-${expand_licenseeWL_button}    xpath=//*[@id='btnLicenseeWLExpand']    # Expand Licensee WL button of Licensee Win Loss report
-${collapse_turnover_button}    xpath=//*[@id='btnTurnOverCollapse']    # Collpase Turnover button of Licensee Win Loss report

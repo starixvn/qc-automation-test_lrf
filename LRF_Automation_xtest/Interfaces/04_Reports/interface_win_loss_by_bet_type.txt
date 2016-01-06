@@ -1,2 +1,0 @@
-*** Variables ***
-${report_table_win_loss_by_bettype}    xpath=//div[@class='report-content']    # Report table of Win Loss By Bet Type report

@@ -1,7 +1,0 @@
-*** Variables ***
-${username_textbox_customer_turnover}    xpath=//*[@id='Username']    # Username textbox of Customer Turnover page
-${product_listbox_customer_turnover}    xpath=//*[@id='sports']/input    # Product listbox of Customer Turnover page
-${bettype_listbox_customer_turnover}    xpath=//*[@id='bettypes']/input    # Bet Type listbox of Customer Turnover page
-${minimum_odds_textbox_customer_turnover}    xpath=//*[@id='Odds']    # Minimum Odds textbox of Customer Turnover page
-${daily_radio_button_customer_turnover}    xpath=//*[@id='RadioDaily']    # Daily radio button of Customer Turnover page
-${monthly_radio_button_customer_turnover}    xpath=//*[@id='RadioMonthly']    # Monthly radio button of Customer Turnover page

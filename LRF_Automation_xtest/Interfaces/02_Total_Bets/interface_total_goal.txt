@@ -1,3 +1,0 @@
-*** Variables ***
-${total_row_fulltime_totalgoal}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Total row of full time Total Goal
-${total_row_halftime_totalgoal}    xpath=//div[@class='footer-content']//td[@class='score-value'][3]    # Total row of half time Total Goal

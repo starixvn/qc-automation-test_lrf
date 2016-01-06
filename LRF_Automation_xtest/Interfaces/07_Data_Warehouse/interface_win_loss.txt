@@ -1,5 +1,0 @@
-*** Variables ***
-${report_by_listbox}    xpath=//*[@id='SelectReportBy']    # Report By listbox of Win Loss report
-${normal_radio_button_win_loss}    xpath=//*[@id='RadioNormal']    # Normal radio button of Win Loss report
-${no_draws_radio_button_win_loss}    xpath=//*[@id='RadioNoDraws']    # No Draws radio button of Win Loss report
-${no_draws_for_turnover_radio_button_win_loss}    xpath=//*[@id='RadioNoDrawsForTurnoverOnly']    # No Draws For Turnover Only radio button of Win Loss report

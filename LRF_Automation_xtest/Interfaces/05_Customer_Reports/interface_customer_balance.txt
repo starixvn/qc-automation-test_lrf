@@ -1,4 +1,0 @@
-*** Variables ***
-${select_top_listbox}    xpath=//*[@id='TopCount']    # Select Top listbox of Customer Balance report
-${sort_by_listbox}    xpath=//*[@id='OrderItem']    # Sort By listbox of Customer Balance report
-${exclude_test_data_checkbox_customer_balance}    xpath=//*[@id='IsExcludeTest']    # Exclude Test Data checkbox of Customer Balance report

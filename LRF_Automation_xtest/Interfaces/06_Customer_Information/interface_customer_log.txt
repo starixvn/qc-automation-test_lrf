@@ -1,8 +1,0 @@
-*** Variables ***
-${general_tab_customer_log}    xpath=//*[@id='loginlog']    # General tab of Customer Log page
-${customer_setting_tab_customer_log}    xpath=//*[@id='customersettinglog']    # Customer Setting tab of Customer Log page
-${username_textbox_customer_log}    xpath=//*[@id='Username']    # Username textbox of Customer Log page
-${general_table_customer_log}    xpath=//table[@id='LogInLogGrid']    # General table of General tab
-${view_by_listbox_customer_log}    xpath=//*[@id='ViewBy']    # View By listbox of Customer Log page
-${show_old_value_checkbox}    xpath=//*[@id='showall']    # Show old value checkbox of Customer Log page
-${customer_setting_table_customer_log}    xpath=//table[@id='CustomerSettingLogGrid']    # Customer Setting table of Customer Log page

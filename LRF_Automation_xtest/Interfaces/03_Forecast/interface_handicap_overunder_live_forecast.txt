@@ -1,5 +1,0 @@
-*** Variables ***
-${league_listbox_forecast_bodog}    xpath=//*[@id='DdlLeagueId']    # League listbox in Handicap page of Forecast report
-${match_listbox_forecast_bodog}    xpath=//*[@id='DdlMatchId']    # Match listbox in Handicap page of Forecast report
-${collapse_button_in_forecast_table_bodog}    xpath=//div[contains(text(),'FULL')]/div[@class='hand expand-icon']    # Collapse button in forecast table of Bodog licensee
-${expand_button_in_forecast_table_bodog}    xpath=//div[contains(text(),'FULL')]/div[@class='hand collapse-icon']    # Expand button in forecast table of Bodog licensee

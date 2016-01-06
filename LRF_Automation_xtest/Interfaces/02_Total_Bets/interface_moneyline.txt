@@ -1,3 +1,0 @@
-*** Variables ***
-${total_row_fulltime_moneyline}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Total row of Full Time - Money Line
-${total_row_halftime_moneyline}    xpath = //div[@class='footer-content']//td[@class='score-value'][5]    # Total row of Half Time - Money Line

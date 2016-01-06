@@ -1,2 +1,0 @@
-*** Variables ***
-${external_id_listbox_cancelled_bets}    xpath=//*[@id='CustId']    # External ID listbox of Cancelled Bets page

@@ -1,9 +1,0 @@
-*** Variables ***
-${inactive_since_last_listbox}    xpath=//*[@id='SelectReportBy']    # Inactive since last listbox of Top Customer Report
-${system_id_textbox_top_customer}    xpath=//*[@id='ExternalId']    # System ID textbox of Top Customer report
-${sport_listbox_top_customer}    xpath=//*[@id='SelectSport']    # Sport listbox of Top Customer report
-${min_bet_count_textbox}    xpath=//*[@id='BetCountMin']    # Min bet count textbox of Top Customer report
-${best_win_loss_radio_button}    xpath=//*[@id='RadioBestWinLoss']    # Bet Win Loss radio button of Top Customer report
-${worst_win_loss_radio_button}    xpath=//*[@id='RadioWorstWinLoss']    # Worst Win Loss radio button of Top Customer report
-${min_total_customer_wl_textbox}    xpath=//*[@id='WinLossTotalMin']    # Min total customer WL textbox of Top Customer report
-${top_textbox}    xpath=//*[@id='TopRow']    # Top textbox of Top Customer report

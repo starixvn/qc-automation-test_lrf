@@ -1,4 +1,0 @@
-*** Variables ***
-${page_textbox_customer_pending_funds}    xpath=//div[@class='grid_26']/div[1]/div/input[@class='pagingCurrent']    # Page textbox of Customer Pending Funds report
-${last_page_button_customer_pending_funds}    xpath=//div[@class='grid_26']/div[1]/div/input[contains(@class,'icon pagingLast')]    # Last Page button of Customer Pending Funds report
-${page_size_listbox_customer_pending_funds}    xpath=//div[@class='grid_26']/div[1]/div/select[@class='pageSizeSelected']    # Page Size listbox of Customer Pending Funds report

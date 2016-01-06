@@ -1,5 +1,0 @@
-*** Variables ***
-${div_report_table_data_warehouse}    xpath=//div[@class='data-content']    # Report table of Data Warehouse pages
-${note_icon_data_warehouse}    xpath=//*[@id='note-icon']    # Note icon of Data Warehouse pages
-${note_popup_data_warehouse}    xpath=//div[@class='note-message-content']    # Note popup displays when clicking on Note button
-${close_note_popup_button_data_warehouse}    xpath=//*[@id='note-wrapper']/div[@class='note-close']    # Close button of Note popup

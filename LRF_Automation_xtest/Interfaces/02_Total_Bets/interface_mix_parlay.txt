@@ -1,3 +1,0 @@
-*** Variables ***
-${system_parlay_header_link}    xpath=//div[@class='content-title']/span[contains(text(),'System Parlay')]    # System Parlay link at the header of Mix Parlay page.
-${mix_parlay}     xpath=//div[@class='content-title']/span[contains(text(),'Mix Parlay')]    # Mix Parlay link at the header of Mix Parlay page
