@@ -1,0 +1,6 @@
+*** Variables ***
+${total_row_fulltime_oddeven}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Total row of full time - odd/even
+${total_row_fulltime_1x2}    xpath=//div[@class='footer-content']//td[@class='score-value'][3]    # Total row of full time - 1x2
+${total_row_fulltime_dnd}    xpath=//div[@class='footer-content']//td[@class='score-value'][4]    # Total row of full time - dnd
+${total_row_halftime_oddeven}    xpath=//div[@class='footer-content']//td[@class='score-value'][5]    # Total fow of half time - odd/even
+${total_row_halftime_1x2}    xpath=//div[@class='footer-content']//td[@class='score-value'][6]    # Total row of half time - 1x2

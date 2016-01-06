@@ -1,0 +1,8 @@
+*** Variables ***
+${daily_radio_button_wl_by_products}    xpath=//input[(@name='ReportBy' or @name='reportby') and @value='1']     # Daily radio button of Win Loss By Products page
+${monthly_radio_button_wl_by_products}    xpath=//input[(@name='ReportBy' or @name='reportby') and @value='2']    # Monthly radio button of Win Loss By Products page
+${normal_radio_button_wl_by_products}    xpath=//input[(@name='DrawFilter' or @name='drawfilter') and @value='1']    # Normal radio button of Win Loss By Products page
+${no_draws_radio_button_wl_by_products}    xpath=//input[(@name='DrawFilter' or @name='drawfilter') and @value='2']    # No Draws radio button of Win Loss By Products page
+${no_draws_for_turnover_radio_button_wl_by_products}    xpath=//input[(@name='DrawFilter' or @name='drawfilter') and @value='3']    # No Draws For Turnover Only radio button of Win Loss By Products page
+${yes_radio_button_wl_by_products}    xpath=//input[@name='IsExcludedTestData' and @value='true']    # Yes radio button of Win Loss By Products page
+${no_radio_button_wl_by_products}    xpath=//input[@name='IsExcludedTestData' and @value='false']    # No radio button of Win Loss By Products page

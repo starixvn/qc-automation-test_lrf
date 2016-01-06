@@ -1,0 +1,36 @@
+*** Variables ***
+${logout_button}    xpath=//input[@id='lougout-btn']    # Logout button in LRF main page
+${language_listbox}    xpath=//select[@id='languagesite']    # Language listbox in LRF main page
+${licensee_listbox}    xpath=//select[@id='ddlLicensee']    # Licensee listbox in LRF main page
+${type_listbox}    xpath=//*[@id='LicenseeType']    # Type listbox in LRF pages
+${currency_listbox}    xpath=//*[@id='CurrencyId']    # Currency listbox in LRF pages
+${based_listbox}    xpath=//*[@id='BaseCurrency']    # Based listbox in LRF pages
+${submit_button}    xpath=//*[@id='SubmitButton']    # Submit button in LRF pages
+${back_button}    xpath=//div[@onclick='history.back()']    # Back button in LRF pages
+${export_to_excel_button}    xpath=//*[contains(@id,'ExportToExcel')]    # Export To Excel button in LRF pages
+${betlist_table}    xpath=//table[@id='BetListGrid']    # Bet List table in LRF pages
+${page_number_textbox}    xpath=//input[@class='ui-pg-input']    # Page textbox in LRF pages
+${page_size_listbox}    xpath=//select[@class='ui-pg-selbox']    # Page Size listbox in LRF pages
+${close_button_on_popup}    xpath=//span[text()='close']    # Close button on popup.
+${system_parlay_details_table}    xpath=//table[@class='system-parlay-detail']    # System Parlay table which displays after clicking on Details link.
+${result_table}    xpath=//table[contains(@class,'fn-rs')]    # Result table in LRF pages
+${user_guide_button}    xpath=//*[@id='UserGuide']    # User Guide button
+${user_guide_popup}    xpath=//*[@id='UserGuidePopup']    # User Guide popup
+${close_button_user_guide}    xpath=//a[@class='popup-close']    # Close button of User Guide popup
+${single_calendar_picker}    xpath=//div/input[contains(@id,'Date')]    # Single calendar displays on filter section of LRF pages
+${year_listbox_of_single_calendar}    xpath=//*/div/div/select[2][@data-handler='selectYear']    # Year listbox of single calendar
+${month_listbox_of_single_calendar}    xpath=//*/div/div/select[1][@data-handler='selectMonth']    # Month listbox of single calendar
+${from_calendar_picker}    xpath=//input[@id='FromDate']    # From Calendar picker of from-to calendar control
+${year_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[2][@data-handler='selectYear']    # Year listbox of From calendar
+${month_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of from calendar
+${year_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[2][@data-handler='selectYear']    # Year listbox of To Calendar
+${month_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of To calendar
+${ok_button_of_from_to_calendar}    xpath=//div/button[text()='OK']    # OK button of From-To calendar
+${no_info_label}    xpath=//*[contains(text(),'No information is available')]    # "No information is available" text
+${delete_button_popup}    xpath=//button/span[text()='Delete']    # Delete button of popup
+${cancel_button_popup}    xpath=//button/span[text()='Cancel']    # Cancel button of popup
+${ok_button_popup}    xpath=//button/span[text()='OK']    # OK button of the popup
+${save_button_popup}    xpath=//button/span[text()='Save']    # Save button of the popup
+${total_stake_of_TotalBets_betlist}    css=table.ui-jqgrid-ftable td[aria-describedby='BetListGrid_Stake']    # Total row value of betlist
+${username_textbox_leftmenu}    xpath=//*[@id='txtUserName']    # Username textbox in left menu
+${search_button_leftmenu}    xpath=//*[@id='search-button']    # Search button on Left Menu

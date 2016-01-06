@@ -1,0 +1,2 @@
+*** Variables ***
+${report_table_settle_match_count}    xpath=//div[@class='report-content']    # Report table of Settle Match Count page

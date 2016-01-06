@@ -1,0 +1,2 @@
+*** Variables ***
+${total_row_outright}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Total row of outright report

@@ -1,0 +1,4 @@
+*** Variables ***
+${total_row_racing_win_total}    xpath=//div[@class='footer-content']//td[@class='score-value'][2]    # Value of total row of Racing win total
+${total_row_racing_place_total}    xpath=//div[@class='footer-content']//td[@class='score-value'][4]    # Value of total row of Racing - place total
+${total_row_racing_winplace_total}    xpath=//div[@class='footer-content']//td[@class='score-value'][6]    # Value of total row of Racing - winplace total

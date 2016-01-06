@@ -1,0 +1,20 @@
+*** Variables ***
+${new_group_button}    xpath=//*[@id='NewGroupButton']    # New Group button of Customer Group List page
+${group_name_textbox}    xpath=//*[@id='GroupName']    # Group Name textbox of Customer Group List page
+${check_availability_button}    xpath=//*[@id='Validate']    # Check availability button of Customer Group List page
+${valid_icon}     xpath=//*[@id='ValidateOK']    # Valid icon when clicking on Check availability
+${sportsbook_commission_listbox}    xpath=//*[@id='DdlSBComm1']    # Sportsbook commission listbox of Customer Group List page
+${number_game_commission_listbox}    xpath=//*[@id='DdlNGComm1']    # Number Game commission listbox of Customer Group List page
+${live_casino_commission_listbox}    xpath=//*[@id='DdlLCComm1']    # Live Casino commission listbox of Customer Group List page
+${rng_casino_commission_listbox}    xpath=//*[@id='DdlCSComm1']    # RNG Casino commission listbox of Customer Group List page
+${successful_label}    xpath=//*[@id='form_result']/div[contains(text(),'Successful')]    # Sucessful label when creating new group
+${go_to_customer_list_button}    xpath=//*[@id='CustList']    # Go To Customer List button of Customer Group List page
+${create_group_button}    xpath=//*[@id='Add']    # Create Group button of Customer Group List page
+${cancel_button_commission_group_list}    xpath=//*[@id='Cancel']    # Cancel button of Commission Group List
+${commission_group_list_table}    xpath=//table[@class='report-table']    # Commission Group List table
+${keep_comm_radio_button}    xpath=//div[@id='keep']/input[@id='IsRemovePlayerComm']    # Keep Current Commission radio button of Delete popup
+${clear_comm_radio_button}    xpath=//div[@id='clear']/input[@id='IsRemovePlayerComm']    # Clear Customer Commission radio button of Delete popup
+${save_button_commission_group_list}    xpath=//*[@id='Save']    # Save button of Commission Group List page
+${delete_button_delete_commission_group}    xpath=//div[@aria-describedby='Delete']/div/div/button/span[text()='Delete']    # Delete button of Delete Commission Group popup
+${cancel_button_delete_commission_group}    xpath=//div[@aria-describedby='Delete']/div/div/button/span[text()='Cancel']    # Cancel button of Delete Commission Group popup
+${ok_button_confirm_delete}    xpath=//div[@aria-describedby='confirm-delete']/div/div/button/span[text()='OK']    # OK button of Confirm Delete popup
