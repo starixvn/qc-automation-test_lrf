@@ -1,0 +1,16 @@
+*** Settings ***
+Library           Selenium2Library
+
+*** Keywords ***
+click drilldown link in customer reports
+    [Arguments]    ${row}    ${column}
+    [Documentation]    This action will try to find the drilldown link inside a div table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed from 4th row, 2nd column. Then click it.
+    ...
+    ...    click drilldown link customer reports | 4 | 2
+    Select Window
+    Select Frame    main
+    # Find link in the columns. If existed, click on it
+    Click Element    xpath=//*[@id='data-content']/div[${row}]/div[${column}]/div/a/span
+    Unselect Frame

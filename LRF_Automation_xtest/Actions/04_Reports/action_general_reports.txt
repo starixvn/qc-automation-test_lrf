@@ -1,0 +1,401 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_general_reports.txt
+Resource          ../01_Main_Actions/action_main.txt
+Library           ExcelLibrary
+Library           String
+
+*** Keywords ***
+click drilldown link in table report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column header}
+    [Documentation]    This action will try to find the drilldown link inside a table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed from 4th row, column 'Currency'. Then click it.
+    ...
+    ...    click drilldown link in table report | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 4 | Currency
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/tbody/tr[${row}]/td[contains(@aria-describedby,'${column header}')]/a
+    Run Keyword If    '${ac_drilldown_link_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[contains(@aria-describedby,'${column header}')]/a
+    Run Keyword If    '${ac_drilldown_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+click drilldown link in div table report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${table}    ${row}    ${column}
+    [Documentation]    This action will try to find the drilldown link inside a div table. If the link is existed, we'll click it.
+    ...
+    ...    Example: Find if link existed from 4th row, 2nd column. Then click it.
+    ...
+    ...    click drilldown link in div table report | ${window title} | ${main frame} | ${sub frame} | ${report_table} | 4 | 2
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Find link in the columns. If existed, click on it
+    ${ac_drilldown_link_status}=    Run Keyword And Return Status    Element Should Be Visible    ${table}/div[${row}]/div[${column}]/div/span
+    Run Keyword If    '${ac_drilldown_link_status}'=='True'    Click Element    ${table}/div[${row}]/div[${column}]/div/span
+    Run Keyword If    '${ac_drilldown_link_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    Unselect Frame
+
+create ref no list
+    [Documentation]    This action is used to create a list of Ref Number for all tickets in bet list.
+    ${ac_totalrow_betlist}=    Execute Javascript    return document.getElementById('BetListGrid').rows.length
+    ${ac_ref_list}=    Create List
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_betlist}
+    \    Wait Until Element Is Visible    xpath=//*[@id='${ac_index}']/td[4]    60s
+    \    ${ac_ref}    Get Text    xpath=//*[@id='${ac_index}']/td[4]
+    \    ${ac_ref}    Fetch From Right    ${ac_ref}    No:
+    \    ${ac_ref}    Get Substring    ${ac_ref}    1    11
+    \    ${ac_ref}    Replace String    ${ac_ref}    ${SPACE}    ${EMPTY}
+    \    ${ac_ref}    Convert To String    ${ac_ref}
+    \    Append To List    ${ac_ref_list}    ${ac_ref}
+    ${ref list}=    Set Variable    ${ac_ref_list}
+    [Return]    ${ref list}
+
+get ticket row number based on ref number
+    [Arguments]    ${total row}    ${ref no}
+    [Documentation]    This action is used to return the row number of ticket based on its Ref No.
+    ...
+    ...    Ex:
+    ...
+    ...    get ticket row number based on ref number | 102 | 1092320923
+    ${ticket row}=    Set Variable    ${EMPTY}
+    Set Selenium Speed    0.1
+    : FOR    ${ac_index}    IN RANGE    1    ${total row}
+    \    Wait Until Element Is Visible    xpath=//*[@id='${ac_index}']/td[4]    60s
+    \    ${tm_ref}    Get Text    xpath=//*[@id='${ac_index}']/td[4]
+    \    ${ac_result}    Run Keyword And Return Status    Should Contain    ${tm_ref}    ${ref no}
+    \    Run Keyword IF    '${ac_result}'=='True'    Exit For Loop
+    \    Run Keyword IF    '${ac_result}'!='True' and '${ac_index}'=='${total row}'    Fail    This ticket is not existed
+    ${ticket row}=    Set Variable    ${ac_index}
+    Set Selenium Speed    ${cf_speed}
+    [Return]    ${ticket row}
+
+check bet list
+    [Arguments]    ${excel file}    ${sheet}
+    [Documentation]    This action is used to check all tickets in the bet list.
+    ...
+    ...    Ex:
+    ...
+    ...    check bet list | Test_Data.xls | Sportsbook
+    Open Excel Current Directory    ${excel file}
+    ${ac_totalrow_excel}    Get Row Count    ${sheet}
+    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    \    Comment    Get REF NO from Excel
+    \    ${ac_ref_excel_float}    Read Cell Data By Coordinates    ${sheet}    0    ${ac_index}
+    \    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    \    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    \    Comment    Get Data (choice, bettype, ...) from web
+    \    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span
+    \    ${ac_bettype}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[1]
+    \    ${ac_odds}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Odds')]/span[1]
+    \    ${ac_odds}    Convert To String    ${ac_odds}
+    \    ${ac_match}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='match']
+    \    ${ac_league}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    \    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    \    Comment    Get Data (choice, bettype, ...) from excel
+    \    ${ac_choice_excel}    Read Cell Data By Coordinates    ${sheet}    1    ${ac_index}
+    \    ${ac_bettype_excel}    Read Cell Data By Coordinates    ${sheet}    3    ${ac_index}
+    \    ${ac_odds_excel}    Read Cell Data By Coordinates    ${sheet}    2    ${ac_index}
+    \    ${ac_odds_excel}    Convert To String    ${ac_odds_excel}
+    \    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${ac_index}
+    \    ${ac_league_excel}    Read Cell Data By Coordinates    ${sheet}    6    ${ac_index}
+    \    ${ac_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    ${ac_index}
+    \    ${ac_league_excel}    Set Variable    ${ac_sport_excel}${ac_league_excel}
+    \    ${ac_color}    Read Cell Data By Coordinates    ${sheet}    7    ${ac_index}
+    \    ${ac_firstgoal}    Read Cell Data By Coordinates    ${sheet}    8    ${ac_index}
+    \    ${ac_lastgoal}    Read Cell Data By Coordinates    ${sheet}    9    ${ac_index}
+    \    ${ac_1hfirstgoal}    Read Cell Data By Coordinates    ${sheet}    10    ${ac_index}
+    \    ${ac_1hlastgoal}    Read Cell Data By Coordinates    ${sheet}    11    ${ac_index}
+    \    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${ac_index}
+    \    Comment    Remove space from string
+    \    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype_excel}    Replace String    ${ac_bettype_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype}    Replace String    ${ac_bettype}    ${SPACE}    ${EMPTY}
+    \    ${ac_match}    Replace String    ${ac_match}    ${SPACE}    ${EMPTY}
+    \    ${ac_match_excel}    Replace String    ${ac_match_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_league}    Replace String    ${ac_league}    ${SPACE}    ${EMPTY}
+    \    ${ac_league_excel}    Replace String    ${ac_league_excel}    ${SPACE}    ${EMPTY}
+    \    Comment    Check data
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_bettype_excel}    ${ac_bettype}    Bettype error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Contain    ${ac_odds_excel}    ${ac_odds}    Odds error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_match}    ${ac_match_excel}    Match error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_league}    ${ac_league_excel}    League error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword If    '${ac_color}'=='Red'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite']
+    \    Run Keyword If    '${ac_color}'=='Black'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='underdog']
+    \    Run Keyword If    '${ac_color}'=='Blue'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite light-blue']
+    \    Run Keyword If    '${ac_firstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+    \    Run Keyword If    '${ac_firstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+
+check microgaming bet list
+    [Arguments]    ${excel file}    ${sheet}
+    [Documentation]    This action is used to check all tickets in the bet list.
+    ...
+    ...    Ex:
+    ...
+    ...    check bet list | Test_Data.xls | Sportsbook
+    Open Excel Current Directory    ${excel file}
+    ${ac_totalrow_excel}    Get Row Count    ${sheet}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    \    Comment    Get REF NO from Excel
+    \    ${ac_ref_excel_float}    Read Cell Data By Coordinates    ${sheet}    0    ${ac_index}
+    \    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    \    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    \    Comment    Get Data (choice, bettype, ...) from web
+    \    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    \    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    \    Comment    Get Data (choice, bettype, ...) from excel
+    \    ${ac_choice_excel}    Read Cell Data By Coordinates    ${sheet}    1    ${ac_index}
+    \    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${ac_index}
+    \    Comment    Remove space from string
+    \    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    \    Comment    Check data
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+
+check bet list for selected products
+    [Arguments]    ${products}    ${excel file}
+    [Documentation]    This action is used to check bet list with selected products.
+    ...
+    ...    Ex:
+    ...
+    ...    check bet list with selected products | Sportsbook, Number Game
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${products}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${products}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${products}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${products}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${products}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
+    ${MG}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming
+    Run Keyword If    '${SB}'=='True'    check bet list    ${excel file}    Sportsbook
+    Run Keyword If    '${RB}'=='True'    check bet list    ${excel file}    Racing
+    Run Keyword If    '${NG}'=='True'    check bet list    ${excel file}    Number Game
+    Run Keyword If    '${BA}'=='True'    check bet list    ${excel file}    BA
+    Run Keyword If    '${LC}'=='True'    check bet list    ${excel file}    Live Casino
+    Run Keyword If    '${VS}'=='True'    check bet list    ${excel file}    Virtual Sports
+    Run Keyword If    '${CS}'=='True'    check bet list    ${excel file}    RNG Casino
+    Run Keyword If    '${KN}'=='True'    check bet list    ${excel file}    Keno
+    Run Keyword If    '${MG}'=='True'    check microgaming bet list    ${excel file}    Microgaming
+
+check running bet list for selected products
+    [Arguments]    ${products}    ${excel file}
+    [Documentation]    This action is used to check running bet list with selected products.
+    ...
+    ...    Ex:
+    ...
+    ...    check running bet list with selected products | Sportsbook, Number Game
+    ${SB}=    Run Keyword And Return Status    Should Contain    ${products}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Contain    ${products}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Contain    ${products}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${products}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Contain    ${products}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
+    ${MG}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming
+    Run Keyword If    '${SB}'=='True'    check bet list    ${excel file}    Sportsbook Running
+    Run Keyword If    '${RB}'=='True'    check bet list    ${excel file}    Racing Running
+    Run Keyword If    '${NG}'=='True'    check bet list    ${excel file}    Number Game Running
+    Run Keyword If    '${BA}'=='True'    check bet list    ${excel file}    BA Running
+    Run Keyword If    '${LC}'=='True'    check bet list    ${excel file}    Live Casino Running
+    Run Keyword If    '${VS}'=='True'    check bet list    ${excel file}    Virtual Sports Running
+    Run Keyword If    '${CS}'=='True'    check bet list    ${excel file}    RNG Casino Running
+    Run Keyword If    '${KN}'=='True'    check bet list    ${excel file}    Keno Running
+    Run Keyword If    '${MG}'=='True'    check microgaming bet list    ${excel file}    Microgaming Running
+
+check settled ticket data
+    [Arguments]    ${sheet}    ${row}
+    ${ac_ref_excel_float}    Read Cell Data By Coordinates    ${sheet}    0    ${row}
+    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    Comment    Get Data (choice, bettype, ...) from web
+    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span
+    ${ac_bettype}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[1]
+    ${ac_odds}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Odds')]/span[1]
+    ${ac_odds}    Convert To String    ${ac_odds}
+    ${ac_match}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='match']
+    ${ac_league}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    Comment    Get Data (choice, bettype, ...) from excel
+    ${ac_choice_excel}    Read Cell Data By Coordinates    ${sheet}    1    ${row}
+    ${ac_bettype_excel}    Read Cell Data By Coordinates    ${sheet}    3    ${row}
+    ${ac_odds_excel}    Read Cell Data By Coordinates    ${sheet}    2    ${row}
+    ${ac_odds_excel}    Convert To String    ${ac_odds_excel}
+    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${row}
+    ${ac_league_excel}    Read Cell Data By Coordinates    ${sheet}    6    ${row}
+    ${ac_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    ${row}
+    ${ac_league_excel}    Set Variable    ${ac_sport_excel}${ac_league_excel}
+    ${ac_color}    Read Cell Data By Coordinates    ${sheet}    7    ${row}
+    ${ac_firstgoal}    Read Cell Data By Coordinates    ${sheet}    8    ${row}
+    ${ac_lastgoal}    Read Cell Data By Coordinates    ${sheet}    9    ${row}
+    ${ac_1hfirstgoal}    Read Cell Data By Coordinates    ${sheet}    10    ${row}
+    ${ac_1hlastgoal}    Read Cell Data By Coordinates    ${sheet}    11    ${row}
+    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${row}
+    Comment    Remove space from string
+    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    ${ac_bettype_excel}    Replace String    ${ac_bettype_excel}    ${SPACE}    ${EMPTY}
+    ${ac_bettype}    Replace String    ${ac_bettype}    ${SPACE}    ${EMPTY}
+    ${ac_match}    Replace String    ${ac_match}    ${SPACE}    ${EMPTY}
+    ${ac_match_excel}    Replace String    ${ac_match_excel}    ${SPACE}    ${EMPTY}
+    ${ac_league}    Replace String    ${ac_league}    ${SPACE}    ${EMPTY}
+    ${ac_league_excel}    Replace String    ${ac_league_excel}    ${SPACE}    ${EMPTY}
+    Comment    Check data
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_bettype_excel}    ${ac_bettype}    Bettype error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Contain    ${ac_odds_excel}    ${ac_odds}    Odds error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_match}    ${ac_match_excel}    Match error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_league}    ${ac_league_excel}    League error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+    Run Keyword If    '${ac_color}'=='Red'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite']
+    Run Keyword If    '${ac_color}'=='Black'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='underdog']
+    Run Keyword If    '${ac_color}'=='Blue'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite light-blue']
+    Run Keyword If    '${ac_firstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    Run Keyword If    '${ac_lastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    Run Keyword If    '${ac_1hfirstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    Run Keyword If    '${ac_1hlastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+    Run Keyword If    '${ac_firstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    Run Keyword If    '${ac_lastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    Run Keyword If    '${ac_1hfirstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    Run Keyword If    '${ac_1hlastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+
+check microgaming settled ticket data
+    [Arguments]    ${sheet}    ${row}
+    ${ac_ref_excel_float}    Read Cell Data By Coordinates    ${sheet}    0    ${row}
+    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    Comment    Get Data (choice, bettype, ...) from web
+    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    Comment    Get Data (choice, bettype, ...) from excel
+    ${ac_choice_excel}    Read Cell Data By Coordinates    ${sheet}    1    ${row}
+    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    ${sheet}    12    ${row}
+    Comment    Remove space from string
+    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    Comment    Check data
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+
+get Total values in report
+    [Arguments]    ${report_name}    ${product}
+    [Documentation]    This action is used to get Toal values in each report
+    ...
+    ...    Params:
+    ...    - ${report_name} = "*Win Loss By Products*" or "*Match Win Loss*" or "*Customer Win Loss*" or "*Live Report*" or "*Licensee Win Loss*" or "*Win Loss By Products*" or "*Turnover*"
+    ...    - ${product} = "*Sportsbook*" or "*Racing*" or "*Number Game*" or "*Live Casino*" or "*Keno*" or "*RNG Casino*" or "*Virtual Sports*"
+    ...
+    ...    Example: get Number Game total value of Turnover, Total Trans, Customer WL, Customer Comm, Customer Total, Licensee WL columns in report Win Loss By Products
+    ...
+    ...    ${NG_turnover} ${NG_totaltrans} ${NG_customerwl} ${NG_customercomm} ${NG_customertotal} ${NG_licenseewl}= | get Total values in report | Win Loss By Products | Number Game
+    ...
+    ...    *NOTE: Just get Total value of GBP row (in case get total from Licensee Win Loss)*
+    select frame    main
+    ${isVS}    Run Keyword And Return Status    Should Contain    ${product}    Virtual
+    sleep    10s
+    ${turnover}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[2]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[2]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[7]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalTurnOverSingle']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[1]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[7]
+    ${turnover}    Run Keyword If    '${turnover}'!='None'    remove string    ${turnover}    ,
+    ${totaltrans}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[3]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[3]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[9]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalTransaction']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[2]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${totaltrans}    Run Keyword If    '${totaltrans}'!='None'    remove string    ${totaltrans}    ,
+    ${customerwl}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[4]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[4]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[1]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerWinLoss']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[3]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[11]
+    ${customerwl}    Run Keyword If    '${customerwl}'!='None'    remove string    ${customerwl}    ,
+    ${customercomm}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[5]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[5]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[3]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerComm']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[4]    ELSE IF    '${report_name}'=='Turnover'    get text    xpath=//*/table/tbody/tr[1]/td[1][contains(text(),'Total')]/following::td[12]
+    ${customercomm}    Run Keyword If    '${customercomm}'!='None'    remove string    ${customercomm}    ,
+    ${customertotal}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[6]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[6]/div    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[5]/div
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_CustomerTotal']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[5]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${customertotal}    Run Keyword If    '${customertotal}'!='None'    remove string    ${customertotal}    ,
+    ${licenseewl}    Run Keyword If    '${report_name}'=='Match Win Loss'    get text    xpath=//*[@id='TableTotal']/tbody/tr[contains(@class,'first')][2]/td[7]    ELSE IF    '${report_name}'=='Customer Win Loss'
+    ...    get text    xpath=//*[@id='total-content']/div/div[8]    ELSE IF    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[11]/span
+    ...    ELSE IF    '${report_name}'=='Licensee Win Loss'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@aria-describedby='ReportGrid_TotalLicenseeWLSingle']    ELSE IF    '${report_name}'=='Win Loss By Products' and '${isVS}' \ == 'False'
+    ...    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][1]/td[@title='${product}']/following::td[6]    ELSE IF    '${report_name}'=='Turnover'    Set Variable    None
+    ${licenseewl}    Run Keyword If    '${licenseewl}'!='None'    remove string    ${licenseewl}    ,
+    ${licenseecomm}    Run Keyword If    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[12]/div
+    ${licenseecomm}    Run Keyword If    '${licenseecomm}'!='None'    remove string    ${licenseecomm}    ,
+    ${amtdueto}    Run Keyword If    '${report_name}'=='Live Report'    get text    xpath=//*/a[contains(text(),'${product}')]/following::div[14]/div
+    ${amtdueto}    Run Keyword If    '${amtdueto}'!='None'    remove string    ${amtdueto}    ,
+    sleep    5s
+    ${turnover}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${turnover}
+    ${totaltrans}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${totaltrans}
+    ${customerwl}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customerwl}
+    ${customercomm}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customercomm}
+    ${customertotal}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${customertotal}
+    ${licenseewl}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${licenseewl}
+    ${licenseecomm}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${licenseecomm}
+    ${amtdueto}=    Set Variable If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    0    ${amtdueto}
+    : FOR    ${i}    IN RANGE    1    8
+    \    ${temp_turnover}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[1]
+    \    ${temp_turnover}    Run Keyword If    '${temp_turnover}'!='None'    remove string    ${temp_turnover}    ,
+    \    ${turnover}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${turnover}+${temp_turnover}    ELSE
+    \    ...    Set Variable    ${turnover}
+    \    ${temp_totaltrans}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[2]
+    \    ${temp_totaltrans}    Run Keyword If    '${temp_totaltrans}'!='None'    remove string    ${temp_totaltrans}    ,
+    \    ${totaltrans}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${totaltrans} +${temp_totaltrans}    ELSE
+    \    ...    Set Variable    ${totaltrans}
+    \    ${temp_customerwl}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[3]
+    \    ${temp_customerwl}    Run Keyword If    '${temp_customerwl}'!='None'    remove string    ${temp_customerwl}    ,
+    \    ${customerwl}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customerwl}+${temp_customerwl}    ELSE
+    \    ...    Set Variable    ${customerwl}
+    \    ${temp_customercomm}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[4]
+    \    ${temp_customercomm}    Run Keyword If    '${temp_customercomm}'!='None'    remove string    ${temp_customercomm}    ,
+    \    ${customercomm}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customercomm}+${temp_customercomm}    ELSE
+    \    ...    Set Variable    ${customercomm}
+    \    ${temp_customertotal}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[5]
+    \    ${temp_customertotal}    Run Keyword If    '${temp_customertotal}'!='None'    remove string    ${temp_customertotal}    ,
+    \    ${customertotal}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${customertotal}+${temp_customertotal}    ELSE
+    \    ...    Set Variable    ${customertotal}
+    \    ${temp_licenseewl}    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    get text    xpath=//*[@id='gview_ReportGrid']/div[4]/div/table/tbody/tr[contains(@class,'total-eur')][${i}]/td[6]/following::td[6]
+    \    ${temp_licenseewl}    Run Keyword If    '${temp_licenseewl}'!='None'    remove string    ${temp_licenseewl}    ,
+    \    ${licenseewl}=    Run Keyword If    '${report_name}'=='Win Loss By Products' \ and '${isVS}'=='True'    Evaluate    ${licenseewl}+${temp_licenseewl}    ELSE
+    \    ...    Set Variable    ${licenseewl}
+    ${turnover}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${turnover}    ELSE    Set Variable
+    ...    ${turnover}
+    ${totaltrans}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${totaltrans}    ELSE    Set Variable
+    ...    ${totaltrans}
+    ${customerwl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customerwl}    ELSE    Set Variable
+    ...    ${customerwl}
+    ${customercomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customercomm}    ELSE    Set Variable
+    ...    ${customercomm}
+    ${customertotal}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customertotal}    ELSE    Set Variable
+    ...    ${customertotal}
+    ${licenseewl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseewl}    ELSE    Set Variable
+    ...    ${licenseewl}
+    ${licenseecomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseecomm}    ELSE    Set Variable
+    ...    ${licenseecomm}
+    ${amtdueto}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${amtdueto}    ELSE    Set Variable
+    ...    ${amtdueto}
+    unselect frame
+    [Return]    ${turnover}    ${totaltrans}    ${customerwl}    ${customercomm}    ${customertotal}    ${licenseewl}
+    ...    ${licenseecomm}    ${amtdueto}
+
+wait for loading
+    [Documentation]    Wait for loading icon disappear on web.
+    ${loading_status}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@class='loading'][@style='display: block;']
+    Run Keyword If    '${loading_status}'=='True'    Wait Until Page Contains Element    xpath=//*[@class='loading'][@style='display: none;']    150s

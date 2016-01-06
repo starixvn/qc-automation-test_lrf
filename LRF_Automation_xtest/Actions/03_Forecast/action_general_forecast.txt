@@ -1,0 +1,42 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../01_Main_Actions/action_main.txt
+
+*** Keywords ***
+submit filters for forecast
+    [Arguments]    ${type}    ${league index}    ${currency}    ${based}
+    [Documentation]    This action is used to select filters in Forecast page then click on Submit button.
+    ...
+    ...    If you don't want to select any of them, just input 'None'
+    ...
+    ...    Example:
+    ...
+    ...    submit filter for total bets | normal | 1 | CNY | EUR
+    ...
+    ...    submit filter for total bets | normal | None | CNY | EUR
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${type}'!='None'    Select From List By Label    ${type_listbox}    ${type}
+    Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_forecast}    ${league index}
+    wait page load
+    Select Window
+    Select Frame    main
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
+    Click Element    ${submit_button}
+    Unselect Frame
+    wait page load
+
+check betlist on forecast report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${export file name}
+    [Documentation]    This action is used to check betlist on Forecast.
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ac_betlist_link}=    Run Keyword And Return Status    Element Should Be Visible    ${bet_list_link}
+    Run Keyword If    '${ac_betlist_link}'=='True'    Click Element    ${bet_list_link}
+    Run Keyword If    '${ac_betlist_link}'=='True'    Element Should Be Visible    ${betlist_table}
+    Run Keyword If    '${ac_betlist_link}'=='True'    check export excel function    ${window title}    ${main frame}    ${sub frame}    ${export file name}
+    Run Keyword If    '${ac_betlist_link}'=='True'    click element on report    ${window title}    ${main frame}    ${sub frame}    ${back_button}

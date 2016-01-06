@@ -1,0 +1,873 @@
+*** Settings ***
+Suite Setup       config
+Suite Teardown    Close Browser
+Test Teardown
+Library           Selenium2Library
+Library           OperatingSystem
+Library           Screenshot
+Library           Collections
+Library           String
+Library           Dialogs
+Library           Process
+Resource          ../Interfaces/01_Main_Interfaces/interface_login.txt
+Resource          ../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../Actions/01_Main_Actions/action_main.txt
+Resource          ../Interfaces/02_Total_Bets/interface_general_totalbets.txt
+Resource          ../Interfaces/03_Forecast/interface_general_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_handicap_overunder_live_totalbets.txt
+Resource          ../Interfaces/02_Total_Bets/interface_mix_parlay.txt
+Resource          ../Actions/03_Forecast/action_handicap_overunder_live_forecast.txt
+Resource          ../Actions/02_Total_Bets/action_general_totalbets.txt
+Resource          ../Actions/03_Forecast/action_general_forecast.txt
+Resource          ../Actions/04_Reports/action_last_bets_monitoring.txt
+Resource          ../Interfaces/04_Reports/interface_last_bet_monitoring.txt
+Resource          ../Actions/04_Reports/action_general_reports.txt
+Resource          ../Interfaces/04_Reports/interface_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_match_win_loss.txt
+Resource          ../Interfaces/04_Reports/interface_match_win_loss.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_products.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_bet_type.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_bet_type.txt
+Resource          ../Actions/04_Reports/action_racing_commission.txt
+Resource          ../Actions/04_Reports/action_daily_racing_win_loss.txt
+Resource          ../Actions/04_Reports/action_cancelled_bets.txt
+Resource          ../Actions/04_Reports/action_daily_bet_list.txt
+Resource          ../Interfaces/04_Reports/interface_live_report.txt
+Resource          ../Actions/04_Reports/action_live_report.txt
+Resource          ../Actions/04_Reports/action_licensee_win_loss.txt
+Resource          ../Actions/04_Reports/action_turnover.txt
+Resource          ../Interfaces/04_Reports/interface_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_mobile_win_loss.txt
+Resource          ../Actions/04_Reports/action_ag_casino_win_loss.txt
+Resource          ../Actions/04_Reports/action_results.txt
+Resource          ../Actions/04_Reports/action_balance.txt
+Resource          ../Actions/04_Reports/action_win_loss_by_leagues.txt
+Resource          ../Interfaces/04_Reports/interface_win_loss_by_leagues.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_win_loss.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_win_loss.txt
+Resource          ../Actions/05_Customer_Reports/action_general_customer_reports.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_pending_funds.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_balance.txt
+Resource          ../Interfaces/05_Customer_Reports/interface_general_customer_reports.txt
+Resource          ../Interfaces/04_Reports/interface_settle_match_count.txt
+Resource          ../Actions/05_Customer_Reports/action_customer_turnover.txt
+Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/07_Data_Warehouse/action_win_loss.txt
+Resource          ../Interfaces/07_Data_Warehouse/interface_general_data_warehouse.txt
+Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
+Resource          ../Actions/06_Customer_Information/action_customer_log.txt
+Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
+Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+Resource          ../Actions/04_Reports/action_gold_deluxe_win_loss.txt
+Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+Resource          ../Actions/06_Customer_Information/action_bet_settings.txt
+
+*** Test Cases ***
+TM_00_FUN_Start web
+    [Tags]    CI
+    # 1. Open testing site
+    Open Browser    ${cf_url}    ${cf_browser}    ff_profile_dir=${cf_ff_profile_dir}
+    Maximize Browser Window
+    # 2. Login with valid account
+    login    ${cf_username}    ${cf_password}
+    # 3. Select licensee
+    select licensee after login    ${cf_licensee}
+
+TM_01_FUN_Compare data between Licwl, Live Report and Customer WL reports
+    ${from}=    Get Time    \    Now - 14 day
+    ${to}=    Get Time    \    Now - 48 hour
+    # 1. Navigate to REPORTS > Licensee Win Loss
+    navigate left menu    REPORTS    Licensee Win Loss
+    submit filters for licensee win loss    ${from}    ${to}    Based GBP    None    None    No
+    ...    All
+    ${licwl_turnover}    ${licwl_totaltrans}    ${licwl_customerwl}    ${licwl_customercomm}    ${licwl_customertotal}    ${licwl_licenseewl}    ${licwl_licenseecomm}
+    ...    ${licwl_amt}    get Total values in report    Licensee Win Loss    All
+    navigate left menu    REPORTS    Live Report
+    submit filters for live report    ${from}    ${to}    ALL    GBP    All    None
+    ${livereport_turnover}    ${livereport_totaltrans}    ${livereport_customerwl}    ${livereport_customercomm}    ${livereport_customertotal}    ${livereport_licenseewl}    ${livereport_licenseecomm}
+    ...    ${livereport_amt}    get Total values in report    Live Report    Total
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecom}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
+    # Compare data in reports
+    should be true    '${licwl_turnover}'=='${livereport_turnover}'=='${customerwl_turnover}'
+    should be true    '${licwl_totaltrans}'=='${livereport_totaltrans}'=='${customerwl_totaltrans}'
+    should be true    '${licwl_customerwl}'=='${livereport_customerwl}'=='${customerwl_customerwl}'
+    should be true    '${licwl_customercomm}'=='${livereport_customercomm}'=='${customerwl_customercomm}'
+    should be true    '${licwl_customertotal}'=='${livereport_customertotal}'=='${customerwl_customertotal}'
+    should be true    '${licwl_licenseewl}'=='${livereport_licenseewl}'=='${customerwl_licenseewl}'
+
+TM_02_FUN_Compare data for Match WL and Turnover reports
+    ${from}=    Get Time    \    Now - 2 day
+    ${to}=    Get Time    \    Now - 2 day
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
+    ####### Compare data for Match WL in bettrans range
+    navigate left menu    REPORTS    Match Win Loss
+    submit filters for match win loss    ${from}    None    ALL    GBP    All
+    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    ${matchwl_licenseecomm}
+    ...    ${matchwl_amt}    get Total values in report    Match Win Loss    All
+    should be true    '${customerwl_turnover}'=='${matchwl_turnover}'
+    should be true    '${customerwl_totaltrans}'=='${matchwl_totaltrans}'
+    should be true    '${customerwl_customerwl}'=='${matchwl_customerwl}'
+    should be true    '${customerwl_customercomm}'=='${matchwl_customercomm}'
+    should be true    '${customerwl_customertotal}'=='${matchwl_customertotal}'
+    should be true    '${customerwl_licenseewl}'=='${matchwl_licenseewl}'
+    ### Compare data for Turnover
+    navigate left menu    REPORTS    Turnover${SPACE}
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    submit filters for turnover    None    None    ${from_day}    ${to_day}    No    ALL
+    ...    Based GBP    None    All
+    ${TO_turnover}    ${TO_totaltrans}    ${TO_customerwl}    ${TO_customercomm}    ${TO_customertotal}    ${TO_licenseewl}    ${TO_licenseecomm}
+    ...    ${TO_amt}    get Total values in report    Turnover    All
+    should be true    '${customerwl_customerwl_total}'=='${TO_customerwl}'
+    should be true    '${customerwl_customercomm_total}'=='${TO_customercomm}'
+    ####### Compare data for Match WL in bettrans14 range
+    ${from}=    Get Time    \    Now - 8 day
+    ${to}=    Get Time    \    Now - 8 day
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
+    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
+    navigate left menu    REPORTS    Match Win Loss
+    submit filters for match win loss    ${from}    None    ALL    GBP    All
+    ${matchwl_turnover}    ${matchwl_totaltrans}    ${matchwl_customerwl}    ${matchwl_customercomm}    ${matchwl_customertotal}    ${matchwl_licenseewl}    ${matchwl_licenseecomm}
+    ...    ${matchwl_amt}    get Total values in report    Match Win Loss    All
+    should be true    '${customerwl_turnover}'=='${matchwl_turnover}'
+    should be true    '${customerwl_totaltrans}'=='${matchwl_totaltrans}'
+    should be true    '${customerwl_customerwl}'=='${matchwl_customerwl}'
+    should be true    '${customerwl_customercomm}'=='${matchwl_customercomm}'
+    should be true    '${customerwl_customertotal}'=='${matchwl_customertotal}'
+    should be true    '${customerwl_licenseewl}'=='${matchwl_licenseewl}'
+
+TM_03_FUN_Compare data for WL by Product report
+    ${from}=    Get Time    \    Now - 16 day
+    ${to}=    Get Time    \    Now - 48 hour
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Sportsbook
+    ${SB_turnover}    ${SB_totaltrans}    ${SB_customerwl}    ${SB_customercomm}    ${SB_customertotal}    ${SB_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Sportsbook
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Racing
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${Racing_turnover}    ${Racing_totaltrans}    ${Racing_customerwl}    ${Racing_customercomm}    ${Racing_customertotal}    ${Racing_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Racing
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Number Game
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${NG_turnover}    ${NG_totaltrans}    ${NG_customerwl}    ${NG_customercomm}    ${NG_customertotal}    ${NG_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Number Game
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Live Casino
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${LC_turnover}    ${LC_totaltrans}    ${LC_customerwl}    ${LC_customercomm}    ${LC_customertotal}    ${LC_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Live Casino
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Keno
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${Keno_turnover}    ${Keno_totaltrans}    ${Keno_customerwl}    ${Keno_customercomm}    ${Keno_customertotal}    ${Keno_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Keno
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    RNG Casino
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${RNG_turnover}    ${RNG_totaltrans}    ${RNG_customerwl}    ${RNG_customercomm}    ${RNG_customertotal}    ${RNG_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    RNG Casino
+    navigate left menu    REPORTS    Win Loss By Products
+    submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
+    ...    Virtual Sports
+    unselect SB product    \    main    None
+    # unselect products filter    main    None    Sportsbook
+    ${VS_turnover}    ${VS_totaltrans}    ${VS_customerwl}    ${VS_customercomm}    ${VS_customertotal}    ${VS_licenseewl}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Win Loss By Products    Virtual Sports
+    ${total_Turnover}    Evaluate    ${SB_turnover}+${Racing_turnover}+${NG_turnover}+${LC_turnover}+${Keno_turnover}+${RNG_turnover}+${VS_turnover}
+    ${total_Totaltrans}    Evaluate    ${SB_totaltrans}+${Racing_totaltrans}+${NG_totaltrans}+${LC_totaltrans}+${Keno_totaltrans}+${RNG_totaltrans}+${VS_totaltrans}
+    ${total_Customerwl}    Evaluate    ${SB_customerwl}+${Racing_customerwl}+${NG_customerwl}+${LC_customerwl}+${Keno_customerwl}+${RNG_customerwl}+${VS_customerwl}
+    ${total_customercomm}    Evaluate    ${SB_customercomm}+${Racing_customercomm}+${NG_customercomm}+${LC_customercomm}+${Keno_customercomm}+${RNG_customercomm}+${VS_customercomm}
+    ${total_customertotal}    Evaluate    ${SB_customertotal}+${Racing_customertotal}+${NG_customertotal}+${LC_customertotal}+${Keno_customertotal}+${RNG_customertotal}+${VS_customertotal}
+    ${total_licenseewl}    Evaluate    ${SB_licenseewl}+${Racing_licenseewl}+${NG_licenseewl}+${LC_licenseewl}+${Keno_licenseewl}+${RNG_licenseewl}+${VS_licenseewl}
+    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${licenseecomm}
+    ...    ${amt}    get Total values in report    Customer Win Loss    All
+    ${total_Turnover}    remove decimal part    ${total_Turnover}
+    ${total_Totaltrans}    remove decimal part    ${total_Totaltrans}
+    ${total_Customerwl}    remove decimal part    ${total_Customerwl}
+    ${total_customercomm}    remove decimal part    ${total_customercomm}
+    ${total_customertotal}    remove decimal part    ${total_customertotal}
+    ${total_licenseewl}    remove decimal part    ${total_licenseewl}
+    ${customerwl_turnover_total}    remove decimal part    ${customerwl_turnover_total}
+    ${customerwl_totaltrans_total}    remove decimal part    ${customerwl_totaltrans_total}
+    ${customerwl_customerwl_total}    remove decimal part    ${customerwl_customerwl_total}
+    ${customerwl_customercomm_total}    remove decimal part    ${customerwl_customercomm_total}
+    ${customerwl_customertotal_total}    remove decimal part    ${customerwl_customertotal_total}
+    ${customerwl_licenseewl_total}    remove decimal part    ${customerwl_licenseewl_total}
+    should be true    '${total_Turnover}'=='${customerwl_turnover_total}'
+    should be true    '${total_Totaltrans}'=='${customerwl_totaltrans_total}'
+    should be true    '${total_Customerwl}'=='${customerwl_customerwl_total}'
+    should be true    '${total_customercomm}'=='${customerwl_customercomm_total}'
+    should be true    '${total_customertotal}'=='${customerwl_customertotal_total}'
+    should be true    '${total_licenseewl}'=='${customerwl_licenseewl_total}'
+
+TM_04_FUN_Compare data for Balance report
+    select licensee    alog
+    ### Compare data in current month
+    navigate left menu    REPORTS    Live Report
+    submit filters for live report    None    None    ALL    GBP    All    Current month
+    ${livereport_ba_turnover}    ${livereport_ba_totaltrans}    ${livereport_ba_customerwl}    ${livereport_ba_customercomm}    ${livereport_ba_customertotal}    ${livereport_ba_licenseewl}    ${livereport_ba_ba_comm}
+    ...    ${livereport_ba_amt}    get Total values in report    Live Report    BA
+    ${livereport_racing_turnover}    ${livereport_racing_totaltrans}    ${livereport_racing_customerwl}    ${livereport_racing_customercomm}    ${livereport_racing_customertotal}    ${livereport_racing_licenseewl}    ${livereport_racing_racing_comm}
+    ...    ${livereport_racing_amt}    get Total values in report    Live Report    Racing
+    navigate left menu    REPORTS    Balance
+    submit filters for balance    ALL    ALL    GBP    None    None
+    ${balance_licenseewl}    ${balance_ba_comm}    ${balance_racing_renuve}    ${balance_amt_ba}    ${balance_amt_racing}    ${balance_customer_comm}    get data in Balance report
+    ...    current month
+    should be true    '${livereport_ba_ba_comm}'=='${balance_ba_comm}'
+    should be true    '${livereport_racing_racing_comm}'=='${balance_racing_renuve}'
+    should be true    '${livereport_ba_amt}'=='${balance_amt_ba}'
+    should be true    '${livereport_racing_amt}'=='${balance_amt_racing}'
+    ### Compare data in Yesterday
+    navigate left menu    REPORTS    Live Report
+    submit filters for live report    None    None    ALL    GBP    All    Yesterday
+    ${livereport_ba_turnover}    ${livereport_ba_totaltrans}    ${livereport_ba_customerwl}    ${livereport_ba_customercomm}    ${livereport_ba_customertotal}    ${livereport_ba_licenseewl}    ${livereport_ba_ba_comm}
+    ...    ${livereport_ba_amt}    get Total values in report    Live Report    BA
+    ${livereport_racing_turnover}    ${livereport_racing_totaltrans}    ${livereport_racing_customerwl}    ${livereport_racing_customercomm}    ${livereport_racing_customertotal}    ${livereport_racing_licenseewl}    ${livereport_racing_racing_comm}
+    ...    ${livereport_racing_amt}    get Total values in report    Live Report    Racing
+    ${livereport_total_turnover}    ${livereport_total_totaltrans}    ${livereport_total_customerwl}    ${livereport_total_customercomm}    ${livereport_total_customertotal}    ${livereport_total_licenseewl}    ${livereport_total_racing_comm}
+    ...    ${livereport_total_amt}    get Total values in report    Live Report    Total
+    navigate left menu    REPORTS    Balance
+    submit filters for balance    ALL    ALL    GBP    None    None
+    ${balance_licenseewl}    ${balance_ba_comm}    ${balance_racing_renuve}    ${balance_amt_ba}    ${balance_amt_racing}    ${balance_customer_comm}    get data in Balance report
+    ...    Yesterday
+    should be true    '${livereport_ba_ba_comm}'=='${balance_ba_comm}'
+    should be true    '${livereport_racing_racing_comm}'=='${balance_racing_renuve}'
+    should be true    '${livereport_ba_amt}'=='${balance_amt_ba}'
+    should be true    '${livereport_racing_amt}'=='${balance_amt_racing}'
+    should be true    '${livereport_total_licenseewl}'=='${balance_licenseewl}'
+    should be true    '${livereport_total_customercomm}'=='${balance_customer_comm}'
+    select licensee    12Bet
+
+TM_05_FUN_Compare data for AG Casino report with API
+    [Documentation]    Purpose: Compare data AG WL report with API
+    ...
+    ...    10/06/2015: Edit TM to check data for 4 days
+    ${from}=    Get Time    \    Now - 5 day
+    ${to}=    Get Time    \    Now - 48 hour
+    navigate left menu    REPORTS    AG Casino Win Loss
+    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
+    ${report_totaltrans}    get data in AG Casino Win Loss report
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    ${api_total_trans}    Set Variable    0
+    : FOR    ${i}    IN RANGE    0    4
+    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
+    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
+    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
+    \    ${temp_totaltrans}    get data from API
+    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
+    Should Be True    ${api_total_trans}==${report_totaltrans}
+
+TM_06_FUN_Compare data between Statement and Customer Balance for a member
+    [Timeout]
+    ${from}=    Get Time    \    Now - 3d
+    ${to}=    Get Time    \    Now - 2d
+    navigate left menu    CUSTOMER REPORTS    Customer Balance
+    submit filters for customer balance    ${from}    ${to}    ALL    CNY    All    Deposit
+    ...    No    All
+    ${tm_username}    ${tm_opening_balance}    ${tm_deposit}    ${tm_withdrawal}    ${tm_bonus}    ${tm_turnover}    ${tm_pending_funds}
+    ...    ${tm_customerwl}    ${tm_customercomm}    ${tm_closing_balance}    get data of member in customer balance report
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    submit filters for customer list    ALL    CNY    CNY    ${tm_username}    All    All
+    ...    All    All
+    select customer option based on username    ${tm_username}    Statement
+    submit filters for betlist and statement    None    ${from}    ${to}    None
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    ${statement_openingbalance}    ${statement_deposit}    ${statement_withdrawal}    ${statement_turnover}    ${statement_pendingfunds}    ${statement_customerwl}    ${statement_customercomm}
+    ...    ${statement_closingbalance}    ${statement_bonus}    get data of member in Statement report    \    main    BetList
+    ...    ${from_day}    ${from_month}    ${from_year}
+    should be true    '${tm_opening_balance}'=='${statement_openingbalance}'
+    should be true    '${tm_deposit}'=='${statement_deposit}'
+    should be true    '${tm_withdrawal}'=='${statement_withdrawal}'
+    should be true    '${tm_bonus}'=='${statement_bonus}'
+    should be true    '${tm_turnover}'=='${statement_turnover}'
+    should be true    '${tm_pending_funds}'=='${statement_pendingfunds}'
+    should be true    '${tm_customerwl}'=='${statement_customerwl}'
+    should be true    '${tm_customercomm}'=='${statement_customercomm}'
+    should be true    '${tm_closing_balance}'=='${statement_closingbalance}'
+
+TM_07_FUN_Check create, move, remove, edit, delete commission group
+    # Define variables
+    ${tm_group}=    Set Variable    testinggroup1
+    ${tm_cust}=    Set Variable    candytest
+    ${tm_custid}=    Set Variable    12872391
+    ${tm_sb_com}=    Set Variable    1
+    ${tm_ng_com}=    Set Variable    2
+    ${tm_lc_com}=    Set Variable    3
+    ${tm_cs_com}=    Set Variable    4
+    log out
+    login    ${cf_username2}    ${cf_password2}
+    select licensee after login    Athena000
+    # 1. Navigate to Commission Group List
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # Special case: Handle if group has been already existed
+    Select Window
+    Select Frame    main
+    ${tm_state}    Run Keyword And Return Status    Element Should Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${tm_group}')]
+    Unselect Frame
+    ${tm_last_row}    get total rows in commission group list
+    Run Keyword If    '${tm_state}'=='True'    delete commission group    ${tm_last_row}    clear comm
+    Run Keyword If    '${tm_state}'=='True'    Sleep    3s
+    # 2. Create new commission group
+    create new commission group    ${tm_group}    ${tm_sb_com}    ${tm_ng_com}    ${tm_lc_com}    ${tm_cs_com}
+    # VP. Create same group again and warning message should be displayed
+    click element on report    \    main    None    ${cancel_button_commission_group_list}
+    Select Window
+    Select Frame    main
+    # click New Group button
+    Click Element    ${new_group_button}
+    # enter group name
+    Input Text    ${group_name_textbox}    ${tm_group}
+    Click Element    ${check_availability_button}
+    Sleep    1s
+    Element Should Be Visible    xpath=//div[contains(text(),'This group name already existed')]
+    # 3. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 4. Submit filters for testing customer "Candytest"
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 5. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 6. Update commission for user
+    update commission    ${tm_custid}    ${tm_cs_com}    ${tm_sb_com}    ${tm_ng_com}    ${tm_lc_com}
+    # VP. User's commission should be updated sucessfully
+    check user commission    ${tm_custid}    ${tm_cs_com}.00    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00
+    # 7. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 8. Remove user from group and keep commission
+    remove from group    ${tm_custid}    keep comm
+    # VP. Commission should be kept and user should be remove from group
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 9. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 10. Remove user from group and clear commission
+    remove from group    ${tm_custid}    clear comm
+    # VP. Commission should be reset to 0.00 and user should be remove from group
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
+    # 11. Move user to new group
+    move to group    ${tm_custid}    ${tm_group}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00    ${tm_cs_com}.00
+    # 12. Navigate to Commission Group list page
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # 13. Edit group's commission
+    click group link    ${tm_group}
+    select listbox by value on report    \    main    None    ${sportsbook_commission_listbox}    ${tm_cs_com}
+    select listbox by value on report    \    main    None    ${number_game_commission_listbox}    ${tm_sb_com}
+    select listbox by value on report    \    main    None    ${live_casino_commission_listbox}    ${tm_ng_com}
+    select listbox by value on report    \    main    None    ${rng_casino_commission_listbox}    ${tm_lc_com}
+    click element on report    \    main    None    ${save_button_commission_group_list}
+    Sleep    3s
+    # 14. Click Go To Customer button
+    click element on report    \    main    None    ${go_to_customer_list_button}
+    # VP. User's commission should be updated based on group
+    check user commission    ${tm_custid}    0.00    ${tm_sb_com}.00    ${tm_ng_com}.00    ${tm_lc_com}.00
+    # 15. Navigate to Commission Group list page
+    navigate left menu    CUSTOMER INFORMATION    Commission Group List
+    # 16. Delete group
+    ${tm_last_row}    get total rows in commission group list
+    delete commission group    ${tm_last_row}    clear comm
+    # 17. Navigate to Customer List page
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 18. Submit filters for testing customer "Candytest"
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # VP. Customer's commission should be cleared
+    check customer group based on custid    ${tm_custid}    None
+    check user commission    ${tm_custid}    0.00    0.00    0.00    0.00
+
+TM_08_FUN_Check update bet settings for Sportsbook
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_sb_min_bet}=    Set Variable    5
+    ${tm_min_invalid}=    Set Variable    4
+    ${tm_min_valid}=    Set Variable    6
+    ${tm_max_valid}=    Set Variable    899,999
+    ${tm_sb_max_bet}=    Set Variable    900,000
+    ${tm_sb_max_per_match}=    Set Variable    1,000,000
+    ${tm_max_invalid}=    Set Variable    1,000,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Sportsbook
+    click element on report    \    main    BetSetting    ${sportsbook_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet value)
+    input min bet for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check min bet for sportsbook    ${tm_sb_min_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    # 9. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 10. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 11. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for sportsbook    ${tm_max_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 12. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 13. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 14. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check max bet for sportsbook    ${tm_sb_max_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    # 15. Input invalid value into Max Per Match (smaller than Max Bet)
+    input max per match for sportsbook    ${tm_min_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 16. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 17. Input invalid value into Max Per Match (smaller than Max Bet)
+    input max per match for sportsbook    ${tm_max_invalid}    None    None    None    None    None
+    ...    None    None    None    None
+    # 16. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 17. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 18. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Invalid value should not be saved
+    check max per match for sportsbook    ${tm_sb_max_per_match}    None    None    None    None    None
+    ...    None    None    None    None
+    # 19. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for sportsbook    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    input max bet for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    input max per match for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 20. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 21. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Valid data should be saved successfully
+    check min bet for sportsbook    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    check max bet for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    check max per match for sportsbook    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 22. Check on Copy All Bet Setting from Soccer checkbox
+    Select Window
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    Select Checkbox    ${copy_all_bet_setting_from_soccer_checkbox}
+    Unselect Frame
+    # 23. Input valid data for Soccer only
+    input min bet for sportsbook    ${tm_sb_min_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    input max bet for sportsbook    ${tm_sb_max_bet}    None    None    None    None    None
+    ...    None    None    None    None
+    input max per match for sportsbook    ${tm_sb_max_per_match}    None    None    None    None    None
+    ...    None    None    None    None
+    # 24. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 25. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # VP. Valid data from Soccer should be saved successfully into other sports.
+    check min bet for sportsbook    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}
+    ...    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}    ${tm_sb_min_bet}
+    check max bet for sportsbook    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}
+    ...    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}    ${tm_sb_max_bet}
+    check max per match for sportsbook    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}
+    ...    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}    ${tm_sb_max_per_match}
+    # 26. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+
+TM_09_FUN_Check update bet settings for Racing
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_rc_min_bet}=    Set Variable    15
+    ${tm_min_invalid}=    Set Variable    14
+    ${tm_min_valid}=    Set Variable    16
+    ${tm_max_valid}=    Set Variable    499
+    ${tm_rc_max_bet}=    Set Variable    500
+    ${tm_rc_max_per_match}=    Set Variable    1,500
+    ${tm_max_invalid}=    Set Variable    1,501
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for racing    ${tm_rc_min_bet}    None    None    None    None    None
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for racing    ${tm_max_invalid}    None    None    None    None    None
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for racing    ${tm_rc_max_bet}    None    None    None    None    None
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for racing    ${tm_min_invalid}    None    None    None    None    None
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than Max Bet)
+    input max per match for racing    ${tm_max_invalid}    None    None    None    None    None
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for racing    ${tm_rc_max_per_match}    None    None    None    None    None
+    # 25. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for racing    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    input max bet for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    input max per match for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # 26. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 27. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 28. Select Racing
+    click element on report    \    main    BetSetting    ${racing_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for racing    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    check max bet for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    check max per match for racing    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for racing    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}    ${tm_rc_min_bet}
+    input max bet for racing    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}    ${tm_rc_max_bet}
+    input max per match for racing    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}    ${tm_rc_max_per_match}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_10_FUN_Check update bet settings for Number Game
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_ng_min_bet}=    Set Variable    1
+    ${tm_min_invalid}=    Set Variable    0
+    ${tm_min_valid}=    Set Variable    2
+    ${tm_max_valid}=    Set Variable    999,999
+    ${tm_ng_max_bet}=    Set Variable    1,100,000
+    ${tm_ng_max_per_match}=    Set Variable    1,100,000
+    ${tm_ng_max_per_ball}=    Set Variable    1,000,000
+    ${tm_max_invalid}=    Set Variable    1,100,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All    None
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for number game    ${tm_min_invalid}
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for number game    ${tm_ng_min_bet}
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for number game    ${tm_min_invalid}
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for number game    ${tm_max_invalid}
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for number game    ${tm_ng_max_bet}
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for number game    ${tm_min_invalid}
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than than Max Bet)
+    input max per match for number game    ${tm_max_invalid}
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for number game    ${tm_ng_max_per_match}
+    # 25. Input invalid value into Max Per Ball (larger than than Max Per Ball)
+    input max per ball for number game    ${tm_max_invalid}
+    # 26. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Ball must be less than or equal to')]
+    # 27. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 28. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 29. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per ball for number game    ${tm_ng_max_per_ball}
+    # 30. Enter valid data for Number Game
+    input min bet for number game    ${tm_min_valid}
+    input max bet for number game    ${tm_max_valid}
+    input max per match for number game    ${tm_max_valid}
+    input max per ball for number game    ${tm_max_valid}
+    # 31. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 32. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 33. Select Number Game
+    click element on report    \    main    BetSetting    ${number_game_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for number game    ${tm_min_valid}
+    check max bet for number game    ${tm_max_valid}
+    check max per match for number game    ${tm_max_valid}
+    check max per ball for number game    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for number game    ${tm_ng_min_bet}
+    input max bet for number game    ${tm_ng_max_bet}
+    input max per match for number game    ${tm_ng_max_per_match}
+    input max per ball for number game    ${tm_ng_max_per_ball}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+TM_11_FUN_Check update bet settings for Virtual Sports
+    # Define variables
+    ${tm_cust}=    Set Variable    harmony
+    ${tm_vs_min_bet}=    Set Variable    5
+    ${tm_min_invalid}=    Set Variable    4
+    ${tm_min_valid}=    Set Variable    6
+    ${tm_max_valid}=    Set Variable    9,999
+    ${tm_vs_max_bet}=    Set Variable    10,000
+    ${tm_vs_max_per_match}=    Set Variable    100,000
+    ${tm_max_invalid}=    Set Variable    100,001
+    select licensee    spondemo
+    # 1. Navigate to Customer List
+    navigate left menu    CUSTOMER INFORMATION    Customer List
+    # 2. Filter harmony user
+    submit filters for customer list    None    ALL    EUR    ${tm_cust}    None    All
+    ...    All    All    None
+    # 3. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 4. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # 5. Input invalid value into Min Bet (smaller than Min Bet)
+    input min bet for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 6. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet must be greater than or equal')]
+    # 7. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 8. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 9. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check min bet for virtual sports    ${tm_vs_min_bet}    None    None    None    None    None
+    ...    None
+    # 10. Input invalid value into Max Bet (smaller than Min Bet)
+    input max bet for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 11. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Min Bet cannot be greater than Max Bet')]
+    # 12. Input invalid value into Max Bet (larger than Max Bet value)
+    input max bet for virtual sports    ${tm_max_invalid}    None    None    None    None    None
+    ...    None
+    # 13. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet must be less than or equal')]
+    # 14. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 15. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 16. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max bet for virtual sports    ${tm_vs_max_bet}    None    None    None    None    None
+    ...    None
+    # 17. Input invalid value into Max Per Match (smaller than Min Bet)
+    input max per match for virtual sports    ${tm_min_invalid}    None    None    None    None    None
+    ...    None
+    # 18. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # VP. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Bet can not be greater than Max Per Match')]
+    # 19. Input invalid value into Max Per Match (larger than Max Bet)
+    input max per match for virtual sports    ${tm_max_invalid}    None    None    None    None    None
+    ...    None
+    # 20. Click Submit button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    # 21. Error message should display
+    check element on report    \    main    BetSetting    xpath=//div[@class='msgerr' and contains(text(),'Max Per Match must be less than or equal to')]
+    # 22. Close Bet Setting
+    click element on report    \    main    None    ${close_button_on_popup}
+    # 23. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 24. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Invalid value should not be saved
+    check max per match for virtual sports    ${tm_vs_max_per_match}    None    None    None    None    None
+    ...    None
+    # 25. Input valid data into Min Bet, Max Bet and Max Per Match
+    input min bet for virtual sports    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}
+    input max bet for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    input max per match for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    # 26. Click Submit button & OK button
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # 27. Click View > Bet Setting
+    select customer option based on username    ${tm_cust}    Bet Setting
+    # 28. Select Virtual Sports
+    click element on report    \    main    BetSetting    ${virtual_sports_tab_bet_setting}
+    # VP. Valid data should be saved successfully
+    check min bet for virtual sports    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}    ${tm_min_valid}
+    ...    ${tm_min_valid}
+    check max bet for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    check max per match for virtual sports    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}    ${tm_max_valid}
+    ...    ${tm_max_valid}
+    # Post condition: Set back to default value for the next execution
+    input min bet for virtual sports    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}    ${tm_vs_min_bet}
+    ...    ${tm_vs_min_bet}
+    input max bet for virtual sports    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}    ${tm_vs_max_bet}
+    ...    ${tm_vs_max_bet}
+    input max per match for virtual sports    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}    ${tm_vs_max_per_match}
+    ...    ${tm_vs_max_per_match}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
