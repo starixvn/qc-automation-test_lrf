@@ -75,6 +75,7 @@ Resource          ../Interfaces/02_Total_Bets/interface_number_game.txt
 Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 Resource          ../Interfaces/02_Total_Bets/interface_moneyline.txt
 Resource          ../Actions/05_Customer_Reports/action_active_customer_summary.txt
+Library           ExcelLibrary
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -107,8 +108,15 @@ TM_01_01_ST_TotalBets_Handicap
     # VP. Check User Guide popup exists
     check user guide popup
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Full Time-Handicap displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_handicap}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Full Time-Over/Under displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_overunder}    ${report_table_totalbets}    6
+    # VP: Verify that total stake of Half Time-Handicap displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_handicap}    ${report_table_totalbets}    8
+    # VP: Verify that total stake of Half Time-Over/Under displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_overunder}    ${report_table_totalbets}    10
     # 7. Click a number link in FullTime - Handicap bettype (4th column)
     click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
     ...    4
@@ -272,9 +280,12 @@ TM_01_02_ST_TotalBets_Handicap_Bodog
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 8. Close Bet List window and back to Handicap/Over Under/Live page
-    Select Window    title=LRF - Bet List
+    ${window title}    Set Variable    title=LRF - Bet List
+    ${window title}    Set Variable If    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-TW'    title=LRF - 投注歷史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-CN'    title=LRF - 投注历史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='ko-KR'
+    ...    title=LRF - 배팅목록    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-Hans'    title=LRF - 投注历史    ${window title}
+    Select Window    ${window title}
     Close Window
-    navigate left menu    None    Handicap/Over Under/Live
+    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
     # 9. Click number link in FullTime - Handicap bettype (4th column)
     click number link in table by column    \    main    None    ${report_table_totalbets}    2    100
     ...    4
@@ -324,8 +335,11 @@ TM_02_ST_TotalBets_Money Line
     # 1. Navigate to TOTAL BETS > Money Line
     navigate left menu    TOTAL BETS    Money Line
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Total Home- Money Line displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_moneyline}    ${report_table_totalbets}    6
+    # VP: Verify that total stake of Total Home- Money Line displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_moneyline}    ${report_table_totalbets}    10
     # 3. Click a number link in FullTime - Total Home bettype (4th column)
     click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
     ...    11
@@ -339,8 +353,7 @@ TM_02_ST_TotalBets_Money Line
     # 5. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${report_table_totalbets}
     take applications screenshot    Product    TM_02_TotalBets_MoneyLine.jpg
@@ -352,8 +365,17 @@ TM_03_ST_TotalBets_OddEven
     # 1. Navigate to TOTAL BETS > Odd/Even + 1x2 + DND
     navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Full Time - Odd Even displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_oddeven}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Full Time - 1x2 displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_1x2}    ${report_table_totalbets}    5
+    # VP: Verify that total stake of Full Time - DND displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_dnd}    ${report_table_totalbets}    7
+    # VP: Verify that total stake of Half Time - Odd Even displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_oddeven}    ${report_table_totalbets}    8
+    # VP: Verify that total stake of Half Time - Odd Even displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_1x2}    ${report_table_totalbets}    9
     ###FullTime
     ##FullTime/ OddEven
     # 3. Click a number link in FullTime - Odd/Even \ bettype (4th column)
@@ -450,10 +472,11 @@ TM_04_ST_TotalBets_Correct Score
     # VP. Check exporting file successfully
     check export excel function    \    main    None    CorrectScoreBetlist.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    # VP: Verify that total stake displays properly
+    check total stake displays in betlist    \    main
 
 TM_05_ST_TotalBets_Total Goal
     [Tags]    CI
@@ -465,8 +488,11 @@ TM_05_ST_TotalBets_Total Goal
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Full time - Total Goal displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_totalgoal}    ${report_table_totalbets}    2    team
+    # VP: Verify that total stake of Full time - Total Goal displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_totalgoal}    ${report_table_totalbets}    2    team
     # 4. Click team name to drill down to betlist
     click team link in table    \    main    None    ${report_table_totalbets}    1    2
     # 5. Click Export button
@@ -488,8 +514,9 @@ TM_06_ST_TotalBets_MixParlay
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Full time - Mix Parlay displays properly
+    check total stake displays in betlist    \    main
     # 4. Click Mix Parlay ticket to expand
     click mix parlay link in table    \    main    None    ${betlist_table}    2    5
     # VP. Check mix parlay ticket is expanded successfully
@@ -501,6 +528,8 @@ TM_06_ST_TotalBets_MixParlay
     click element on report    \    main    None    ${system_parlay_header_link}
     wait page load
     take applications screenshot    Product    TM_06_TotalBets_SystemParlay.jpg
+    # VP: Verify that total stake of Full time - Mix Parlay displays properly
+    check total stake displays in betlist    \    main
     # 6. Click System Parlay ticket to expand
     click system parlay link in table    \    main    None    ${betlist_table}    2    5
     # VP. Check system parlay ticket is expanded successfully
@@ -526,8 +555,9 @@ TM_07_ST_TotalBets_Outright
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    #VP: Check Total Row for OUTRIGHT
+    check total row of total bets main report and betlist    ${total_row_outright}    ${report_table_totalbets}    2    team
     # 4. Click team name to drill down to betlist
     click team link in table    \    main    None    ${report_table_totalbets}    2    2
     wait page load
@@ -548,8 +578,9 @@ TM_08_ST_TotalBets_HT FT
     check user guide popup
     take applications screenshot    Product    TM_08_TotalBets_HTFT.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    #VP: Check Total Row for HT/FT
+    check total row of total bets main report and betlist    ${total_row_halftime_fulltime}    ${report_table_totalbets}    2    team
     # 3. Click a teamlink (2nd column)
     click team link in table    \    main    None    ${report_table_totalbets}    1    2
     # VP. Check report table exist
@@ -562,8 +593,7 @@ TM_08_ST_TotalBets_HT FT
     # 5. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${report_table_totalbets}
 
@@ -575,8 +605,11 @@ TM_09_ST_TotalBets_FG LG
     check user guide popup
     take applications screenshot    Product    TM_09_TotalBets_FGLG.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of full time First Goal - Last Goal displays properly
+    check total row of total bets main report and betlist    ${total_row_fulltime_fg_lg}    ${report_table_totalbets}    3    team
+    # VP: Verify that total stake of half time First Goal - Last Goal displays properly
+    check total row of total bets main report and betlist    ${total_row_halftime_fg_lg}    ${report_table_totalbets}    3    team
     # 3. Click a teamlink (3rd column)
     click team link in table    \    main    None    ${report_table_totalbets}    2    3
     # VP. Check report table exist
@@ -589,8 +622,7 @@ TM_09_ST_TotalBets_FG LG
     # 5. Select filters then click Submit button
     submit filters for totalbets    None    normal    CNY    EUR
     # 6. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${report_table_totalbets}
 
@@ -606,10 +638,11 @@ TM_10_ST_TotalBets_Clean Sheet
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    # VP: Verify that total stake of Clean Sheet displays properly
+    check total stake displays in betlist    \    main
 
 TM_11_ST_TotalBets_Double Chance
     [Tags]    CI
@@ -623,10 +656,11 @@ TM_11_ST_TotalBets_Double Chance
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    # VP: Verify that total stake of Double Chance displays properly
+    check total stake displays in betlist    \    main
 
 TM_12_ST_TotalBets_HomeDrawAway No Bet
     [Tags]    CI
@@ -638,8 +672,13 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
     # VP. Check User Guide popup exists
     check user guide popup
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
+    # VP: Verify that total stake of Home No Bet displays properly
+    check total row of total bets main report and betlist    ${total_row_home_no_bet}    ${report_table_totalbets}    4
+    # VP: Verify that total stake of Draw No Bet displays properly
+    check total row of total bets main report and betlist    ${total_row_draw_no_bet}    ${report_table_totalbets}    5
+    # VP: Verify that total stake of Away No Bet displays properly
+    check total row of total bets main report and betlist    ${total_row_away_no_bet}    ${report_table_totalbets}    6
     # 4. Click number to drill down to betlist
     click number link in table by row    \    main    None    ${report_table_totalbets}    2    4
     ...    6
@@ -664,10 +703,11 @@ TM_13_ST_TotalBets_BON team to score
     submit filters for totalbets    None    normal    CNY    EUR
     take applications screenshot    Product    TM_13_TotalBets_BONTeamToScore.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    # VP: Verify that total stake of B/O/N TEAM TO SCORE displays properly
+    check total stake displays in betlist    \    main
 
 TM_14_ST_TotalBets_To win to nil
     [Tags]    CI
@@ -681,10 +721,11 @@ TM_14_ST_TotalBets_To win to nil
     submit filters for totalbets    None    normal    MYR    EUR
     take applications screenshot    Product    TM_14_TotalBets_ToWinToNil.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
+    # VP: Verify that total stake of To win to nil \ displays properly
+    check total stake displays in betlist    \    main
 
 TM_15_ST_TotalBets_3way Handicap
     [Tags]    CI
@@ -698,115 +739,11 @@ TM_15_ST_TotalBets_3way Handicap
     submit filters for totalbets    None    normal    MYR    EUR
     take applications screenshot    Product    TM_15_TotalBets_3WayHandicap.jpg
     # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
-
-TM_48_ST_TotalBets_Total Row of Submenus and Bet list
-    select licensee    12Bet
-    # 1. Check Total Row for HANDICAP/OVER UNDER LIVE
-    # Navigate to Total Bets > Handicap/Over Under/Live
-    navigate left menu    TOTAL BETS    Handicap/Over Under/Live
-    submit filters for totalbets    75 sec    normal    CNY    USD
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Full Time-Handicap displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_handicap}    ${report_table_totalbets}    4
-    # VP: Verify that total stake of Full Time-Over/Under displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_overunder}    ${report_table_totalbets}    6
-    # VP: Verify that total stake of Half Time-Handicap displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_handicap}    ${report_table_totalbets}    8
-    # VP: Verify that total stake of Half Time-Over/Under displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_overunder}    ${report_table_totalbets}    10
-    # Check Total Row for MONEY LINE
-    navigate left menu    TOTAL BETS    Money Line
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Total Home- Money Line displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_moneyline}    ${report_table_totalbets}    6
-    # VP: Verify that total stake of Total Home- Money Line displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_moneyline}    ${report_table_totalbets}    10
-    # Check Total Row for Odd/Even + 1x2 + DND
-    navigate left menu    TOTAL BETS    Odd/Even + 1x2 + DND
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Full Time - Odd Even displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_oddeven}    ${report_table_totalbets}    4
-    # VP: Verify that total stake of Full Time - 1x2 displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_1x2}    ${report_table_totalbets}    5
-    # VP: Verify that total stake of Full Time - DND displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_dnd}    ${report_table_totalbets}    7
-    # VP: Verify that total stake of Half Time - Odd Even displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_oddeven}    ${report_table_totalbets}    8
-    # VP: Verify that total stake of Half Time - Odd Even displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_1x2}    ${report_table_totalbets}    9
-    # Check Total Row for CORRECT SCORE
-    navigate left menu    TOTAL BETS    Correct Score
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    # 5. Check Total Row for TOTAL GOAL
-    navigate left menu    TOTAL BETS    Total Goal
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Full time - Total Goal displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_totalgoal}    ${report_table_totalbets}    2    team
-    # VP: Verify that total stake of Full time - Total Goal displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_totalgoal}    ${report_table_totalbets}    2    team
-    # 6. Check Total Row for MIX PARLAY
-    navigate left menu    TOTAL BETS    Mix Parlay
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Full time - Mix Parlay displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    # VP: Verify that total stake of Full time - Mix Parlay displays properly
-    click element on report    \    main    None    ${system_parlay_header_link}
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    #7. Check Total Row for OUTRIGHT
-    navigate left menu    TOTAL BETS    Outright
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_outright}    ${report_table_totalbets}    2    team
-    #8. Check Total Row for HT/FT
-    navigate left menu    TOTAL BETS    HT/FT
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_fulltime}    ${report_table_totalbets}    2    team
-    #9. Check Total Row for FG/LG
-    navigate left menu    TOTAL BETS    FG/LG
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of full time First Goal - Last Goal displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_fulltime_fg_lg}    ${report_table_totalbets}    3    team
-    # VP: Verify that total stake of half time First Goal - Last Goal displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_halftime_fg_lg}    ${report_table_totalbets}    3    team
-    #10. Check Total Row for CLEAN SHEET
-    navigate left menu    TOTAL BETS    Clean Sheet
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Clean Sheet displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    #11. Check Total Row for DOUBLE CHANCE
-    navigate left menu    TOTAL BETS    Double Chance
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Double Chance displays properly
-    check total stake displays in betlist    \    main
-    #12. Check Total Row for HOME/DRAW/AWAY NO BET
-    navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of Home No Bet displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_home_no_bet}    ${report_table_totalbets}    4
-    # VP: Verify that total stake of Draw No Bet displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_draw_no_bet}    ${report_table_totalbets}    5
-    # VP: Verify that total stake of Away No Bet displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_away_no_bet}    ${report_table_totalbets}    6
-    #13. Check Total Row for B/O/N TEAM TO SCORE
-    navigate left menu    TOTAL BETS    B/O/N team to score
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of B/O/N TEAM TO SCORE displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    #14. Check Total Row for TO WIN TO NIL
-    navigate left menu    TOTAL BETS    To win to nil
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    # VP: Verify that total stake of To win to nil \ displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
-    #15. Check Total Row for 3-WAY HANDICAP
-    navigate left menu    TOTAL BETS    3-Way Handicap
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # VP: Verify that total stake of To win to nil displays properly
-    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
+    check total stake displays in betlist    \    main
 
 TM_18_01_ST_Forecast_Handicap
     [Tags]    CI
@@ -884,8 +821,7 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     submit filters for forecast handicap bodog    0    0    None    USD
     take applications screenshot    Product    TM_18_02_Forecast_Handicap_Bodog.jpg
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # 8. Click munber link on Total TurnOver
     click match link of bodog    ${match_table_bodog}    3    6
     # VP. Check Bet List page displays
@@ -894,7 +830,10 @@ TM_18_02_ST_Forecast_Handicap_Bodog
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    RunningBetList.xls
     # 9. Close Bet List window and back to Handicap/Over Under/Live page
-    Select Window    title=LRF - Bet List
+    ${window title}    Set Variable    title=LRF - Bet List
+    ${window title}    Set Variable If    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-TW'    title=LRF - 投注歷史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-CN'    title=LRF - 投注历史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='ko-KR'
+    ...    title=LRF - 배팅목록
+    Select Window    ${window title}
     Close Window
     # Pre-condition: Cleanup and back to default licensee
     select licensee    ${cf_licensee}
@@ -908,8 +847,7 @@ TM_19_ST_Forecast_1X2
     submit filters for forecast    None    None    None    None
     take applications screenshot    Product    TM_19_Forecast_1X2.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # 4. Click button "+" of FullTime
     click plus button in table by column    \    main    None    ${report_table_totalbets}    3    3
     ...    2
@@ -917,7 +855,7 @@ TM_19_ST_Forecast_1X2
     check export excel function    \    main    None    RunningBetList.xls
     take applications screenshot    Product    TM_19_Forecast_1X2_Betlist.jpg
     # 5. If "No Information is available" text displays
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    ${ac_no_info_status}=    check data on report    \    main    None
     # 5.1. If it existed, click Back button
     Run Keyword If    '${ac_no_info_status}'=='True'    click element on report    \    main    None    ${back_button}
     # 5.2. If it does not exist, check report table exist
@@ -929,7 +867,7 @@ TM_19_ST_Forecast_1X2
     # VP. Check exporting file successfully
     check export excel function    \    main    None    RunningBetList.xls
     # 7. If "No Information is available" text displays
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    ${ac_no_info_status}=    check data on report    \    main    None
     # 7.1. If it existed, click Back button
     Run Keyword If    '${ac_no_info_status}'=='True'    click element on report    \    main    None    ${back_button}
     # 7.2. If it does not exist, check report table exist
@@ -1179,8 +1117,7 @@ TM_25_ST_Reports_Win Loss By Bet Type
     submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    EUR
     take applications screenshot    Product    TM_25_Reports_WinLossByBettype.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
     # VP. check export excel
@@ -1188,8 +1125,7 @@ TM_25_ST_Reports_Win Loss By Bet Type
     # 4. Select filters then click Submit button
     submit filters for win loss by bettype    ${from}    ${to}    normal    MYR    USD
     # 5. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
 
@@ -1238,8 +1174,7 @@ TM_27_ST_Reports_Daily Racing Win Loss
     submit filters for daily racing win loss    ${date}    ALL    ALL    EUR
     take applications screenshot    Product    TM_27_Reports_DailyRacingWinLoss.jpg
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
     # VP. check export excel
@@ -1258,8 +1193,7 @@ TM_27_ST_Reports_Daily Racing Win Loss
     # 6. Select filters then click Submit button
     submit filters for daily racing win loss    ${date}    normal    MYR    USD
     # 7. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table
     check element on report    \    main    None    ${div_report_table_reports}
 
@@ -1268,8 +1202,7 @@ TM_28_ST_Reports_Cancelled Bets
     # 1. Navigate to REPORTS > Cancelled Bets
     navigate left menu    REPORTS    Cancelled Bets
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
     take applications screenshot    Product    TM_28_Reports_CancelledBets.jpg
@@ -1280,8 +1213,7 @@ TM_28_ST_Reports_Cancelled Bets
     # 3. Select filters then click Submit button
     submit filters for cancelled bets    normal    MYR    USD    5
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check report table exist
     check element on report    \    main    None    ${betlist_table}
 
@@ -1293,7 +1225,7 @@ TM_29_ST_Reports_Daily Bet List
     # VP. Check User Guide popup exists
     check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for daily bet list    ${day}    CNY    USD    Sportsbook    Won
+    submit filters for daily bet list    ${day}    CNY    USD    Sportsbook    won
     take applications screenshot    Product    TM_29_Reports_DailyBetList.jpg
     #VP Check betlist
     check element on report    \    main    None    ${betlist_table}
@@ -1312,10 +1244,10 @@ TM_29_ST_Reports_Daily Bet List
     @{ITEMS}    Get List Items    ${product_listbox_daily_bet_list}
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
-    \    submit filters for daily bet list    ${day}    CNY    USD    ${index}    Lose
+    \    submit filters for daily bet list    ${day}    CNY    USD    ${index}    lose
     \    wait page load
     \    Comment    # Special Case: If "No Information is available" text displays, we'll skip this product since there is no data
-    \    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    \    ${ac_no_info_status}=    check data on report    \    main    None
     \    Continue For Loop If    '${ac_no_info_status}'=='True'
     \    #VP Check betlist
     \    check element on report    \    main    None    ${betlist_table}
@@ -1397,7 +1329,8 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
     \    Comment    # Special Case: If the product is not available, we'll skip this product since there is no data
-    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${index}
+    \    ${converted_index}    convert language    ${cf_language_file}    Products    ${index}
+    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${converted_index}
     \    Continue For Loop If    '${ac_no_product_link}'=='False'
     \    click product link    \    main    None    ${index}
     \    wait page load
@@ -1407,7 +1340,8 @@ TM_30_01_ST_Reports_Live Report Cover Sports Link
     : FOR    ${index}    IN    @{ITEMS}
     \    LOG    product list = ${index}
     \    Comment    # Special Case: If the product is not available, we'll skip this product since there is no data
-    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${index}
+    \    ${converted_index}    convert language    ${cf_language_file}    Products    ${index}
+    \    ${ac_no_product_link}=    Run Keyword And Return Status    Page Should Contain    ${converted_index}
     \    Continue For Loop If    '${ac_no_product_link}'=='False'
     \    click sport link on live report with loop    ${index}
 
@@ -1468,8 +1402,7 @@ TM_33_ST_Reports_AG Casino Win Loss
     submit filters for ag casino win loss    None    None    ALL    Yes    Daily
     take applications screenshot    Product    TM_33_Reports_AGWinLoss.jpg
     # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
-    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
-    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    check special case when no info available    \    main    None
     # VP. Check export
     click element on report    \    main    None    ${export_to_excel_button}
     Sleep    10s
@@ -1544,7 +1477,8 @@ TM_34_ST_Reports_Results
     # VP. Check result table
     check element on report    title=Keno Result    None    None    ${keno_result_table}
     # 9. Close Keno page
-    Select Window    title=Keno Result
+    ${window title}    Set Variable If    '${cf_language}'=='ko-KR'    title=케노 결과보기    title=Keno Result
+    Select Window    ${window title}
     Close Window
     # 10. Click Normal button
     click element on report    \    main    None    ${normal_button}
@@ -1794,7 +1728,7 @@ TM_40_ST_CustomerReports_Customer Turnover
     # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
     navigate left menu    CUSTOMER REPORTS    Customer Turnover
     # 2. Submit filters
-    submit filters for customer turnover    ${from}    ${to}    Monthly    All    All    All
+    submit filters for customer turnover    ${from}    ${to}    Monthly    None    All    All
     ...    1    EUR    All
     take applications screenshot    Product    TM_40_Reports_CustomerTurnover.jpg
     # VP. Check data table
@@ -2265,7 +2199,7 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     wait page load
     # Search username as 'qatest04'
     submit filters for customer list    ALL    ALL    USD    qatest04    All    All
-    ...    All    None    None
+    ...    All    All    None
     # 2. Go to View > Bet Setting
     select customer option based on username    qatest04    Bet Setting
     # 3. Select Gold Deluxe from list
