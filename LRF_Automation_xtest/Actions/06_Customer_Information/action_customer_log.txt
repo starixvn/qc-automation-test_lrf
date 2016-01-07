@@ -29,6 +29,7 @@ submit filters for customer log setting
     ...    Example:
     ...
     ...    submit filters for customer log settingl | harmony | All | None | None | None | None | Yes
+    ${view by}    convert language    ${cf_language_file}    LRF    ${view by}
     Select Window
     Select Frame    main
     # Enter username

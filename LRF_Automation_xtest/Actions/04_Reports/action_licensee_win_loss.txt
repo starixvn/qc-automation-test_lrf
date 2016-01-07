@@ -21,6 +21,8 @@ submit filters for licensee win loss
     ...    Example:
     ...
     ...    submit filters for licensee win loss | Dec-01-2014 | Dec-07-2014 | Daily | Normal | Yes | Sportsbook, Keno
+    ${currency}    Run Keyword If    '${currency}'=='ALL' or '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select date
     select date range    \    main    None    ${from date}    ${to date}
     # select currency

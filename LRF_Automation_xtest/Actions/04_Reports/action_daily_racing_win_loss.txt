@@ -11,6 +11,10 @@ submit filters for daily racing win loss
     ...    Example:
     ...
     ...    submit filters for daily racing win loss | Dec-01-2014 | normal | ALL | EUR
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select date
     select specific date    \    main    None    ${date}
     # select type, currency, based

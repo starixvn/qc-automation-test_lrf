@@ -12,6 +12,12 @@ submit filters for balance
     ...    Example:
     ...
     ...    submit filters for balance | CNY | EUR | February | 2014
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
+    ${month}    Run Keyword If    '${month}'!='None'    convert language    ${cf_language_file}    LRF    ${month}
+    ...    ELSE    Set Variable    ${month}
     Select Window
     Select Frame    main
     # select type, currency, based

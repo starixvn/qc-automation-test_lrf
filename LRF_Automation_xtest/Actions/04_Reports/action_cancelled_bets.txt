@@ -12,6 +12,10 @@ submit filters for cancelled bets
     ...    Example: select Normal type, ALL currency, EUR based, 2nd option in External ID listbox then submit
     ...
     ...    submit filters for cancelled bets | normal | ALL | EUR | 2
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Select Window
     Select Frame    main
     # select Type, Currency, Based

@@ -14,6 +14,19 @@ submit filters for customer list
     ...    Example:
     ...
     ...    submit filters for customer list | normal | UUS | EUR | harmony | All | All | All | All | All
+    #convert language
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
+    ${status}    Run Keyword If    '${status}'!='None'    convert language    ${cf_language_file}    LRF    ${status}
+    ...    ELSE    Set Variable    ${status}
+    ${special level}    Run Keyword If    '${special level}'=='All' or '${special level}'=='None'    convert language    ${cf_language_file}    LRF    ${special level}
+    ...    ELSE    Set Variable    ${special level}
+    ${ba}    Run Keyword If    '${ba}'!='None'    convert language    ${cf_language_file}    LRF    ${ba}
+    ...    ELSE    Set Variable    ${ba}
+    ${group}    Run Keyword If    '${group}'=='All' or '${group}'=='None'    convert language    ${cf_language_file}    LRF    ${group}
+    ...    ELSE    Set Variable    ${group}
     # select type, currency, based
     Select Window
     Select Frame    main
@@ -27,10 +40,10 @@ submit filters for customer list
     ${IsStatusExsited}    Run Keyword And Return Status    Page Should Contain Element    ${status_listbox_customer_list}
     Run Keyword If    '${IsStatusExsited}'=='True' and '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
     Comment    Run Keyword If    '${status}'!='None'    Select From List By Label    ${status_listbox_customer_list}    ${status}
-    Run Keyword If    '${special level}'!='None'    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
+    Select From List By Label    ${special_level_listbox_customer_list}    ${special level}
     Run Keyword If    '${ba}'!='None'    Select From List By Label    ${ba_listbox_customer_list}    ${ba}
-    # select Group if needed
-    Run Keyword If    '${group}'!='None'    Select From List By Label    ${group_listbox_customer_list}    ${group}
+    # select Group
+    Select From List By Label    ${group_listbox_customer_list}    ${group}
     # select odds group
     ${ac_IsOddsGroupExisted}    Run Keyword And Return Status    Page Should Contain Element    ${odds_group_listbox_customer_list}
     Run Keyword If    '${ac_IsOddsGroupExisted}'=='True' and '${odds group}'!='None'    select odds group filter    \    main    ${odds group}
@@ -115,6 +128,7 @@ change ba status based on username
     ...    Example:
     ...
     ...    change ba status based on username | harmony | ON
+    ${status}    convert language    ${cf_language_file}    LRF    ${status}
     Select Window
     Select Frame    main
     ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
@@ -133,6 +147,7 @@ check table header existence on customer list
     ...    Example:
     ...
     ...    check table header existence on customer list | exist | not exist| exist | exist | exist | exist | exist | exist
+    wait page load
     Select Window
     Select Frame    main
     # Check External ID column
@@ -170,6 +185,7 @@ check ba status based on username
     ...    Example:
     ...
     ...    check ba status based on username | harmony | ON
+    ${status}    convert language    ${cf_language_file}    LRF    ${status}
     Select Window
     Select Frame    main
     ${ac_current_status}=    Get Text    xpath=//td[@aria-describedby='ReportGrid_BAStatus']/div[contains(@data-val,'${username}')]
@@ -185,6 +201,7 @@ check status based on username
     ...    Example:
     ...
     ...    check status based on username | harmony | Closed
+    ${status}    convert language    ${cf_language_file}    LRF    ${status}
     Select Window
     Select Frame    main
     Element Should Be Visible    xpath=//span[@externalid='${username}' and contains(text(),'${status}')]
@@ -197,6 +214,8 @@ check customer group based on custid
     ...    Example:
     ...
     ...    check customer group based on custid | 12872391 | testinggroup
+    ${group}    Run Keyword If    '${group}'=='None'    convert language    ${cf_language_file}    LRF    ${group}
+    ...    ELSE    Set Variable    ${group}
     Select Window
     Select Frame    main
     Element Should Be Visible    xpath=//td[@title='${group}']/div[contains(@id,'${custid}')]
@@ -211,6 +230,8 @@ check special level based on custid
     ...    Example:
     ...
     ...    check special level based on custid | 9579874 | 5
+    ${special level}    Run Keyword If    '${special level}'=='None'    convert language    ${cf_language_file}    LRF    ${special level}
+    ...    ELSE    Set Variable    ${special level}
     Select Window
     Select Frame    main
     Element Should Be Visible    xpath=//td[@aria-describedby='ReportGrid_SpecialLevel']/div[@data-custid='${custid}' and text()='${special level}']
@@ -269,6 +290,7 @@ select customer option based on username
     ...    Example:
     ...
     ...    select customer option based on username | harmony | Bet Setting
+    ${option}    convert language    ${cf_language_file}    LRF    ${option}
     Select Window
     Select Frame    main
     # click View link

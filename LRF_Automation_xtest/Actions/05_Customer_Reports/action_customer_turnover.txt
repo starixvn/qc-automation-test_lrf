@@ -52,6 +52,13 @@ select product checkboxes in customer turnover
     ...    Example:
     ...
     ...    select product checkboxes in customer turnover | Sportbook, Virtual Sports, Number Game
+    #convert language
+    ${Sportsbook}    convert language    ${cf_language_file}    Products    Sportsbook
+    #convert language manually due to the inconsistent data of Number Game and Virtual Sports
+    ${Number Game}    Set Variable If    '${cf_language}'=='en-EN'    Number Game    '${cf_language}'=='zh-TW'    百练赛    '${cf_language}'=='zh-CN'
+    ...    百練賽    '${cf_language}'=='ko-KR'    라이브빙고    '${cf_language}'=='zh-Hans'    百練賽
+    ${Virtual Sports}    Set Variable If    '${cf_language}'=='en-EN'    Virtual Sports    '${cf_language}'=='zh-TW'    Virtual Sports    '${cf_language}'=='zh-CN'
+    ...    Virtual Sports    '${cf_language}'=='ko-KR'    Virtual Sports    '${cf_language}'=='zh-Hans'    Virtual Sports
     Select Window
     Select Frame    main
     Click Element    ${product_listbox_customer_turnover}
@@ -59,9 +66,9 @@ select product checkboxes in customer turnover
     ${ac_vs}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${ac_ng}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
     Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[@id='sportsHeaderCheckBox']
-    Run Keyword If    '${ac_sb}'=='True'    Select Checkbox    xpath=//label[contains(text(),'Sportbook')]/input[@type='checkbox']
-    Run Keyword If    '${ac_vs}'=='True'    Select Checkbox    xpath=//label[contains(text(),'Virtual Sports')]/input[@type='checkbox']
-    Run Keyword If    '${ac_ng}'=='True'    Select Checkbox    xpath=//label[contains(text(),'Number Game')]/input[@type='checkbox']
+    Run Keyword If    '${ac_sb}'=='True'    Select Checkbox    xpath=//label[contains(text(),'${Sportbook}')]/input[@type='checkbox']
+    Run Keyword If    '${ac_vs}'=='True'    Select Checkbox    xpath=//label[contains(text(),'${Virtual Sports}')]/input[@type='checkbox']
+    Run Keyword If    '${ac_ng}'=='True'    Select Checkbox    xpath=//label[contains(text(),'${Number Game}')]/input[@type='checkbox']
     Click Element    ${product_listbox_customer_turnover}
     Unselect Frame
 
@@ -72,6 +79,13 @@ unselect product checkboxes in customer turnover
     ...    Example:
     ...
     ...    unselect product checkboxes in customer turnover | Sportbook, Virtual Sports, Number Game
+    #convert language
+    ${Sportsbook}    convert language    ${cf_language_file}    Products    Sportsbook
+    #convert language manually due to the inconsistent data of Number Game and Virtual Sports
+    ${Number Game}    Set Variable If    '${cf_language}'=='en-US'    Number Game    '${cf_language}'=='zh-TW'    百练赛    '${cf_language}'=='zh-CN'
+    ...    百練賽    '${cf_language}'=='ko-KR'    라이브빙고    '${cf_language}'=='zh-Hans'    百練賽
+    ${Virtual Sports}    Set Variable If    '${cf_language}'=='en-US'    Virtual Sports    '${cf_language}'=='zh-TW'    Virtual Sports    '${cf_language}'=='zh-CN'
+    ...    Virtual Sports    '${cf_language}'=='ko-KR'    Virtual Sports    '${cf_language}'=='zh-Hans'    Virtual Sports
     Select Window
     Select Frame    main
     Click Element    ${product_listbox_customer_turnover}
@@ -79,9 +93,9 @@ unselect product checkboxes in customer turnover
     ${ac_vs}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${ac_ng}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
     Run Keyword If    '${product}'=='All'    Unselect Checkbox    xpath=//*[@id='sportsHeaderCheckBox']
-    Run Keyword If    '${ac_sb}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Sportbook')]/input[@type='checkbox']
-    Run Keyword If    '${ac_vs}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Virtual Sports')]/input[@type='checkbox']
-    Run Keyword If    '${ac_ng}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Number Game')]/input[@type='checkbox']
+    Run Keyword If    '${ac_sb}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'${Sportbook}')]/input[@type='checkbox']
+    Run Keyword If    '${ac_vs}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'${Virtual Sports}')]/input[@type='checkbox']
+    Run Keyword If    '${ac_ng}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'${Number Game}')]/input[@type='checkbox']
     Click Element    ${product_listbox_customer_turnover}
     Unselect Frame
 

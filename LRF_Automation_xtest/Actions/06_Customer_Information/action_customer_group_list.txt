@@ -39,10 +39,11 @@ check group name existence
     ...    Example:
     ...
     ...    check group name existence | testinggroup | exist
+    ${ac_Edit_Group}    convert language    ${cf_language_file}    LRF    Edit Group
     Select Window
     Select Frame    main
-    Run Keyword If    '${status}'=='exist'    Element Should Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
-    Run Keyword If    '${status}'=='not exist'    Element Should Not Be Visible    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
+    Run Keyword If    '${status}'=='exist'    Element Should Be Visible    xpath=//a[@title='${ac_Edit_Group}' and contains(text(),'${group name}')]
+    Run Keyword If    '${status}'=='not exist'    Element Should Not Be Visible    xpath=//a[@title='${ac_Edit_Group}' and contains(text(),'${group name}')]
     Unselect Frame
 
 click group link
@@ -52,9 +53,10 @@ click group link
     ...    Example:
     ...
     ...    click group link | candytest
+    ${ac_Edit_Group}    convert language    ${cf_language_file}    LRF    Edit Group
     Select Window
     Select Frame    main
-    Click Element    xpath=//a[@title='Edit Group' and contains(text(),'${group name}')]
+    Click Element    xpath=//a[@title='${ac_Edit_Group}' and contains(text(),'${group name}')]
     Unselect Frame
 
 click edit group button
@@ -66,6 +68,7 @@ click edit group button
     ...    Example:
     ...
     ...    click edit group button | 7 | Delete Group
+    ${button}    convert language    ${cf_language_file}    LRF    ${button}
     Select Window
     Select Frame    main
     Click Element    xpath=//*[@id='data-content']/tr[${row}]/td/a[@title='${button}']

@@ -8,6 +8,8 @@ Resource          ../../Interfaces/04_Reports/interface_gold_deluxe_win_loss.txt
 *** Keywords ***
 submit filters for gold deluxe win loss report
     [Arguments]    ${from date}    ${to date}    ${currency}    ${exclude test data}    ${report by}
+    ${currency}    Run Keyword If    '${currency}'=='ALL' or '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select date
     select date range    \    main    None    ${from date}    ${to date}
     Select Window

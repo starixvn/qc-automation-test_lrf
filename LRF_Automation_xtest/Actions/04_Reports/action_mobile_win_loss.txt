@@ -22,6 +22,8 @@ submit filters for mobile win loss
     ...    Example:
     ...
     ...    submit filters for mobile win loss | None | None | None | None | CNY | Yes | No Draws | Others | Sportsbook, BA
+    ${currency}    Run Keyword If    '${currency}'=='ALL' or '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Select Window
     Select Frame    main
     # select Currency

@@ -14,6 +14,8 @@ submit filters for ag casino win loss
     ...    Example:
     ...
     ...    submit filters for ag casino win loss | None | None | USD | Yes | Daily
+    ${currency}    Run Keyword If    '${currency}'=='ALL' or '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Run Keyword If    '${from date}'!='None' and '${to date}'!='None'    select date range    \    main    None    ${from date}
     ...    ${to date}
     Select Window

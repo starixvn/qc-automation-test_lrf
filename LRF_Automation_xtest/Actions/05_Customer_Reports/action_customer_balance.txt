@@ -17,6 +17,11 @@ submit filters for customer balance
     ...    Example:
     ...
     ...    submit filters for customer balance | Dec-01-2014 | Dec-07-2014 | normal | CNY | All | Deposit | Yes | Sportsbook, Racing
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${select top}    Run Keyword If    '${select top}'=='All'    convert language    ${cf_language_file}    LRF    ${select top}
+    ...    ELSE    Set Variable    ${select top}
+    ${sort by}    convert language    ${cf_language_file}    LRF    ${sort by}
     # select date
     select date range    \    main    None    ${from date}    ${to date}
     # select type, currency, select top, sort by

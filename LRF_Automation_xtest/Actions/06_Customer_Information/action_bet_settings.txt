@@ -9,6 +9,7 @@ Resource          ../../Interfaces/06_Customer_Information/interface_bet_setting
 select product in bet setting
     [Arguments]    ${product}
     [Documentation]    select product in bet setting | Number Game
+    ${product}    convert language    ${cf_language_file}    Products    ${product}
     Select Window
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]

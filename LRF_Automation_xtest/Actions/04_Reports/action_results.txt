@@ -37,7 +37,9 @@ submit filters for keno results
     ...    Example:
     ...
     ...    submit filters for keno results | Australia | None
-    Select Window    title=Keno Result
+    ${window title}    Set Variable If    '${cf_language}'=='ko-KR'    title=케노 결과보기    title=Keno Result
+    ${category}    convert language    ${cf_language_file}    Sports    ${category}
+    Select Window    ${window title}
     # select category
     Select From List By Label    ${category_listbox_results}    ${category}
     # click Search button
@@ -56,7 +58,7 @@ click result link of tennis match
     Select Frame    main
     Set Selenium Speed    0.2
     # Find link in the range of columns. If existed, click on it
-    :FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
+    : FOR    ${ac_index}    IN RANGE    ${from row}    ${to row}+1
     \    ${ac_link_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//table[@class='fn-rs ']/tbody/tr[${ac_index}]/td[contains(@class,'cl-status')]/div/span[contains(@class,'tennis-detail-link')]
     \    Run Keyword If    '${ac_link_status}'=='True'    Click Element    xpath=//table[@class='fn-rs ']/tbody/tr[${ac_index}]/td[contains(@class,'cl-status')]/div/span[contains(@class,'tennis-detail-link')]
     \    Run Keyword If    '${ac_link_status}'=='True'    Set Selenium Speed    ${cf_speed}

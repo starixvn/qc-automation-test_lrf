@@ -13,6 +13,9 @@ submit filters for live report
     ...    Example:
     ...
     ...    submit filters for live report | Dec-01-2014 | Dec-03-2014 | \ ALL | EUR | Live | None
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
+    ${live status}    convert language    ${cf_language_file}    LRF    ${live status}
     # select date
     Run Keyword If    '${from date}' !='None' and '${to date}' !='None' and '${special date}'=='None'    select date range    \    main    None    ${from date}
     ...    ${to date}
@@ -37,6 +40,9 @@ submit filters for history live report
     ...    Example:
     ...
     ...    submit filters for history live report | None | None | None | None | CNY | USD | Live
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
+    ${live status}    convert language    ${cf_language_file}    LRF    ${live status}
     # select currency, based
     Select Window
     Select Frame    main
@@ -56,6 +62,7 @@ click product link on live report
     ...    Example:
     ...
     ...    click product link on live report | Total
+    ${product link}    convert language    ${cf_language_file}    Products    ${product link}
     Select Window
     Select Frame    main
     Click Element    xpath=//a[@class='product-detail-link' and contains(text(),'${product link}')]
@@ -69,6 +76,7 @@ click sport link on live report
     ...    Example:
     ...
     ...    click sport link on live report | Soccer
+    ${sport link}    convert language    ${cf_language_file}    Sports    ${sport link}
     Select Window
     Select Frame    main
     Click Element    xpath=//a[@class='sport-detailt-link' and contains(text(),'${sport link}')]
@@ -116,7 +124,7 @@ check sport table existed on live report
     ...    check sport table existed on live report
     Select Window
     Select Frame    main
-    ${sport_table_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(text(),'By Sports Type')]
+    ${sport_table_status}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[contains(text(),'By Sports Type') or contains(text(),'根據運動類型') or contains(text(),'根据运动类型') or contains(text(),'스포츠유형에 따라')]
     Run Keyword If    '${sport_table_status}'!='True'    Fail    By Sport Type table does not exist. Please investigate the UI.
     Unselect Frame
 
@@ -183,7 +191,7 @@ check bet list in live report
     Run Keyword If    '${sheet}'!='Sportsbook'    select bet list for other sports in live report    ${sheet}    ${ac_1st_sport_excel}    None
     # Get Data and check
     ${ac_totalrow_excel}    Get Row Count    ${sheet}
-    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
     \    Comment    Get Sport type in Excel. If Sport type changes, we have to click Back and proceed new Sport link
     \    ${ac_sport_excel}    Read Cell Data By Coordinates    ${sheet}    4    ${ac_index}
     \    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${ac_index}

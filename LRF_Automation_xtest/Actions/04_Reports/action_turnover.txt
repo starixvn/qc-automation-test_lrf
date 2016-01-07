@@ -18,6 +18,10 @@ submit filters for turnover
     ...    Example:
     ...
     ...    submit filters for turnover | None | None | None | None | Yes | normal | Based EUR | qatest01 | Sportsbook, Racing
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Select Frame    main
     # select Exclude Test Data
     Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_turnover}

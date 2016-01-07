@@ -11,6 +11,10 @@ submit filters for customer pending funds
     ...    Example:
     ...
     ...    submit filters for customer pending funds | normal | EUR | USD | Sportsbook, Keno
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select type-currency-based
     Select Window
     Select Frame    main

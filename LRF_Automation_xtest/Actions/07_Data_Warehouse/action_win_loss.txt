@@ -14,6 +14,9 @@ submit filters for win loss
     ...    Example:
     ...
     ...    submit filters for win loss | CNY | EUR | Dec-01-2014 | Dec-07-2014 | Month| Normal
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
+    ${report by}    convert language    ${cf_language_file}    LRF    ${report by}
     # select date
     select date range    \    main    None    ${from date}    ${to date}
     # select currency, based

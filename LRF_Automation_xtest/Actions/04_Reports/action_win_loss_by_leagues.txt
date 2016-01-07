@@ -13,6 +13,8 @@ submit filters for win loss by leagues
     ...    Example:
     ...
     ...    submit filters for win loss by leagues | None | None | None | None | CNY | EUR | 2 | Soccer | 1 | 1 | Win, Loss | Sportsbook
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select Currency-Based
     Select Window
     Select Frame    main

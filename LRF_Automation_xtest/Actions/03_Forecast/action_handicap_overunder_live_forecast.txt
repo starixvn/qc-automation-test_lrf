@@ -16,6 +16,8 @@ submit filters for forecast handicap bodog
     ...    submit filter for total bets | 1 | 1 | CNY | EUR
     ...
     ...    submit filter for total bets | None | 1 | CNY | EUR
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Select Window
     Select Frame    main
     Run Keyword If    '${league index}'!='None'    Select From List By Index    ${league_listbox_forecast_bodog}    ${league index}

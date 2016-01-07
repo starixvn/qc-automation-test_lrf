@@ -13,6 +13,28 @@ submit filters for daily bet list
     ...    Example:
     ...
     ...    submit filters for daily bet list | Dec-01-2014 | ALL | EUR | Sportsbook | Won
+    #convert language
+    ${Sportsbook}    convert language    ${cf_language_file}    Products    Sportsbook
+    ${Racing}    convert language    ${cf_language_file}    Products    Racing
+    ${Number Game}    convert language    ${cf_language_file}    Products    Number Game
+    ${Live Casino}    convert language    ${cf_language_file}    Products    Live Casino
+    ${Virtual Sports}    convert language    ${cf_language_file}    Products    Virtual Sports
+    ${BA}    convert language    ${cf_language_file}    Products    BA
+    ${RNG Casino}    convert language    ${cf_language_file}    Products    RNG Casino
+    ${Keno}    convert language    ${cf_language_file}    Products    Keno
+    ${Microgaming}    convert language    ${cf_language_file}    Products    Microgaming
+    ${AG Casino}    convert language    ${cf_language_file}    Products    AG Casino
+    ${Gold Deluxe}    convert language    ${cf_language_file}    Products    Gold Deluxe
+    ${Macau}    convert language    ${cf_language_file}    Products    Macau
+    #get product code
+    ${product_code}    Set Variable If    '${product}'=='${Sportsbook}' or '${product}'=='Sportsbook'    SB    '${product}'=='${Racing}' or '${product}'=='Racing'    RB    '${product}'=='${Number Game}' or '${product}'=='Number Game'
+    ...    NG    '${product}'=='${Live Casino}' or '${product}'=='Live Casino'    LC    '${product}'=='${Virtual Sports}' or '${product}'=='Virtual Sports'    VS    '${product}'=='${BA}' or '${product}'=='BA'
+    ...    BA    '${product}'=='${RNG Casino}' or '${product}'=='RNG Casino'    CS    '${product}'=='${Keno}' or '${product}'=='Keno'    KN    '${product}'=='${Microgaming}' or '${product}'=='Microgaming'
+    ...    MGC    '${product}'=='${AG Casino}' or '${product}'=='AG Casino'    AGC    '${product}'=='${Gold Deluxe}' or '${product}'=='Gold Deluxe'    GD    '${product}'=='${Macau}' or '${product}'=='Macau'
+    ...    VG
+    #convert language
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select date
     select specific date    \    main    None    ${date}
     # select currency, based
@@ -21,9 +43,9 @@ submit filters for daily bet list
     Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     # select product
-    Select From List By Label    ${product_listbox_daily_bet_list}    ${product}
+    Select From List By Value    ${product_listbox_daily_bet_list}    ${product_code}
     # select status
-    Select From List By Label    ${status_listbox_daily_bet_list}    ${status}
+    Select From List By Value    ${status_listbox_daily_bet_list}    ${status}
     Unselect Frame
     # click Submit button
     click element on report    \    main    None    ${submit_button}

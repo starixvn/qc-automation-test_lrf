@@ -11,6 +11,8 @@ submit filters for microgaming win loss
     ...
     ...    Example:
     ...    submit_filters_for_microgaming_win_loss | *Dec-01-2014 |Dec-03-2014 | ALL| No| Monthly*
+    ${currency}    Run Keyword If    '${currency}'=='ALL' or '${currency}'=='Based EUR' or '${currency}'=='Based USD' or '${currency}'=='Based GBP'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Run Keyword If    '${from_date}' != 'None'    select date range    \    main    None    ${from_date}
     ...    ${to_date}
     # Select currency

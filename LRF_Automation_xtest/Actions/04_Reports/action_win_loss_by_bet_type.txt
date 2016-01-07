@@ -11,6 +11,10 @@ submit filters for win loss by bettype
     ...    Example:
     ...
     ...    submit filters for win loss by bettype | Dec-01-2014 | Dec-03-2014 | normal | EUR | USD
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     # select date
     select date range    \    main    None    ${from date}    ${to date}
     # select type-currency-based

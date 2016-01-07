@@ -16,6 +16,10 @@ submit filters for totalbets
     ...    submit filter for total bets | 75 sec | normal | CNY | EUR
     ...
     ...    submit filter for total bets | None | normal | CNY | EUR
+    ${licensee type}    Run Keyword If    '${licensee type}'=='ALL'    convert language    ${cf_language_file}    LRF    ${licensee type}
+    ...    ELSE    Set Variable    ${licensee type}
+    ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
+    ...    ELSE    Set Variable    ${currency}
     Select Window
     Select Frame    main
     Run Keyword If    '${countdown time}'!='None'    select count down refresh time    ${countdown time}
@@ -193,6 +197,7 @@ check total stake displays in betlist
     # VP: Verify that total row of betlist should display in betlist
     Run Keyword If    '${window}'!='None'    Select Window    ${window}
     Run Keyword If    '${frame}'!='None'    Select Frame    ${frame}
+    Wait Until Element Is Visible    ${total_stake_of_TotalBets_betlist}
     Element Should Be Visible    ${total_stake_of_TotalBets_betlist}
     # VP : Verify that total stake should be greater than 0
     ${ac_temp_total_stake}=    Get Text    ${total_stake_of_TotalBets_betlist}
