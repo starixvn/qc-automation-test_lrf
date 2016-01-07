@@ -7,5 +7,5 @@ ${keno_button}    xpath=//*[@id='submit-keno']    # Keno button of Result page
 ${sport_listbox_results}    xpath=//*[@id='sport']    # Sport listbox of Result page
 ${league_listbox_results}    xpath=//*[@id='league']    # League listbox of Results page
 ${category_listbox_results}    xpath=//*[@id='ddl_product']    # Category listbox of Keno results
-${search_button_results}    xpath=//input[@value='Search']    # Search button of Keno results
+${search_button_results}    xpath=//input[@value='Search' or @value='찾기']    # Search button of Keno results
 ${keno_result_table}    xpath=//table[contains(@id,'GridView')]    # Keno result table of Results page

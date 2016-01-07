@@ -7,7 +7,7 @@ ${sportsbook_commission_listbox}    xpath=//*[@id='DdlSBComm1']    # Sportsbook 
 ${number_game_commission_listbox}    xpath=//*[@id='DdlNGComm1']    # Number Game commission listbox of Customer Group List page
 ${live_casino_commission_listbox}    xpath=//*[@id='DdlLCComm1']    # Live Casino commission listbox of Customer Group List page
 ${rng_casino_commission_listbox}    xpath=//*[@id='DdlCSComm1']    # RNG Casino commission listbox of Customer Group List page
-${successful_label}    xpath=//*[@id='form_result']/div[contains(text(),'Successful')]    # Sucessful label when creating new group
+${successful_label}    xpath=//*[@id='form_result']/div[contains(@class,'success')]    # Sucessful label when creating new group
 ${go_to_customer_list_button}    xpath=//*[@id='CustList']    # Go To Customer List button of Customer Group List page
 ${create_group_button}    xpath=//*[@id='Add']    # Create Group button of Customer Group List page
 ${cancel_button_commission_group_list}    xpath=//*[@id='Cancel']    # Cancel button of Commission Group List
