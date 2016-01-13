@@ -222,6 +222,8 @@ select licensee after login
     Wait Until Page Contains Element    xpath=//a[contains(text(),'${licensee}')]    10s
     Click Element    xpath=//a[contains(text(),'${licensee}')]
     wait page load
+    select language    ${cf_language}
+    wait page load
 
 select licensee
     [Arguments]    ${licensee name}
