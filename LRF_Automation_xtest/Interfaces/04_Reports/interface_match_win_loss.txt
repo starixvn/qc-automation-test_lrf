@@ -1,5 +1,5 @@
 *** Variables ***
-${mix_parlay_link_match_winloss}    xpath=//span[contains(text(),'Mix Parlay')]    # Mix Parlay link of Match Win Loss page
-${system_parlay_link_match_winloss}    xpath=//span[contains(text(),'System Parlay')]    # System Parlay link of Match Win Loss page
+${mix_parlay_link_match_winloss}    xpath=//span[contains(text(),'Mix Parlay') or contains(text(),'混合過關') or contains(text(),'混合过关') or contains(text(),'믹스팔레이')]    # Mix Parlay link of Match Win Loss page
+${system_parlay_link_match_winloss}    xpath=//span[contains(text(),'System Parlay') or contains(text(),'串關') or contains(text(),'串关') or contains(text(),'시스템 팔레이')]    # System Parlay link of Match Win Loss page
 ${report_table_match_winloss}    xpath=//table[@id='data-content']    # Report table of Match Win Loss report
-${outright_link_match_winloss}    xpath=//span[contains(text(),'Outright')]    # Outright link of Match Win Loss page
+${outright_link_match_winloss}    xpath=//span[contains(text(),'Outright') or contains(text(),'優勝冠軍') or contains(text(),'优胜冠军') or contains(text(),'승자 예상 배팅')]    # Outright link of Match Win Loss page

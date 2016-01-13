@@ -1,3 +1,3 @@
 *** Variables ***
-${system_parlay_header_link}    xpath=//div[@class='content-title']/span[contains(text(),'System Parlay')]    # System Parlay link at the header of Mix Parlay page.
-${mix_parlay}     xpath=//div[@class='content-title']/span[contains(text(),'Mix Parlay')]    # Mix Parlay link at the header of Mix Parlay page
+${system_parlay_header_link}    xpath=//div[@class='content-title']/span[contains(text(),'System Parlay') or contains(text(),'複式過關') or contains(text(),'复式过关') or contains(text(),'시스템 팔레이')]    # System Parlay link at the header of Mix Parlay page.
+${mix_parlay}     xpath=//div[@class='content-title']/span[contains(text(),'Mix Parlay') or contains(text(),'混合過關') or contains(text(),'混合过关') or contains(text(),'조합 베팅')]    # Mix Parlay link at the header of Mix Parlay page

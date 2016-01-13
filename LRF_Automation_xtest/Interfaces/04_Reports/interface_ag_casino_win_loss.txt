@@ -1,6 +1,6 @@
 *** Variables ***
 ${exclude_test_data_checkbox_agcasino_winloss}    xpath=//*[@id='IsExcludedTestData']    # Exclude Test Data checkbox of Ag Casino Win Loss report
-${licensee_link_ag_casino_wl}    xpath=//li[contains(@class,'hide level-link') and text()='Licensee']    # Licensee link of AG Casino Win Loss report
-${main_link_ag_casino_wl}    xpath=//li[contains(@class,'hide level-link') and text()='Main']    # Main link of AG Casino Win Loss report
+${licensee_link_ag_casino_wl}    xpath=//li[contains(@class,'hide level-link') and (text()='Licensee' or text()='承租公司' or text()='라이선스 사용자')]    # Licensee link of AG Casino Win Loss report
+${main_link_ag_casino_wl}    xpath=//li[contains(@class,'hide level-link') and (text()='Main' or text()='主' or text()='주요')]    # Main link of AG Casino Win Loss report
 ${report_by_daily_radio_button}    xpath=//*[@id='reportbydaily']    # Daily radio button
 ${report_by_monthly_radio_button}    xpath=//*[@id='reportbymonthly']    # Monthly radio button

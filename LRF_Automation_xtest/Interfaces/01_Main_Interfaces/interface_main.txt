@@ -25,12 +25,12 @@ ${year_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[2][@d
 ${month_listbox_of_from_calendar}    xpath=//*/div[1]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of from calendar
 ${year_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[2][@data-handler='selectYear']    # Year listbox of To Calendar
 ${month_listbox_of_to_calendar}    xpath=//*/div[2]/div[1]/div/div/select[1][@data-handler='selectMonth']    # Month listbox of To calendar
-${ok_button_of_from_to_calendar}    xpath=//div/button[text()='OK']    # OK button of From-To calendar
-${no_info_label}    xpath=//*[contains(text(),'No information is available')]    # "No information is available" text
+${ok_button_of_from_to_calendar}    xpath=//div/button[text()='OK' or text()='확인']    # OK button of From-To calendar
+${no_info_label}    xpath=//*[contains(text(),'No information is available') or contains(text(),'没资料显示') or contains(text(),'정보가 없읍니다')]    # "No information is available" text
 ${delete_button_popup}    xpath=//button/span[text()='Delete']    # Delete button of popup
-${cancel_button_popup}    xpath=//button/span[text()='Cancel']    # Cancel button of popup
-${ok_button_popup}    xpath=//button/span[text()='OK']    # OK button of the popup
-${save_button_popup}    xpath=//button/span[text()='Save']    # Save button of the popup
+${cancel_button_popup}    xpath=//button/span[text()='Cancel' or text()='取消' or text()='취소']    # Cancel button of popup
+${ok_button_popup}    xpath=//button/span[text()='OK' or text()='확인']    # OK button of the popup
+${save_button_popup}    xpath=//button/span[text()='Save' or text()='保存' or text()='저장하기']    # Save button of the popup
 ${total_stake_of_TotalBets_betlist}    css=table.ui-jqgrid-ftable td[aria-describedby='BetListGrid_Stake']    # Total row value of betlist
 ${username_textbox_leftmenu}    xpath=//*[@id='txtUserName']    # Username textbox in left menu
 ${search_button_leftmenu}    xpath=//*[@id='search-button']    # Search button on Left Menu
