@@ -35,7 +35,7 @@ config
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
     # Set Language Variables
-    Set Suite Variable    ${cf_language}    zh-Hans    #en-US #zh-TW #zh-CN #ko-KR #zh-Hans
+    Set Suite Variable    ${cf_language}    zh-TW    #en-US #zh-TW #zh-CN #ko-KR #zh-Hans
     Set Suite Variable    ${cf_language_file}    Data set\\Test_Languages.xls
 
 config local
@@ -874,11 +874,18 @@ click product link
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
     [Documentation]    This action is used to check and click *one* product link if it's available.
     ...
-    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'* or *'Microgaming'*
+    ...    ${product}= *'Sportsbook'* or *'Racing'* or *'Number Game'* or *'Live Casino'* or *'Virtual Sports'* or *'RNG Casino'* or *'Keno'*
     ...
     ...    Example:
     ...
     ...    click product link | Sportsbook
+    ${Sportsbook}    convert language    ${cf_language_file}    Products    Sportsbook
+    ${Racing}    convert language    ${cf_language_file}    Products    Racing
+    ${Number Game}    convert language    ${cf_language_file}    Products    Number Game
+    ${Live Casino}    convert language    ${cf_language_file}    Products    Live Casino
+    ${Virtual Sports}    convert language    ${cf_language_file}    Products    Virtual Sports
+    ${RNG Casino}    convert language    ${cf_language_file}    Products    RNG Casino
+    ${Keno}    convert language    ${cf_language_file}    Products    Keno
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
@@ -889,13 +896,13 @@ click product link
     ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    Run Keyword If    '${SB}'=='True'    Click Element    xpath=//*[contains(text(),'Sportsbook')]
-    Run Keyword If    '${RB}'=='True'    Click Element    xpath=//*[contains(text(),'Racing')]
-    Run Keyword If    '${NG}'=='True'    Click Element    xpath=//*[contains(text(),'Number Game')]
-    Run Keyword If    '${LC}'=='True'    Click Element    xpath=//*[contains(text(),'Live Casino')]
-    Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'Virtual Sports')]
-    Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'RNG Casino')]
-    Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'Keno')]
+    Run Keyword If    '${SB}'=='True'    Click Element    xpath=//*[contains(text(),'${Sportsbook}')]
+    Run Keyword If    '${RB}'=='True'    Click Element    xpath=//*[contains(text(),'${Racing}')]
+    Run Keyword If    '${NG}'=='True'    Click Element    xpath=//*[contains(text(),'${Number Game}')]
+    Run Keyword If    '${LC}'=='True'    Click Element    xpath=//*[contains(text(),'${Live Casino}')]
+    Run Keyword If    '${VS}'=='True'    Click Element    xpath=//*[contains(text(),'${Virtual Sports}')]
+    Run Keyword If    '${CS}'=='True'    Click Element    xpath=//*[contains(text(),'${RNG Casino}')]
+    Run Keyword If    '${KN}'=='True'    Click Element    xpath=//*[contains(text(),'${Keno}')]
 
 select date on picker
     [Arguments]    ${date}
@@ -930,3 +937,25 @@ start api
     Click Element    xpath=//*[@id='content']/div/form/table/tbody/tr[3]/td[2]/input
     sleep    5s
     close window
+
+check data on report
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    [Documentation]    Check #Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ...
+    ...    Example:
+    ...
+    ...    check data on report
+    ...
+    ...    check data on report | No information is available
+    ...
+    ...    check data on report | No information is available | There is no data at this moment
+    Comment    ${text}    convert language    ${cf_language_file}    ${cf_language_sheet}    ${text}
+    Comment    # Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    Comment    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    ${text}
+    Comment    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    ${message}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${ac_no_info_status}=    Run Keyword And Return Status    Element Should Be Visible    ${no_info_label}
+    Unselect Frame
+    [Return]    ${ac_no_info_status}

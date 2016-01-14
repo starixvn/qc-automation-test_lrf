@@ -1538,7 +1538,10 @@ TM_36_ST_Reports_Win Loss By Leagues
     # VP. Check Export To Excel function
     check export excel function    title=LRF - Bet List    None    None    WinLossByLeagueBetList.xls
     # 6. Close Bet List window
-    Select Window    title=LRF - Bet List
+    ${window title}    Set Variable    title=LRF - Bet List
+    ${window title}    Set Variable If    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-TW'    title=LRF - 投注歷史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-CN'    title=LRF - 投注历史    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='ko-KR'
+    ...    title=LRF - 배팅목록    '${window title}'=='title=LRF - Bet List' and '${cf_language}'=='zh-Hans'    title=LRF - 投注历史    ${window title}
+    Select Window    ${window title}
     Close Window
     # 7. Click Back link
     click element on report    \    main    None    ${back_link_wl_by_leagues}
@@ -1583,9 +1586,9 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
 TM_47_ST_Reports_MaCau Win Loss
     #1. Define test data
     ${tm_current_month}    Get Time    return month
-    ${tm_month}    Evaluate    int("${tm_current_month}") - 1
+    ${tm_month}    Evaluate    12    #int("${tm_current_month}") - 1
     ${tm_current_year}    Get Time    return year
-    ${tm_year}    Evaluate    int(${tm_current_year})
+    ${tm_year}    Evaluate    2015    #int(${tm_current_year})
     select licensee    12Bet
     # 2. Navigate to REPORTS > AG Gold Deluxe Win Loss
     navigate left menu    REPORTS    Macau Win Loss
@@ -1906,11 +1909,11 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     # Check updated status as current status
     Should Contain    ${current_group}    @{list_without_selected_group}[0]
     # check odds group filter
-    submit filters for customer list    None    None    None    qatest01    None    None
-    ...    None    None    None
+    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    ...    All    All    None
     update odds group    B
-    submit filters for customer list    None    None    None    qatest01    None    None
-    ...    None    None    B, D
+    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    ...    All    All    B, D
     take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_Filter_1.jpg
     check element on report    \    main    None    ${report_table_reports}
     update odds group    A    #return initial setting: A
