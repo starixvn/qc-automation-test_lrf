@@ -22,16 +22,17 @@ submit filters for daily bet list
     ${BA}    convert language    ${cf_language_file}    Products    BA
     ${RNG Casino}    convert language    ${cf_language_file}    Products    RNG Casino
     ${Keno}    convert language    ${cf_language_file}    Products    Keno
-    ${Microgaming}    convert language    ${cf_language_file}    Products    Microgaming
+    ${Microgaming LC}    convert language    ${cf_language_file}    Products    Microgaming - Live Casino
+    ${Microgaming RNG}    convert language    ${cf_language_file}    Products    Microgaming - RNG Casino
     ${AG Casino}    convert language    ${cf_language_file}    Products    AG Casino
     ${Gold Deluxe}    convert language    ${cf_language_file}    Products    Gold Deluxe
     ${Macau}    convert language    ${cf_language_file}    Products    Macau
     #get product code
     ${product_code}    Set Variable If    '${product}'=='${Sportsbook}' or '${product}'=='Sportsbook'    SB    '${product}'=='${Racing}' or '${product}'=='Racing'    RB    '${product}'=='${Number Game}' or '${product}'=='Number Game'
     ...    NG    '${product}'=='${Live Casino}' or '${product}'=='Live Casino'    LC    '${product}'=='${Virtual Sports}' or '${product}'=='Virtual Sports'    VS    '${product}'=='${BA}' or '${product}'=='BA'
-    ...    BA    '${product}'=='${RNG Casino}' or '${product}'=='RNG Casino'    CS    '${product}'=='${Keno}' or '${product}'=='Keno'    KN    '${product}'=='${Microgaming}' or '${product}'=='Microgaming'
-    ...    MGC    '${product}'=='${AG Casino}' or '${product}'=='AG Casino'    AGC    '${product}'=='${Gold Deluxe}' or '${product}'=='Gold Deluxe'    GD    '${product}'=='${Macau}' or '${product}'=='Macau'
-    ...    VG
+    ...    BA    '${product}'=='${RNG Casino}' or '${product}'=='RNG Casino'    CS    '${product}'=='${Keno}' or '${product}'=='Keno'    KN    '${product}'=='${Microgaming LC}' or '${product}'=='Microgaming - Live Casino'
+    ...    MGCLC    '${product}'=='${Microgaming RNG}' or '${product}'=='Microgaming - RNG Casino'    MGCRNG    '${product}'=='${AG Casino}' or '${product}'=='AG Casino'    AGC    '${product}'=='${Gold Deluxe}' or '${product}'=='Gold Deluxe'
+    ...    GD    '${product}'=='${Macau}' or '${product}'=='Macau'    VG
     #convert language
     ${currency}    Run Keyword If    '${currency}'=='ALL'    convert language    ${cf_language_file}    LRF    ${currency}
     ...    ELSE    Set Variable    ${currency}
@@ -81,7 +82,8 @@ check bet list in daily bet list for selected products
     ${BA}=    Run Keyword And Return Status    Should Contain    ${products}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${products}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${products}    Keno
-    ${MG}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming
+    ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming - Live Casino
+    ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${products}    Microgaming - RNG Casino
     Run Keyword If    '${SB}'=='True'    check bet list in daily bet list    ${date}    Sportsbook    ${excel file}    ${status}
     Run Keyword If    '${RB}'=='True'    check bet list in daily bet list    ${date}    Racing    ${excel file}    ${status}
     Run Keyword If    '${NG}'=='True'    check bet list in daily bet list    ${date}    Number Game    ${excel file}    ${status}
@@ -90,7 +92,8 @@ check bet list in daily bet list for selected products
     Run Keyword If    '${VS}'=='True'    check bet list in daily bet list    ${date}    Virtual Sports    ${excel file}    ${status}
     Run Keyword If    '${CS}'=='True'    check bet list in daily bet list    ${date}    RNG Casino    ${excel file}    ${status}
     Run Keyword If    '${KN}'=='True'    check bet list in daily bet list    ${date}    Keno    ${excel file}    ${status}
-    Run Keyword If    '${MG}'=='True'    check bet list in daily bet list    ${date}    Microgaming    ${excel file}    ${status}
+    Run Keyword If    '${MGCLC}'=='True'    check bet list in daily bet list    ${date}    Microgaming - Live Casino    ${excel file}    ${status}
+    Run Keyword If    '${MGCRNG}'=='True'    check bet list in daily bet list    ${date}    Microgaming - RNG Casino    ${excel file}    ${status}
 
 check bet list in daily bet list based on status
     [Arguments]    ${excel file}    ${sheet}    ${status}

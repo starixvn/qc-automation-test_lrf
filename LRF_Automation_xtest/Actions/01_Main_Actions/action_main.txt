@@ -378,8 +378,10 @@ select products filter
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
     ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
-    ${MG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming
-    ${MG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGC'][@name='MGC']
+    ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-Live Casino
+    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCLC'][@name='MGCLC']
+    ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-RNG Casino
+    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCRNG'][@name='MGCRNG']
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
     ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='AGC'][@name='AGC']
     ${GD}=    Run Keyword And Return Status    Should Contain    ${product}    Gold Deluxe
@@ -401,7 +403,8 @@ select products filter
     Run Keyword If    '${VS}'=='True'    Select Checkbox    id=VS
     Run Keyword If    '${CS}'=='True'    Select Checkbox    id=CS
     Run Keyword If    '${KN}'=='True'    Select Checkbox    id=KN
-    Run Keyword If    '${MG}'=='True' and '${MG_checkbox}'=='True'    Select Checkbox    id=MGC
+    Run Keyword If    '${MGCLC}'=='True' and '${MGCLC_checkbox}'=='True'    Select Checkbox    id=MGCLC
+    Run Keyword If    '${MGCRNG}'=='True' and '${MGCRNG_checkbox}'=='True'    Select Checkbox    id=MGCRNG
     Run Keyword If    '${AGC}'=='True' and '${AGC_checkbox}'=='True'    Select Checkbox    id=AGC
     Run Keyword If    '${GD}'=='True' and '${GD_checkbox}'=='True'    Select Checkbox    id=GD
     Run Keyword If    '${VG}'=='True' and '${VG_checkbox}'=='True'    Select Checkbox    id=VG
