@@ -2288,12 +2288,6 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_Macau
     Should Be Equal    '${status1_button}'    '${status3_button}'
 
 TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingLC
-    logout
-    # Login with test account
-    login    ${cf_username1}    ${cf_password1}
-    # Select spondemo licensee
-    select licensee after login    spondemo
-    #
     # 1. Switch To spondemo licensee
     select licensee    spondemo
     # 2. Navigate to CUSTOMER INFORMATION > Customer List
