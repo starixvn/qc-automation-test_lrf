@@ -35,7 +35,7 @@ config
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
     # Set Language Variables
-    Set Suite Variable    ${cf_language}    zh-TW    #en-US #zh-TW #zh-CN #ko-KR #zh-Hans
+    Set Suite Variable    ${cf_language}    en-US    #en-US #zh-TW #zh-CN #ko-KR #zh-Hans
     Set Suite Variable    ${cf_language_file}    Data set\\Test_Languages.xls
 
 config local
