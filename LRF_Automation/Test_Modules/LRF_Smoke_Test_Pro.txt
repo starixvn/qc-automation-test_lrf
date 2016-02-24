@@ -2181,8 +2181,8 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     # get status after update
     ${after_status}    get status    \    main    BetSetting
     # Verify status after updated
-    Run Keyword If    '${before_status}'=='Enable RNG Casino'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
-    ...    ${after_status}    Enable
+    Run Keyword If    '${before_status}'=='Enable RNG Casino'    Should Contain    ${after_status}    Disable
+    ...    ELSE    Should Contain    ${after_status}    Enable
     # 4. Check that initialize if user is disabled , he is enabled successfully
     Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     Run Keyword If    '${status}'=='Disable RNG Casino'    select customer option based on username    qatest04    Bet Setting
@@ -2299,8 +2299,8 @@ TM_43_02_ST_CustomerInformation_Customer list_Bet Setting_Gold Deluxe
     # get status after update
     ${after_status}    get status    \    main    BetSetting
     # Verify status after updated
-    Run Keyword If    '${before_status}'=='Enable'    Should Contain    ${after_status}    Disable    ELSE    Should Contain
-    ...    ${after_status}    Enable
+    Run Keyword If    '${before_status}'=='Enable'    Should Contain    ${after_status}    Disable
+    ...    ELSE    Should Contain    ${after_status}    Enable
     # 4. Check that initialize if user is disabled , he is enabled successfully
     Run Keyword If    '${status}'=='Disable Gold Deluxe'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     Run Keyword If    '${status}'=='Disable Gold Deluxe'    check element on report    \    main    BetSetting    ${successful_popup}
@@ -2362,7 +2362,7 @@ TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingLC
     # 4. Go to View > Bet Setting
     select customer option based on username    qatest01    Bet Setting
     # 5. Select Microgaming from list
-    select product in bet setting    Microgaming - Live Casino
+    select product in bet setting    Microgaming-Live Casino
     wait page load
     take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_MicrogamingLC.jpg
     Select Frame    main
@@ -2413,7 +2413,7 @@ TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingRNG
     # 4. Go to View > Bet Setting
     select customer option based on username    qatest01    Bet Setting
     # 5. Select Microgaming from list
-    select product in bet setting    Microgaming - RNG Casino
+    select product in bet setting    Microgaming-RNG Casino
     wait page load
     take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_MicrogamingRNG.jpg
     Select Frame    main
