@@ -8,7 +8,7 @@ Resource          ../../Interfaces/04_Reports/interface_turnover.txt
 *** Keywords ***
 submit filters for mobile win loss
     [Arguments]    ${year}    ${month}    ${from day}    ${to day}    ${currency}    ${exclude test data}
-    ...    ${draw filter}    ${site}    ${product}
+    ...    ${draw filter}    ${platform}    ${product}
     [Documentation]    This action is used to submit filters for Mobile Win Loss report.
     ...
     ...    ${exclude test data}= *'Yes'* or *'No'*
@@ -33,10 +33,8 @@ submit filters for mobile win loss
     Run Keyword If    '${draw filter}'=='Normal'    Click Element    ${normal_radio_button_turnover}
     Run Keyword If    '${draw filter}'=='No Draws'    Click Element    ${no_draws_radio_button_turnover}
     Run Keyword If    '${draw filter}'=='No Draws For Turnover Only'    Click Element    ${no_draws_for_turnover_only_radio_button_turnover}
-    # select site
-    Run Keyword If    '${site}'=='WAP'    Click Element    ${wap_radio_button}
-    Run Keyword If    '${site}'=='Smartphone'    Click Element    ${smartphone_radio_button}
-    Run Keyword If    '${site}'=='Others'    Click Element    ${others_radio_button}
+    # select platform
+    Run Keyword If    '${platform}'!='None'    Select From List By Label    ${platform_listbox}    ${platform}
     # select products
     select products filter    \    main    None    ${product}
     # click Submit button

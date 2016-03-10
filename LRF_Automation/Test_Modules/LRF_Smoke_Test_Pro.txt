@@ -1427,21 +1427,21 @@ TM_31_ST_Reports_Turnover
     # VP. check export excel
     check export excel function    \    main    None    Turnover.xls
 
-TM_32_ST_Reports_Mobile Win Loss
+TM_32_ST_Reports_Platform Win Loss
     [Tags]    CI
     # 1. Navigate to REPORTS > Mobile Win Loss
-    navigate left menu    REPORTS    Mobile Win Loss
+    navigate left menu    REPORTS    Platform Win Loss
     # VP. Check User Guide popup exists
     check user guide popup
     # 2. Select filters then click Submit button
     submit filters for mobile win loss    None    None    None    None    CNY    Yes
-    ...    Normal    Smartphone    All
+    ...    Normal    All    All
     wait page load
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss.jpg
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    MobileWinLoss.xls
+    check export excel function    \    main    None    PlatformWinLoss.xls
     # 3. Click link in External ID colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
     wait page load
@@ -1449,7 +1449,7 @@ TM_32_ST_Reports_Mobile Win Loss
     check element on report    \    main    BetList    ${betlist_table}
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss_Betlist.jpg
     #VP. check export
-    check export excel function    \    main    BetList    MobileWinLossBetList.xls
+    check export excel function    \    main    BetList    PlatformWinLossBetList.xls
     # 4. Click link result in betlist
     click result link in ticket    \    main    BetList/MobileWl    ${betlist_table}    2    11
     # VP. Check result pop-up

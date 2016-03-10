@@ -5,3 +5,4 @@ ${no_draws_for_turnover_only_radio_button_turnover}    xpath=//*[@id='RadioNoDra
 ${wap_radio_button}    xpath=//*[@id='WapSite']    # WAP radio button of Mobile Win Loss report
 ${smartphone_radio_button}    xpath=//*[@id='SmartPhoneSite']    # Smartphone radio button of Mobile Win Loss report
 ${others_radio_button}    xpath=//*[@id='OthersSite']    # Others radio button of Mobile Win Loss
+${platform_listbox}    xpath=//*[@id='Platform']    # Platform listbox of Platform Win Loss report
