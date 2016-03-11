@@ -9,6 +9,9 @@ Resource          ../../Interfaces/01_Main_Interfaces/interface_login.txt
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../../Interfaces/02_Total_Bets/interface_general_totalbets.txt
 
+*** Variables ***
+${BROWSER}        ${EMPTY}
+
 *** Keywords ***
 config
     [Documentation]    This action is used to set default configuration for entire scripts.
@@ -41,7 +44,7 @@ config local
     Set Selenium Speed    ${cf_speed}
     Set Selenium Timeout    60s
     # Set Browser & URL testing
-    Set Suite Variable    ${cf_browser}    ff
+    Set Suite Variable    ${cf_browser}    ${BROWSER}
     Set Suite Variable    ${cf_url}    http://10.18.200.209:8003/VA
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
