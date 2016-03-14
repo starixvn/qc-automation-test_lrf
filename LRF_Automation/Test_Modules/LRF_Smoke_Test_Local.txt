@@ -372,7 +372,7 @@ TM_23_ST_Reports_Match Win Loss
     # 2. Click User Guide
     check user guide popup
     # 3. Select filters then click Submit button
-    ${date}=    Get Time    \    Now - 9 day
+    ${date}=    Get Time    \    Now - 7 day
     submit filters for match win loss    ${date}    None    None    None    All
     take applications screenshot    Local    TM_23_Reports_MatchWinLoss.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
@@ -395,7 +395,7 @@ TM_24_ST_Reports_Win Loss By Products
 
 TM_25_ST_Reports_Win Loss By Bet Type
     [Tags]    Complete
-    ${from}=    Get Time    \    Now - 9 day
+    ${from}=    Get Time    \    Now - 7 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Win Loss By Bet Type
     navigate left menu    REPORTS    Win Loss By Bet Type
@@ -410,7 +410,7 @@ TM_25_ST_Reports_Win Loss By Bet Type
 
 TM_26_ST_Reports_Racing Commission
     [Tags]    Complete
-    ${from}    Get Time    \    Now - 9 day
+    ${from}    Get Time    \    Now - 7 day
     ${to}=    Get Time    \    Now - 12 hour
     # 1. Navigate to REPORTS > Racing Commission
     navigate left menu    REPORTS    Racing Commission
@@ -424,7 +424,7 @@ TM_26_ST_Reports_Racing Commission
 
 TM_27_ST_Reports_Daily Racing Win Loss
     [Tags]    Complete
-    ${date}=    Get Time    \    Now - 9d
+    ${date}=    Get Time    \    Now - 7d
     # 1. Navigate to REPORTS > Daily Racing Win Loss
     navigate left menu    REPORTS    Daily Racing Win Loss
     # 2. Select filters then click Submit button
@@ -449,7 +449,7 @@ TM_28_ST_Reports_Cancelled Bets
 
 TM_29_ST_Reports_Daily Bet List
     [Tags]    Complete
-    ${day}    Get Time    \    Now - 9 day
+    ${day}    Get Time    \    Now - 7 day
     # 1. Navigate to REPORTS > Daily Bet List
     navigate left menu    REPORTS    Daily Bet List
     # 2. Select filters then click Submit button
@@ -513,7 +513,7 @@ TM_33_ST_Reports_AG Casino Win Loss
 
 TM_34_ST_Reports_Results
     [Tags]    Complete
-    ${tm_date}=    Get Time    \    Now - 8 day
+    ${tm_date}=    Get Time    \    Now - 7 day
     # 1. Navigate to REPORTS > Results
     navigate left menu    REPORTS    Results
     # 2. Submit filters
