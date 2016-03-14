@@ -44,7 +44,7 @@ config local
     Set Selenium Speed    ${cf_speed}
     Set Selenium Timeout    60s
     # Set Browser & URL testing
-    Set Suite Variable    ${cf_browser}    ${BROWSER}
+    Set Suite Variable    ${cf_browser}    chrome
     Set Suite Variable    ${cf_url}    http://10.18.200.209:8003/VA
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
