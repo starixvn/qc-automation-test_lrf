@@ -10,7 +10,7 @@ Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../../Interfaces/02_Total_Bets/interface_general_totalbets.txt
 
 *** Variables ***
-${BROWSER}        ${EMPTY}
+${BROWSER}        chrome
 
 *** Keywords ***
 config
