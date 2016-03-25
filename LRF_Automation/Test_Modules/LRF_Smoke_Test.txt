@@ -60,6 +60,8 @@ Resource          ../Actions/07_Data_Warehouse/action_top_customer.txt
 Resource          ../Actions/06_Customer_Information/action_customer_log.txt
 Resource          ../Actions/06_Customer_Information/action_customer_group_list.txt
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
+Resource          ../Interfaces/04_Reports/interface_ag_casino_balance.txt
+Resource          ../Actions/04_Reports/action_ag_casino_balance.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -513,6 +515,21 @@ TM_33_ST_Reports_AG Casino Win Loss
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
     # VP. Check User Guide popup exists
     check user guide popup
+
+TM_44_ST_Reports_AG Casino Balance
+    select licensee    12Bet
+    # 1. Navigate to REPORTS > AG Casino Balance
+    navigate left menu    REPORTS    AG Casino Balance
+    submit filters for ag casino balance    ALL    Yes
+    take applications screenshot    Product    TM_44_ST_Reports_AG Casino Balance
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check export
+    click element on report    \    main    None    ${export_to_excel_button}
+    Sleep    10s
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
 
 TM_34_ST_Reports_Results
     [Tags]    CI

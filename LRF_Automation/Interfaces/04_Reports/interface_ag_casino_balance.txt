@@ -1,0 +1,4 @@
+*** Variables ***
+${exclude_test_data_checkbox_agcasino_balance}    xpath=//*[@id='IsExcludedTestData']    # Exclude Test Data checkbox of Ag Casino Balance report
+${licensee_link_ag_casino_wl}    xpath=(.//a[@class='drilldown'])[1]    # Licensee link of AG Casino Balance report
+${main_link_ag_casino_wl}    xpath=//li[contains(@class,'hide level-link') and text()='Main']    # Main link of AG Casino Balance report

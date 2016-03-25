@@ -1,0 +1,19 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Resource          ../../Interfaces/04_Reports/interface_ag_casino_balance.txt
+
+*** Keywords ***
+submit filters for ag casino balance
+    [Arguments]    ${currency}    ${exclude test data}
+    Select Window
+    Select Frame    main
+    # select Currency
+    Run KeyWord If    '${currency}'!= 'None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='Yes'    Select Checkbox    ${exclude_test_data_checkbox_agcasino_balance}
+    Run Keyword If    '${exclude test data}'=='No'    Unselect Checkbox    ${exclude_test_data_checkbox_agcasino_balance}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load

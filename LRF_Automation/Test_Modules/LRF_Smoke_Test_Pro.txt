@@ -75,6 +75,8 @@ Resource          ../Interfaces/02_Total_Bets/interface_number_game.txt
 Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 Resource          ../Interfaces/02_Total_Bets/interface_moneyline.txt
 Resource          ../Actions/05_Customer_Reports/action_active_customer_summary.txt
+Resource          ../Interfaces/04_Reports/interface_ag_casino_balance.txt
+Resource          ../Actions/04_Reports/action_ag_casino_balance.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1504,6 +1506,41 @@ TM_33_ST_Reports_AG Casino Win Loss
     # 9. Click SystemID link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+
+TM_44_ST_Reports_AG Casino Balance
+    select licensee    12Bet
+    # 1. Navigate to REPORTS > AG Casino Balance
+    navigate left menu    REPORTS    AG Casino Balance
+    submit filters for ag casino balance    ALL    Yes
+    take applications screenshot    Product    TM_44_ST_Reports_AG Casino Balance
+    # 2. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+    # VP. Check export
+    click element on report    \    main    None    ${export_to_excel_button}
+    Sleep    10s
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # 3. Click Currency link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
+    wait page load
+    take applications screenshot    Product    TM_44_ST_Reports_AG Casino Balance
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # 4. Click SystemID link
+    click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
+    wait page load
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    take applications screenshot    Product    TM_44_ST_Reports_AG Casino Balance
+    # 5. Click Licensee link
+    click element on report    \    main    None    ${licensee_link_ag_casino_wl}
+    # VP. Check report table
+    check element on report    \    main    None    ${report_table_reports}
+    # 6. Click Main link
+    click element on report    \    main    None    ${main_link_ag_casino_wl}
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
 
