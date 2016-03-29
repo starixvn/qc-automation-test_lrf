@@ -61,6 +61,8 @@ Resource          ../Actions/06_Customer_Information/action_customer_group_list.
 Resource          ../Actions/04_Reports/action_microgaming_win_loss.txt
 Resource          ../Interfaces/04_Reports/interface_ag_casino_balance.txt
 Resource          ../Actions/04_Reports/action_ag_casino_balance.txt
+Resource          ../Actions/04_Reports/action_casino_progressive_wins.txt
+Resource          ../Actions/04_Reports/action_weekly_live_matches.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -367,6 +369,21 @@ TM_22_ST_Reports_Settled Match Count
     # VP. Check User Guide popup exists
     check user guide popup
 
+TM_45_ST_Reports_Weekly Live Matches
+    Comment    select licensee    12Bet
+    Comment    # 1. Navigate to REPORTS > Weekly Live Matches
+    Comment    navigate left menu    REPORTS    Weekly Live Matches
+    Comment    ${from}=    Get Time    \    Now - 10 day
+    Comment    ${to}=    Get Time    \    Now - 2 day
+    Comment    # 2. Submit filter
+    Comment    submit filters for weekly live matches    ${from}    ${to}
+    Comment    take applications screenshot    Local    TM_44_Reports_Weekly Live Matches.jpg
+    Comment    # 3. Export excel
+    Comment    Comment    check export excel function    \    main    None    WeeklyLiveMatches.xls
+    Comment    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    Comment    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Comment    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
+
 TM_23_ST_Reports_Match Win Loss
     [Tags]    Complete
     # 1. Navigate to REPORTS > Match Win Loss
@@ -547,6 +564,21 @@ TM_44_ST_Reports_AG Casino Balance
     click element on report    \    main    None    ${main_link_ag_casino_wl}
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
+
+TM_46_ST_Reports_Casino Progressive Wins
+    select licensee    12Bet
+    # 1. Navigate to REPORTS >> \ Casino Progressive Wins
+    navigate left menu    REPORTS    Casino Progressive Wins
+    ${from}=    Get Time    \    Now - 10 day
+    ${to}=    Get Time    \    Now - 12 hour
+    # 2. Submit filter
+    submit filters for casino progressive wins    ${from}    ${to}    ALL
+    take applications screenshot    Local    TM_45_Reports_CasinoProgressiveWins.jpg
+    # 3. Export excel
+    Comment    check export excel function    \    main    None    CasinoProgressiveWin_Microgaming.xls
+    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
 
 TM_34_ST_Reports_Results
     [Tags]    Complete

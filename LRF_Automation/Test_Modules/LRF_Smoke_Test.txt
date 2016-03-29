@@ -62,6 +62,8 @@ Resource          ../Actions/06_Customer_Information/action_customer_group_list.
 Resource          ../Interfaces/06_Customer_Information/interface_bet_setting.txt
 Resource          ../Interfaces/04_Reports/interface_ag_casino_balance.txt
 Resource          ../Actions/04_Reports/action_ag_casino_balance.txt
+Resource          ../Actions/04_Reports/action_casino_progressive_wins.txt
+Resource          ../Actions/04_Reports/action_weekly_live_matches.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -530,6 +532,21 @@ TM_44_ST_Reports_AG Casino Balance
     Sleep    10s
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
+
+TM_46_ST_Reports_Casino Progressive Wins
+    select licensee    12Bet
+    # 1. Navigate to REPORTS >> \ Casino Progressive Wins
+    navigate left menu    REPORTS    Casino Progressive Wins
+    ${from}=    Get Time    \    Now - 10 day
+    ${to}=    Get Time    \    Now - 12 hour
+    # 2. Submit filter
+    submit filters for casino progressive wins    ${from}    ${to}    ALL
+    take applications screenshot    Local    TM_45_Reports_CasinoProgressiveWins.jpg
+    # 3. Export excel
+    check export excel function    \    main    None    CasinoProgressiveWin_Microgaming.xls
+    # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
+    ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
+    Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
 
 TM_34_ST_Reports_Results
     [Tags]    CI

@@ -1,0 +1,22 @@
+*** Settings ***
+Library           Selenium2Library
+Resource          ../01_Main_Actions/action_main.txt
+Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+
+*** Keywords ***
+submit filters for casino progressive wins
+    [Arguments]    ${from date}    ${to date}    ${currency}
+    [Documentation]    This action is used to submit filters for Casino Progressive Wins
+    ...
+    ...    Example:
+    ...
+    ...    submit filters for casino progressive wins | ${from} | ${to} | USD
+    Run Keyword If    '${from date}'!='None' and '${to date}'!='None'    select date range    \    main    None    ${from date}
+    ...    ${to date}
+    Select Window
+    Select Frame    main
+    # select Currency
+    Run Keyword If    '${currency}'!='None'    Select From List By Label    ${currency_listbox}    ${currency}
+    # click Submit button
+    click element on report    \    main    None    ${submit_button}
+    wait page load
