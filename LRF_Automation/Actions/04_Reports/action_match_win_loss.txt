@@ -43,9 +43,9 @@ click match link of match win loss
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
     # Find link in the columns. If existed, click on it
-    ${ac_matchlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/span[@class='match-link']
-    Run Keyword If    '${ac_matchlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/span[@class='match-link']
-    Run Keyword If    '${ac_matchlink_status}'!='True'    Fail    No link found in the table. Please investigate the UI.
+    ${ac_matchlink_status}=    Run Keyword And Return Status    Page Should Contain Element    ${table}/tbody/tr[${row}]/td[${column}]/div/span[contains(@class,'match-link')]
+    Run Keyword If    '${ac_matchlink_status}'=='True'    Click Element    ${table}/tbody/tr[${row}]/td[${column}]/div/span[contains(@class,'match-link')]
+    Run Keyword If    '${ac_matchlink_status}'!='True'    Fail    No match link found in the table. Please investigate the UI.
     Unselect Frame
 
 click bettype link of match win loss
@@ -94,7 +94,7 @@ check bet list in match win loss
     select bet list for other bettype in match win loss    ${ac_1st_text_of_1st_match}    ${ac_1st_bettype_excel}    ${ac_1st_bettype_id_excel}
     # Get Data and check
     ${ac_totalrow_excel}    Get Row Count    ${sheet}
-    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    : FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
     \    Comment    Get bettype & match in Excel. If they're different, we have to click Back and proceed new bettype link
     \    ${ac_bettype_excel}    Read Cell Data By Coordinates    ${sheet}    3    ${ac_index}
     \    ${ac_match_excel}    Read Cell Data By Coordinates    ${sheet}    5    ${ac_index}

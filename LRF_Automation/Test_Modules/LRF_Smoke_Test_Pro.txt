@@ -1066,22 +1066,27 @@ TM_23_ST_Reports_Match Win Loss
     click match link of match win loss    \    main    None    ${report_table_match_winloss}    2    2
     wait page load
     take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Match.jpg
-    # 6. Click bettype link
-    click bettype link of match win loss    \    main    None    1
-    wait page load
     # VP. Check bet list table exist
     check element on report    \    main    None    ${betlist_table}
     take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Betlist.jpg
     # VP. Check exporting file successfully
     check export excel function    \    main    None    MatchWinLossBetList.xls
-    # 7. Click Results status link
+    # 6. Click Results status link
     click result link in ticket    \    main    None    ${betlist_table}    2    11
     # VP. Check result table exist
     check result popup exist    \    main    ResultPopup    None
     take applications screenshot    Product    TM_23_Reports_MatchWinLoss_Result.jpg
     click element on report    \    main    None    ${close_button_on_popup}
-    # 8. Click Back button
+    # 7. Click Back button
     click element on report    \    main    None    ${back_button}
+    # 8. Click bettype link
+    Select Window
+    Select Frame    main
+    Click Element    xpath=//*[@id='data-content']/tbody/tr[2]/td[2]/div/div/span
+    click bettype link of match win loss    \    main    None    1
+    wait page load
+    # VP. Check bet list table exist
+    check element on report    \    main    None    ${betlist_table}
     # 9. Check visible of Mix Parlay link. If visible, click Mix Parlay link
     ${tm_mixParlay_status}=    Run Keyword And Return Status    check element on report    \    main    None    ${mix_parlay_link_match_winloss}
     Run Keyword If    '${tm_mixParlay_status}'=='True'    click element on report    \    main    None    ${mix_parlay_link_match_winloss}
