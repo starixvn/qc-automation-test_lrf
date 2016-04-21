@@ -74,9 +74,9 @@ config MNLServer
     # Set Timing
     Set Suite Variable    ${cf_speed}    0.4
     Set Selenium Speed    ${cf_speed}
-    Set Selenium Timeout    60s
+    Set Selenium Timeout    300s
     # Set Browser & URL testing
-    Set Suite Variable    ${cf_browser}    chrome
+    Set Suite Variable    ${cf_browser}    FF
     Set Suite Variable    ${cf_url}    http://internal-lrf.ibcbk.com/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
