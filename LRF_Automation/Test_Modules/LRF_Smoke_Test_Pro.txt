@@ -1450,9 +1450,11 @@ TM_32_ST_Reports_Platform Win Loss
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    PlatformWinLoss.xls
+    check export excel function    \    main    None    PlatformWinLossSummary.xls
     # 3. Click link in External ID colum
-    click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
+    click drilldown link in table report platform    \    main    None
+    wait page load
+    click drilldownlink in table report    \    main    None    ${report_table_reports}    2    ExternalId
     wait page load
     #VP. Check betlist
     check element on report    \    main    BetList    ${betlist_table}
@@ -1460,12 +1462,12 @@ TM_32_ST_Reports_Platform Win Loss
     #VP. check export
     check export excel function    \    main    BetList    PlatformWinLossBetList.xls
     # 4. Click link result in betlist
-    click result link in ticket    \    main    BetList/MobileWl    ${betlist_table}    2    11
+    click result link in ticket    \    main    /BetList/PlatformWinLoss    ${betlist_table}    2    11
     # VP. Check result pop-up
-    check result popup exist    \    main    BetList/MobileWl    ResultPopup
+    check result popup exist    \    main    /BetList/PlatformWinLoss    ResultPopup
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss_Result.jpg
     # 5. Click close result pop-up
-    click element on report    \    main    BetList/MobileWl    ${close_button_on_popup}
+    click element on report    \    main    /BetList/PlatformWinLoss    ${close_button_on_popup}
     # 6. Close betlist pop-up
     click element on report    \    main    None    ${close_button_on_popup}
 

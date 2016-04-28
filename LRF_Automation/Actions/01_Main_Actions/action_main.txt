@@ -20,7 +20,7 @@ config
     Set Selenium Speed    ${cf_speed}
     Set Selenium Timeout    60s
     # Set Browser & URL testing
-    Set Suite Variable    ${cf_browser}    chrome
+    Set Suite Variable    ${cf_browser}    FF
     Set Suite Variable    ${cf_url}    http://internal.amazzu.com/authorization/signin
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
