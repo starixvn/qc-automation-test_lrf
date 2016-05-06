@@ -93,6 +93,86 @@ config MNLServer
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
 
+config Bet Setting data
+    [Arguments]    ${product}
+    [Documentation]    Create and return a dictionary which is included sportname and sporttype
+    ...
+    ...    *Key:* Sport name
+    ...
+    ...    *Value:* Sport type
+    ...
+    ...    Example:
+    ...
+    ...    ${Sportsbook} | \ \ config Bet Setting data | Sportsbook
+    #Create dictionary    WITH    KEY=sportname    VALUE=sporttype
+    # SPORTSBOOK dictionary
+    ${Sportsbook}    Run Keyword If    '${product}'=='Sportsbook'    Create Dictionary    Soccer    1
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'Sportsbook'
+    \    Set To Dictionary    ${Sportsbook}    Basketball    2
+    \    Set To Dictionary    ${Sportsbook}    Football    3
+    \    Set To Dictionary    ${Sportsbook}    Tennis    5
+    \    Set To Dictionary    ${Sportsbook}    Baseball    8
+    \    Set To Dictionary    ${Sportsbook}    Golf    10
+    \    Set To Dictionary    ${Sportsbook}    Motorsports    11
+    \    Comment    Set To Dictionary    ${Sportsbook}    Muay Thai    44
+    \    Set To Dictionary    ${Sportsbook}    Other Sports & E-Sports    99
+    \    Set To Dictionary    ${Sportsbook}    Mix Sports Parlay    99MP
+    \    Set To Dictionary    ${Sportsbook}    Horse Racing Fixed Odds    154
+    \    Exit For Loop
+    # RACING dictionary
+    ${Racing}    Run Keyword If    '${product}'=='Racing'    Create Dictionary    Horse Racing UK/Irish Tote    151_41
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'Racing'
+    \    Set To Dictionary    ${Racing}    Horse Racing SA Tote    151_31
+    \    Set To Dictionary    ${Racing}    Greyhound Aust Tote    152_51
+    \    Set To Dictionary    ${Racing}    Harness Aust Tote    153_51
+    \    Exit For Loop
+    # VIRTUAL SPORTS dictionary
+    ${Virtual Sports}    Run Keyword If    '${product}'=='Virtual Sports'    Create Dictionary    Virtual Soccer    180
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'Virtual Sports'
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Horse Racing    181
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Greyhounds    182
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Speedway    183
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Motorsports    184
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Cycling    185
+    \    Set To Dictionary    ${Virtual Sports}    Virtual Tennis    186
+    \    Exit For Loop
+    # AG CASINO dictionary
+    ${AG Casino}    Run Keyword If    '${product}'=='AG Casino'    Create Dictionary    Baccarat    BAC
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'AG Casino'
+    \    Set To Dictionary    ${AG Casino}    Dragon Tiger    DT
+    \    Set To Dictionary    ${AG Casino}    Sic Bo    SHB
+    \    Set To Dictionary    ${AG Casino}    Roulette    ROU
+    \    Set To Dictionary    ${AG Casino}    Fan Tan    FT
+    \    Exit For Loop
+    # GOLD DELUXE dictionary
+    ${Gold Deluxe}    Run Keyword If    '${product}'=='Gold Deluxe'    Create Dictionary    Baccarat    BAC
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'Gold Deluxe'
+    \    Set To Dictionary    ${Gold Deluxe}    Roulette    ROU
+    \    Exit For Loop
+    # LIVE CASINO dictionary
+    ${P.Baccarat}    Create List    11    12    13    14    15
+    ...    16    17    18    19    110    111
+    ${P.Roulette}    Create List    1071    1072    1073
+    ${L.Baccarat}    Create List    1081    1082    1083
+    ${L.Roulette}    Create List    1091
+    ${Live Casino}    Run Keyword If    '${product}'=='Live Casino'    Create Dictionary    P.Baccarat    ${P.Baccarat}
+    : FOR    ${index}    IN RANGE    1    999
+    \    Exit For Loop If    '${product}' != 'Live Casino'
+    \    Set To Dictionary    ${Live Casino}    P.Roulette    ${P.Roulette}
+    \    Set To Dictionary    ${Live Casino}    L.Baccarat    ${L.Baccarat}
+    \    Set To Dictionary    ${Live Casino}    L.Roulette    ${L.Roulette}
+    \    Exit For Loop
+    # Return data
+    ${dict}    Set Variable If    '${product}'=='Sportsbook'    ${Sportsbook}    '${product}'=='Racing'    ${Racing}    '${product}'=='Virtual Sports'
+    ...    ${Virtual Sports}    '${product}'=='AG Casino'    ${AG Casino}    '${product}'=='Gold Deluxe'    ${Gold Deluxe}    '${product}'=='Live Casino'
+    ...    ${Live Casino}
+    [Return]    ${dict}
+
 login
     [Arguments]    ${username}    ${password}
     [Documentation]    Type 'username' and 'password' into the textboxes then click Login button

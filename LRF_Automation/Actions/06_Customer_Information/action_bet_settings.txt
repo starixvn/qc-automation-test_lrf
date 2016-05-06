@@ -409,3 +409,635 @@ check max per match for virtual sports
     Run Keyword If    '${tennis}'!='None'    Textfield Should Contain    ${virtual_tennis_max_per_match_textbox}    ${tennis}
     Set Selenium Speed    ${cf_speed}
     Unselect Frame
+
+input setting values
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    *Check validation* and *input setting values* for Min Bet, Max Bet and Max Per Match columns
+    ...
+    ...    Example:
+    ...
+    ...    input setting values | ${window title} | ${main frame} | ${sub frame} | ${Sportsbook}
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    #Check sport is available on web
+    ${total_rows}    Get Matching Xpath Count    xpath=.//div[@class='content-row']
+    Run Keyword If    ${length of dict}!=${total_rows}    Fail    There is at least 1 new sporttype that is available on Bet Setting. Please add value to dictionary
+    #Submit with validate data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    check validation for one setting row    ${VALUE}
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max setting values    ${VALUE}
+    \    input values for one setting row    ${VALUE}    ${min minBet}    ${max maxBet}    ${max maxPerMatch}
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+
+postcondition set up values
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    This action is used to set up post condition values after finished submit bet setting
+    ...
+    ...    Example:
+    ...
+    ...    postcondition set up values | ${window title} | ${main frame} | ${sub frame} | ${Sportsbook}
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    #Submit with validate data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max setting values    ${VALUE}
+    \    ${min minBet}    Evaluate    ${min minBet} + 1
+    \    ${max maxBet}    Evaluate    ${max maxBet} - 1
+    \    ${max maxPerMatch}    Evaluate    ${max maxPerMatch} - 1
+    \    input values for one setting row    ${VALUE}    ${min minBet}    ${max maxBet}    ${max maxPerMatch}
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+
+check validation for one setting row
+    [Arguments]    ${sporttype}
+    [Documentation]    Check validation of input value in Min Bet, Max Bet and Max Per Match for one setting row
+    ...
+    ...    Example:
+    ...
+    ...    check validation for one setting row | Soccer
+    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max setting values    ${sporttype}
+    #Check min bet validation
+    ${invalid min value}    Set Variable    -1    #min bet < 0
+    input and check invalid setting data    ${sporttype}    ${invalid min value}    ${max maxBet}    ${max maxPerMatch}    Incorrect Min Bet
+    ${invalid min value}    Evaluate    ${min minBet}-1    #min bet < min min bet
+    input and check invalid setting data    ${sporttype}    ${invalid min value}    ${max maxBet}    ${max maxPerMatch}    Min Bet must be greater than or equal to ${min minBet}
+    ${invalid min value}    Evaluate    ${max maxBet}+1    #min bet > max max bet
+    input and check invalid setting data    ${sporttype}    ${invalid min value}    ${max maxBet}    ${max maxPerMatch}    Min Bet cannot be greater than Max Bet
+    #Check max bet validation
+    ${invalid max value}    Set Variable    -1    #max bet < 0
+    input and check invalid setting data    ${sporttype}    ${min minBet}    ${invalid max value}    ${max maxPerMatch}    Incorrect Max Bet
+    ${invalid max value}    Evaluate    ${max maxBet}+1    #max bet > max max bet
+    input and check invalid setting data    ${sporttype}    ${min minBet}    ${invalid max value}    ${max maxPerMatch}    Max Bet must be less than or equal to ${max maxBet}
+    ${invalid max per match value}    Set Variable    -1    #max per match < 0
+    input and check invalid setting data    ${sporttype}    ${min minBet}    ${max maxBet}    ${invalid max per match value}    Incorrect Max Per Match
+    ${invalid max per match value}    Evaluate    ${max maxPerMatch}+1    #max per match > max max per match
+    input and check invalid setting data    ${sporttype}    ${min minBet}    ${max maxBet}    ${invalid max per match value}    Max Per Match must be less than or equal to ${max maxPerMatch}
+    ${invalid max per match value}    Evaluate    ${max maxBet}-1    #max per match < max bet
+    input and check invalid setting data    ${sporttype}    ${min minBet}    ${max maxBet}    ${invalid max per match value}    Max Bet can not be greater than Max Per Match
+
+get min max setting values
+    [Arguments]    ${sporttype}
+    [Documentation]    Get min value of Min Bet, max value of Max Bet and max value of Max Per Match of one setting row
+    ...
+    ...    Example:
+    ...
+    ...    get min max setting values | Soccer
+    ${min minBet}    Get Text    xpath=//*[@id='min-bet-${sporttype}']/../span
+    ${min minBet}    Replace String Using Regexp    ${min minBet}    [^0-9]    ${EMPTY}
+    ${max maxBet}    Get Text    xpath=//*[@id='max-bet-${sporttype}']/../span
+    ${max maxBet}    Replace String Using Regexp    ${max maxBet}    [^0-9]    ${EMPTY}
+    ${max maxPerMatch}    Get Text    xpath=//*[@id='max-per-match-${sporttype}']/../span
+    ${max maxPerMatch}    Replace String Using Regexp    ${max maxPerMatch}    [^0-9]    ${EMPTY}
+    [Return]    ${min minBet}    ${max maxBet}    ${max maxPerMatch}
+
+input values for one setting row
+    [Arguments]    ${sporttype}    ${minBet}    ${maxBet}    ${maxPerMatch}
+    [Documentation]    Input Min Bet, Max Bet and Max Per Match value for one setting row
+    ...
+    ...    Example:
+    ...
+    ...    input values for one setting row | Soccer | 1 | 1000 | 10000
+    Set Selenium Speed    0.1
+    #Submit with validate data
+    Input Text    xpath=//*[@id='min-bet-${sporttype}']    ${minBet}    #min bet
+    Input Text    xpath=//*[@id='max-bet-${sporttype}']    ${maxBet}    #max bet
+    Input Text    xpath=//*[@id='max-per-match-${sporttype}']    ${maxPerMatch}    #max per match
+    Set Selenium Speed    ${cf_speed}
+
+input and check invalid setting data
+    [Arguments]    ${sporttype}    ${invalid minBet}    ${invalid maxBet}    ${invalid maxPerMatch}    ${error message}
+    [Documentation]    Input invalid data then check the validation and expected error message
+    ...
+    ...    Example
+    ...
+    ...    input and check invalid setting data | Soccer | -1 | 100 | 1000 | Incorrect Min Bet
+    Run Keyword If    '${sporttype}'=='99'    select product in bet setting    Sportsbook
+    Run Keyword If    '${sporttype}'=='99'    Select Window
+    Run Keyword If    '${sporttype}'=='99'    Select Frame    main
+    Run Keyword If    '${sporttype}'=='99'    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    input values for one setting row    ${sporttype}    ${invalid minBet}    ${invalid maxBet}    ${invalid maxPerMatch}
+    #Validate tool tips
+    Click Element    ${submit_button_bet_setting}
+    #Check error message tooltip
+    ${error msg}    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[@class='msgerr' and @onclick[contains(string(),'${sporttype}')] and contains(text(),'${error message}')]
+    Run Keyword If    '${error msg}'!='True'    Fail    Check validation is failed. Please investigate the UI
+    #Reset data
+    Click Element    ${reset_button_bet_setting}
+
+copy bet setting from sport
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}    ${sportname}
+    [Documentation]    Copy bet setting value from a specific sport name. Verify data from copy rows are disabled.
+    ...
+    ...    Example: Copy betting value from Soccer of Sportsbook
+    ...
+    ...    copy bet setting from sport | ${window title} | ${main frame} | ${sub frame} | Sportsbook | Soccer
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    #Check sport is available on web
+    ${total_rows}    Get Matching Xpath Count    xpath=.//div[@class='content-row']
+    Run Keyword If    ${length of dict}!=${total_rows}    Fail    There is at least 1 new sporttype that is available on Bet Setting. Please add value to dictionary
+    #Input soccer setting values
+    ${sporttype}    Get From Dictionary    ${product}    ${sportname}
+    #get min max values of product
+    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max values    ${product}
+    ${min minBet}    Evaluate    ${min minBet} + 1
+    ${max maxBet}    Evaluate    ${max maxBet} - 1
+    ${max maxPerMatch}    Evaluate    ${max maxPerMatch} - 1
+    input values for one setting row    ${sporttype}    ${min minBet}    ${max maxBet}    ${max maxPerMatch}
+    #Check Copy Bet Setting checkbox
+    Click Element    ${copy_all_bet_setting_from_soccer_checkbox}
+    #Verify data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    Continue For Loop If    '${KEY}'=='${sportname}'    #exclude Soccer
+    \    ${isDisable_minBet}    Run Keyword And Return Status    Element Should Be Visible    xpath=//input[@id='min-bet-${VALUE}' and @disabled='']
+    \    Run Keyword If    '${isDisable_minBet}'!='True'    Fail    Min Bet textbox of ${KEY} is not disable. Please investigate the UI
+    \    ${isDisable_maxBet}    Run Keyword And Return Status    Element Should Be Visible    xpath=//input[@id='max-bet-${VALUE}' and @disabled='']
+    \    Run Keyword If    '${isDisable_maxBet}'!='True'    Fail    Max Bet textbox of ${KEY} is not disable. Please investigate the UI
+    \    ${isDisable_maxPerMatch}    Run Keyword And Return Status    Element Should Be Visible    xpath=//input[@id='max-per-match-${VALUE}' and @disabled='']
+    \    Run Keyword If    '${isDisable_maxPerMatch}'!='True'    Fail    Max Per Match textbox of ${KEY} is not disable. Please investigate the UI
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+
+check data after copy bet setting
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}    ${sportname}
+    [Documentation]    Verify data of copy rows are equal to data of copied row
+    ...
+    ...    Example: Verify data of copy rows of Sportsbook are equal to data of Soccer
+    ...
+    ...    check data after copy bet setting | ${window title} | ${main frame} | ${sub frame} | ${product} | ${sportname}
+    @{items}    Get Dictionary Items    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    #Get setting data of Soccer
+    ${sporttype}    Get From Dictionary    ${product}    ${sportname}
+    ${s_minBet}    Get Element Attribute    xpath=//input[@id='min-bet-${sporttype}']@value
+    ${s_maxBet}    Get Element Attribute    xpath=//input[@id='max-bet-${sporttype}']@value
+    ${s_maxPerMatch}    Get Element Attribute    xpath=//input[@id='max-per-match-${sporttype}']@value
+    #Compare data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    Continue For Loop If    '${KEY}'=='${sporttype}'
+    \    ${minBet}    Get Element Attribute    xpath=//input[@id='min-bet-${VALUE}']@value
+    \    ${maxBet}    Get Element Attribute    xpath=//input[@id='max-bet-${VALUE}']@value
+    \    ${maxPerMatch}    Get Element Attribute    xpath=//input[@id='max-per-match-${VALUE}']@value
+    \    ${isEqual_minBet}    Run Keyword And Return Status    Should Be Equal    ${minBet}    ${s_minBet}
+    \    Run Keyword If    '${isEqual_minBet}'!='True'    Fail    Min Bet of ${KEY} is not equal to Soccer Min Bet. Please investigate the UI
+    \    ${isEqual_maxBet}    Run Keyword And Return Status    Should Be Equal    ${maxBet}    ${s_maxBet}
+    \    Run Keyword If    '${isEqual_maxBet}'!='True'    Fail    Max Bet of ${KEY} is not equal to Soccer Max Bet. Please investigate the UI
+    \    ${isEqual_maxPerMatch}    Run Keyword And Return Status    Should Be Equal    ${maxPerMatch}    ${s_maxPerMatch}
+    \    Run Keyword If    '${isEqual_maxPerMatch}'!='True'    Fail    Max Per Match of ${KEY} is not equal to Soccer Max Per Match. Please investigate the UI
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+
+check data after submit bet setting
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    Verify data after input setting value
+    ...
+    ...    Example: Verify data after input setting values are equal to min Min Bet/max Max Bet/ max Max Per Match values
+    ...
+    ...    check data after submit bet setting | ${window title} | ${main frame} | ${sub frame} | Sportsbook
+    @{items}    Get Dictionary Items    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    #Compare data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max setting values    ${VALUE}
+    \    ${minBet}    Get Element Attribute    xpath=//input[@id='min-bet-${VALUE}']@value
+    \    ${minBet}    Replace String Using Regexp    ${minBet}    [^0-9]    ${EMPTY}
+    \    ${maxBet}    Get Element Attribute    xpath=//input[@id='max-bet-${VALUE}']@value
+    \    ${maxBet}    Replace String Using Regexp    ${maxBet}    [^0-9]    ${EMPTY}
+    \    ${maxPerMatch}    Get Element Attribute    xpath=//input[@id='max-per-match-${VALUE}']@value
+    \    ${maxPerMatch}    Replace String Using Regexp    ${maxPerMatch}    [^0-9]    ${EMPTY}
+    \    ${isEqual_minBet}    Run Keyword And Return Status    Should Be Equal    ${minBet}    ${min minBet}
+    \    Run Keyword If    '${isEqual_minBet}'!='True'    Fail    Min Bet of ${KEY} is not saved successfully. Please investigate the UI
+    \    ${isEqual_maxBet}    Run Keyword And Return Status    Should Be Equal    ${maxBet}    ${max maxBet}
+    \    Run Keyword If    '${isEqual_maxBet}'!='True'    Fail    Max Bet of ${KEY} is not saved successfully. Please investigate the UI
+    \    ${isEqual_maxPerMatch}    Run Keyword And Return Status    Should Be Equal    ${maxPerMatch}    ${max maxPerMatch}
+    \    Run Keyword If    '${isEqual_maxPerMatch}'!='True'    Fail    Max Per Match of ${KEY} is not saved successfully. Please investigate the UI
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+
+get min max values
+    [Arguments]    ${product}
+    [Documentation]    Get min value of Min Bet, max value of Max Bet and max value of Max Per Match of product
+    ...
+    ...    Example:
+    ...
+    ...    get min max values | Sportsbook
+    @{items}    Get Dictionary Items    ${product}
+    Set Selenium Speed    0.1
+    ${list minBet}    Create List
+    ${list maxBet}    Create List
+    ${list maxPerMatch}    Create List
+    #Verify data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${min minBet}    ${max maxBet}    ${max maxPerMatch}    get min max setting values    ${VALUE}
+    \    Append To List    ${list minBet}    ${min minBet}
+    \    Append To List    ${list maxBet}    ${max maxBet}
+    \    Append To List    ${list maxPerMatch}    ${max maxPerMatch}
+    Sort List    ${list minBet}
+    Sort List    ${list maxBet}
+    Sort List    ${list maxPerMatch}
+    Log    ${list minBet}
+    Log    ${list maxBet}
+    Log    ${list maxPerMatch}
+    #Get max value from list
+    ${min minBet}    Get From List    ${list minBet}    -1
+    ${max maxBet}    Get From List    ${list maxBet}    -1
+    ${max maxPerMatch}    Get From List    ${list maxPerMatch}    -1
+    Set Selenium Speed    ${cf_speed}
+    [Return]    ${min minBet}    ${max maxBet}    ${max maxPerMatch}
+
+checkbox setting
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    [Documentation]    *Use for testing product: Bet Trade, MGC - Live Casino, MGC - RNG Casino*
+    ...
+    ...    Verify 'Enable' checkbox is checked or not
+    ...
+    ...    Example:
+    ...
+    ...    checkbox setting | ${window title} | ${main frame} | ${sub frame}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 1. Get current status
+    ${status1_checkbox}=    Get Element Attribute    xpath=.//*[@id='enable-product']@data-original
+    # 2. Enable/Disable product
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 3. Get status after submit
+    ${status2_checkbox}=    Get Element Attribute    xpath=.//*[@id='enable-product']@data-original
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    ${status1_checkbox}    ${status2_checkbox}
+    # 4. Set back to original status
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${status3_checkbox}=    Get Element Attribute    xpath=.//*[@id='enable-product']@data-original
+    # VP. Check Status is not changed
+    Should Be Equal    ${status1_checkbox}    ${status3_checkbox}
+    # 5. Reset button
+    click element on report    \    main    BetSetting    ${enable_bet_setting_checkbox}
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${status4_checkbox}=    Get Element Attribute    xpath=.//*[@id='enable-product']@data-original
+    # VP. Check Status is not changed
+    Should Be Equal    ${status3_checkbox}    ${status4_checkbox}
+    Unselect Frame
+
+enable disable setting
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}
+    [Documentation]    *Use for testing product: Macau*
+    ...
+    ...    Verify Enable product button is enabled or disabled
+    ...
+    ...    Example:
+    ...
+    ...    enable disable setting | ${window title} | ${main frame} | ${sub frame}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 1. Get current status
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # 2. Enable/Disable product
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 3. Get status after submit
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    ${status1_button}    ${status2_button}
+    # 4. Set back to original status
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    ${status1_button}    ${status3_button}
+    Unselect Frame
+
+enable disable product
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}    ${setting type}
+    [Documentation]    *Use for testing product: AG Casino, Gold Deluxe and Live Casino*
+    ...
+    ...    Verify Enable product button is enabled or disabled
+    ...
+    ...    ${setting type} = *'Betting Group'* or *'Betting Limit'*
+    ...
+    ...    \ \ \ \ \ \ \ + *'Betting Group'* : AG Casino, Gold Deluxe
+    ...    \ \ \ \ \ \ \ \ \ \ \ + *'Betting Limit'*: Live Casino
+    ...
+    ...    Example:
+    ...
+    ...    enable disable product | ${window title} | ${main frame} | ${sub frame} | Live Casino | Betting Limit
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 1. Get current status
+    ${status1_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP.Check status of setting data
+    ${isDisable_group}=    Run Keyword If    '${setting type}' == 'Betting Group'    check bet setting group data is disabled    None    None    None
+    ...    ${product}
+    ${isDisable_limit}=    Run Keyword If    '${setting type}' == 'Betting Limit'    check betting limit data is disabled    None    None    None
+    ...    ${product}
+    Run Keyword If    ${status1_button}==1 and '${setting type}' == 'Betting Group'    Run Keyword If    '${isDisable_group}'=='False'    Fail    Bet Setting Groups data is not disabled. Please investigate the UI    #Disable setting -> data must disable, too
+    Run Keyword If    ${status1_button}==0 and '${setting type}' == 'Betting Group'    Run Keyword If    '${isDisable_group}'=='True'    Fail    Bet Setting Groups data is not enabled. Please investigate the UI    #Enable setting -> data is enabled
+    Run Keyword If    ${status1_button}==0 and '${setting type}' == 'Betting Limit'    Run Keyword If    '${isDisable_limit}'=='False'    Fail    Betting Limit data is not disabled. Please investigate the UI    #Disable setting -> data must disable, too
+    Run Keyword If    ${status1_button}==1 and '${setting type}' == 'Betting Limit'    Run Keyword If    '${isDisable_limit}'=='True'    Fail    Betting Limit data is not enabled. Please investigate the UI    #Enable setting -> data is enabled
+    # 2. Enable/Disable product
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # 3. Get status after submit
+    ${status2_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is changed successfully
+    Should Not Be Equal    ${status1_button}    ${status2_button}
+    # VP.Check status of setting data
+    ${isDisable_group}=    Run Keyword If    '${setting type}' == 'Betting Group'    check bet setting group data is disabled    None    None    None
+    ...    ${product}
+    ${isDisable_limit}=    Run Keyword If    '${setting type}' == 'Betting Limit'    check betting limit data is disabled    None    None    None
+    ...    ${product}
+    Run Keyword If    ${status2_button}==1 and '${setting type}' == 'Betting Group'    Run Keyword If    '${isDisable_group}'=='False'    Fail    Bet Setting Groups data is not disabled. Please investigate the UI    #Disable setting -> data must disable, too
+    Run Keyword If    ${status2_button}==0 and '${setting type}' == 'Betting Group'    Run Keyword If    '${isDisable_group}'=='True'    Fail    Bet Setting Groups data is not enabled. Please investigate the UI    #Enable setting -> data is enabled
+    Run Keyword If    ${status2_button}==0 and '${setting type}' == 'Betting Limit'    Run Keyword If    '${isDisable_limit}'=='False'    Fail    Betting Limit data is not disabled. Please investigate the UI    #Disable setting -> data must disable, too
+    Run Keyword If    ${status2_button}==1 and '${setting type}' == 'Betting Limit'    Run Keyword If    '${isDisable_limit}'=='True'    Fail    Betting Limit data is not enabled. Please investigate the UI    #Enable setting -> data is enabled
+    # 4. Set back to original status
+    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    # VP. Check user submits successfully
+    check element on report    \    main    BetSetting    ${successful_popup}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    wait page load
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${status3_button}=    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    # VP. Check Status is not changed
+    Should Be Equal    ${status1_button}    ${status3_button}
+    Unselect Frame
+
+check bet setting group data is disabled
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    Check the bet setting group data is disabled after clicked Disable product button
+    ...
+    ...    Example:
+    ...
+    ...    check bet setting group data is disable | ${window title} | ${main frame} | ${sub frame} | Gold Deluxe
+    ${isDisable}    Set Variable    True
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    # 1. Check bet setting group is disabled
+    ${group_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//span[contains(@class,'disabled')]
+    ${isDisable}    Set Variable If    '${group_isDisable}'!='True'    False    True
+    # 2. Check setting value is disabled
+    #Check sport is available on web
+    ${total_rows}    Get Matching Xpath Count    xpath=.//div[@class='content-row']
+    Run Keyword If    ${length of dict}!=${total_rows}    Fail    There is at least 1 new sporttype that is available on Bet Setting. Please add value to dictionary
+    #Submit with validate data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${minBet_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[contains(text(),'${KEY}')]/../..//div[contains(@class,'disabled') and @id='min-${VALUE}']
+    \    ${isDisable}    Set Variable If    '${minBet_isDisable}'!='True'    False    True
+    \    ${maxBet_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//div[contains(text(),'${KEY}')]/../..//div[contains(@class,'disabled') and @id='max-${VALUE}']
+    \    ${isDisable}    Set Variable If    '${maxBet_isDisable}'!='True'    False    True
+    # 3. Check Submit button is disbaled
+    ${submit_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='btnSubmitBetSetting' and contains(@class,'disabled')]
+    ${isDisable}    Set Variable If    '${submit_isDisable}'!='True'    False    True
+    # 4. Check Reset button is disbaled
+    ${reset_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='btnReset' and contains(@class,'disabled')]
+    ${isDisable}    Set Variable If    '${reset_isDisable}'!='True'    False    True
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+    [Return]    ${isDisable}
+
+submit bet setting group
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    *Use for testing product: AG Casino, Gold Deluxe*
+    ...
+    ...    Verify submit data for selecting bet setting groups
+    ...
+    ...    Example:
+    ...
+    ...    submit bet setting group | ${window title} | ${main frame} | ${sub frame} | Gold Deluxe
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Pre condition: If product is disable then enable (to change status, product must be enable before)
+    ${status}    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    Run Keyword If    ${status}==1    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    Run Keyword If    ${status}==1    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # Get initial group and non selected group
+    ${initial_group}    ${non_current_group}    get gold deluxe group    \    main    BetSetting
+    # Update group with new value
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    @{non_current_group}[0]
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    # Check data after update
+    # get current value
+    ${current_group}    ${list}    get gold deluxe group    \    main    BetSetting
+    # Checkwhether current value is updated value
+    Should Be Equal    ${current_group}    @{non_current_group}[0]
+    Should Not Be Equal    ${current_group}    ${initial_group}
+    # Check Reset button
+    ${current_group}    ${non_current_group}    get gold deluxe group    \    main    BetSetting
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    @{non_current_group}[0]
+    ${new_group}    ${list}    get gold deluxe group    \    main    BetSetting
+    click element on report    \    main    BetSetting    ${reset_button_bet_setting}
+    ${reset_group}    ${list}    get gold deluxe group    \    main    BetSetting
+    Should Not Be Equal    ${new_group}    ${reset_group}
+    Should Be Equal    ${current_group}    ${reset_group}
+    # Return to initial setting
+    select listbox by value on report    \    main    BetSetting    ${bet_setting_groups_listbox}    ${initial_group}
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+
+check betting limit data is disabled
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    Check the betting limit data is disabled after clicked Disable product button
+    ...
+    ...    Example:
+    ...
+    ...    check betting limit data is disable | ${window title} | ${main frame} | ${sub frame} | Live Casino
+    ${isDisable}    Set Variable    True
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    Set Selenium Speed    0.1
+    # 1. Check betting limit value is disabled
+    #Check sport is available on web
+    ${total_rows}    Get Matching Xpath Count    xpath=.//div[@class='content-row']
+    Run Keyword If    ${length of dict}!=${total_rows}    Fail    There is at least 1 new sporttype that is available on Bet Setting. Please add value to dictionary
+    #Submit with validate data
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${isDisable}    check betting limit data of one bettype is disabled    ${VALUE}
+    # 2. Check Submit button is disbaled
+    ${submit_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='btnSubmitBetSetting' and contains(@class,'disabled')]
+    ${isDisable}    Set Variable If    '${submit_isDisable}'!='True'    False    True
+    # 3. Check Reset button is disbaled
+    ${reset_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='btnReset' and contains(@class,'disabled')]
+    ${isDisable}    Set Variable If    '${reset_isDisable}'!='True'    False    True
+    Set Selenium Speed    ${cf_speed}
+    Unselect Frame
+    [Return]    ${isDisable}
+
+check betting limit data of one bettype is disabled
+    [Arguments]    ${bettype}
+    [Documentation]    This action is used to check 1 betting limit bettype is disable or not.
+    ...
+    ...    *${bettype} = ${list of Live Casino bettype}*
+    ...
+    ...    *${isDisable} = True: betting limit of 1 bettype is disable*
+    ...
+    ...    *${isDisable} = False: betting limit of 1 bettype is NOT disable*
+    ...
+    ...    Example:
+    ...
+    ...    check betting limit data of one bettype is disable | ${L.Baccarat}
+    ...
+    ...    check betting limit data of one bettype is disable | [1081, 1802, 1803]
+    ${isDisable}    Set Variable    True
+    # 1. Check betting limit value is disabled
+    : FOR    ${VALUE}    IN    @{bettype}
+    \    Log    ${VALUE}
+    \    ${bettingLimit_isDisable}    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='bettingLimit_${VALUE}' and @disabled]
+    \    ${isDisable}    Set Variable If    '${bettingLimit_isDisable}'!='True'    False    True
+    [Return]    ${isDisable}
+
+select betting limit data of one bettype
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${bettype}
+    [Documentation]    This action is used to select 1 betting limit bettype and verify it is checked
+    ...
+    ...    *${bettype} = ${list of Live Casino bettype}*
+    ...
+    ...    Example:
+    ...
+    ...    select betting limit data of one bettype | ${L.Baccarat}
+    ...
+    ...    select betting limit data of one bettype | [1081, 1802, 1803]
+    # 1. Select betting limit value of 1 bettype
+    : FOR    ${VALUE}    IN    @{bettype}
+    \    Select Checkbox    xpath=//*[@id='bettingLimit_${VALUE}']
+    \    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    \    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    \    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    \    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    \    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    \    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    \    ${isChecked}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='bettingLimit_${VALUE}']
+    \    Run Keyword If    '${isChecked}'!='True'    Fail    Checkbox of bettingLimit_${VALUE} cannot be checked. Please investigate the UI
+
+reset betting limit value
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${bettype}
+    [Documentation]    This action is used to reset 1 betting limit bettype
+    ...
+    ...    *${bettype} = ${list of Live Casino bettype}*
+    ...
+    ...    Example:
+    ...
+    ...    reset betting limit value | ${L.Baccarat}
+    ...
+    ...    reset betting limit value | [1081, 1802, 1803]
+    # Set original value
+    ${before_value}    Get From List    ${bettype}    0
+    Select Checkbox    xpath=//*[@id='bettingLimit_${before_value}']
+    click element on report    \    main    BetSetting    ${submit_button_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${isChecked}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='bettingLimit_${before_value}']
+    Run Keyword If    '${isChecked}'!='True'    Fail    Checkbox of bettingLimit_${before_value} cannot be checked. Please investigate the UI
+    # Select 2nd value
+    ${after_value}    Get From List    ${bettype}    1
+    Select Checkbox    xpath=//*[@id='bettingLimit_${after_value}']
+    # Reset value
+    Click Element    ${reset_button_bet_setting}
+    # Check the value is reset
+    ${isChecked}    Run Keyword And Return Status    Checkbox Should Be Selected    xpath=//*[@id='bettingLimit_${before_value}']
+    Run Keyword If    '${isChecked}'!='True'    Fail    Cannot reset value. Please investigate the UI
+
+submit bet setting limit
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    *Use for testing product: Live Casino*
+    ...
+    ...    Verify submit data for selecting bet setting limit
+    ...
+    ...    Example:
+    ...
+    ...    submit bet setting limit | ${window title} | ${main frame} | ${sub frame} | Live Casino
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    # Pre condition: If product is disable then enable (to change status, product must be enable before)
+    ${status}    Get Element Attribute    xpath=.//*[@id='btnUpdateStatus']@data-status
+    Run Keyword If    ${status}==0    Click Element    ${bet_setting_enable/disable_button}
+    Run Keyword If    ${status}==0    Click Element    ${ok_button_confirmation_popup_bet_setting}
+    #Check sport is available on web
+    @{items}    Get Dictionary Items    ${product}
+    ${length of dict}=    Get Length    ${product}
+    ${total_rows}    Get Matching Xpath Count    xpath=.//div[@class='content-row']
+    Run Keyword If    ${length of dict}!=${total_rows}    Fail    There is at least 1 new sporttype that is available on Bet Setting. Please add value to dictionary
+    # 1. Submit betting limit value
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    Log    ${KEY}
+    \    select betting limit data of one bettype    \    main    BetSetting    ${VALUE}
+    # 2. Reset
+    : FOR    ${KEY}    ${VALUE}    IN    @{items}
+    \    ${length of list}    Get Length    ${VALUE}
+    \    Run Keyword If    ${length of list} > 1    reset betting limit value    \    main    BetSetting
+    \    ...    ${VALUE}
+    \    Exit For Loop If    ${length of list} > 1
