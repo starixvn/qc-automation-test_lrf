@@ -2047,11 +2047,12 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
 TC_43_02_ST_CustomerInformation_Customer List_Bet Setting
     [Tags]
     ${Sportsbook}    config Bet Setting data    Sportsbook
-    ${Racing}    config Bet Setting data     Racing
+    ${Racing}    config Bet Setting data    Racing
     ${Virtual Sports}    config Bet Setting data    Virtual Sports
     ${AG Casino}    config Bet Setting data    AG Casino
     ${Gold Deluxe}    config Bet Setting data    Gold Deluxe
     ${Live Casino}    config Bet Setting data    Live Casino
+    ${Keno}    config Bet Setting data    Keno
     # Select licensee as spondemo
     select licensee    spondemo
     # Go to Customer list
@@ -2079,7 +2080,7 @@ TC_43_02_ST_CustomerInformation_Customer List_Bet Setting
     \    Comment    # Verify data after copy setting
     \    check data after copy bet setting    \    main    BetSetting    ${${ITEM}}    ${SPORT}
     ### Verify input setting values
-    : FOR    ${ITEM}    IN    Sportsbook    Racing    Virtual Sports
+    : FOR    ${ITEM}    IN    Sportsbook    Racing    Virtual Sports    Keno
     \    Comment    # Select product from list
     \    select product in bet setting    ${ITEM}
     \    wait page load

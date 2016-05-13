@@ -167,10 +167,12 @@ config Bet Setting data
     \    Set To Dictionary    ${Live Casino}    L.Baccarat    ${L.Baccarat}
     \    Set To Dictionary    ${Live Casino}    L.Roulette    ${L.Roulette}
     \    Exit For Loop
+    # KENO dictionary
+    ${Keno}    Run Keyword If    '${product}'=='Keno'    Create Dictionary    Keno    1
     # Return data
     ${dict}    Set Variable If    '${product}'=='Sportsbook'    ${Sportsbook}    '${product}'=='Racing'    ${Racing}    '${product}'=='Virtual Sports'
     ...    ${Virtual Sports}    '${product}'=='AG Casino'    ${AG Casino}    '${product}'=='Gold Deluxe'    ${Gold Deluxe}    '${product}'=='Live Casino'
-    ...    ${Live Casino}
+    ...    ${Live Casino}    '${product}'=='Keno'    ${Keno}
     [Return]    ${dict}
 
 login
