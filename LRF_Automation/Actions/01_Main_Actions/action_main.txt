@@ -65,9 +65,11 @@ config local
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
     Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V2/
     Set Suite Variable    ${cf_betlist_product}    Sportsbook
+    Set Suite Variable    ${cf_report_product}    Microgaming-Live Casino, Microgaming-RNG Casino
     Set Suite Variable    ${cf_betlist_user}    iceEW
     Set Suite Variable    ${cf_running_match_id}    71000053
     Set Suite Variable    ${cf_running_outright_match_id}    71000051
+    Set Suite Variable    ${cf_report_data_path}    lrf\\LRF_Automation\\Data set\\Report_Data.xls
 
 config MNLServer
     [Documentation]    This action is used to set default configuration for entire scripts.
@@ -409,21 +411,21 @@ select products filter
     ${SB}=    Run Keyword And Return Status    Should Contain    ${product}    Sportsbook
     ${RB}=    Run Keyword And Return Status    Should Contain    ${product}    Racing
     ${NG}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
-    ${LC}=    Run Keyword And Return Status    Should Contain    ${product}    Live Casino
+    ${LC}=    Run Keyword And Return Status    Should Be Equal    ${product}    Live Casino
     ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
-    ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
+    ${CS}=    Run Keyword And Return Status    Should Be Equal    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
     ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-Live Casino
-    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCLC'][@type='checkbox']
     ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-RNG Casino
-    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='MGCRNG'][@type='checkbox']
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
-    ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='AGC'][@type='checkbox']
     ${BT}=    Run Keyword And Return Status    Should Contain    ${product}    Bet Trade
-    ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@data-product-code='BT'][@type='checkbox']
     # Click to open product dropdown list
     Click Element    xpath=//*[@id='ProductList']/a/input
+    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCLC'][@type='checkbox']
+    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCRNG'][@type='checkbox']
+    ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='AGC'][@type='checkbox']
+    ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='BT'][@type='checkbox']
     # Select product checkbox
     Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
     Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input

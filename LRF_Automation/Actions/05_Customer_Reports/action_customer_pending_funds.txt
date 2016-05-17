@@ -2,6 +2,7 @@
 Library           Selenium2Library
 Resource          ../01_Main_Actions/action_main.txt
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Library           ExcelLibrary
 
 *** Keywords ***
 submit filters for customer pending funds
@@ -23,3 +24,25 @@ submit filters for customer pending funds
     Click Element    ${submit_button}
     Unselect Frame
     wait page load
+
+check report data for customer pending funds
+    [Arguments]    ${from date}    ${to date}    ${product}
+    [Documentation]    This action is used to check data of Customer Pending Funds report.
+    ...
+    ...    Example:
+    ...
+    ...    check report data for customer pending funds | Dec-01-2014 | Dec-07-2014 | Sportsbook
+    # Get Data of Report from Excel file
+    Open Excel Current Directory    ${cf_report_data_path}
+    ${excel_bet_count}=    Read Cell Data By Coordinates    ${product} Running    0    2
+    ${excel_pending_funds}=    Read Cell Data By Coordinates    ${product} Running    1    2
+    # Submit filters for products
+    submit filters for customer pending funds    None    UUS    None    ${product}
+    # Get data from web
+    Select Window
+    Select Frame    main
+    ${ac_bet_count}=    Get Text    xpath=//a[@data-external-id='iceEW']/parent::*/parent::*/parent::*/div[4]
+    ${ac_pending_funds}=    Get Text    xpath=//a[@data-external-id='iceEW']/parent::*/parent::*/parent::*/div[5]
+    # Check data of report
+    Should Be Equal    ${ac_bet_count}    ${excel_bet_count}
+    Should Be Equal    ${ac_pending_funds}    ${excel_pending_funds}

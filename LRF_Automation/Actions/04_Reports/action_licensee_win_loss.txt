@@ -3,6 +3,7 @@ Library           Selenium2Library
 Resource          ../../Interfaces/04_Reports/interface_general_reports.txt
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
 Resource          ../01_Main_Actions/action_main.txt
+Library           ExcelLibrary
 
 *** Keywords ***
 submit filters for licensee win loss
@@ -43,3 +44,41 @@ submit filters for licensee win loss
     # click Submit button
     click element on report    \    main    None    ${submit_button}
     wait page load
+
+check report data for licensee win loss
+    [Arguments]    ${from date}    ${to date}    ${product}
+    [Documentation]    This action is used to check data of Licensee Win Loss report.
+    ...
+    ...    Example:
+    ...
+    ...    check report data for licensee win loss | Dec-01-2014 | Dec-07-2014 | Sportsbook
+    # Get Data of Report from Excel file
+    Open Excel Current Directory    ${cf_report_data_path}
+    ${excel_turnover}=    Read Cell Data By Coordinates    ${product}    0    2
+    ${excel_total_transaction}=    Read Cell Data By Coordinates    ${product}    1    2
+    ${excel_customer_win_loss}=    Read Cell Data By Coordinates    ${product}    2    2
+    ${excel_customer_comm}=    Read Cell Data By Coordinates    ${product}    3    2
+    ${excel_customer_total}=    Read Cell Data By Coordinates    ${product}    4    2
+    ${excel_licensee_win_loss}=    Read Cell Data By Coordinates    ${product}    5    2
+    # Submit filters for products
+    submit filters for licensee win loss    ${from date}    ${to date}    UUS    Monthly    Normal    No
+    ...    ${product}
+    # Click UUS link to open customer list
+    click element on report    \    main    None    xpath=//*[@id='1']/td/a[text()='UUS']
+    wait page load
+    # Get data from web
+    Select Window
+    Select Frame    main
+    ${ac_turnover}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_TotalTurnOverSingle']
+    ${ac_total_transaction}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_TotalTransaction']
+    ${ac_customer_win_loss}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_CustomerWinLoss']
+    ${ac_customer_comm}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_CustomerComm']
+    ${ac_customer_total}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_CustomerTotal']
+    ${ac_licensee_win_loss}=    Get Text    xpath=//td[@title='iceEW']/parent::*/td[@aria-describedby='ReportGrid_TotalLicenseeWLSingle']
+    # Check data of report
+    Should Be Equal    ${ac_turnover}    ${excel_turnover}
+    Should Be Equal    ${ac_total_transaction}    ${excel_total_transaction}
+    Should Be Equal    ${ac_customer_win_loss}    ${excel_customer_win_loss}
+    Should Be Equal    ${ac_customer_comm}    ${excel_customer_comm}
+    Should Be Equal    ${ac_customer_total}    ${excel_customer_total}
+    Should Be Equal    ${ac_licensee_win_loss}    ${excel_licensee_win_loss}
