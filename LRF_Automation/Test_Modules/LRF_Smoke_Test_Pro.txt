@@ -1758,7 +1758,7 @@ TM_49_ST_Reports_Microgaming Win Loss
     #VP Check report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    MicroGamingWinloss_*.xls
+    check export excel function    \    main    None    MGCWinLoss_*.xls
 
 TM_37_ST_CustomerReports_Customer Win Loss
     [Tags]    CI
