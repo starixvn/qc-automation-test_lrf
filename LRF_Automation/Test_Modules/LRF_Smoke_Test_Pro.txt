@@ -967,8 +967,8 @@ TM_20_ST_Reports_Last Bets Monitoring
     # VP. Check columns header on report table    External ID, System ID, Trans.Time always display on report
     check table header existence    ${last_bet_monitoring_table}    1    Platform    not exist
     check table header existence    ${last_bet_monitoring_table}    1    System ID    exist
-    check table header existence    ${last_bet_monitoring_table}    1    External ID    exist
-    check table header existence    ${last_bet_monitoring_table}    1    Trans.Time    exist
+    check table header existence    ${last_bet_monitoring_table}    1    External ID    not exist
+    check table header existence    ${last_bet_monitoring_table}    1    Trans.Time    not exist
     check table header existence    ${last_bet_monitoring_table}    1    Choice    exist
     check table header existence    ${last_bet_monitoring_table}    1    Odds    not exist
     check table header existence    ${last_bet_monitoring_table}    1    Stake    exist
@@ -2353,6 +2353,10 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     ...    ELSE    Should Contain    ${after_status}    Enable
     # 4. Check that initialize if user is disabled , he is enabled successfully
     Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
+    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
+    Select Frame    main
+    Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
+    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${close_button_betsetting_popup}
     Run Keyword If    '${status}'=='Disable RNG Casino'    select customer option based on username    qatest04    Bet Setting
     Run Keyword If    '${status}'=='Disable RNG Casino'    select product in bet setting    RNG Casino
     ${after2_status}    get status    \    main    BetSetting
