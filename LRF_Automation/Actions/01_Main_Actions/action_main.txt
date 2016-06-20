@@ -27,8 +27,8 @@ config
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-    Set Suite Variable    ${cf_username}    autQC
-    Set Suite Variable    ${cf_password}    123QWEasd
+    Set Suite Variable    ${cf_username}    pgmwillliam
+    Set Suite Variable    ${cf_password}    fewf
     Set Suite Variable    ${cf_username1}    autoQC1
     Set Suite Variable    ${cf_password1}    123QWEasd
     Set Suite Variable    ${cf_username2}    autoQC1
@@ -193,6 +193,42 @@ logout
     Select Frame    header
     ${ac_logout}=    Run Keyword And Return Status    Element Should Be Visible    ${logout_button}
     Run Keyword If    '${ac_logout}'=='True'    Click Element    ${logout_button}
+    Unselect Frame
+
+compare two number
+    [Arguments]    ${number 1}    ${number 2}
+    [Documentation]    This action is used to compare two number. It will show a message if they are not equal
+    ...    Example:
+    ...    Compare two number|{$number 1}|{$number 2}
+    ${result}    Run Keyword And Return Status    Should Be Equal As Numbers    ${number 1}    ${number 2}
+    [Return]    ${result}
+
+convert and remove comma from string to number
+    [Arguments]    ${locator}
+    [Documentation]    This action is used to convert and remove the comma from string to number.
+    ...    Example:
+    ...    Convert and remove comma from string to number {$locator}
+    ${number}    Get Text    ${locator}
+    ${number}    Remove String    ${number}    ,
+    ${number}    Convert To Number    ${number}
+    [Teardown]
+    [Return]    ${number}
+
+check value in cell greater than zero
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${locator}
+    [Documentation]    This action is used to check a value greater than 0 with a specific locator.
+    ...    it will show a message if turnover lower or equal 0
+    ...
+    ...    Example:
+    ...
+    ...    check element on report | ${window title} | main | myframe | ${locator}
+    ...
+    ...    check element on report | ${window title} | main | None | ${locator}
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${value}    Convert and remove comma from string to number    ${locator}
+    Run Keyword If    ${value}<=0    Fail    Value lower than 0
     Unselect Frame
 
 convert date format

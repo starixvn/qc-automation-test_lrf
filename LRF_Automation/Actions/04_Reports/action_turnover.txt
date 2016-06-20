@@ -37,3 +37,19 @@ submit filters for turnover
     # click Submit button
     click element on report    \    main    None    ${submit_button}
     wait page load
+
+check closing balance and opening balance
+    [Documentation]    This action is used to check closing balance of the previous day should be equal with opening balance of a day.
+    Select Frame    main
+    ${row_01}    Set Variable    1
+    ${row_02}    Set Variable    ${row_01} + 1
+    ${row_number}=    Get Matching Xpath Count    xpath=.//table[@id='ReportGrid']/tbody/tr
+    : FOR    ${row_01}    IN RANGE    ${row_01}    ${row_number}
+    \    ${row_02}    Evaluate    ${row_01} + 1
+    \    ${locator_01}    Set Variable    xpath=.//*[@id='${row_01}']/td[15]
+    \    ${locator_02}    Set Variable    xpath=.//*[@id='${row_02}']/td[3]
+    \    ${number_01}    Convert and remove comma from string to number    ${locator_01}
+    \    ${number_02}    Convert and remove comma from string to number    ${locator_02}
+    \    ${tmp}    Compare two number    ${number_01}    ${number_02}
+    \    Run Keyword If    '${tmp}'=='False'    Fail    They are not equal
+    \    Exit For Loop If    ${row_01}==${rownumber}

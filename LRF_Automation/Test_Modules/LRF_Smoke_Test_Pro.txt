@@ -1057,6 +1057,12 @@ TM_23_ST_Reports_Match Win Loss
     # 3. Select filters then click Submit button
     ${date}=    Get Time    \    NOW - 1d
     submit filters for match win loss    ${date}    None    None    None    All
+    #Check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='data-content']/tbody/tr[2]/td[3]
+    #Check Total transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='data-content']/tbody/tr[2]/td[4]
+    #check Total customer WL
+    check customer wl in match WL    \    main    None    2
     take applications screenshot    Product    TM_23_Reports_MatchWinLoss.jpg
     # 4. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     check special case when no info available    \    main    None
@@ -1139,6 +1145,12 @@ TM_24_ST_Reports_Win Loss By Products
     # 2. Select filters then click Submit button
     submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
     ...    All
+    #Check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[7]
+    #Check transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
+    #check customer WL equal licensee WL
+    loop for checking customer wl by product
     take applications screenshot    Product    TM_24_Reports_WinLossByProduct.jpg
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
@@ -1148,6 +1160,12 @@ TM_24_ST_Reports_Win Loss By Products
     click drilldown link in table report    \    main    None    ${report_table_reports}    3    Currency
     wait page load
     take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Licensee.jpg
+    #check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[7]
+    #check total transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
+    #Check total customer wl
+    check customer wl in WL by Products    \    main    None    1
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1156,6 +1174,12 @@ TM_24_ST_Reports_Win Loss By Products
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
     take applications screenshot    Product    TM_24_Reports_WinLossByProduct_Customer.jpg
+    #check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[7]
+    #check total transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
+    #check total customer wl
+    check customer wl in WL by Products    \    main    None    1
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
@@ -1177,6 +1201,33 @@ TM_24_ST_Reports_Win Loss By Products
     click element on report    \    main    BetList    ${close_button_on_popup}
     #8. Close betlist pop-up
     click element on report    \    main    None    ${close_button_on_popup}
+    #select alog licensee
+    select licensee    alog
+    # 1. Navigate to REPORTS > Win Loss By Product
+    navigate left menu    REPORTS    Win Loss By Products
+    # VP. Check User Guide popup exists
+    check user guide popup
+    # 2. Select filters then click Submit button
+    submit filters for win loss by products    ${from}    ${to}    ALL    Daily    Normal    Yes
+    ...    BA
+    #Check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[7]
+    #Check transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
+    #check customer WL equal licensee WL
+    check customer wl in WL by Products    \    main    None    1
+    #take screenshoot
+    take applications screenshot    Product    TM_24_Reports_WinLossByProduct.jpg
+    # 3. Click link in Currency Colum
+    click drilldown link in table report    \    main    None    ${report_table_reports}    3    Currency
+    #Check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[7]
+    #Check transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
+    #check customer WL equal licensee WL
+    check customer wl in WL by Products    \    main    None    1
+    #Select licensee 12BET
+    select licensee    12Bet
 
 TM_25_ST_Reports_Win Loss By Bet Type
     [Tags]    CI
@@ -1437,6 +1488,8 @@ TM_31_ST_Reports_Turnover
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    Turnover.xls
+    #Check closing balance and opening balance
+    check closing balance and opening balance
 
 TM_32_ST_Reports_Platform Win Loss
     [Tags]    CI
