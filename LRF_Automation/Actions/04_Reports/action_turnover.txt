@@ -43,8 +43,8 @@ check closing balance and opening balance
     Select Frame    main
     ${row_01}    Set Variable    1
     ${row_02}    Set Variable    ${row_01} + 1
-    ${row_number}=    Get Matching Xpath Count    xpath=.//table[@id='ReportGrid']/tbody/tr
-    : FOR    ${row_01}    IN RANGE    ${row_01}    ${row_number}
+    ${row_number}=    Get Matching Xpath Count    xpath=.//table[@id='ReportGrid']/tbody/tr[@tabindex='-1' or @tabindex='0']
+    : FOR    ${row_01}    IN RANGE    ${row_01}    ${row_number} - 1
     \    ${row_02}    Evaluate    ${row_01} + 1
     \    ${locator_01}    Set Variable    xpath=.//*[@id='${row_01}']/td[15]
     \    ${locator_02}    Set Variable    xpath=.//*[@id='${row_02}']/td[3]

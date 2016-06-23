@@ -109,9 +109,10 @@ check total customer wl of racing product
     ${comm}    Convert and remove comma from string to number    xpath=.//*[@id='${row_number}']/td[13]
     ${amount_due}    Convert and remove comma from string to number    xpath=.//*[@id='${row_number}']/td[14]
     ${total_customer_wl}    Convert and remove comma from string to number    xpath=.//*[@id='${row_number}']/td[11]
-    ${tmp}    Evaluate    -(${comm}+${amount_due})
-    ${status}    Compare two number    ${tmp}    ${total_customer_wl}
-    [Return]    ${status}
+    ${tmp}    Evaluate    ${comm}+${amount_due}
+    ${check}    Evaluate    ${total_customer_wl}+${tmp}
+    ${result}    Run Keyword And Return Status    Run Keyword If    ${check} > 0.01    Fail    Failed
+    [Return]    ${result}
 
 loop for checking customer wl by product
     Select frame    main

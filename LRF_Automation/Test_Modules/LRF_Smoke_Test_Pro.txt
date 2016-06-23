@@ -990,6 +990,14 @@ TM_21_ST_Reports_Licensee Win Loss
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
+    #Check Total Trans
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
+    #Check Turnover
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
+    #check total customer wl
+    check total customer wl in licensee WL    \    main    None    2
+    #Check customer wl in GBP
+    check total customer wl in specific currency in licensee WL    \    main    None    ${report_table_reports}    EUR
     # 3. Click link in Currency Colum
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
@@ -998,6 +1006,14 @@ TM_21_ST_Reports_Licensee Win Loss
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
+    #Check Total Trans
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
+    #Check Turnover
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
+    #check total customer wl
+    check total customer wl in licensee WL    \    main    None    2
+    #Check customer wl in GBP
+    check total customer wl in specific currency in licensee WL    \    main    None    ${report_table_reports}    EUR
     # 4. Click link in System ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
@@ -1006,6 +1022,14 @@ TM_21_ST_Reports_Licensee Win Loss
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
+    #Check Total Trans
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
+    #Check Turnover
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
+    #check total customer wl
+    check total customer wl in licensee WL    \    main    None    2
+    #Check customer wl in GBP
+    check total customer wl in specific currency in licensee WL    \    main    None    ${report_table_reports}    EUR
     # 5. Click link in External ID
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    ExternalId
     wait page load
@@ -1225,7 +1249,14 @@ TM_24_ST_Reports_Win Loss By Products
     #Check transaction greater than 0
     Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[8]
     #check customer WL equal licensee WL
-    check customer wl in WL by Products    \    main    None    1
+    Select Frame    main
+    ${row_number}    Get Matching Xpath Count    xpath=.//*[@id='ReportGrid']//tr[@tabindex='-1' or @tabindex='0']
+    ${current_row}    Set Variable    1
+    : FOR    ${current_row}    IN RANGE    1    ${row_number}
+    \    check customer wl in WL by Products    \    main    None    ${current_row}
+    \    ${current_row}    Evaluate    ${current_row} + 1
+    \    Exit For Loop If    '${current_row}'=='${row_number}'
+    Unselect Frame
     #Select licensee 12BET
     select licensee    12Bet
 
@@ -1240,6 +1271,17 @@ TM_25_ST_Reports_Win Loss By Bet Type
     # 2. Select filters then click Submit button
     submit filters for win loss by bettype    ${from}    ${to}    ALL    ALL    EUR
     take applications screenshot    Product    TM_25_Reports_WinLossByBettype.jpg
+    #Check turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='data-content']/div[1]/div[3]/div
+    #check total customer wl    main    None
+    Select Frame    main
+    ${row_number}    Get Matching Xpath Count    xpath=.//*[@id='data-content']/div
+    ${current_row}    Set Variable    1
+    : FOR    ${current_row}    IN RANGE    1    ${row_number}
+    \    check total customer wl in WL by Bet Type    \    main    None    ${current_row}
+    \    ${current_row}    Evaluate    ${current_row} +1
+    \    Exit For Loop If    '${current_row}'=='${row_number}'
+    Unselect Frame
     # 3. Special Case: If "No Information is available" text displays, we'll pass this test case since there is no data
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     Run Keyword If    '${ac_no_info_status}'=='True'    Pass Execution    There is no running ticket at this moment.
@@ -1821,14 +1863,20 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # VP. Check user guide
-    check user guide popup
+    Comment    check user guide popup
     # 2. Submit filters
     submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
     take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
     # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_customer_reports}
+    Comment    check element on report    \    main    None    ${div_report_table_customer_reports}
     # VP. Check Exporting Excel
-    check export excel function    \    main    None    CustomerWinLoss.xls
+    Comment    check export excel function    \    main    None    CustomerWinLoss.xls
+    #Check Turnover greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='data-content']/div[1]/div[4]/div
+    #Check total transaction greater than 0
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='data-content']/div[1]/div[4]/div
+    #Check total customer
+    check total customer wl in customer WL    \    main    None    1
     # 3. Click drill down link
     click drilldown link in customer reports    1    2
     wait page load
