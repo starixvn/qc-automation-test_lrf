@@ -447,15 +447,17 @@ select products filter
     ${SB}=    Run Keyword And Return Status    Should Contain    ${product}    Sportsbook
     ${RB}=    Run Keyword And Return Status    Should Contain    ${product}    Racing
     ${NG}=    Run Keyword And Return Status    Should Contain    ${product}    Number Game
-    ${LC}=    Run Keyword And Return Status    Should Be Equal    ${product}    Live Casino
+    ${LC}=    Run Keyword And Return Status    Should Contain    ${product}    Live Casino
     ${VS}=    Run Keyword And Return Status    Should Contain    ${product}    Virtual Sports
     ${BA}=    Run Keyword And Return Status    Should Contain    ${product}    BA
-    ${CS}=    Run Keyword And Return Status    Should Be Equal    ${product}    RNG Casino
+    ${CS}=    Run Keyword And Return Status    Should Contain    ${product}    RNG Casino
     ${KN}=    Run Keyword And Return Status    Should Contain    ${product}    Keno
     ${MGCLC}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-Live Casino
     ${MGCRNG}=    Run Keyword And Return Status    Should Contain    ${product}    Microgaming-RNG Casino
     ${AGC}=    Run Keyword And Return Status    Should Contain    ${product}    AG Casino
     ${BT}=    Run Keyword And Return Status    Should Contain    ${product}    Bet Trade
+    #Insert macau games
+    ${MG}    Run Keyword And Return Status    Should Contain    ${product}    Macau Games
     # Click to open product dropdown list
     Click Element    xpath=//*[@id='ProductList']/a/input
     ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCLC'][@type='checkbox']
@@ -478,6 +480,8 @@ select products filter
     Run Keyword If    '${MGCRNG}'=='True' and '${MGCRNG_checkbox}'=='True'    Select Checkbox    id=MGCRNG
     Run Keyword If    '${AGC}'=='True' and '${AGC_checkbox}'=='True'    Select Checkbox    id=AGC
     Run Keyword If    '${BT}'=='True' and '${BT_checkbox}'=='True'    Select Checkbox    id=BT
+    #Insert macau games
+    Run Keyword If    '${MG}'=='True'    Select Checkbox    id=VB
     # Click outside to close dropdown list
     Click Element    xpath=.//*[@id='BodyContent']
 

@@ -81,7 +81,7 @@ TM_01_FUN_Compare data between Licwl, Live Report and Customer WL reports
     # 1. Navigate to REPORTS > Licensee Win Loss
     navigate left menu    REPORTS    Licensee Win Loss
     submit filters for licensee win loss    ${from}    ${to}    Based GBP    None    None    No
-    ...    All
+    ...    Sportsbook,Racing,Number Game,BA,Live Casino,Virtual Sports,RNG Casino,Keno,AG Casino,Macau Games
     ${licwl_turnover}    ${licwl_totaltrans}    ${licwl_customerwl}    ${licwl_customercomm}    ${licwl_customertotal}    ${licwl_licenseewl}    ${licwl_licenseecomm}
     ...    ${licwl_amt}    get Total values in report    Licensee Win Loss    All
     navigate left menu    REPORTS    Live Report
@@ -89,7 +89,7 @@ TM_01_FUN_Compare data between Licwl, Live Report and Customer WL reports
     ${livereport_turnover}    ${livereport_totaltrans}    ${livereport_customerwl}    ${livereport_customercomm}    ${livereport_customertotal}    ${livereport_licenseewl}    ${livereport_licenseecomm}
     ...    ${livereport_amt}    get Total values in report    Live Report    Total
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    Sportsbook,Racing,Number Game,BA,Live Casino,Virtual Sports,RNG Casino,Keno,AG Casino,Macau Games
     ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecom}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     # Compare data in reports
@@ -104,11 +104,11 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     ${from}=    Get Time    \    Now - 2 day
     ${to}=    Get Time    \    Now - 2 day
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    All
     ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     ####### Compare data for Match WL in bettrans range
@@ -133,14 +133,14 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     should be true    '${customerwl_customerwl_total}'=='${TO_customerwl}'
     should be true    '${customerwl_customercomm_total}'=='${TO_customercomm}'
     ####### Compare data for Match WL in bettrans14 range
-    ${from}=    Get Time    \    Now - 8 day
-    ${to}=    Get Time    \    Now - 8 day
+    ${from}=    Get Time    \    Now - 7 day
+    ${to}=    Get Time    \    Now - 7 day
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    All
     ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     navigate left menu    REPORTS    Match Win Loss

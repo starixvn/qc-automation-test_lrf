@@ -7,7 +7,7 @@ Library           ExcelLibrary
 
 *** Keywords ***
 submit filters for customer win loss
-    [Arguments]    ${from date}    ${to date}    ${currency}    ${based}    ${product}
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${based}    ${exclude_test_data}    ${product}
     [Documentation]    This action is used to submit filters for Customer Win Loss report.
     ...
     ...    Example:
@@ -22,6 +22,8 @@ submit filters for customer win loss
     Run Keyword If    '${based}'!='None'    Select From List By Label    ${based_listbox}    ${based}
     # select products
     select products filter    \    main    None    ${product}
+    # select Exclude Test Data
+    Run Keyword If    '${exclude test data}'=='No'    Click Element    xpath=.//*[@id='IsExcludedTestData']
     Unselect Frame
     # click Submit button
     click element on report    \    main    None    ${submit_button}

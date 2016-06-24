@@ -788,7 +788,7 @@ TM_48_ST_TotalBets_Total Row of Submenus and Bet list
     navigate left menu    TOTAL BETS    Double Chance
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # VP: Verify that total stake of Double Chance displays properly
-    check total stake displays in betlist    \    main
+    Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
     #12. Check Total Row for HOME/DRAW/AWAY NO BET
     navigate left menu    TOTAL BETS    Home/Draw/Away No Bet
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
