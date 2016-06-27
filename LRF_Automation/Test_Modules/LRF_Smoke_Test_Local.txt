@@ -622,7 +622,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
-    submit filters for customer win loss    ${from}    ${to}    None    None    All
+    submit filters for customer win loss    ${from}    ${to}    None    None    No    All
     take applications screenshot    Local    TM_37_CustomerReports_CustomerWinLoss.jpg
     # Check to handle in case there is no info
     check special case when no info available    \    main    None
