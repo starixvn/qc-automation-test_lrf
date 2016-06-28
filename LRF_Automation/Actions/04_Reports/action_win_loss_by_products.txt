@@ -114,6 +114,57 @@ check total customer wl of racing product
     ${result}    Run Keyword And Return Status    Run Keyword If    ${check} > 0.01    Fail    Failed
     [Return]    ${result}
 
+get Total values in Win Lost By Product
+    [Documentation]    This action is used to get Toal values in each report
+    ...
+    ...    Params:
+    ...    - ${report_name} = "*Win Loss By Products*" or "*Match Win Loss*" or "*Customer Win Loss*" or "*Live Report*" or "*Licensee Win Loss*" or "*Win Loss By Products*" or "*Turnover*"
+    ...    - ${product} = "*Sportsbook*" or "*Racing*" or "*Number Game*" or "*Live Casino*" or "*Keno*" or "*RNG Casino*" or "*Virtual Sports*"
+    ...
+    ...    Example: get Number Game total value of Turnover, Total Trans, Customer WL, Customer Comm, Customer Total, Licensee WL columns in report Win Loss By Products
+    ...
+    ...    ${NG_turnover} ${NG_totaltrans} ${NG_customerwl} ${NG_customercomm} ${NG_customertotal} ${NG_licenseewl}= | get Total values in report | Win Loss By Products | Number Game
+    ...
+    ...    *NOTE: Just get Total value of GBP row (in case get total from Licensee Win Loss)*
+    select frame    main
+    sleep    10s
+    ${ac_total_turnover}    Set Variable    0
+    ${ac_total_transaction}    Set Variable    0
+    ${ac_total_customerwl_winloss}    Set Variable    0
+    ${ac_total_customerwl_comm}    Set Variable    0
+    ${ac_total_customerwl_total}    Set Variable    0
+    ${ac_total_licenseewl}    Set Variable    0
+    ${ac_total_comm}    Set Variable    0
+    ${ac_total_amout_due}    Set Variable    0
+    ${row_number}    Get Matching Xpath Count    xpath=.//*[@id='gview_ReportGrid']//td[contains(text(),'Total in GBP')]//following::td[5]
+    ${ac_total_turnover}    sum data all product by column    ${row_number}    6
+    ${ac_total_transaction}    sum data all product by column    ${row_number}    7
+    ${ac_total_customerwl_winloss}    sum data all product by column    ${row_number}    8
+    ${ac_total_customerwl_comm}    sum data all product by column    ${row_number}    9
+    ${ac_total_customerwl_total}    sum data all product by column    ${row_number}    10
+    ${ac_total_licenseewl}    sum data all product by column    ${row_number}    11
+    ${ac_total_comm}    sum data all product by column    ${row_number}    12
+    ${ac_total_amount_due}    sum data all product by column    ${row_number}    13
+    Comment    ${turnover}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${turnover}
+    ...    ELSE    Set Variable    ${turnover}
+    Comment    ${totaltrans}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${totaltrans}
+    ...    ELSE    Set Variable    ${totaltrans}
+    Comment    ${customerwl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customerwl}
+    ...    ELSE    Set Variable    ${customerwl}
+    Comment    ${customercomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customercomm}
+    ...    ELSE    Set Variable    ${customercomm}
+    Comment    ${customertotal}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${customertotal}
+    ...    ELSE    Set Variable    ${customertotal}
+    Comment    ${licenseewl}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseewl}
+    ...    ELSE    Set Variable    ${licenseewl}
+    Comment    ${licenseecomm}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${licenseecomm}
+    ...    ELSE    Set Variable    ${licenseecomm}
+    Comment    ${amtdueto}=    Run Keyword If    '${report_name}'!='Win Loss By Products'    remove decimal part    ${amtdueto}
+    ...    ELSE    Set Variable    ${amtdueto}
+    unselect frame
+    [Return]    ${ac_total_turnover}    ${ac_total_transaction}    ${ac_total_customerwl_winloss}    ${ac_total_customerwl_comm}    ${ac_total_customerwl_total}    ${ac_total_licenseewl}
+    ...    ${ac_total_comm}    ${ac_total_amount_due}
+
 loop for checking customer wl by product
     Select frame    main
     ${i}    Set Variable    1
@@ -123,3 +174,67 @@ loop for checking customer wl by product
     \    ${i}    Evaluate    ${i} + 1
     \    Exit For Loop If    '${i}' == '${row_number}'
     Unselect Frame
+
+select products filter for customer wl by product
+    [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}
+    [Documentation]    This action is used to select product list's checkboxes.
+    ...
+    ...    ${product}= *'All'* or *'Sportsbook, Racing, Number Game, Live Casino, Virtual Sports, BA, RNG Casino, Keno, MicrogamingLive-Casino,MicrogamingRNG-Casino,Macau Games.Bet Trade'*
+    ...
+    ...    Example:
+    ...
+    ...    select products filter | All
+    ...
+    ...    select products filter | Sportsbook, Racing
+    Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
+    Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
+    Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
+    ${SB}=    Run Keyword And Return Status    Should Be Equal    ${product}    Sportsbook
+    ${RB}=    Run Keyword And Return Status    Should Be Equal    ${product}    Racing
+    ${NG}=    Run Keyword And Return Status    Should Be Equal    ${product}    Number Game
+    ${LC}=    Run Keyword And Return Status    Should Be Equal    ${product}    Live Casino
+    ${VS}=    Run Keyword And Return Status    Should Be Equal    ${product}    Virtual Sports
+    ${BA}=    Run Keyword And Return Status    Should Be Equal    ${product}    BA
+    ${CS}=    Run Keyword And Return Status    Should Be Equal    ${product}    RNG Casino
+    ${KN}=    Run Keyword And Return Status    Should Be Equal    ${product}    Keno
+    ${MGCLC}=    Run Keyword And Return Status    Should Be Equal    ${product}    Microgaming-Live Casino
+    ${MGCRNG}=    Run Keyword And Return Status    Should Be Equal    ${product}    Microgaming-RNG Casino
+    ${AGC}=    Run Keyword And Return Status    Should Be Equal    ${product}    AG Casino
+    ${BT}=    Run Keyword And Return Status    Should Be Equal    ${product}    Bet Trade
+    #Insert macau games
+    ${MG}    Run Keyword And Return Status    Should Be Equal    ${product}    Macau Games
+    # Click to open product dropdown list
+    Click Element    xpath=//*[@id='ProductList']/a/input
+    ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCLC'][@type='checkbox']
+    ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCRNG'][@type='checkbox']
+    ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='AGC'][@type='checkbox']
+    ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='BT'][@type='checkbox']
+    # Select product checkbox
+    Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${product}'!='All'    Unselect Checkbox    xpath=//*[contains(text(),'All')]/input
+    Run Keyword If    '${SB}'=='True'    Select Checkbox    id=SB
+    Run Keyword If    '${RB}'=='True'    Select Checkbox    id=RB
+    Run Keyword If    '${NG}'=='True'    Select Checkbox    id=NG
+    Run Keyword If    '${BA}'=='True'    Select Checkbox    id=BA
+    Run Keyword If    '${LC}'=='True'    Select Checkbox    id=LC
+    Run Keyword If    '${VS}'=='True'    Select Checkbox    id=VS
+    Run Keyword If    '${CS}'=='True'    Select Checkbox    id=CS
+    Run Keyword If    '${KN}'=='True'    Select Checkbox    id=KN
+    Run Keyword If    '${MGCLC}'=='True' and '${MGCLC_checkbox}'=='True'    Select Checkbox    id=MGCLC
+    Run Keyword If    '${MGCRNG}'=='True' and '${MGCRNG_checkbox}'=='True'    Select Checkbox    id=MGCRNG
+    Run Keyword If    '${AGC}'=='True' and '${AGC_checkbox}'=='True'    Select Checkbox    id=AGC
+    Run Keyword If    '${BT}'=='True' and '${BT_checkbox}'=='True'    Select Checkbox    id=BT
+    #Insert macau games
+    Run Keyword If    '${MG}'=='True'    Select Checkbox    id=VB
+    # Click outside to close dropdown list
+    Click Element    xpath=.//*[@id='BodyContent']
+
+sum data all product by column
+    [Arguments]    ${row_number}    ${column}
+    ${ac_sum}    Set Variable    0
+    ${ac_tmp}    Set Variable    0
+    : FOR    ${i}    IN RANGE    1    ${row_number} + 1
+    \    ${ac_tmp}    convert and remove comma from string to number    xpath=(//td[@class="group-GBP" and contains(text(),'Total in GBP')]/following::td[${column}])[${i}]
+    \    ${ac_sum}    Evaluate    ${ac_sum} + ${ac_tmp}
+    [Return]    ${ac_sum}

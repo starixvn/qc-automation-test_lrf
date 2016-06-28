@@ -597,7 +597,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
-    submit filters for customer win loss    ${from}    ${to}    EUR    USD    All
+    submit filters for customer win loss    ${from}    ${to}    EUR    USD    No    All
     take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
