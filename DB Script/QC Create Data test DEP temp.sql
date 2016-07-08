@@ -1,4 +1,4 @@
-CREATE PROCEDURE QC_Create_Data_test_DEP_temp                     
+CREATE PROCEDURE [dbo].[QC_Create_Data_test_DEP_temp]                     
 AS                        
 --CREATE PROCEDURE [QC_Create_Data_test]                         
 --AS                        
@@ -26,7 +26,7 @@ SET NOCOUNT ON
 ---- DECLARE SECTION                        
 DECLARE @bettype  INT                        
   ,@betteam  VARCHAR(10)                        
-  ,@username Varchar(50) = 'SPONUUS01017'                        
+  ,@username Varchar(50) = 'SPONUUS01017'--'SPONUUS01017'                        
   ,@matchid BIGINT  = 71000000                        
   ,@transid BIGINT  = 9499000000                        
   ,@transid_m BIGINT  = 960000000                        
@@ -40,10 +40,14 @@ DECLARE @bettype  INT
   ,@refno bigint                        
   ,@orid int                        
   ,@VSorid int                        
-Select @winlostdate = Cast(GETDATE() as Date)                        
+Select Cast(GETDATE() as Date)                        
 DECLARE @bettype_TABLE TABLE(                        
   transid bigint, sporttype INT, bettype SMALLINT, betteam VARCHAR(20),liveindicator bit, livehomescore int, liveawayscore int,hdp1 money, hdp2 money, oddstype int, status VARCHAR(10),         
   statusID TINYINT, ruben TINYINT, betcheck VARCHAR(50), betid BIGINT, transdesc NVARCHAR(1000))            
+  
+INSERT INTO @bettype_TABLE                        
+select  TransID,sporttype,bettype,betteam,liveindicator,livehomescore,liveawayscore,hdp1,hdp2,oddstype,status,statusID,ruben,betcheck,betid,Transdesc from QC_data_test_DEP qc with (nolock)                          
+where qc.sporttype not in (203, 205)  -- get all SB tickets except MGC    
             
 Declare @parlaydetail TABLE (serial int, sporttype int)                        
                         
@@ -63,9 +67,9 @@ Delete from bettransm where transid between @transid_m and @transid_m +  1000000
 delete from [DB215].[bodb02].[dbo].[bettrans_lrf_betRunning] where transid between @transid and @transid + 100000000                        
 delete from [DB215].[bodb02].[dbo].[bettrans_Running] where transid between @transid and @transid + 100000000    
     
-delete from [DB234].[bodb02].[dbo].[bettrans] WHERE transid between @transid and @transid + 100000000            
-delete from [DB234].[bodb02].[dbo].[bettransRnG] WHERE transid between @transid and @transid + 100000000          
-delete from [DB234].[bodb02].[dbo].[translog] WHERE translogid between @transid and @transid + 100000000          
+--delete from [DB234].[bodb02].[dbo].[bettrans] WHERE transid between @transid and @transid + 100000000            
+--delete from [DB234].[bodb02].[dbo].[bettransRnG] WHERE transid between @transid and @transid + 100000000          
+--delete from [DB234].[bodb02].[dbo].[translog] WHERE translogid between @transid and @transid + 100000000          
               
 DECLARE @isloop tinyint = 1                          
 DECLARE @cnt int                        
@@ -147,7 +151,7 @@ SET IDENTITY_INSERT [dbo].[match] ON
 SET IDENTITY_INSERT [dbo].[match] OFF                         
 /*** END INSERT RUNNING CRICKET MATCH***/                  
                   
-/****INSERT ODDS******/                        
+/****INSERT ODDS******/      
 DECLARE @odds_table TABLE (sporttype int, bettype int)                        
 INSERT INTO @odds_table                        
 Select distinct sporttype, bettype from @bettype_TABLE                        
@@ -178,9 +182,7 @@ VALUES ('71000050','1',0,0,0,0,'running',0,8,'1') -- insert odds for running soc
 -- (select matchid from match m join @parlaydetail p on m.sporttype = p.sporttype where matchid between @min_matchid and @max_matchid )                        
     
 /****INSERT SB TICKET******/                        
-INSERT INTO @bettype_TABLE                        
-select  TransID,sporttype,bettype,betteam,liveindicator,livehomescore,liveawayscore,hdp1,hdp2,oddstype,status,statusID,ruben,betcheck,betid,Transdesc from QC_data_test_DEP qc with (nolock)                          
-where qc.sporttype not in (203, 205)  -- get all SB tickets except MGC    
+  
         
 select @cnt = count (*) from @bettype_TABLE         
     
@@ -294,7 +296,7 @@ WHILE @isloop > 0
  END                        
 /****END INSERT SB TICKET******/                        
     
-/****INSERT MICROGAMING TICKET INTO BETTRANS******/               
+/****INSERT MICROGAMING TICKET INTO BETTRANS******/                
 INSERT INTO @bettype_TABLE                        
 select  TransID,sporttype,bettype,betteam,liveindicator,livehomescore,liveawayscore,hdp1,hdp2,oddstype,status,statusID,ruben,betcheck,betid,Transdesc from QC_data_test_DEP qc with (nolock)                          
 where (qc.sporttype in (203) and qc.statusID != '0')   -- exclude running MGC LC                 
@@ -681,7 +683,7 @@ ecommEND,Username, CurrencyName, virtualrate, oddstype, statusID,currency2,balan
  Set @cnt = 3                        
  WHILE @cnt >=1                        
   BEGIN                        
-   IF @cnt = 3 SELECT @sporttype = 1             
+   IF @cnt = 3 SELECT @sporttype = 1              
    IF @cnt = 2 select @sporttype = 5                        
    IF @cnt = 1 Select @sporttype = 10                        
                            
@@ -843,7 +845,7 @@ ecommEND,Username, CurrencyName, virtualrate, oddstype, statusID,currency2,balan
      ,[ip] = '127.0.0.1'                        
      ,[transdesc] = null                        
      ,[sdiscount] = 0.005                        
-     ,[scomm] = 0.1           
+     ,[scomm] = 0.1            
      ,[spositiontaking] = 0.1                        
      ,[swinlost] = 10                        
      ,[srecommEND] = @srecommend                        
@@ -994,7 +996,7 @@ BEGIN
         , @matchid                        
         , @recommend -- agent                        
         , @mrecommend --master                        
-        , 0       
+        , 0        
         , 0                        
         , null                        
         , -1                        
@@ -1088,7 +1090,7 @@ BEGIN
    SET @transid_m = @transid_m +1                        
   END                        
  SET @matchid = @matchid + 1                        
- SET @transid = @transid +1      
+ SET @transid = @transid +1       
 END                        
 END                      
 /*** END INSERT RACING TICKET ***/                        
