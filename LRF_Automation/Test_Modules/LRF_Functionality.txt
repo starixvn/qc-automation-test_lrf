@@ -156,7 +156,7 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
 
 TM_03_FUN_Compare data for WL by Product report
     ${from}=    Get Time    \    Now - 24 day
-    ${to}=    Get Time    \    Now - 24 hour
+    ${to}=    Get Time    \    Now - 36 hour
     navigate left menu    REPORTS    Win Loss By Products
     submit filters for win loss by products    ${from}    ${to}    Based GBP    None    None    No
     ...    All
@@ -254,7 +254,7 @@ TM_06_FUN_Compare data between Statement and Customer Balance for a member
     ...    ${tm_customerwl}    ${tm_customercomm}    ${tm_closing_balance}    get data of member in customer balance report
     navigate left menu    CUSTOMER INFORMATION    Customer List
     submit filters for customer list    ALL    CNY    CNY    ${tm_username}    All    All
-    ...    All    All
+    ...    All    All    All
     select customer option based on username    ${tm_username}    Statement
     submit filters for betlist and statement    None    ${from}    ${to}    None
     ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date

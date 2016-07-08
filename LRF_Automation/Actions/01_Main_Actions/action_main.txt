@@ -792,6 +792,7 @@ check result popup exist
 check user guide popup
     [Documentation]    This action is used to check user guide popup existed.
     click element on report    \    main    None    ${user_guide_button}
+    wait element visible    main    ${user_guide_popup}
     check element on report    \    main    None    ${user_guide_popup}
     click element on report    \    main    None    ${close_button_user_guide}
 
@@ -993,3 +994,10 @@ start api
     Click Element    xpath=//*[@id='content']/div/form/table/tbody/tr[3]/td[2]/input
     sleep    5s
     close window
+
+wait element visible
+    [Arguments]    ${frame}    ${locator}
+    [Documentation]    This action is used to wait an elemnt visible on the specific frame.
+    Select Frame    ${frame}
+    Wait Until Element Is Visible    ${locator}
+    Unselect Frame

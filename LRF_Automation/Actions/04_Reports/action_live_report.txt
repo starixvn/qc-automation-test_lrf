@@ -142,7 +142,7 @@ click sport link on live report with loop
     \    LOG    select sport = ${a}
     \    Click Element    xpath=//div[@class='content-row'][${INDEX}]/div[1]/div/a[@class='sport-detailt-link']
     \    Comment    # Click Back button on bet list report
-    \    Wait Until Page Contains Element    ${back_button}
+    \    wait page load
     \    click element on report    \    main    None    ${back_button}
     \    wait page load
     \    Unselect Frame
