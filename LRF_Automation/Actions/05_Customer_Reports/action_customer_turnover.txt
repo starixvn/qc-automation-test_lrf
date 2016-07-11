@@ -82,7 +82,8 @@ unselect product checkboxes in customer turnover
     Run Keyword If    '${ac_sb}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Sportbook')]/input[@type='checkbox']
     Run Keyword If    '${ac_vs}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Virtual Sports')]/input[@type='checkbox']
     Run Keyword If    '${ac_ng}'=='True'    Unselect Checkbox    xpath=//label[contains(text(),'Number Game')]/input[@type='checkbox']
-    Click Element    ${product_listbox_customer_turnover}
+    Comment    William: No need to click to close dropdown list (there is an issue when clicking to close "WebDriverException: Message: Element is not clickable at point (456, 81). Other element would receive the click")
+    Comment    Click Element    ${product_listbox_customer_turnover}
     Unselect Frame
 
 select bettype checkboxes in customer turnover
