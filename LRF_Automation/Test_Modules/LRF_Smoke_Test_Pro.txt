@@ -517,7 +517,7 @@ TM_06_ST_TotalBets_MixParlay
     # 7. Click Details link in system parlay ticket
     click details link in system parlay ticket    \    main    None    ${betlist_table}    2    5
     # VP. Check Detail popup displays
-    check element on report    \    main    SystemParlayDetail    ${system_parlay_details_table}
+    check element on report    \    main    /SystemParlayBetList/    ${system_parlay_details_table}
     take applications screenshot    Product    TM_06_TotalBets_DetailSystemParlay.jpg
     # 8. Close popup
     click element on report    \    main    None    ${close_button_on_popup}
@@ -1559,12 +1559,12 @@ TM_32_ST_Reports_Platform Win Loss
     #VP. check export
     check export excel function    \    main    BetList    PlatformWinLossBetList.xls
     # 4. Click link result in betlist
-    click result link in ticket    \    main    /BetList/PlatformWinLoss    ${betlist_table}    2    11
+    click result link in ticket    \    main    /PlatformWinLossBetList/    ${betlist_table}    2    11
     # VP. Check result pop-up
-    check result popup exist    \    main    /BetList/PlatformWinLoss    ResultPopup
+    check result popup exist    \    main    /PlatformWinLossBetList/    ResultPopup
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss_Result.jpg
     # 5. Click close result pop-up
-    click element on report    \    main    /BetList/PlatformWinLoss    ${close_button_on_popup}
+    click element on report    \    main    /PlatformWinLossBetList/    ${close_button_on_popup}
     # 6. Close betlist pop-up
     click element on report    \    main    None    ${close_button_on_popup}
 
@@ -1786,7 +1786,7 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
     # VP. check element on report
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
+    check export excel function    \    main    None    GDWinLoss*.xls
     # 3. Click Currency link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    Currency
     wait page load
@@ -1794,7 +1794,7 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
+    check export excel function    \    main    None    GDWinLoss*.xls
     # 4. Click SystemID link
     click drilldown link in table report    \    main    None    ${report_table_reports}    2    SystemId
     wait page load
@@ -1802,7 +1802,7 @@ TM_46_ST_Reports_Gold Deluxe Win Loss
     # VP. Check report table
     check element on report    \    main    None    ${report_table_reports}
     # VP. check export excel
-    check export excel function    \    main    None    GoldDeluxeWinLoss.xls
+    check export excel function    \    main    None    GDWinLoss*.xls
 
 TM_47_ST_Reports_MaCau Win Loss
     #1. Define test data
