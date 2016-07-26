@@ -1913,7 +1913,7 @@ TM_38_ST_CustomerReports_Customer Pending Funds
     # 1. Navigate to CUSTOMER REPORTS > Customer Pending Funds
     navigate left menu    CUSTOMER REPORTS    Customer Pending Funds
     # 2. Submit filters
-    submit filters for customer pending funds    ALL    EUR    USD    All
+    submit filters for customer pending funds    ALL    ALL    USD    All
     take applications screenshot    Product    TM_38_Reports_CustomerPending.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
