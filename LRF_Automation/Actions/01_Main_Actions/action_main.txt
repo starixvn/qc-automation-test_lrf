@@ -59,11 +59,11 @@ config local
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
     # Set Global Variables for Checking Bet List
-    ${cf_from_betlist}    Get Time    \    Now-1d
-    ${cf_to_betlist}    Get Time    \    Now-1d
+    ${cf_from_betlist}    Get Time    \    Now
+    ${cf_to_betlist}    Get Time    \    Now
     Set Suite Variable    ${cf_from_betlist}    ${cf_from_betlist}
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
-    Set Suite Variable    ${cf_url_betlist}    https://10.18.200.209:444/V2/
+    Set Suite Variable    ${cf_url_betlist}    http://10.18.200.209:8003/V1/
     Set Suite Variable    ${cf_betlist_product}    Sportsbook
     Set Suite Variable    ${cf_report_product}    Microgaming-Live Casino, Microgaming-RNG Casino
     Set Suite Variable    ${cf_betlist_user}    iceEW
