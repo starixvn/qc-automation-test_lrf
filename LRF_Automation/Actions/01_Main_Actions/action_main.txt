@@ -214,6 +214,19 @@ convert and remove comma from string to number
     [Teardown]
     [Return]    ${number}
 
+check value in cell different zero
+    [Arguments]    ${locator}
+    [Documentation]    This action is used to check a value greater than 0 with a specific locator.
+    ...    it will show a message if turnover lower or equal 0
+    ...
+    ...    Example:
+    ...
+    ...    check element on report | ${window title} | main | myframe | ${locator}
+    ...
+    ...    check element on report | ${window title} | main | None | ${locator}
+    ${value}    Convert and remove comma from string to number    ${locator}
+    Run Keyword If    ${value}==0    Fail    Value is 0
+
 check value in cell greater than zero
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${locator}
     [Documentation]    This action is used to check a value greater than 0 with a specific locator.
@@ -499,6 +512,18 @@ select listbox by value on report
     Run Keyword If    '${listbox_existence}'=='True'    Wait Until Element Is Visible    ${listbox}    10s
     Run Keyword If    '${listbox_existence}'=='True'    Select From List By Value    ${listbox}    ${value}
     Unselect Frame
+
+split day month year
+    [Arguments]    ${locator}
+    [Documentation]    Input time locator into it, then it will return Day/Month/Year in order.
+    ...    Example: split day month year ${locator}
+    Select Frame    main
+    ${date}    Get Value    ${locator}
+    ${month}    Fetch From Left    ${date}    /
+    ${year}    Fetch From Right    ${date}    /
+    ${day}    Get Slice From List    ${date}    3    5
+    Unselect Frame
+    [Return]    ${day}    ${month}    ${year}
 
 unselect products filter
     [Arguments]    ${window title}    ${main frame}    ${sub frame}    ${product}

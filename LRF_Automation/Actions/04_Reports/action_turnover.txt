@@ -42,8 +42,8 @@ check closing balance and opening balance
     [Documentation]    This action is used to check closing balance of the previous day should be equal with opening balance of a day.
     Select Frame    main
     ${row_01}    Set Variable    1
-    ${row_02}    Set Variable    ${row_01} + 1
-    ${row_number}=    Get Matching Xpath Count    xpath=.//table[@id='ReportGrid']/tbody/tr[@tabindex='-1' or @tabindex='0']
+    Comment    ${row_02}    Set Variable    ${row_01} + 1
+    ${row_number}=    Get Matching Xpath Count    xpath=//table[@id='ReportGrid']/tbody/tr[@tabindex='-1']
     : FOR    ${row_01}    IN RANGE    ${row_01}    ${row_number} - 1
     \    ${row_02}    Evaluate    ${row_01} + 1
     \    ${locator_01}    Set Variable    xpath=.//*[@id='${row_01}']/td[15]
@@ -52,4 +52,25 @@ check closing balance and opening balance
     \    ${number_02}    Convert and remove comma from string to number    ${locator_02}
     \    ${tmp}    Compare two number    ${number_01}    ${number_02}
     \    Run Keyword If    '${tmp}'=='False'    Fail    They are not equal
+    \    #check deposit <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[4]
+    \    #check withdrawal <>0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[5]
+    \    #Check bonus <>0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[6]
+    \    #check adjsutment <>0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[7]
+    \    #check turnover <>0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[8]
+    \    #check draw game <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[9]
+    \    #check net turnover <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[10]
+    \    #check customer wl <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[12]
+    \    #check customer total <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[14]
+    \    #check casino transfer <> 0
+    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[17]
     \    Exit For Loop If    ${row_01}==${rownumber}
+    Unselect Frame
