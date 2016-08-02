@@ -193,6 +193,7 @@ check total stake displays in betlist
     # VP: Verify that total row of betlist should display in betlist
     Run Keyword If    '${window}'!='None'    Select Window    ${window}
     Run Keyword If    '${frame}'!='None'    Select Frame    ${frame}
+    Wait Until Page Contains Element    ${total_stake_of_TotalBets_betlist}
     Element Should Be Visible    ${total_stake_of_TotalBets_betlist}
     # VP : Verify that total stake should be greater than 0
     ${ac_temp_total_stake}=    Get Text    ${total_stake_of_TotalBets_betlist}

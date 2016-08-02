@@ -597,7 +597,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 1. Navigate to CUSTOMER REPORTS > Customer Win Loss
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
     # 2. Submit filters
-    submit filters for customer win loss    ${from}    ${to}    EUR    USD    No    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    USD    No    All
     take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
@@ -637,34 +637,6 @@ TM_40_ST_CustomerReports_Customer Turnover
     take applications screenshot    Product    TM_40_Reports_CustomerTurnover.jpg
     # VP. Check User Guide
     check user guide popup
-
-TM_41_ST_DataWarehouse_Win Loss
-    [Tags]    CI
-    ${from}=    Get Time    \    Now - 13d
-    ${to}=    Get Time    \    Now - 6d
-    # 1. Select mansion88 licensee
-    select licensee    mansion88
-    # 2. Navigate to DATA WAREHOUSE > Win Loss
-    navigate left menu    DATA WAREHOUSE    Win Loss
-    # 3. Submit filters
-    submit filters for win loss    ALL    USD    ${from}    ${to}    Month    Normal
-    take applications screenshot    Product    TM_41_DW_WinLoss.jpg
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_data_warehouse}
-
-TM_42_ST_DataWarehouse_Top Customer
-    [Tags]    CI
-    ${from}=    Get Time    \    Now - 13d
-    ${to}=    Get Time    \    Now - 6d
-    select licensee    mansion88
-    # 1. Navigate to DATA WAREHOUSE > Top Customer
-    navigate left menu    DATA WAREHOUSE    Top Customer
-    # 2. Submit filters
-    submit filters for top customer    ALL    USD    ${from}    ${to}    All    None
-    ...    All    2    Worst Win Loss    3    100
-    take applications screenshot    Product    TM_42_DW_TopCustomer.jpg
-    # VP. Check data table
-    check element on report    \    main    None    ${div_report_table_data_warehouse}
 
 TM_43_03_ST_CustomerInformation_Customer List_Betlist_Statement
     [Tags]

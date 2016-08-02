@@ -1865,7 +1865,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # VP. Check user guide
     Comment    check user guide popup
     # 2. Submit filters
-    submit filters for customer win loss    ${from}    ${to}    EUR    USD    No    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    USD    No    All
     take applications screenshot    Product    TM_37_Reports_CustomerWinLoss.jpg
     # VP. Check data table
     Comment    check element on report    \    main    None    ${div_report_table_customer_reports}
@@ -1896,7 +1896,7 @@ TM_37_ST_CustomerReports_Customer Win Loss
     # 7. Click history report link
     click element on report    \    main    None    ${history_report_link_customer_wl}
     # 8. Submit filters
-    submit filters for history customer win loss    None    None    None    None    EUR    USD
+    submit filters for history customer win loss    None    None    None    None    ALL    USD
     ...    All
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
