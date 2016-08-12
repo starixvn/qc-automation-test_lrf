@@ -1742,7 +1742,7 @@ TM_36_ST_Reports_Win Loss By Leagues
     navigate left menu    REPORTS    Win Loss By Leagues
     # 3. Submit filters
     submit filters for win loss by leagues    None    None    None    None    ALL    USD
-    ...    1    0    0    0    All    All
+    ...    1    0    1    0    All    All
     take applications screenshot    Product    TM_36_Reports_WinLossByLeagues.jpg
     # VP. Check data table
     check element on report    \    main    None    ${report_table_reports}
