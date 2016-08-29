@@ -214,3 +214,15 @@ TM_BL_ALL_08_Customer List_Bet List
     # Get Data from Excel File & Bet List. Then check them
     check bet list for selected products    ${cf_betlist_product}    Data set\\Test_Data_All.xls
     Set Selenium Speed    ${cf_speed}
+
+TM_BL_ALL_09_Win_Loss_By_Bettype
+    # Navigate to REPORTS > Live Report
+    navigate left menu    REPORTS    Win Loss By Bet Type
+    # Submit filters for products
+    submit filters for winlossbybettype    ${cf_from_betlist}    ${cf_to_betlist}    ALL    UUS    UUS
+    # Get Data from Excel File & Bet List. Then check them
+    Select Window
+    Select Frame    main
+    Set Selenium Speed    0.1
+    check betlist in winloss by bettype    Data set\\Test_Data_All.xls
+    Set Selenium Speed    ${cf_speed}

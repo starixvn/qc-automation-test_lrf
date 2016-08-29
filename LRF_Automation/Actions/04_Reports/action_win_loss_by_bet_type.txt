@@ -2,6 +2,7 @@
 Library           Selenium2Library
 Resource          ../01_Main_Actions/action_main.txt
 Resource          ../../Interfaces/01_Main_Interfaces/interface_main.txt
+Library           ExcelLibrary
 
 *** Keywords ***
 submit filters for win loss by bettype
@@ -43,3 +44,88 @@ check total customer wl in WL by Bet Type
     Comment    ${status}    Compare two number    ${tmp}    0
     Comment    Run Keyword If    '${status}'<>'True'    Fail    They are not equal
     Unselect Frame
+
+check betlist in winloss by bettype
+    [Arguments]    ${excel file}
+    # Get 1st Sport on Excel and proceed to its link to initiate our checking
+    Open Excel Current Directory    ${excel file}
+    ${ac_1st_bettype_excel}    Read Cell Data By Coordinates    Sportsbook    3    1
+    ${ac_1st_bettype_excel}    Remove String    ${ac_1st_bettype_excel}    ${SPACE}
+    Click Element    xpath=//a[@class='bettype-link' and text()='${ac_1st_bettype_excel}']    # Click on bettype link
+    wait page load
+    Select Frame    main
+    ${ac_totalrow_excel}    Get Row Count    Sportsbook
+    :FOR    ${ac_index}    IN RANGE    1    ${ac_totalrow_excel}
+    \    Comment    Get bettype \ in Excel. If bettype changes, we have to click Back and proceed new Bettype link
+    \    ${ac_bettype_excel}    Read Cell Data By Coordinates    Sportsbook    3    ${ac_index}
+    \    ${ac_bettype_excel1}    Remove String    ${ac_bettype_excel}    ${SPACE}
+    \    ${ac_sport_excel}    Read Cell Data By Coordinates    Sportsbook    4    ${ac_index}
+    \    ${ac_match_excel}    Read Cell Data By Coordinates    Sportsbook    5    ${ac_index}
+    \    ${bettypenametitle}    Get bettype name from title for WL by bettype rpt
+    \    Run Keyword If    '${ac_bettype_excel1}'!='${bettypenametitle}'    go back to top page in winlost by bettype
+    \    Run Keyword If    '${ac_bettype_excel1}'!='${bettypenametitle}'    Click Element    xpath=//a[@class='bettype-link' and text()='${ac_bettype_excel}']    # Click on bettype link
+    \    Run Keyword If    '${ac_bettype_excel1}'!='${bettypenametitle}'    wait page load
+    \    Run Keyword If    '${ac_bettype_excel1}'!='${bettypenametitle}'    Select Frame    main
+    \    Comment    Get REF NO from Excel
+    \    ${ac_ref_excel_float}    Read Cell Data By Coordinates    Sportsbook    0    ${ac_index}
+    \    ${ac_ref_excel_string}    Convert To String    ${ac_ref_excel_float}
+    \    ${ac_ref_excel_string}    Fetch From Left    ${ac_ref_excel_string}    .
+    \    Comment    Get Data (choice, bettype, ...) from excel
+    \    ${ac_choice_excel}    Read Cell Data By Coordinates    Sportsbook    1    ${ac_index}
+    \    ${ac_bettype_excel}    Read Cell Data By Coordinates    Sportsbook    3    ${ac_index}
+    \    ${ac_odds_excel}    Read Cell Data By Coordinates    Sportsbook    2    ${ac_index}
+    \    ${ac_odds_excel}    Convert To String    ${ac_odds_excel}
+    \    ${ac_league_excel}    Read Cell Data By Coordinates    Sportsbook    6    ${ac_index}
+    \    ${ac_league_excel}    Set Variable    ${ac_sport_excel}${ac_league_excel}
+    \    ${ac_color}    Read Cell Data By Coordinates    Sportsbook    7    ${ac_index}
+    \    ${ac_firstgoal}    Read Cell Data By Coordinates    Sportsbook    8    ${ac_index}
+    \    ${ac_lastgoal}    Read Cell Data By Coordinates    Sportsbook    9    ${ac_index}
+    \    ${ac_1hfirstgoal}    Read Cell Data By Coordinates    Sportsbook    10    ${ac_index}
+    \    ${ac_1hlastgoal}    Read Cell Data By Coordinates    Sportsbook    11    ${ac_index}
+    \    ${ac_ticket_status_excel}    Read Cell Data By Coordinates    Sportsbook    12    ${ac_index}
+    \    Comment    Get Data (choice, bettype, ...) from web
+    \    ${ac_choice}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span
+    \    ${ac_bettype}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[1]
+    \    ${ac_odds}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Odds')]/span[1]
+    \    ${ac_odds}    Convert To String    ${ac_odds}
+    \    ${ac_match}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='match']
+    \    ${ac_league}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/div[@class='league']
+    \    ${ac_ticket_status}    Get Text    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Status')]/div[@class='status']
+    \    Comment    Remove space from string
+    \    ${ac_choice_excel}    Replace String    ${ac_choice_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_choice}    Replace String    ${ac_choice}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype_excel}    Replace String    ${ac_bettype_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_bettype}    Replace String    ${ac_bettype}    ${SPACE}    ${EMPTY}
+    \    ${ac_match}    Replace String    ${ac_match}    ${SPACE}    ${EMPTY}
+    \    ${ac_match_excel}    Replace String    ${ac_match_excel}    ${SPACE}    ${EMPTY}
+    \    ${ac_league}    Replace String    ${ac_league}    ${SPACE}    ${EMPTY}
+    \    ${ac_league_excel}    Replace String    ${ac_league_excel}    ${SPACE}    ${EMPTY}
+    \    Comment    Check data
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_choice_excel}    ${ac_choice}    Choice error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_bettype_excel}    ${ac_bettype}    Bettype error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Contain    ${ac_odds_excel}    ${ac_odds}    Odds error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_match}    ${ac_match_excel}    Match error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_league}    ${ac_league_excel}    League error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword And Continue On Failure    Should Be Equal    ${ac_ticket_status}    ${ac_ticket_status_excel}    Status error. TransID: ${ac_ref_excel_string}
+    \    Run Keyword If    '${ac_color}'=='Red'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite']
+    \    Run Keyword If    '${ac_color}'=='Black'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='underdog']
+    \    Run Keyword If    '${ac_color}'=='Blue'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/parent::*/td[contains(@aria-describedby,'Choice')]/div/span[@class='favorite light-blue']
+    \    Run Keyword If    '${ac_firstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'=='x'    Run Keyword And Continue On Failure    Element Should Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+    \    Run Keyword If    '${ac_firstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'firstGoal')]
+    \    Run Keyword If    '${ac_lastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'lastGoal')]
+    \    Run Keyword If    '${ac_1hfirstgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[1]/following-sibling::div[contains(@class,'fhFirstGoal')]
+    \    Run Keyword If    '${ac_1hlastgoal}'!='x'    Run Keyword And Continue On Failure    Element Should Not Be Visible    xpath=//td[contains(text(),'${ac_ref_excel_string}')]/following-sibling::td//div[@class='match']//span[2]/following-sibling::div[contains(@class,'fhLastGoal')]
+
+Get bettype name from title for WL by bettype rpt
+    ${ac_bettypetitle}    Get Text    xpath=.//*[@id='BodyContent']/div[@class='content-title']
+    ${ac_bettypetitle}    Get Substring    ${ac_bettypetitle}    11
+    ${ac_bettypetitle}    Fetch From Left    ${ac_bettypetitle}    -
+    ${ac_bettypetitle}    Remove String    ${ac_bettypetitle}    ${SPACE}
+    [Return]    ${ac_bettypetitle}
+
+go back to top page in winlost by bettype
+    Click Element    ${back_button}
+    Sleep    3s
