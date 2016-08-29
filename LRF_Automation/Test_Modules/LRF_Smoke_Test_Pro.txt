@@ -2732,15 +2732,15 @@ TC_43_02_ST_CustomerInformation_Customer List_Bet Setting_MicrogamingRNG
 
 TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_BetTrade
     # 1. Switch To spondemo licensee
-    select licensee    Athena000
+    select licensee    spondemo
     # 2. Navigate to CUSTOMER INFORMATION > Customer List
     navigate left menu    CUSTOMER INFORMATION    Customer List
     wait page load
     # 3. Submit filters to see "testact1" testing account
-    submit filters for customer list    ALL    ALL    USD    qatest01    All    All
+    submit filters for customer list    ALL    ALL    USD    qatest04    All    All
     ...    All    All    None
     # 4. Go to View > Bet Setting
-    select customer option based on username    qatest01    Bet Setting
+    select customer option based on username    qatest04    Bet Setting
     # 5. Select BetTrade from list
     select product in bet setting    Bet Trade
     wait page load
