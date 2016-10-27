@@ -2213,7 +2213,7 @@ TC_43_02_ST_CustomerInformation_Customer List_Bet Setting
     \    take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_${ITEM}.jpg
     \    checkbox setting    \    main    BetSetting
     ### Verify enable/disable setting
-    : FOR    ${ITEM}    IN    Macau
+    : FOR    ${ITEM}    IN    Macau    Colossus Bets
     \    Comment    # Select product from list
     \    select product in bet setting    ${ITEM}
     \    wait page load
