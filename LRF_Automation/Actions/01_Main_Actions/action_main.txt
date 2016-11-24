@@ -479,7 +479,7 @@ select products filter
     ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='BT'][@type='checkbox']
     # Select product checkbox
     Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
-    Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
+    Comment    Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
     Run Keyword If    '${product}'!='All'    Unselect Checkbox    xpath=//*[contains(text(),'All')]/input
     Run Keyword If    '${SB}'=='True'    Select Checkbox    id=SB
     Run Keyword If    '${RB}'=='True'    Select Checkbox    id=RB

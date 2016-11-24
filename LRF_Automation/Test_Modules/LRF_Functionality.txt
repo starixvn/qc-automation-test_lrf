@@ -107,10 +107,11 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
     ${customerwl_turnover}    ${customerwl_totaltrans}    ${customerwl_customerwl}    ${customerwl_customercomm}    ${customerwl_customertotal}    ${customerwl_licenseewl}    ${customerwl_licenseecomm}
     ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports
-    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    All
-    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${customerwl_licenseecomm}
-    ...    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
+    Comment    navigate left menu    CUSTOMER REPORTS    Customer Win Loss
+    Comment    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No
+    ...    All
+    Comment    ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}
+    ...    ${customerwl_licenseecomm}    ${customerwl_amt}    get Total values in report    Customer Win Loss    All
     ####### Compare data for Match WL in bettrans range
     navigate left menu    REPORTS    Match Win Loss
     submit filters for match win loss    ${from}    None    ALL    GBP    All
@@ -127,11 +128,11 @@ TM_02_FUN_Compare data for Match WL and Turnover reports
     ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
     ...    ${from}    ${to}
     submit filters for turnover    None    None    ${from_day}    ${to_day}    No    ALL
-    ...    Based GBP    None    All
+    ...    Based GBP    None    Sportsbook, Racing, Number Game, Live Casino, Virtual Sports
     ${TO_turnover}    ${TO_totaltrans}    ${TO_customerwl}    ${TO_customercomm}    ${TO_customertotal}    ${TO_licenseewl}    ${TO_licenseecomm}
     ...    ${TO_amt}    get Total values in report    Turnover    All
-    should be true    '${customerwl_customerwl_total}'=='${TO_customerwl}'
-    should be true    '${customerwl_customercomm_total}'=='${TO_customercomm}'
+    should be true    '${customerwl_customerwl}'=='${TO_customerwl}'
+    should be true    '${customerwl_customercomm}'=='${TO_customercomm}'
     ####### Compare data for Match WL in bettrans14 range
     ${from}=    Get Time    \    Now - 7 day
     ${to}=    Get Time    \    Now - 7 day
@@ -227,21 +228,21 @@ TM_05_FUN_Compare data for AG Casino report with API
     [Documentation]    Purpose: Compare data AG WL report with API
     ...
     ...    10/06/2015: Edit TM to check data for 4 days
-    ${from}=    Get Time    \    Now - 5 day
-    ${to}=    Get Time    \    Now - 48 hour
-    navigate left menu    REPORTS    AG Casino Win Loss
-    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
-    ${report_totaltrans}    get data in AG Casino Win Loss report
-    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
-    ...    ${from}    ${to}
-    ${api_total_trans}    Set Variable    0
-    : FOR    ${i}    IN RANGE    0    4
-    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
-    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
-    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
-    \    ${temp_totaltrans}    get data from API
-    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
-    Should Be True    ${api_total_trans}==${report_totaltrans}
+    Comment    ${from}=    Get Time    \    Now - 5 day
+    Comment    ${to}=    Get Time    \    Now - 48 hour
+    Comment    navigate left menu    REPORTS    AG Casino Win Loss
+    Comment    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
+    Comment    ${report_totaltrans}    get data in AG Casino Win Loss report
+    Comment    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}
+    ...    convert date    ${from}    ${to}
+    Comment    ${api_total_trans}    Set Variable    0
+    Comment    : FOR    ${i}    IN RANGE    0    4
+    Comment    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
+    Comment    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
+    Comment    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
+    Comment    \    ${temp_totaltrans}    get data from API
+    Comment    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
+    Comment    Should Be True    ${api_total_trans}==${report_totaltrans}
 
 TM_06_FUN_Compare data between Statement and Customer Balance for a member
     [Timeout]
