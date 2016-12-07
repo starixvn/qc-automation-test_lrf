@@ -661,7 +661,7 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
 TM_13_ST_TotalBets_BON team to score
     [Tags]    CI
     # 1. Navigate to TOTAL BETS > B/O/N team to score
-    navigate left menu    TOTAL BETS    B/O/N team to score
+    navigate left menu    TOTAL BETS    B/O/N Team To Score
     # VP. Check User Guide popup exists
     check user guide popup
     # VP. Check exporting file successfully
@@ -678,7 +678,7 @@ TM_13_ST_TotalBets_BON team to score
 TM_14_ST_TotalBets_To win to nil
     [Tags]    CI
     # 1. Navigate to TOTAL BETS > To win to nil
-    navigate left menu    TOTAL BETS    To win to nil
+    navigate left menu    TOTAL BETS    To Win To Nil
     # VP. Check User Guide popup exists
     check user guide popup
     # VP. Check exporting file successfully
@@ -799,12 +799,12 @@ TM_48_ST_TotalBets_Total Row of Submenus and Bet list
     # VP: Verify that total stake of Away No Bet displays properly
     Run Keyword If    '${ac_no_info_status}'=='False'    check total row of total bets main report and betlist    ${total_row_away_no_bet}    ${report_table_totalbets}    6
     #13. Check Total Row for B/O/N TEAM TO SCORE
-    navigate left menu    TOTAL BETS    B/O/N team to score
+    navigate left menu    TOTAL BETS    B/O/N Team To Score
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # VP: Verify that total stake of B/O/N TEAM TO SCORE displays properly
     Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
     #14. Check Total Row for TO WIN TO NIL
-    navigate left menu    TOTAL BETS    To win to nil
+    navigate left menu    TOTAL BETS    To Win To Nil
     ${ac_no_info_status}=    Run Keyword And Return Status    Page Should Contain    No information is available
     # VP: Verify that total stake of To win to nil \ displays properly
     Run Keyword If    '${ac_no_info_status}'=='False'    check total stake displays in betlist    \    main
