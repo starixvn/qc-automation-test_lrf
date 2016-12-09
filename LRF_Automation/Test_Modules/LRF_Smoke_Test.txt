@@ -74,7 +74,7 @@ TM_00_ST_Start web
     # 2. Login with valid account
     login    ${cf_username}    ${cf_password}
     # 3. Select licensee
-    Comment    select licensee after login    ${cf_licensee}
+    select licensee after login    ${cf_licensee}
 
 TM_01_01_ST_TotalBets_Handicap
     [Tags]    CI
