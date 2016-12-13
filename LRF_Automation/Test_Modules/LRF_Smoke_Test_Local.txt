@@ -256,7 +256,7 @@ TM_12_ST_TotalBets_HomeDrawAway No Bet
 TM_13_ST_TotalBets_BON team to score
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > B/O/N team to score
-    navigate left menu    TOTAL BETS    B/O/N team to score
+    navigate left menu    TOTAL BETS    B/O/N Team To Score
     take applications screenshot    Local    TM_13_TotalBets_BONTeamToScore.jpg
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
@@ -269,7 +269,7 @@ TM_13_ST_TotalBets_BON team to score
 TM_14_ST_TotalBets_To win to nil
     [Tags]    Complete
     # 1. Navigate to TOTAL BETS > To win to nil
-    navigate left menu    TOTAL BETS    To win to nil
+    navigate left menu    TOTAL BETS    To Win To Nil
     take applications screenshot    Local    TM_14_TotalBets_ToWinToNil.jpg
     # 2. Select filters then click Submit button
     submit filters for totalbets    None    None    ALL    None
