@@ -2420,11 +2420,6 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     wait page load
     take applications screenshot    Product    TM_43_CustInfo_Customer List_BetSetting_RNG_Casino.jpg
     # Pre condition: Checkwhere user is enable or disable, if it is disable then enable (to change status, user must be enable before)
-    ### test
-    Comment    Select Frame    main
-    Comment    Wait Until Element Is Visible    xpath=//span[text()='close']
-    Comment    Click Element    xpath=//span[text()='close']
-    #################
     ${status}    get status    \    main    BetSetting
     Run Keyword If    '${status}'=='Enable RNG Casino'    click element on report    \    main    BetSetting    ${bet_setting_enable/disable_button}
     Run Keyword If    '${status}'=='Enable RNG Casino'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
@@ -2463,7 +2458,7 @@ TM_43_02_ST_CustomerInformation_Customer List_Bet Setting_RNG Casino
     Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${ok_button_confirmation_popup_bet_setting}
     Select Frame    main
     Select Frame    xpath=//iframe[contains(@src,'BetSetting')]
-    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    BetSetting    ${close_button_betsetting_popup}
+    Run Keyword If    '${status}'=='Disable RNG Casino'    click element on report    \    main    None    ${close_button_betsetting_popup}
     Run Keyword If    '${status}'=='Disable RNG Casino'    select customer option based on username    qatest04    Bet Setting
     Run Keyword If    '${status}'=='Disable RNG Casino'    select product in bet setting    RNG Casino
     ${after2_status}    get status    \    main    BetSetting
