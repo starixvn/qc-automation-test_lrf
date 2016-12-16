@@ -228,21 +228,21 @@ TM_05_FUN_Compare data for AG Casino report with API
     [Documentation]    Purpose: Compare data AG WL report with API
     ...
     ...    10/06/2015: Edit TM to check data for 4 days
-    Comment    ${from}=    Get Time    \    Now - 5 day
-    Comment    ${to}=    Get Time    \    Now - 48 hour
-    Comment    navigate left menu    REPORTS    AG Casino Win Loss
-    Comment    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
-    Comment    ${report_totaltrans}    get data in AG Casino Win Loss report
-    Comment    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}
-    ...    convert date    ${from}    ${to}
-    Comment    ${api_total_trans}    Set Variable    0
-    Comment    : FOR    ${i}    IN RANGE    0    4
-    Comment    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
-    Comment    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
-    Comment    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
-    Comment    \    ${temp_totaltrans}    get data from API
-    Comment    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
-    Comment    Should Be True    ${api_total_trans}==${report_totaltrans}
+    ${from}=    Get Time    \    Now - 5 day
+    ${to}=    Get Time    \    Now - 48 hour
+    navigate left menu    REPORTS    AG Casino Win Loss
+    submit filters for ag casino win loss    ${from}    ${to}    None    Yes    Daily
+    ${report_totaltrans}    get data in AG Casino Win Loss report
+    ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
+    ...    ${from}    ${to}
+    ${api_total_trans}    Set Variable    0
+    :FOR    ${i}    IN RANGE    0    4
+    \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
+    \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
+    \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}
+    \    ${temp_totaltrans}    get data from API
+    \    ${api_total_trans}=    Evaluate    ${api_total_trans} +${temp_totaltrans}
+    Should Be True    ${api_total_trans}==${report_totaltrans}
 
 TM_06_FUN_Compare data between Statement and Customer Balance for a member
     [Timeout]
