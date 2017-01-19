@@ -97,13 +97,13 @@ check total customer wl in licensee WL
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    ${total_customer_wl}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[27]
-    ${total_licensee_wl}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[38]
-    ${ba_comission}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[40]
-    ${racing_revenue}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[41]
-    ${amt_due_to_ba}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[43]
+    ${total_customer_wl}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[28]
+    ${total_licensee_wl}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[40]
+    ${ba_comission}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[42]
+    ${racing_revenue}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[43]
+    ${amt_due_to_ba}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[45]
     Focus    xpath=.//*[@id='${row number}']/td[44]
-    ${amt_due_to_racing}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[44]
+    ${amt_due_to_racing}    Convert and remove comma from string to number    xpath=.//*[@id='${row number}']/td[46]
     ${total_tmp}    Evaluate    -(${total_licensee_wl}+${ba_comission}+${racing_revenue}+${amt_due_to_ba}+${amt_due_to_racing})
     ${status}    Compare two number    ${total_customer_wl}    ${total_tmp}
     Run Keyword If    ${status}<>True    Log    Total customer W/L is not equal with the sum as the formular
@@ -123,12 +123,12 @@ check total customer wl in specific currency in licensee WL
     Run Keyword If    '${window title}'!='None'    Select Window    ${window title}
     Run Keyword If    '${main frame}'!='None'    Select Frame    ${main frame}
     Run Keyword If    '${sub frame}'!='None'    Select Frame    xpath=//iframe[contains(@src,'${sub frame}')]
-    ${total_customer_wl}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[26]
-    ${total_licensee_wl}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[37]
-    ${ba_comission}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[39]
-    ${racing_revenue}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[40]
-    ${amt_due_to_ba}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[42]
-    ${amt_due_to_racing}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[43]
+    ${total_customer_wl}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[27]
+    ${total_licensee_wl}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[39]
+    ${ba_comission}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[41]
+    ${racing_revenue}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[42]
+    ${amt_due_to_ba}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[44]
+    ${amt_due_to_racing}    Convert and remove comma from string to number    xpath=//td[contains(text(),'Total in ${currency}')]/following::td[45]
     ${total_tmp}    Evaluate    -(${total_licensee_wl}+${ba_comission}+${racing_revenue}+${amt_due_to_ba}+${amt_due_to_racing})
     ${status}    Compare two number    ${total_customer_wl}    ${total_tmp}
     Run Keyword If    ${status}<>True    Log    Total customer W/L is not equal with the sum as the formular

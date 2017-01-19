@@ -991,9 +991,9 @@ TM_21_ST_Reports_Licensee Win Loss
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
     #Check Total Trans
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[24]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
     #Check Turnover
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[18]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
     #check total customer wl
     check total customer wl in licensee WL    \    main    None    2
     #Check customer wl in GBP
@@ -1007,9 +1007,9 @@ TM_21_ST_Reports_Licensee Win Loss
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
     #Check Total Trans
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[24]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
     #Check Turnover
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[18]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
     #check total customer wl
     check total customer wl in licensee WL    \    main    None    2
     #Check customer wl in GBP
@@ -1023,9 +1023,9 @@ TM_21_ST_Reports_Licensee Win Loss
     # VP. check export excel
     check export excel function    \    main    None    LicenseeWinLoss.xls
     #Check Total Trans
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[24]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[25]
     #Check Turnover
-    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[18]
+    Check value in cell greater than zero    \    main    None    xpath=.//*[@id='1']/td[19]
     #check total customer wl
     check total customer wl in licensee WL    \    main    None    2
     #Check customer wl in GBP
@@ -1711,7 +1711,7 @@ TM_34_ST_Reports_Results
     click element on report    \    main    None    ${yesterday_button}
     # 12. Select Sport Tennis
     wait page load
-    select listbox by value on report    \    main    None    ${sport_listbox_results}    6
+    select listbox by value on report    \    main    None    ${sport_listbox_results}    5
     wait page load
     take applications screenshot    Product    TM_34_Reports_Result_Tennis.jpg
     # 13. Click [i] link on result table
