@@ -163,10 +163,12 @@ TM_03_FUN_Compare data for WL by Product report
     ...    All
     ${total_Turnover}    ${total_Totaltrans}    ${total_Customerwl}    ${total_customercomm}    ${total_customertotal}    ${total_licenseewl}    ${licenseecomm}
     ...    ${amt}    get Total values in Win Lost By Product
+    take applications screenshot    LRF    TM_03_FUN_Compare data for WL by Product report_WLByProduct.jpg
     navigate left menu    CUSTOMER REPORTS    Customer Win Loss
-    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    All
+    submit filters for customer win loss    ${from}    ${to}    ALL    GBP    No    Sportsbook, Racing, Number Game, BA, Live Casino, Virtual Sports, RNG Casino, Keno, Microgaming-Live Casino, Microgaming-RNG Casino, Macau Games
     ${customerwl_turnover_total}    ${customerwl_totaltrans_total}    ${customerwl_customerwl_total}    ${customerwl_customercomm_total}    ${customerwl_customertotal_total}    ${customerwl_licenseewl_total}    ${licenseecomm}
     ...    ${amt}    get Total values in report    Customer Win Loss    All
+    take applications screenshot    LRF    TM_03_FUN_Compare data for WL by Product report_CustomerWL.jpg
     ${total_Turnover}    remove decimal part    ${total_Turnover}
     ${total_Totaltrans}    remove decimal part    ${total_Totaltrans}
     ${total_Customerwl}    remove decimal part    ${total_Customerwl}
@@ -236,7 +238,7 @@ TM_05_FUN_Compare data for AG Casino report with API
     ${from_day}    ${from_month}    ${from_year}    ${to_day}    ${to_month}    ${to_year}    convert date
     ...    ${from}    ${to}
     ${api_total_trans}    Set Variable    0
-    :FOR    ${i}    IN RANGE    0    4
+    : FOR    ${i}    IN RANGE    0    4
     \    ${temp_from_day}=    Evaluate    ${from_day}+${i}
     \    ${date}    Set Variable    ${from_year}-${from_month}-${temp_from_day}
     \    start api    http://thirdparty.net2cast.com/3rd/GetAGDailyReport/?help=0    12bet    ${date}

@@ -471,12 +471,15 @@ select products filter
     ${BT}=    Run Keyword And Return Status    Should Contain    ${product}    Bet Trade
     #Insert macau games
     ${MG}    Run Keyword And Return Status    Should Contain    ${product}    Macau Games
+    #Insert AllBet
+    ${AB}    Run Keyword And Return Status    Should Contain    ${product}    AllBet
     # Click to open product dropdown list
     Click Element    xpath=//*[@id='ProductList']/a/input
     ${MGCLC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCLC'][@type='checkbox']
     ${MGCRNG_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='MGCRNG'][@type='checkbox']
     ${AGC_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='AGC'][@type='checkbox']
     ${BT_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='BT'][@type='checkbox']
+    ${AB_checkbox}=    Run Keyword And Return Status    Element Should Be Visible    xpath=//*[@id='AB'][@type='checkbox']
     # Select product checkbox
     Run Keyword If    '${product}'=='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
     Comment    Run Keyword If    '${product}'!='All'    Select Checkbox    xpath=//*[contains(text(),'All')]/input
@@ -495,6 +498,8 @@ select products filter
     Run Keyword If    '${BT}'=='True' and '${BT_checkbox}'=='True'    Select Checkbox    id=BT
     #Insert macau games
     Run Keyword If    '${MG}'=='True'    Select Checkbox    id=VB
+    #Insert AllBet
+    Run Keyword If    '${AB}'=='True' and '${AB_checkbox}'=='True'    Select Checkbox    id=AB
     # Click outside to close dropdown list
     Click Element    xpath=.//*[@id='BodyContent']
 

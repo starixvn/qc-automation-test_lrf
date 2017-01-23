@@ -59,7 +59,7 @@ check closing balance and opening balance
     \    #Check bonus <>0
     \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[6]
     \    #check adjsutment <>0
-    \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[7]
+    \    Comment    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[7]
     \    #check turnover <>0
     \    check value in cell different zero    xpath=.//*[@id='${row_01}']/td[8]
     \    #check draw game <> 0
