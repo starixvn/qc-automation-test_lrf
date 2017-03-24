@@ -21,7 +21,7 @@ config
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    FF
-    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/Authorization/SignIn
+    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/authorization/signin
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
@@ -45,7 +45,8 @@ config local
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    ${BROWSER}
-    Set Suite Variable    ${cf_url}    http://ha.nexdev.net:7610/LRF-VA
+    ${URLBuild}=    Get File    URLBuild.txt
+    Set Suite Variable    ${cf_url}    http://ha.nexdev.net:7610/${URLBuild}
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
@@ -79,18 +80,18 @@ config MNLServer
     Set Selenium Timeout    300s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    FF
-    Set Suite Variable    ${cf_url}    http://internal-lrf.ibcbk.com/Authorization/SignIn
+    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/authorization/signin    #http://internal-lrf.ibcbk.com/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
     Set Suite Variable    ${cf_username}    autQC
-    Set Suite Variable    ${cf_password}    123QWEasd
+    Set Suite Variable    ${cf_password}    1234REWQ
     Set Suite Variable    ${cf_username1}    autoQC1
-    Set Suite Variable    ${cf_password1}    123QWEasd
+    Set Suite Variable    ${cf_password1}    1234REWQ
     Set Suite Variable    ${cf_username2}    autoQC1
-    Set Suite Variable    ${cf_password2}    123QWEasd
+    Set Suite Variable    ${cf_password2}    1234REWQ
     Set Suite Variable    ${cf_licensee}    12Bet
     Set Suite Variable    ${cf_betlist_product}    Sportsbook, Number Game
     Set Suite Variable    ${cf_betlist_user}    iceEW
