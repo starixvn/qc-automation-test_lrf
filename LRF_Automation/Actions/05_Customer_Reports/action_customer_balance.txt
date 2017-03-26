@@ -6,8 +6,8 @@ Resource          ../01_Main_Actions/action_main.txt
 
 *** Keywords ***
 submit filters for customer balance
-    [Arguments]    ${from date}    ${to date}    ${licensee type}    ${currency}    ${select top}    ${sort by}
-    ...    ${exclude test data}    ${product}
+    [Arguments]    ${from date}    ${to date}    ${currency}    ${select top}    ${sort by}    ${exclude test data}
+    ...    ${product}
     [Documentation]    This action is used to submit filters for Customer Balance report.
     ...
     ...    ${exclude test data}= *'Yes'* or *'No'*
@@ -22,7 +22,7 @@ submit filters for customer balance
     # select type, currency, select top, sort by
     Select Window
     Select Frame    main
-    Select From List By Label    ${type_listbox}    ${licensee type}
+    Comment    Select From List By Label    ${type_listbox}    ${licensee type}
     Select From List By Label    ${currency_listbox}    ${currency}
     Select From List By Label    ${select_top_listbox}    ${select top}
     Select From List By Label    ${sort_by_listbox}    ${sort by}

@@ -1941,8 +1941,8 @@ TM_39_ST_CustomerReports_Customer Balance
     # 1. Navigate to CUSTOMER REPORTS > Customer Balance
     navigate left menu    CUSTOMER REPORTS    Customer Balance
     # 2. Submit filters
-    submit filters for customer balance    ${from}    ${to}    ALL    EUR    All    Turnover
-    ...    No    All
+    submit filters for customer balance    ${from}    ${to}    EUR    All    Turnover    No
+    ...    All
     take applications screenshot    Product    TM_39_Reports_CustomerBalance.jpg
     # VP. Check data table
     check element on report    \    main    None    ${div_report_table_customer_reports}
