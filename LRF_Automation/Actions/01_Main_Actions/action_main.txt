@@ -45,7 +45,8 @@ config local
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    ${BROWSER}
-    ${URLBuild}=    Get File    URLBuild.txt
+    Comment    ${URLBuild}=    Get File    URLBuild.txt
+    Set Suite Variable    ${URLBuild}    LRF-VA
     Set Suite Variable    ${cf_url}    http://ha.nexdev.net:7610/${URLBuild}
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
@@ -80,7 +81,7 @@ config MNLServer
     Set Selenium Timeout    300s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    FF
-    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/authorization/signin    #http://internal-lrf.ibcbk.com/Authorization/SignIn
+    Set Suite Variable    ${cf_url}    #http://internal-lrf.ibcbk.com/Authorization/SignIn
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
