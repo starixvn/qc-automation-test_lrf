@@ -627,7 +627,7 @@ TM_39_ST_CustomerReports_Customer Balance
 
 TM_40_ST_CustomerReports_Customer Turnover
     [Tags]    CI
-    ${from}=    Get Time    \    Now - 5d
+    ${from}=    Get Time    \    Now - 2d
     ${to}=    Get Time    \    Now - 12h
     # 1. Navigate to CUSTOMER REPORTS > Customer Turnover
     navigate left menu    CUSTOMER REPORTS    Customer Turnover
