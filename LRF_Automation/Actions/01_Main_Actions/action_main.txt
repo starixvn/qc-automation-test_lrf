@@ -53,11 +53,11 @@ config local
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-    Set Suite Variable    ${cf_username}    tester04
+    Set Suite Variable    ${cf_username}    pgmCandy
     Set Suite Variable    ${cf_password}    1234aa
-    Set Suite Variable    ${cf_username1}    tester04
+    Set Suite Variable    ${cf_username1}    pgmCandy
     Set Suite Variable    ${cf_password1}    1234aa
-    Set Suite Variable    ${cf_username2}    tester04
+    Set Suite Variable    ${cf_username2}    pgmCandy
     Set Suite Variable    ${cf_password2}    1234aa
     Set Suite Variable    ${cf_licensee}    12Bet
     # Set Global Variables for Checking Bet List
@@ -65,7 +65,7 @@ config local
     ${cf_to_betlist}    Get Time    \    Now
     Set Suite Variable    ${cf_from_betlist}    ${cf_from_betlist}
     Set Suite Variable    ${cf_to_betlist}    ${cf_to_betlist}
-    Set Suite Variable    ${cf_url_betlist}    http://10.18.200.209:8003/V1/
+    Set Suite Variable    ${cf_url_betlist}    http://ha.nexdev.net:7610/${URLBuild}
     Set Suite Variable    ${cf_betlist_product}    Sportsbook
     Set Suite Variable    ${cf_report_product}    Microgaming-Live Casino, Microgaming-RNG Casino
     Set Suite Variable    ${cf_betlist_user}    iceEW
