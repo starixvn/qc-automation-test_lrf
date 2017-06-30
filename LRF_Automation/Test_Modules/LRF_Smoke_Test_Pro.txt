@@ -81,6 +81,7 @@ Resource          ../Actions/04_Reports/action_casino_progressive_wins.txt
 Resource          ../Actions/04_Reports/action_weekly_live_matches.txt
 Resource          ../Interfaces/06_Customer_Information/interface_customer_list.txt
 Resource          ../Actions/06_Customer_Information/action_customer_list.txt
+Resource          ../Actions/04_Reports/action_platform_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -1540,7 +1541,7 @@ TM_32_ST_Reports_Platform Win Loss
     # VP. Check User Guide popup exists
     check user guide popup
     # 2. Select filters then click Submit button
-    submit filters for mobile win loss    None    None    None    None    CNY    Yes
+    submit filters for platform win loss    None    None    None    None    CNY    Yes
     ...    Normal    All    All
     wait page load
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss.jpg
@@ -2139,10 +2140,10 @@ TM_43_01_ST_CustomerInformation_Customer List_Odds Group
     # Check updated status as current status
     Should Contain    ${current_group}    @{list_without_selected_group}[0]
     # check odds group filter
-    submit filters for customer list    None    None    None    qatest01    None    None
+    submit filters for customer list    None    None    None    qatest04    None    None
     ...    None    None    None
     update odds group    B
-    submit filters for customer list    None    None    None    qatest01    None    None
+    submit filters for customer list    None    None    None    qatest04    None    None
     ...    None    None    B, D
     take applications screenshot    Product    TM_43_CustInfo_Customer List_Odds Group_Filter_1.jpg
     check element on report    \    main    None    ${report_table_reports}

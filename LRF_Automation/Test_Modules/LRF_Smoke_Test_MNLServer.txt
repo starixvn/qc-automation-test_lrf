@@ -64,6 +64,7 @@ Resource          ../Interfaces/04_Reports/interface_ag_casino_balance.txt
 Resource          ../Actions/04_Reports/action_ag_casino_balance.txt
 Resource          ../Actions/04_Reports/action_casino_progressive_wins.txt
 Resource          ../Actions/04_Reports/action_weekly_live_matches.txt
+Resource          ../Actions/04_Reports/action_platform_win_loss.txt
 
 *** Test Cases ***
 TM_00_ST_Start web
@@ -499,7 +500,7 @@ TM_32_ST_Reports_Platform Win Loss
     # 1. Navigate to REPORTS > Mobile Win Loss
     navigate left menu    REPORTS    Platform Win Loss
     # 2. Select filters then click Submit button
-    submit filters for mobile win loss    None    None    None    None    CNY    Yes
+    submit filters for platform win loss    None    None    None    None    CNY    Yes
     ...    Normal    China    All
     take applications screenshot    Product    TM_32_Reports_MobileWinLoss.jpg
     # VP. Check User Guide popup exists

@@ -21,14 +21,14 @@ config
     Set Selenium Timeout    60s
     # Set Browser & URL testing
     Set Suite Variable    ${cf_browser}    FF
-    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/authorization/signin
+    Set Suite Variable    ${cf_url}    http://internal.amazzu.com/
     Set Suite Variable    ${cf_ff_profile_dir}    C:\\firefox_profile
     Set Suite Variable    ${cf_export_dir}    C:\\Test Data\\
     Set Suite Variable    ${cf_screenshot_dir}    C:\\Test Screenshot\\
     # Set Global Variables
     Set Suite Variable    ${cf_static_capcha}    1710
-    Set Suite Variable    ${cf_username}    autQC
-    Set Suite Variable    ${cf_password}    1234REWQ
+    Set Suite Variable    ${cf_username}    autQC    ##autQC
+    Set Suite Variable    ${cf_password}    1234REWQ    ##1234REWQ
     Set Suite Variable    ${cf_username1}    autoQC1
     Set Suite Variable    ${cf_password1}    1234REWQ
     Set Suite Variable    ${cf_username2}    autoQC1
