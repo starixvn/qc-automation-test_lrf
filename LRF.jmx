@@ -1803,7 +1803,7 @@ vars.put(&quot;BalanceUpDay&quot;, BalanceUpDay);    </stringProp>
             <stringProp name="filename"></stringProp>
             <stringProp name="cacheKey"></stringProp>
             <stringProp name="script">var now = new Date();
-var prevMonthLastDate = Date(now.getFullYear(), now.getMonth()+1, now.getMonth());//new Date(now.getFullYear(), now.getMonth(), 1);
+var prevMonthLastDate =  Date(now.getFullYear(), now.getMonth()+1, now.getMonth());//new Date(now.getFullYear(), now.getMonth(), 1);
 var prevMonthFirstDate = new Date(now.getFullYear() - (now.getMonth() &gt; 0 ? 0 : 1), (now.getMonth() - 1 + 12) % 12, 1);
 var yesterday = new Date(now.setDate(now.getDate() - 1));
 
@@ -2200,70 +2200,6 @@ vars.put(&quot;LastDateofPrevMonth&quot;,formatDate(prevMonthLastDate));
             <boolProp name="Assertion.assume_success">false</boolProp>
             <intProp name="Assertion.test_type">2</intProp>
           </ResponseAssertion>
-          <hashTree/>
-        </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Reports_Turnover_Load" enabled="true">
-          <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
-            <collectionProp name="Arguments.arguments"/>
-          </elementProp>
-          <stringProp name="HTTPSampler.domain">${ServerName}</stringProp>
-          <stringProp name="HTTPSampler.port"></stringProp>
-          <stringProp name="HTTPSampler.protocol">${Protocol}</stringProp>
-          <stringProp name="HTTPSampler.contentEncoding">utf-8</stringProp>
-          <stringProp name="HTTPSampler.path">/TurnoverReport</stringProp>
-          <stringProp name="HTTPSampler.method">GET</stringProp>
-          <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
-          <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
-          <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
-          <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
-          <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
-          <stringProp name="HTTPSampler.proxyHost">127.0.0.1</stringProp>
-          <stringProp name="HTTPSampler.proxyPort">8888</stringProp>
-          <stringProp name="HTTPSampler.connect_timeout"></stringProp>
-          <stringProp name="HTTPSampler.response_timeout"></stringProp>
-        </HTTPSamplerProxy>
-        <hashTree>
-          <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="RequestVerificationToken" enabled="true">
-            <stringProp name="RegexExtractor.useHeaders">false</stringProp>
-            <stringProp name="RegexExtractor.refname">RequestVerificationToken_</stringProp>
-            <stringProp name="RegexExtractor.regex">name=&quot;__RequestVerificationToken&quot; type=&quot;hidden&quot; value=&quot;(.+?)&quot;</stringProp>
-            <stringProp name="RegexExtractor.template">$1$</stringProp>
-            <stringProp name="RegexExtractor.default">RequestVerificationToken IS NOT FOUND</stringProp>
-            <stringProp name="RegexExtractor.match_number"></stringProp>
-          </RegexExtractor>
-          <hashTree/>
-          <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Verify that data is returned as properly" enabled="true">
-            <collectionProp name="Asserion.test_strings">
-              <stringProp name="49586">200</stringProp>
-            </collectionProp>
-            <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
-            <boolProp name="Assertion.assume_success">false</boolProp>
-            <intProp name="Assertion.test_type">2</intProp>
-          </ResponseAssertion>
-          <hashTree/>
-          <JSR223PostProcessor guiclass="TestBeanGUI" testclass="JSR223PostProcessor" testname="Generate FromDate - ToDate" enabled="true">
-            <stringProp name="scriptLanguage">javascript</stringProp>
-            <stringProp name="parameters"></stringProp>
-            <stringProp name="filename"></stringProp>
-            <stringProp name="cacheKey"></stringProp>
-            <stringProp name="script">var now = new Date();
-var prevMonthLastDate = Date(now.getFullYear(), now.getMonth()+1, now.getMonth());
-var prevMonthFirstDate = new Date(now.getFullYear() - (now.getMonth() &gt; 0 ? 0 : 1), (now.getMonth() - 1 + 12) % 12, 1);
-var yesterday = new Date(now.setDate(now.getDate() - 1));
-
-var formatDateComponent = function(dateComponent) {
-  return (dateComponent &lt; 10 ? &apos;0&apos; : &apos;&apos;) + dateComponent;
-};
-
-var formatDate = function(date) {
-  return formatDateComponent(date.getMonth() + 1) + &apos;/&apos; + formatDateComponent(date.getDate()) + &apos;/&apos; + date.getFullYear();
-};
-
-vars.put(&quot;FirstDateofPrevMonth&quot;,formatDate(prevMonthFirstDate));
-vars.put(&quot;DateRange&quot;,formatDate(prevMonthFirstDate) + &apos; - &apos; + formatDate(prevMonthLastDate));
-vars.put(&quot;LastDateofPrevMonth&quot;,formatDate(prevMonthLastDate));
-</stringProp>
-          </JSR223PostProcessor>
           <hashTree/>
         </hashTree>
         <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Customer Reports_Customer Win Loss_Load" enabled="true">
