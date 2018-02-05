@@ -41,6 +41,10 @@
           <stringProp name="IncludeController.includepath">Reports_Turnover.jmx</stringProp>
         </IncludeController>
         <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Exchange Win Loss" enabled="true">
+          <stringProp name="IncludeController.includepath">Reports_Exchange Win Loss.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
       </hashTree>
     </hashTree>
     <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">
