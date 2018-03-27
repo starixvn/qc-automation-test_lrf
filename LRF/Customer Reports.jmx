@@ -17,12 +17,20 @@
           <stringProp name="IncludeController.includepath">Customer Reports_Customer Win Loss.jmx</stringProp>
         </IncludeController>
         <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Customer Reports_Customer Pending  Funds" enabled="true">
+          <stringProp name="IncludeController.includepath">Customer Reports_Customer Pending Funds.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Customer Reports_Customer Balance" enabled="true">
           <stringProp name="IncludeController.includepath">Customer Reports_Customer Balance.jmx</stringProp>
         </IncludeController>
         <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Customer Reports_Customer Turnover" enabled="true">
           <stringProp name="IncludeController.includepath">Customer Reports_Customer Turnover.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Customer Reports_Active Customer Summary" enabled="true">
+          <stringProp name="IncludeController.includepath">Customer Reports_Active Customer Summary.jmx</stringProp>
         </IncludeController>
         <hashTree/>
       </hashTree>

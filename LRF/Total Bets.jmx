@@ -12,7 +12,44 @@
     </TestPlan>
     <hashTree>
       <TestFragmentController guiclass="TestFragmentControllerGui" testclass="TestFragmentController" testname="Test Fragment" enabled="false"/>
-      <hashTree/>
+      <hashTree>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Outright" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Outright.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_HTFT" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_HTFT.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_FGLG" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_FGLG.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Clean Sheet" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Clean Sheet.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Double Chance" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Double Chance.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_HomeDrawAwayNoBet" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_HomeDrawAwayNoBet.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_BON Team To Score" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_BON Team To Score.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_To Win To Nil" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_To Win To Nil.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_3-Way Handicap" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_3-Way Handicap.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+      </hashTree>
     </hashTree>
     <WorkBench guiclass="WorkBenchGui" testclass="WorkBench" testname="WorkBench" enabled="true">
       <boolProp name="WorkBench.save">true</boolProp>
