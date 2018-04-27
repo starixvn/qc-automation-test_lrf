@@ -17,6 +17,10 @@
           <stringProp name="IncludeController.includepath">Reports_Balance.jmx</stringProp>
         </IncludeController>
         <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Last Bets Monitoring" enabled="true">
+          <stringProp name="IncludeController.includepath">Reports_Last Bets Monitoring.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Licensee Win Loss" enabled="true">
           <stringProp name="IncludeController.includepath">Reports_Licensee Win Loss.jmx</stringProp>
         </IncludeController>
@@ -35,10 +39,6 @@
         <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Win Loss By Bet Type" enabled="true">
           <stringProp name="IncludeController.includepath">Reports_Win Loss By Bet Type.jmx</stringProp>
-        </IncludeController>
-        <hashTree/>
-        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Daily Racing Win Loss" enabled="true">
-          <stringProp name="IncludeController.includepath">Reports_Daily Racing Win Loss.jmx</stringProp>
         </IncludeController>
         <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Reports_Cancelled Bets" enabled="true">

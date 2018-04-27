@@ -13,6 +13,30 @@
     <hashTree>
       <TestFragmentController guiclass="TestFragmentControllerGui" testclass="TestFragmentController" testname="Test Fragment" enabled="false"/>
       <hashTree>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Handicap/Over Under/Live" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_HandicapOverUnderLive.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Money Line" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Money Line.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Odd/Even + 1x2 + DND" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_OddEven1x2DND.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Correct Score" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Correct Score.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Total Goal" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Total Goal.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
+        <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Parlay" enabled="true">
+          <stringProp name="IncludeController.includepath">Total Bets_Parlay.jmx</stringProp>
+        </IncludeController>
+        <hashTree/>
         <IncludeController guiclass="IncludeControllerGui" testclass="IncludeController" testname="Total Bets_Outright" enabled="true">
           <stringProp name="IncludeController.includepath">Total Bets_Outright.jmx</stringProp>
         </IncludeController>

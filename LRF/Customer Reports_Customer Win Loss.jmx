@@ -217,14 +217,14 @@
               </elementProp>
               <elementProp name="ProductOptions[1].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">RB</stringProp>
+                <stringProp name="Argument.value">NG</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[1].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[1].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Racing</stringProp>
+                <stringProp name="Argument.value">Number Game</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[1].Name</stringProp>
@@ -238,14 +238,14 @@
               </elementProp>
               <elementProp name="ProductOptions[2].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">NG</stringProp>
+                <stringProp name="Argument.value">BA</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[2].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[2].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Number Game</stringProp>
+                <stringProp name="Argument.value">BA</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[2].Name</stringProp>
@@ -259,14 +259,14 @@
               </elementProp>
               <elementProp name="ProductOptions[3].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">BA</stringProp>
+                <stringProp name="Argument.value">VS</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[3].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[3].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">BA</stringProp>
+                <stringProp name="Argument.value">Virtual Sports</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[3].Name</stringProp>
@@ -280,14 +280,14 @@
               </elementProp>
               <elementProp name="ProductOptions[4].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VS</stringProp>
+                <stringProp name="Argument.value">CS</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[4].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[4].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Virtual Sports</stringProp>
+                <stringProp name="Argument.value">RNG Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[4].Name</stringProp>
@@ -301,14 +301,14 @@
               </elementProp>
               <elementProp name="ProductOptions[5].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">CS</stringProp>
+                <stringProp name="Argument.value">KN</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[5].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[5].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">RNG Casino</stringProp>
+                <stringProp name="Argument.value">Keno</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[5].Name</stringProp>
@@ -322,14 +322,14 @@
               </elementProp>
               <elementProp name="ProductOptions[6].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">KN</stringProp>
+                <stringProp name="Argument.value">MGCLC</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[6].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[6].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Keno</stringProp>
+                <stringProp name="Argument.value">Microgaming-Live Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[6].Name</stringProp>
@@ -343,14 +343,14 @@
               </elementProp>
               <elementProp name="ProductOptions[7].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">MGCLC</stringProp>
+                <stringProp name="Argument.value">MGCRNG</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[7].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[7].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Microgaming-Live Casino</stringProp>
+                <stringProp name="Argument.value">Microgaming-RNG Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[7].Name</stringProp>
@@ -364,14 +364,14 @@
               </elementProp>
               <elementProp name="ProductOptions[8].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">MGCRNG</stringProp>
+                <stringProp name="Argument.value">AB</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[8].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[8].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Microgaming-RNG Casino</stringProp>
+                <stringProp name="Argument.value">AllBet</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[8].Name</stringProp>
@@ -385,14 +385,14 @@
               </elementProp>
               <elementProp name="ProductOptions[9].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">AB</stringProp>
+                <stringProp name="Argument.value">VB</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[9].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[9].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">AllBet</stringProp>
+                <stringProp name="Argument.value">Macau Games</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[9].Name</stringProp>
@@ -406,14 +406,14 @@
               </elementProp>
               <elementProp name="ProductOptions[10].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VB</stringProp>
+                <stringProp name="Argument.value">FW</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[10].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[10].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Macau Games</stringProp>
+                <stringProp name="Argument.value">Fishing World</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[10].Name</stringProp>
@@ -427,14 +427,14 @@
               </elementProp>
               <elementProp name="ProductOptions[11].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">FW</stringProp>
+                <stringProp name="Argument.value">CO</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[11].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[11].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Fishing World</stringProp>
+                <stringProp name="Argument.value">Cash Out</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[11].Name</stringProp>
@@ -448,14 +448,14 @@
               </elementProp>
               <elementProp name="ProductOptions[12].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">CO</stringProp>
+                <stringProp name="Argument.value">VS2</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[12].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[12].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Cash Out</stringProp>
+                <stringProp name="Argument.value">Virtual Sports 2</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[12].Name</stringProp>
@@ -469,14 +469,14 @@
               </elementProp>
               <elementProp name="ProductOptions[13].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VS2</stringProp>
+                <stringProp name="Argument.value">LT</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[13].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Virtual Sports 2</stringProp>
+                <stringProp name="Argument.value">Lottery</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Name</stringProp>
@@ -487,27 +487,6 @@
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Status</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Code" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">LT</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Code</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Name" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Lottery</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Name</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Status" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">True</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Status</stringProp>
               </elementProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
@@ -768,14 +747,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[1].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">RB</stringProp>
+                <stringProp name="Argument.value">NG</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[1].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[1].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Racing</stringProp>
+                <stringProp name="Argument.value">Number Game</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[1].Name</stringProp>
@@ -789,14 +768,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[2].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">NG</stringProp>
+                <stringProp name="Argument.value">BA</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[2].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[2].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Number Game</stringProp>
+                <stringProp name="Argument.value">BA</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[2].Name</stringProp>
@@ -810,14 +789,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[3].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">BA</stringProp>
+                <stringProp name="Argument.value">VS</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[3].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[3].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">BA</stringProp>
+                <stringProp name="Argument.value">Virtual Sports</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[3].Name</stringProp>
@@ -831,14 +810,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[4].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VS</stringProp>
+                <stringProp name="Argument.value">CS</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[4].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[4].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Virtual Sports</stringProp>
+                <stringProp name="Argument.value">RNG Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[4].Name</stringProp>
@@ -852,14 +831,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[5].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">CS</stringProp>
+                <stringProp name="Argument.value">KN</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[5].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[5].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">RNG Casino</stringProp>
+                <stringProp name="Argument.value">Keno</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[5].Name</stringProp>
@@ -873,14 +852,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[6].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">KN</stringProp>
+                <stringProp name="Argument.value">MGCLC</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[6].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[6].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Keno</stringProp>
+                <stringProp name="Argument.value">Microgaming-Live Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[6].Name</stringProp>
@@ -894,14 +873,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[7].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">MGCLC</stringProp>
+                <stringProp name="Argument.value">MGCRNG</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[7].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[7].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Microgaming-Live Casino</stringProp>
+                <stringProp name="Argument.value">Microgaming-RNG Casino</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[7].Name</stringProp>
@@ -915,14 +894,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[8].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">MGCRNG</stringProp>
+                <stringProp name="Argument.value">AB</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[8].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[8].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Microgaming-RNG Casino</stringProp>
+                <stringProp name="Argument.value">AllBet</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[8].Name</stringProp>
@@ -936,14 +915,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[9].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">AB</stringProp>
+                <stringProp name="Argument.value">VB</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[9].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[9].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">AllBet</stringProp>
+                <stringProp name="Argument.value">Macau Games</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[9].Name</stringProp>
@@ -957,14 +936,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[10].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VB</stringProp>
+                <stringProp name="Argument.value">FW</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[10].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[10].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Macau Games</stringProp>
+                <stringProp name="Argument.value">Fishing World</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[10].Name</stringProp>
@@ -978,14 +957,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[11].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">FW</stringProp>
+                <stringProp name="Argument.value">CO</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[11].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[11].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Fishing World</stringProp>
+                <stringProp name="Argument.value">Cash Out</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[11].Name</stringProp>
@@ -999,14 +978,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[12].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">CO</stringProp>
+                <stringProp name="Argument.value">VS2</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[12].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[12].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Cash Out</stringProp>
+                <stringProp name="Argument.value">Virtual Sports 2</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[12].Name</stringProp>
@@ -1020,14 +999,14 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
               </elementProp>
               <elementProp name="ProductOptions[13].Code" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">VS2</stringProp>
+                <stringProp name="Argument.value">LT</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Code</stringProp>
               </elementProp>
               <elementProp name="ProductOptions[13].Name" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Virtual Sports 2</stringProp>
+                <stringProp name="Argument.value">Lottery</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Name</stringProp>
@@ -1038,99 +1017,6 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">ProductOptions[13].Status</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Code" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">LT</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Code</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Name" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">Lottery</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Name</stringProp>
-              </elementProp>
-              <elementProp name="ProductOptions[14].Status" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">True</stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-                <stringProp name="Argument.name">ProductOptions[14].Status</stringProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
-              </elementProp>
-              <elementProp name="" elementType="HTTPArgument">
-                <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value"></stringProp>
-                <stringProp name="Argument.metadata">=</stringProp>
-                <boolProp name="HTTPArgument.use_equals">true</boolProp>
               </elementProp>
             </collectionProp>
           </elementProp>
@@ -1164,7 +1050,7 @@ vars.put(&quot;SystemId&quot;, response.Data[0].SystemId.toString());
             <collectionProp name="Arguments.arguments">
               <elementProp name="productcodelist" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
-                <stringProp name="Argument.value">SB,RB,NG,BA,VS,CS,KN,MGCLC,MGCRNG,AB,VB,FW,CO,VS2,LT</stringProp>
+                <stringProp name="Argument.value">SB,NG,BA,VS,CS,KN,MGCLC,MGCRNG,AB,VB,FW,CO,VS2,LT</stringProp>
                 <stringProp name="Argument.metadata">=</stringProp>
                 <boolProp name="HTTPArgument.use_equals">true</boolProp>
                 <stringProp name="Argument.name">productcodelist</stringProp>
@@ -1287,7 +1173,7 @@ vars.put(&quot;BalanceUpDay&quot;, BalanceUpDay);    </stringProp>
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-	&quot;ProductCodeList&quot;:&quot;SB,RB,NG,BA,VS,CS,KN,MGCLC,MGCRNG,AB,VB,FW,CO,VS2,LT&quot;,&#xd;
+	&quot;ProductCodeList&quot;:&quot;SB,NG,BA,VS,CS,KN,MGCLC,MGCRNG,AB,VB,FW,CO,VS2,LT&quot;,&#xd;
 	&quot;ExcelFileName&quot;:null,&#xd;
 	&quot;IsShowSumStake&quot;:false,&#xd;
 	&quot;IsServerPaging&quot;:false,&#xd;
